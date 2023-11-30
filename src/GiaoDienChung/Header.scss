@@ -1,0 +1,80 @@
+.container-header {
+    display: flex;
+    margin: auto;
+    top: 0px;
+    z-index: 1;
+    position: fixed;
+    background-image: 
+    linear-gradient(
+        to bottom,
+        #04aa6d,
+        #04aa6d
+    );
+    width: 100vw;
+    .container-logo {
+        text-align: center;
+        margin: 0px auto;
+        width: 20%;
+        .logo {
+        width: 5vw;
+        height: 5vw;
+        border-radius: 50%;
+        margin: 0.4vw auto 0.2vw auto;
+        }
+    
+        .my-cash2 {
+            max-width: 70%;
+            margin: 0.2vw auto 0.4vw auto;
+            border-radius: 0.5vw;
+            color: #e6f702;
+            background-color: #ff0000;
+            font-size: 2vw;
+            
+        }
+    }
+    
+    .title {
+        color: #FFF;
+        font-size: 5vw;
+        font-weight: 600;
+        min-width: 60%;
+        text-align: center;
+        align-items: center;
+        padding-top: 1vw;
+        // text-shadow: 0.3vw 0.2vw 0.2vw #fff;
+       
+    }
+    .my-detail {
+        width: 20%;
+        text-align: center;
+        .my-avatar {
+            width: 5vw;
+            height: 5vw;
+            border-radius: 50%;
+            margin: 0.4vw auto 0.2vw auto;
+           
+        }
+        .my-cash {
+            display: flex;
+            max-width: 70%;
+            margin: 0.2vw auto 0.4vw auto;
+            border-radius: 0.5vw;
+            color: #e6f702;
+            background-color: #ff0000;
+            padding: 0px 10%;
+            align-items: center;
+            justify-content: center;
+            .my-cash-title {
+                color: #e6f702;
+                max-width: 80%;
+                font-size: 2vw;
+            }
+            .gold {
+                width: 1.5vw;
+                height: 1.5vw;
+                max-width: 20%;
+                margin: 0px 0.4vw;
+            }
+        }
+    }
+}

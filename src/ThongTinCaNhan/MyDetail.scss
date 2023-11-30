@@ -1,0 +1,40 @@
+
+.container-myDetail {
+    text-align: center;
+    .thongTinCaNhan {
+        .bannerThongTinCaNhan {
+            width: 100vw;
+            height: 40vw;
+            object-fit: cover;
+            position: relative;
+        }
+        .myDetail-avatar-hoTen-cauNoiTamDac {
+            .myDetail-avatar {
+                width: 16.8vw;
+                height: 16.8vw;
+                object-fit: cover;
+                position: absolute;
+                border-radius: 50%;
+                top: 35vw;
+                left: 12vw;
+            }
+        }
+
+        .suaThongTin {
+            margin-bottom: 2vw;
+            cursor: pointer;
+            border-radius: 1vw;
+            width: 25vw;
+            margin-right: 20%;
+            margin-top: 5vw;
+            background-color: #04aa6d;
+            color: #fff;
+        }
+        .dangXuat {
+            cursor: pointer;
+            border-radius: 1vw;
+            width: 25vw;
+            background-color: #ff0000;
+        }
+    }
+}

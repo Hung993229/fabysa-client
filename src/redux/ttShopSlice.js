@@ -1,0 +1,92 @@
+import { createSlice } from "@reduxjs/toolkit";
+const ttShopSlice = createSlice({
+    name: "ttShop",
+    initialState: {
+        ttShop: {
+            ttShop: null,
+            isFetching: false,
+            error: false,
+            success: false,
+            allttShop: null,
+        },
+    },
+    reducers: {
+        logOutSuccessttShop: (state) => {
+            state.ttShop.ttShop = null;
+            state.ttShop.isFetching = false;
+            state.ttShop.error = false;
+            state.ttShop.success = false;
+            state.ttShop.allttShop = null;
+        },
+        updatettShopStart: (state) => {
+            state.ttShop.isFetching = true;
+        },
+        updatettShopSuccess: (state, action) => {
+            state.ttShop.isFetching = false;
+            state.ttShop.ttShop = action.payload;
+            state.ttShop.success = true;
+        },
+        updatettShopFailed: (state) => {
+            state.ttShop.isFetching = false;
+            state.ttShop.error = true;
+        },
+
+        registerttShopStart: (state) => {
+            state.ttShop.isFetching = true;
+        },
+        registerttShopSuccess: (state, action) => {
+            state.ttShop.isFetching = false;
+            state.ttShop.error = false;
+            state.ttShop.ttShop = action.payload;
+            state.ttShop.success = true;
+        },
+        registerttShopFailed: (state) => {
+            state.ttShop.isFetching = false;
+            state.ttShop.error = true;
+            state.ttShop.success = false;
+        },
+        getttShopStart: (state) => {
+            state.ttShop.isFetching = true;
+        },
+        getttShopSuccess: (state, action) => {
+            state.ttShop.isFetching = false;
+            state.ttShop.ttShop = action.payload;
+            state.ttShop.success = true;
+        },
+        getttShopFailed: (state) => {
+            state.ttShop.isFetching = false;
+            state.ttShop.error = true;
+        },
+        deletettShopStart: (state) => {
+            state.ttShop.isFetching = true;
+        },
+        deletettShopSuccess: (state, action) => {
+            state.ttShop.isFetching = false;
+            state.ttShop.ttShop = action.payload;
+            state.ttShop.success = true;
+        },
+        deletettShopFailed: (state) => {
+            state.ttShop.isFetching = false;
+            state.ttShop.error = true;
+            state.ttShop.success = false;
+        },
+    },
+});
+
+export const {
+    updatettShopStart,
+    updatettShopSuccess,
+    updatettShopFailed,
+    registerttShopStart,
+    registerttShopSuccess,
+    registerttShopFailed,
+    getttShopStart,
+    getttShopSuccess,
+    getttShopFailed,
+    deletettShopStart,
+    deletettShopSuccess,
+    deletettShopFailed,
+    logOutSuccessttShop,
+} = ttShopSlice.actions;
+
+export default ttShopSlice.reducer;
