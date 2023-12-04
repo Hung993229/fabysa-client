@@ -15,6 +15,14 @@ import QuanLyUser from "./QuanLyUser/QuanLyUser";
 import Shop from "./QuanLyShop/Shop";
 import UpdateShop from "./QuanLyShop/UpdateShop";
 import DonHang from "./QuanLyShop/DonHang";
+import DonHangDangGiao from "./QuanLyShop/DonHangDangGiao";
+import DonHangHoanThanh from "./QuanLyShop/DonHangHoanThanh";
+import DonHangHuy from "./QuanLyShop/DonHangHuy";
+import Fabysa from "./QuanLyShop/Fabysa";
+import FabysaShop from "./QuanLyShop/FabysaShop";
+import FabysaChiTietSp from "./QuanLyShop/FabysaChiTietSp";
+import TongKhoSi from "./QuanLyShop/TongKhoSi";
+import TongKhoSiChiTiet from "./QuanLyShop/TongKhoSiChiTiet";
 
 import HomThu from "./KetBan/HomThu";
 import { useSelector } from "react-redux";
@@ -24,8 +32,6 @@ function App() {
     return (
         <Router>
             <div className="App">
-                {/* <Header className="header" /> */}
-
                 <Routes>
                     <Route
                         path="/ket-ban"
@@ -116,6 +122,30 @@ function App() {
                         }
                     />
                     <Route
+                        path="/don-hang-dang-giao/:userId"
+                        element={
+                            <>
+                                <DonHangDangGiao />
+                            </>
+                        }
+                    />
+                    <Route
+                        path="/don-hang-hoan-thanh/:userId"
+                        element={
+                            <>
+                                <DonHangHoanThanh />
+                            </>
+                        }
+                    />
+                    <Route
+                        path="/don-hang-huy/:userId"
+                        element={
+                            <>
+                                <DonHangHuy />
+                            </>
+                        }
+                    />
+                    <Route
                         path="/affiliate"
                         element={
                             <>
@@ -123,6 +153,57 @@ function App() {
                             </>
                         }
                     />
+                    <Route
+                        path="/fabysa"
+                        element={
+                            <>
+                                <Header className="header" /> <Fabysa />
+                                <Nav />
+                            </>
+                        }
+                    />
+                    <Route
+                        path="/fabysa/:userId/"
+                        element={
+                            <>
+                                {" "}
+                                <Header className="header" />
+                                <FabysaShop />
+                                <Nav />
+                            </>
+                        }
+                    />
+                    <Route
+                        path="/fabysa/:userId/:spId"
+                        element={
+                            <>
+                                <Header className="header" />
+                                <FabysaChiTietSp />
+                                <Nav />
+                            </>
+                        }
+                    />
+                    <Route
+                        path="/tongkhosi"
+                        element={
+                            <>
+                                {/* <Header className="header" /> */}
+                                <TongKhoSi />
+                                <Nav />
+                            </>
+                        }
+                    />
+                    <Route
+                        path="/tongkhosi/:spId"
+                        element={
+                            <>
+                                {/* <Header className="header" /> */}
+                                <TongKhoSiChiTiet />
+                                <Nav />
+                            </>
+                        }
+                    />
+
                     <Route
                         path="/mua-hang"
                         element={

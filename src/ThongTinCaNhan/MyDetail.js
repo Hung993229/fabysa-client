@@ -4,10 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useEffect } from "react";
 import { useState } from "react";
-import {
-    getPost,
-    logOut,
-} from "../redux/apiRequest";
+import { getPost, logOut } from "../redux/apiRequest";
 
 import { createAxios } from "../../src/createInstance";
 import { logOutSuccess } from "../redux/authSlice";
@@ -28,13 +25,13 @@ const MyDetail = (props) => {
     const banner = myDetail?.banner;
     const avatar = myDetail?.avatar;
     const hoTen = myDetail?.hoTen;
-    const cauNoiTamDac = myDetail?.cauNoiTamDac;
+
     const gioiTinh = myDetail?.gioiTinh;
 
     // yourDetai Chi Tiet
 
     useEffect(() => {
-            getPost(user?._id, dispatch);
+        getPost(user?._id, dispatch);
     }, [user]);
     const handleLogout = () => {
         logOut(dispatch, id, navigate, accessToken, axiosJWT);
@@ -57,20 +54,43 @@ const MyDetail = (props) => {
                             />
                         </div>
                     </div>
-                    <div className="myDetail-avatar-hoTen-cauNoiTamDac">
-                        <img src={avatar} className="myDetail-avatar" />
-                        <div className="myDetail-hoTen-cauNoiTamDac">
-                            <div className="myDetail-hoTen">{hoTen}</div>
-                            <div className="mydetail-cauNoiTamDac">
-                                {cauNoiTamDac}
+                    <div className="thongTinCaNhanChiTiet">
+                        <div className="myDetail-avatar-hoTen-cauNoiTamDac">
+                            <img src={avatar} className="myDetail-avatar" />
+                        </div>
+                        <div className="Container-myTieuChi-myNoiDung">
+                            <div className="myDetail-hoTen-cauNoiTamDac">
+                                <div className="myTieuChi">Họ Và Tên</div>
+                                <div className="myDetail-hoTen">{hoTen}</div>
+                            </div>
+                            <div className="myTieuChi">Số Điện Thoại</div>
+                            <div className="myNoiDung">
+                                {myDetail?.soDienThoai}
                             </div>
                         </div>
+                        <div className="Container-myTieuChi-myNoiDung">
+                            <div className="myTieuChi">Giới Tính</div>
+                            <div className="myNoiDung">{gioiTinh}</div>
+                        </div>
+                        <div className="Container-myTieuChi-myNoiDung">
+                            <div className="myTieuChi">Ngày Sinh</div>
+                            <div className="myNoiDung">
+                                {myDetail?.ngaySinh}/{myDetail?.thangSinh}/
+                                {myDetail?.namSinh}
+                            </div>
+                        </div>
+                        <div className="Container-myTieuChi-myNoiDung">
+                            <div className="myTieuChi">Địa Chỉ</div>
+                            <div className="myNoiDung">
+                                {myDetail?.thonXom} - {myDetail?.xa} -{" "}
+                                {myDetail?.huyen} - {myDetail?.tinh}
+                            </div>
+                        </div>
+                        <div className="Container-myTieuChi-myNoiDung">
+                            <div className="myTieuChi">Tài Khoản Gold</div>
+                            <div className="myNoiDung">{myDetail?.cash}</div>
+                        </div>
                     </div>
-                    <div className="Container-myTieuChi-myNoiDung">
-                        <div className="myTieuChi">Giới Tính</div>
-                        <div className="myNoiDung">{gioiTinh}</div>
-                    </div>
-              
                     <div>
                         <button
                             className="suaThongTin"

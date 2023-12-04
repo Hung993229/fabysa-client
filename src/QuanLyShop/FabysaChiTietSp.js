@@ -1,4 +1,5 @@
-import "./ChiTietSanPham.scss";
+import "./FabysaChiTietSp.scss";
+import CommonUtils from "../component/CommonUtils";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
@@ -12,7 +13,9 @@ import {
     updatePost,
     updatettShop,
 } from "../redux/apiRequest";
-const ChiTietSanPham = () => {
+const FabysaChiTietSp = () => {
+    const { userId, spId } = useParams();
+    console.log("useParam", useParams());
     const user = useSelector((state) => state.auth.login.currentUser);
     const myDetail = useSelector((state) => state.post.post?.myDetail);
     console.log("myDetail", myDetail);
@@ -20,25 +23,24 @@ const ChiTietSanPham = () => {
     const allSanPham = useSelector(
         (state) => state.sanPham.sanPham.allsanPham?.allSanpham
     );
-    const { userId, spId } = useParams();
     const [datHang, setdatHang] = useState(0);
     const thongTinSp = allSanPham?.find((item) => item._id === spId);
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
+
     useEffect(() => {
         if (user && user.length !== 0) {
             getPost(user?._id, dispatch);
         }
     }, []);
-    useEffect(() => {
-        getttShop(userId, dispatch);
-    }, []);
+    console.log("myDetail", myDetail);
     useEffect(() => {
         const user = userId;
+
         getSanPham(user, dispatch);
     }, []);
-
+    console.log("sthongTinSppId", thongTinSp);
     // thongtindonHang
     const [slSP, setslSP] = useState(1);
     const [thanhTien, setthanhTien] = useState(thongTinSp?.giaKhuyenMai * slSP);
@@ -58,7 +60,7 @@ const ChiTietSanPham = () => {
         try {
             const newDonHang = {
                 tenSp: thongTinSp?.TenSanPham,
-                linkSp: `/shop/${userId}/${spId}`,
+                linkSp: `/fabysa/${userId}/${spId}`,
                 donGia: thongTinSp?.giaKhuyenMai,
                 giaNhap: thongTinSp?.giaNhap,
                 slSP: slSP,
@@ -73,12 +75,12 @@ const ChiTietSanPham = () => {
                 ghiChuNguoiMua: ghiChuNguoiMua,
                 idPost: "",
                 // Ctv
-                affiliate: thongTinSp?.affiliate,
+                affiliate: thongTinSp?.user,
                 hoahongCTV: thongTinSp?.hoahongCTV,
                 // nguoi ban
                 giamTru: 0,
                 trangThaiDH: 1,
-                user: thongTinSp?.user,
+                user: "fabysa",
             };
             console.log("newDonHang", newDonHang);
             registerDonHang(newDonHang, dispatch);
@@ -131,7 +133,7 @@ const ChiTietSanPham = () => {
                 try {
                     const newDonHang = {
                         tenSp: thongTinSp?.TenSanPham,
-                        linkSp: `/shop/${userId}/${spId}`,
+                        linkSp: `/fabysa/${userId}/${spId}`,
                         donGia: thongTinSp?.giaKhuyenMai,
                         giaNhap: thongTinSp?.giaNhap,
                         slSP: slSP2,
@@ -146,13 +148,13 @@ const ChiTietSanPham = () => {
                         ghiChuNguoiMua: ghiChuNguoiMua2,
                         idPost: myDetail?._id,
                         // Ctv
-                        affiliate: thongTinSp?.affiliate,
+                        affiliate: thongTinSp?.user,
                         hoahongCTV: thongTinSp?.hoahongCTV,
                         // nguoi ban
 
                         giamTru: 0,
                         trangThaiDH: 1,
-                        user: thongTinSp?.user,
+                        user: "fabysa",
                     };
                     console.log("newDonHang", newDonHang);
                     registerDonHang(newDonHang, dispatch);
@@ -189,13 +191,14 @@ const ChiTietSanPham = () => {
     // thongtindonHanguser
 
     return (
-        <div className="chitietsp-datHang">
+        <div className="chitietsp-datHang-fabysa">
+            {/* Chi Tiet San Pham */}
+
             {+datHang === 0 ? (
-                <div className="container-ChiTietSanPhamTo">
-                    <div className="tenCuaHang">{ttShop?.TenShop}</div>
-                    <div className="container-ChiTietSanPham">
+                <div className="container-FabysaChiTietSpTo">
+                    <div className="container-FabysaChiTietSp">
                         <div>
-                            <a className={"close"} href={`/shop/${userId}`}>
+                            <a className="close" href={`/fabysa/${userId}`}>
                                 Close
                             </a>
                         </div>
@@ -239,6 +242,7 @@ const ChiTietSanPham = () => {
                                     MUA HÀNG
                                 </button>
                             </a>
+                            <div className="tenShop">{thongTinSp?.TenShop}</div>
                             <div className="viTriSanPham">
                                 <i className="fa-solid fa-location-dot"></i>
                                 <div className="diachisanpham">
@@ -256,13 +260,13 @@ const ChiTietSanPham = () => {
                             </div>
                         </div>
                     </div>
-                    <div className="slogan">{ttShop?.sloganShop}</div>
                 </div>
             ) : (
                 <div>
+                    {/* Co User */}
                     {myDetail && myDetail !== 0 ? (
                         <div className="datHang-container">
-                            <a className={"close"} href={`/shop/${userId}`}>
+                            <a className="close" href={`/fabysa/${userId}`}>
                                 Close
                             </a>
                             <div className="anhSanPham">
@@ -386,7 +390,7 @@ const ChiTietSanPham = () => {
                         </div>
                     ) : (
                         <div className="datHang-container">
-                            <a className={"close"} href={`/shop/${userId}`}>
+                            <a className={"close"} href={`/fabysa/${spId}`}>
                                 Close
                             </a>
                             <div className="anhSanPham">
@@ -500,4 +504,4 @@ const ChiTietSanPham = () => {
         </div>
     );
 };
-export default ChiTietSanPham;
+export default FabysaChiTietSp;

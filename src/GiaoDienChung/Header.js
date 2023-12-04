@@ -8,7 +8,6 @@ import { getStatus, getPost } from "../redux/apiRequest";
 import currency from "currency.js";
 const Header = () => {
     const user = useSelector((state) => state.auth.login?.currentUser);
-    const status = useSelector((state) => state.status.status.status?.status);
     const myDetail = useSelector((state) => state.post.post?.myDetail);
     const dispatch = useDispatch();
     useEffect(() => {
@@ -22,7 +21,7 @@ const Header = () => {
         }
     }, [user, dispatch]);
 
-    const cash = currency(status?.cash, {
+    const cash = currency(myDetail?.cash, {
         symbol: "$",
         separator: ".",
         decimal: ",",

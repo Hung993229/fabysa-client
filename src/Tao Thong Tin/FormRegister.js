@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { registerPost, registerStatus } from "../redux/apiRequest";
+import { registerPost } from "../redux/apiRequest";
 import { useEffect } from "react";
 import {
     apiGetPublicProvinces,

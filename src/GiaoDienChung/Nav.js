@@ -8,7 +8,7 @@ const Nav = () => {
         <div className="container-nav">
             <NavLink
                 className={({ isActive }) => (isActive ? "active1" : "")}
-                to="/shop-online"
+                to="/fabysa"
             >
                 <div className="nav-detail">
                     <i className="fa-solid fa-bag-shopping"></i>
@@ -44,7 +44,7 @@ const Nav = () => {
                     <div>Hướng Dẫn</div>
                 </div>
             </NavLink>
-           
+
             <NavLink
                 className={({ isActive }) => (isActive ? "active1" : "")}
                 to="/ket-ban"

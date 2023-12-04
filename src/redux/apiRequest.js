@@ -199,12 +199,11 @@ export const updatePost = async (newPost, id, dispatch) => {
     }
 };
 
-export const getPost = async (id, dispatch, setloading) => {
+export const getPost = async (id, dispatch) => {
     dispatch(getPostStart());
     try {
         const res = await axios.get(`/v1/post/${id}`);
         dispatch(getPostSuccess(res.data));
-        setloading(0);
     } catch (err) {
         dispatch(getPostFailed());
     }
@@ -317,17 +316,35 @@ export const registerSanPham = async (newSanPham, dispatch) => {
         dispatch(registerSanPhamFailed());
     }
 };
-export const getSanPham = async (huyen, user, dispatch) => {
+export const getSanPham = async (user, dispatch) => {
     dispatch(getSanPhamStart());
     try {
-        const res = await axios.get(
-            `/v1/shop/san-pham/?huyen=${huyen}&user=${user}`
-        );
+        const res = await axios.get(`/v1/shop/san-pham/?user=${user}`);
         dispatch(getSanPhamSuccess(res.data));
     } catch (err) {
         dispatch(getSanPhamFailed());
     }
 };
+
+export const getSanPhamDan = async (huyen, dispatch) => {
+    dispatch(getSanPhamStart());
+    try {
+        const res = await axios.get(`/v1/shop/san-pham-dan/?huyen=${huyen}`);
+        dispatch(getSanPhamSuccess(res.data));
+    } catch (err) {
+        dispatch(getSanPhamFailed());
+    }
+};
+export const getKhoTongSi = async (huyen, dispatch) => {
+    dispatch(getSanPhamStart());
+    try {
+        const res = await axios.get(`/v1/shop/kho-tong-si/?huyen=${huyen}`);
+        dispatch(getSanPhamSuccess(res.data));
+    } catch (err) {
+        dispatch(getSanPhamFailed());
+    }
+};
+
 export const deleteSanPham = async (id, dispatch) => {
     dispatch(deleteSanPhamStart());
     try {
@@ -398,10 +415,12 @@ export const updateDonHang = async (newDonHang, id, dispatch) => {
         dispatch(updatedonHangFailed(err.response.data));
     }
 };
-export const getDonHang = async (userId, dispatch) => {
+export const getDonHang = async (userId, trangThaiDH, dispatch) => {
     dispatch(getdonHangStart());
     try {
-        const res = await axios.get(`/v1/shop/don-hang/?userId=${userId}`);
+        const res = await axios.get(
+            `/v1/shop/don-hang/?userId=${userId}&trangThaiDH=${trangThaiDH}`
+        );
         dispatch(getdonHangSuccess(res.data));
     } catch (err) {
         dispatch(getdonHangFailed());

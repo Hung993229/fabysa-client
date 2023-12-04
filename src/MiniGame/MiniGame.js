@@ -11,11 +11,9 @@ import alrblade from "../assets/images/alrblade.png";
 import dell from "../assets/images/dell.jpg";
 import ssa54 from "../assets/images/ssa54.jpeg";
 import vocher from "../assets/images/vocher.png";
-import gau from "../assets/images/gau.jpg";
-import { updateStatusUser, getStatus, getPost } from "../redux/apiRequest";
+import { updatePost, getPost } from "../redux/apiRequest";
 const MiniGame = () => {
     const user = useSelector((state) => state.auth.login?.currentUser);
-    const status = useSelector((state) => state.status.status.status?.status);
     const myDetail = useSelector((state) => state.post.post?.myDetail);
     const [quay, setquay] = useState(0);
     const dispatch = useDispatch();
@@ -38,15 +36,10 @@ const MiniGame = () => {
         sete(e);
     };
     useEffect(() => {
-        if (user) {
-            getStatus(user?._id, dispatch);
-        }
-    }, [user, dispatch]);
-    useEffect(() => {
-        if (user) {
+        if (user && user.length !== 0) {
             getPost(user?._id, dispatch);
         }
-    }, [user, dispatch]);
+    }, []);
 
     useEffect(() => {
         let timerId;
@@ -64,15 +57,12 @@ const MiniGame = () => {
 
     const handleBatDau = () => {
         setquay(0);
-        const statusId = status?._id;
-        if (statusId) {
-            const cash = +status?.cash + +phanThuong;
-            const statusUser = {
-                cash: cash,
-                user: user?._id,
+        if (myDetail) {
+            const idPost = myDetail?._id;
+            const newPost = {
+                cash: myDetail?.cash + phanThuong,
             };
-            const id = status?._id;
-            updateStatusUser(statusUser, id, dispatch);
+            updatePost(newPost, idPost, dispatch);
         }
     };
     const handleQuaySo = () => {
@@ -85,14 +75,13 @@ const MiniGame = () => {
 
         setCountDown(10);
     };
-
+    const indexPhanThuong = Math.floor(Math.random() * 49) + 1;
+    // Phan Thương 1
     const danhSachPhanThuong = [
         15, 27, 38, 42, 89, 28, 28, 32, 69, 53, 58, 36, 85, 46, 89, 49, 5, 15,
         12, 72, 22, 23, 60, 57, 64, 38, 22, 58, 65, 55, 19, 82, 25, 87, 85, 69,
         91, 37, 45, 84, 32, 56, 44, 68, 55, 65, 85, 95, 75, 999,
     ];
-
-    const indexPhanThuong = Math.floor(Math.random() * 49) + 1;
     const phanThuong = danhSachPhanThuong[indexPhanThuong];
     const cash = currency(phanThuong, {
         symbol: "$",
@@ -101,6 +90,24 @@ const MiniGame = () => {
     })
         .format()
         .slice(0, -3);
+    // Phan Thương 1
+    const danhSachPhanThuong2 = [
+        5515, 72727, 38, 42652, 7289, 72428, 9928, 34452, 659, 44553, 458,
+        34526, 1285, 47856, 9889, 32449, 8765, 14845, 12, 74342, 22, 43423, 60,
+        35447, 564, 34258, 34222, 58, 4645, 455, 44319, 82, 25245, 7687, 85425,
+        659, 95451, 37, 45355, 84, 43232, 56, 42424, 68, 55255, 65465, 855,
+        53495, 75, 99749,
+    ];
+    const phanThuong2 = danhSachPhanThuong2[indexPhanThuong];
+    const cash2 = currency(phanThuong2, {
+        symbol: "$",
+        separator: ".",
+        decimal: ",",
+    })
+        .format()
+        .slice(0, -3);
+    // Phan Thuong 2
+
     const date = new Date();
     const gio = date.getHours();
     const phut = date.getMinutes();
@@ -192,7 +199,13 @@ const MiniGame = () => {
                                 {quay === 2 ? (
                                     <div className="phanThuong3">
                                         <div className="phanThuongcash">
-                                            <div>{cash}</div>
+                                            {myDetail &&
+                                            myDetail.length !== 0 ? (
+                                                <div>{cash}</div>
+                                            ) : (
+                                                <div>{cash2}</div>
+                                            )}
+
                                             <img
                                                 src={gold}
                                                 className="gold1"
@@ -208,16 +221,64 @@ const MiniGame = () => {
                     </div>
                 </div>
                 <div className="nutQuaySo">
-                    {(gio === 20) & (phut < 16) & (phut > 0) ||
-                    (gio === 20) & (phut < 16) & (phut === 0) ? (
-                        <div>
+                    {myDetail && myDetail.length !== 0 ? (
+                        <>
+                            {(gio === 20 && phut < 16 && phut > 0) ||
+                            (gio === 20 && phut < 16 && phut === 0) ? (
+                                <div>
+                                    <div>
+                                        {quay === 0 ? (
+                                            <button
+                                                className="quaySo"
+                                                onClick={handleQuaySo}
+                                            >
+                                                Quay Số
+                                            </button>
+                                        ) : (
+                                            <></>
+                                        )}
+                                    </div>
+                                    <div>
+                                        {quay === 1 ? (
+                                            <button className="quaySo">
+                                                <div>Đếm Ngược</div>
+                                                <div>{countDown}</div>
+                                            </button>
+                                        ) : (
+                                            <></>
+                                        )}
+                                    </div>
+                                    <div>
+                                        {quay === 2 ? (
+                                            <div>
+                                                <button
+                                                    className="quaySo"
+                                                    onClick={handleBatDau}
+                                                >
+                                                    Nhận Quà
+                                                </button>
+                                            </div>
+                                        ) : (
+                                            <></>
+                                        )}
+                                    </div>
+                                </div>
+                            ) : (
+                                <button className="quaySo2">
+                                    <div>Mở Quay Số</div>
+                                    <div>20h-20h15</div>
+                                </button>
+                            )}
+                        </>
+                    ) : (
+                        <>
                             <div>
-                                {quay === 0 ? (
+                                {quay === 0 || quay === 2 ? (
                                     <button
                                         className="quaySo"
                                         onClick={handleQuaySo}
                                     >
-                                        Quay Số
+                                        Quay Thử
                                     </button>
                                 ) : (
                                     <></>
@@ -233,26 +294,7 @@ const MiniGame = () => {
                                     <></>
                                 )}
                             </div>
-                            <div>
-                                {quay === 2 ? (
-                                    <div>
-                                        <button
-                                            className="quaySo"
-                                            onClick={handleBatDau}
-                                        >
-                                            Nhận Quà
-                                        </button>
-                                    </div>
-                                ) : (
-                                    <></>
-                                )}
-                            </div>
-                        </div>
-                    ) : (
-                        <button className="quaySo2">
-                            <div>Mở Quay Số</div>
-                            <div>20h-20h15</div>
-                        </button>
+                        </>
                     )}
                 </div>
             </div>
@@ -363,7 +405,7 @@ const MiniGame = () => {
                     </div>
                 ) : (
                     <>
-                        {!status ? (
+                        {!myDetail ? (
                             <div>
                                 <a href={`/tao-thong-tin`}>
                                     <button className="capnhatthongtin">

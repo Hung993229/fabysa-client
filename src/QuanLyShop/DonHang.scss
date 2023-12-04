@@ -1,0 +1,85 @@
+
+
+
+.donHang-container{
+    a{text-decoration: none};
+    .donHang-nav{
+        display: flex;
+        gap: 5vw;
+    
+       
+    }
+.tieuDeDonHang{
+    font-size: 5vw;
+    font-weight: 600;
+    margin: 3vw auto;
+
+}
+.bangTongKet{
+
+}
+.bangtongket-container{
+    display: flex;
+    gap: 5vw;border: solid 0.1vw gray;
+    margin-bottom: 5vw;
+    .tongket1{
+        border-bottom: solid 0.1vw gray;
+width: 25%;
+    }
+
+}
+.detailDonHang-container{
+    border: solid 0.5vw #04aa6d;
+    margin-bottom: 5vw;
+    .hang1{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-bottom: solid 0.1vw gray;
+        .tieuDe{
+            width: 25vw;
+           
+            .noiDung1{
+
+            }
+            .noiDung2{
+
+            }
+        }
+    }
+    .hang2{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-bottom: solid 0.1vw gray;
+        .tieuDe{
+            width: 25vw;
+            
+            .noiDung1{
+
+            }
+            .noiDung2{
+                
+            }
+        }
+    }
+    .hang3{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-bottom: solid 0.1vw gray;
+        .tieuDe{
+            width: 33vw;
+           
+            .noiDung1{
+
+            }
+            .noiDung2{
+                
+            }
+        }
+    }
+}
+    
+
+}

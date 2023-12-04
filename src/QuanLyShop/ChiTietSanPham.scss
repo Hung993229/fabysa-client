@@ -2,6 +2,7 @@
     background-color: #9cddc2;
     margin: 15vw auto;
     padding: 5vw 0vw 15vw 0vw;
+    a{text-decoration: none};
     .container-ChiTietSanPham {
         width: 85%;
         justify-content: center;
@@ -93,7 +94,7 @@
             }
         }
         .thongtinSanPham {
-            text-align: justify;
+            text-align: center;
             padding: 3vw;
             font-size: 3vw;
             width: 100%;
@@ -106,6 +107,7 @@
     }
 }
 .datHang-container{
+    a{text-decoration: none};
     .anhSanPham{
 
     }
