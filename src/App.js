@@ -98,7 +98,9 @@ function App() {
                         path="/shop/:idShop/:spId"
                         element={
                             <>
+                                <Header className="header" />
                                 <ChiTietSanPham />
+                                <Nav />
                             </>
                         }
                     />
@@ -106,7 +108,9 @@ function App() {
                         path="/shop/:idShop"
                         element={
                             <>
+                                <Header className="header" />
                                 <Shop />
+                                <Nav />
                             </>
                         }
                     />

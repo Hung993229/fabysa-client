@@ -98,24 +98,40 @@ const MyDetail = (props) => {
                             <div className="myNoiDung">{myDetail?.cash}</div>
                         </div>
                     </div>
-
-                    <div className="quanLyShop-container">
-                        <div className="quanLyShop">Quản Lý Website</div>
-                        {allShop &&
-                            allShop.length !== 0 &&
-                            allShop.map((item) => {
-                                return (
-                                    <a
-                                        key={item._id}
-                                        href={`/update-shop/${item._id}`}
-                                    >
-                                        <button className="tenShopQuanLy">
-                                            {item.TenShop}
-                                        </button>
-                                    </a>
-                                );
-                            })}
-                    </div>
+                    {allShop && allShop.length !== 0 && (
+                        <div className="quanLyShop-container">
+                            <div className="quanLyShop">Quản Lý Website</div>
+                            {allShop &&
+                                allShop.length !== 0 &&
+                                allShop.map((item) => {
+                                    return (
+                                        <a
+                                            key={item._id}
+                                            href={`/update-shop/${item._id}`}
+                                        >
+                                            <button className="tenShopQuanLy">
+                                                {item.TenShop}
+                                            </button>
+                                        </a>
+                                    );
+                                })}
+                            <div className="quanLyShop">Review Website</div>
+                            {allShop &&
+                                allShop.length !== 0 &&
+                                allShop.map((item) => {
+                                    return (
+                                        <a
+                                            key={item._id}
+                                            href={`/shop/${item._id}`}
+                                        >
+                                            <button className="tenShopQuanLy">
+                                                {item.TenShop}
+                                            </button>
+                                        </a>
+                                    );
+                                })}
+                        </div>
+                    )}
                     <div>
                         <button
                             className="suaThongTin"

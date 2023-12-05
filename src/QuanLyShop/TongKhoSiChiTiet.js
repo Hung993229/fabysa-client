@@ -69,6 +69,7 @@ const TongKhoSiChiTiet = () => {
             tinh: thongTinSp?.tinh,
             vaiTro: thongTinSp?.vaiTro,
             user: chonShop,
+            idtk: user._id,
             affiliate: thongTinSp?.user,
         };
         console.log("newSanPham", newSanPham);

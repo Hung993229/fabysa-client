@@ -1,197 +1,203 @@
-.container-ChiTietSanPhamTo{
+
+.chitietsp-datHang{
     background-color: #9cddc2;
-    margin: 15vw auto;
     padding: 5vw 0vw 15vw 0vw;
-    a{text-decoration: none};
-    .container-ChiTietSanPham {
+    .container-ChiTietSanPhamTo{
+        background-color: #9cddc2;
+        margin: 15vw auto;
+        padding: 5vw 0vw 15vw 0vw;
+        a{text-decoration: none};
+        .container-ChiTietSanPham {
+            width: 85%;
+            justify-content: center;
+            align-items: center;
+            border: solid 0.5vw #9cddc2;
+            background-color: #fff;
+            margin-left: auto;
+            margin-right: auto;
+            border-radius: 3vw;
+            box-shadow: 12px 14px 12px -1px rgba(0,0,0,0.75);
+            -webkit-box-shadow: 12px 14px 12px -1px rgba(0,0,0,0.75);
+            -moz-box-shadow: 12px 14px 12px -1px rgba(0,0,0,0.75);
+            .close {
+                font-size: 3vw;
+                background-color: red;
+                font-weight: 600;
+                border-radius: 2vw;
+                
+            }
+            .anhSanPham {
+                width: 76vw;
+                height: 90vw;
+                object-fit: cover;
+                border: solid 0.1vw gray;
+                background-color: #fff;
+                border-radius: 2vw;
+            }
+            .tenSanPham {
+                font-size: 5vw;
+                font-weight: 600;
+                margin-top: 3vw;
+                text-transform: uppercase;
+            }
+            .giaBan {
+                // display: flex;
+                margin-top: 2vw;
+                text-align: center;
+                justify-content: center;
+               
+                
+                .giaBanMoi {
+                    color: red;
+                    font-size: 6vw;
+                font-weight: 600;
+                }
+                .giaGiam{
+                    display: flex;
+                    gap: 2vw;
+                    align-items: center;
+                    justify-content: center;
+                    .giabanCu {
+                        text-decoration: line-through;
+                        font-size: 5vw;
+                        font-weight: 300;
+        
+                    }
+                    .phanTram{
+                        font-size: 5vw;
+                        font-weight: 300;
+                    }
+                
+            }
+               
+            }
+            .muaHang {
+                font-size: 5vw;
+                font-weight: 600;
+                background-color: red;
+                width: 90%;
+                margin-top: 5vw;
+                border-radius: 4.5vw;
+                height: 10vw;
+            }
+            .viTriSanPham {
+                display: flex;
+                gap: 1vw;
+                text-align: center;
+                justify-content: center;
+                margin-top: 3vw;
+        
+                .diachisanpham {
+                    font-size: 2.5vw;
+                }
+            }
+            .thongtinSanPham {
+                text-align: center;
+                padding: 3vw;
+                font-size: 3vw;
+                width: 100%;
+                word-wrap:break-word;
+                height: 20vw;
+                overflow:auto;
+                margin-bottom: 2vw
+            ;
+            }
+        }
+    }
+    .datHang-container{
         width: 85%;
         justify-content: center;
         align-items: center;
         border: solid 0.5vw #9cddc2;
         background-color: #fff;
+        margin-top: 15vw;
         margin-left: auto;
         margin-right: auto;
         border-radius: 3vw;
         box-shadow: 12px 14px 12px -1px rgba(0,0,0,0.75);
         -webkit-box-shadow: 12px 14px 12px -1px rgba(0,0,0,0.75);
         -moz-box-shadow: 12px 14px 12px -1px rgba(0,0,0,0.75);
-        a.close.active {
-            // text-align: right;
-          width: 15vw;
-          height:10vw ;
-                font-size: 3vw;
-                background-color: red;
-                font-weight: 600;
-                padding: 3vw;
-                border-radius: 2vw;
-                margin: 3vw;
-                // border: solid 0.5vw #9cddc2;
-            
+    
+        a{text-decoration: none};
+        .close{
+            font-size: 3vw;
+            background-color: red;
+            font-weight: 600;
+            border-radius: 2vw;
         }
-        .anhSanPham {
+        .anhSanPham{
             width: 76vw;
             height: 90vw;
+            margin-left: auto;
+            margin-right: auto;
             object-fit: cover;
             border: solid 0.1vw gray;
             background-color: #fff;
             border-radius: 2vw;
+    
+    
         }
-        .tenSanPham {
+        .tenSanPham{
             font-size: 5vw;
             font-weight: 600;
             margin-top: 3vw;
             text-transform: uppercase;
-        }
-        .giaBan {
-            // display: flex;
-            margin-top: 2vw;
-            text-align: center;
-            justify-content: center;
-           
-            
-            .giaBanMoi {
-                color: red;
-                font-size: 6vw;
-            font-weight: 600;
-            }
-            .giaGiam{
-                display: flex;
-                gap: 2vw;
-                align-items: center;
-                justify-content: center;
-                .giabanCu {
-                    text-decoration: line-through;
-                    font-size: 5vw;
-                    font-weight: 300;
     
-                }
-                .phanTram{
-                    font-size: 5vw;
-                    font-weight: 300;
-                }
-            
         }
-           
-        }
-        .muaHang {
-            font-size: 5vw;
-            font-weight: 600;
-            background-color: red;
-            width: 90%;
-            margin-top: 5vw;
-            border-radius: 4.5vw;
-            height: 10vw;
-        }
-        .viTriSanPham {
+        .containerTieuChiFormregis {
             display: flex;
-            gap: 1vw;
+            margin-top: 2vw;
+            margin-left: 2vw;
+            margin-right: 2vw;
             text-align: center;
-            justify-content: center;
-            margin-top: 3vw;
-    
-            .diachisanpham {
-                font-size: 2.5vw;
+            .tieuChiFormregis {
+                width: 30%;
+                font-size: 2vw;
+                padding: 1.2vw 0vw;
+                height: 6vw;
+                text-align: center;
+                border: solid 0.11vw rgb(143, 140, 140);
             }
+            .noiDungFormregis {
+                height: 6vw;
+                width: 70%;
+                border: solid 0.1vw rgb(143, 140, 140);
+                text-align: center;
+                border-radius: 1vw;
+                select{
+                    height: 5vw;
+                    width: 30%;
+                    margin: 0.5vw;
+                    border: solid 0.1vw rgb(143, 140, 140);
+                    border-radius: 1vw;
+                    option {
+                        // text-align: center;
+                        
+                    }
+                }
+            }
+
         }
-        .thongtinSanPham {
+        .thongTinNhanHang{
+            text-transform: uppercase;
+        font-size: 2.5vw;
+        font-weight: 600;
+        text-align: left;
+        padding-left: 3.0vw;
+        margin-top: 2vw;
+        }
+        
+        .hoanThanh{
+            cursor: pointer;
+            border-radius: 2vw;
+            width: 35vw;
+            font-size: 3.5vw;
+            font-weight: 600;
             text-align: center;
-            padding: 3vw;
-            font-size: 3vw;
-            width: 100%;
-            word-wrap:break-word;
-            height: 20vw;
-            overflow:auto;
-            margin-bottom: 2vw
-        ;
+            background-color: #04aa6d;
+            margin-top: 5vw;
+            margin-bottom: 20vw;
+            height: 12vw;
         }
-    }
-}
-.datHang-container{
-    a{text-decoration: none};
-    .anhSanPham{
-
-    }
-    .tenSanPham{
-
-    }
-    .GiaSanPham{
-        display: flex;
-        justify-content: center;
-        gap: 5vw;
-        .donGia{
-
-        }
-        .soLuong{
-
-        }
-        .thanhTien{
-
-        }
-    }
-    .taiKhoanGold{
-
-    }
-    .gold{
-        display: flex;
-        justify-content: center;
-        gap: 5vw;
-        .soGold{
-
-        }
-        .truVaoTienHang{
-
-        }
-    }
-    .thanhToansoTien{
-        display: flex;
-        justify-content: center;
-        gap: 5vw;
-        .canThanhToan{
-
-        }
-        .soTienCanThanhToan{
-
-        }
-    }
-    .phuongThucThanhToan{
-        display: flex;
-        justify-content: center;
-        gap: 5vw;
-        .chonthanhToan{
-
-        }
-        .phuongThucThanhToan{
-
-        }
-
-    }
-    .thongTinNhanHang{
-
-    }
-    .hoTen-sdt{
-        display: flex;
-        justify-content: center;
-        gap: 5vw;
-        .hoTen{
-
-        }
-        .sdt{
-
-        }
-    }
-    .diaChi{
-        display: flex;
-        justify-content: center;
-        gap: 5vw;
-
-    }
-    .ghiChu{
-        display: flex;
-        justify-content: center;
-        gap: 5vw;
-
-    }
-    .hoanThanh{
-
     }
 }

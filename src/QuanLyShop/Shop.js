@@ -1,5 +1,7 @@
 import "./Shop.scss";
-import CommonUtils from "../component/CommonUtils";
+import facebookLogo from "../assets/images/Facebook_Logo.png";
+import zaloLogo from "../assets/images/zaloLogo.png";
+
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
@@ -99,7 +101,6 @@ const Shop = () => {
         <>
             {ttShop && ttShop.length !== 0 && (
                 <div className="shop">
-                    
                     <div>
                         <img
                             src={ttShop?.Banner}
@@ -109,30 +110,67 @@ const Shop = () => {
                     <div className="tenCuaHang">{ttShop?.TenShop}</div>
                     <div className="slogan">{ttShop?.sloganShop}</div>
 
-                    <div>
-                        <button onClick={() => settuVanVaThongTin(2)}>
+                    <div className="tuVan-gioiThieu">
+                        <button
+                            className="tuVan"
+                            onClick={() => settuVanVaThongTin(2)}
+                        >
                             Tư Vấn
                         </button>
-                        <button onClick={() => settuVanVaThongTin(1)}>
+                        <button
+                            className="gioiThieu"
+                            onClick={() => settuVanVaThongTin(1)}
+                        >
                             Giới Thiệu
                         </button>
                     </div>
                     {tuVanVaThongTin === 1 && (
-                        <div className="diachi-sodienthoai">
-                            <div onClick={() => settuVanVaThongTin(0)}>
-                                close
-                            </div>
+                        <div className="gioiThieuChiTiet">
                             <div className="tenCuaHang2">{ttShop?.TenShop}</div>
-                            <div className="dc">Đ/C:{ttShop?.dcShop}</div>
-                            <div className="sdt">SĐT: {ttShop?.sdtShop}</div>
+                            <div className="dc">Địa Chỉ: {ttShop?.dcShop}</div>
+                            <div className="sdt">
+                                Số Điện Thoại: {ttShop?.sdtShop}
+                            </div>
+                            <button
+                                className="closeGioiThieu"
+                                onClick={() => settuVanVaThongTin(0)}
+                            >
+                                close
+                            </button>
                         </div>
                     )}
                     {tuVanVaThongTin === 2 && (
-                        <div className="diachi-sodienthoai">
-                            <div onClick={() => settuVanVaThongTin(0)}>
-                                close
+                        <div className="tuVanChiTiet">
+                            <div>
+                                Quý Khách có thắc mắc hoặc cần tư vấn gì có thể
+                                nhắn tin 24/7 <br /> qua Zalo, Facebook bên
+                                dưới!
                             </div>
-                            <div>Zalo</div>
+                            <div className="mxh">
+                                <div className="zalo">
+                                    <a href={ttShop?.linkZalo} target="_blank">
+                                        <img src={zaloLogo} className="zalo" />
+                                    </a>
+                                </div>
+                                <div className="facebook">
+                                    <a
+                                        href={ttShop?.linkFacebook}
+                                        target="_blank"
+                                    >
+                                        <img
+                                            src={facebookLogo}
+                                            className="facebook"
+                                        />
+                                    </a>
+                                </div>
+                            </div>
+
+                            <button
+                                className="closeGioiThieu"
+                                onClick={() => settuVanVaThongTin(0)}
+                            >
+                                close
+                            </button>
                         </div>
                     )}
 

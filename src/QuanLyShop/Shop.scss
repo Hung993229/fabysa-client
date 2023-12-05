@@ -35,24 +35,94 @@
           
         }
     
-    .diachi-sodienthoai{
-        // justify-content: center;
-        // align-items: center;
-        // display: flex;
-        // gap: 3vw;
-        // background-color: #88d3b4;
-        // font-size: 2vw;
-        // font-weight: 600;
+        .tuVan-gioiThieu{
+            display: flex;
+    gap: 30%;
+    justify-content: center;
+    align-items: center;
+    margin: 3vw auto;
+            .tuVan{
+                display: block;
+              
+                border-radius: 1vw;
+                background-color: #04aa6d;
+                width: 30vw;
+                text-align: center;
+                font-size: 3vw;
+
+            }
+            .gioiThieu{
+                display: block;
+           
+                border-radius: 1vw;
+                background-color: #04aa6d;
+                width: 30vw;
+                text-align: center;
+                font-size: 3vw;
+
+            }
+        }
+        .gioiThieuChiTiet{
+            .closeGioiThieu{
+                margin-top: 2vw;
+                margin-right: 0vw;
+                border-radius: 1vw;
+                background-color: red;
+                width: 30vw;
+                font-size: 3vw;
+            }
+            .tenCuaHang2{
+                font-weight: 600;
+            font-size: 3.5vw;
+            text-align: center;
+
+            }
             .dc{
-                // width: 70%;
-                // margin: 1vw auto;
+                font-weight: 600;
+            font-size: 2.5vw;
+            text-align: center;
 
             }
             .sdt{
-                // width: 30%;
-                // margin: auto 1vw;
-            }  
-    }
+                font-weight: 600;
+            font-size: 2.5vw;
+            text-align: center;
+
+            }
+        }
+        .tuVanChiTiet{
+            .closeGioiThieu{
+                margin-top: 2vw;
+                margin-right: 0vw;
+                border-radius: 1vw;
+                background-color: red;
+                width: 30vw;
+                font-size: 3vw;
+            }
+            .mxh{
+                margin-top: 2vw;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                gap: 5vw;
+                .zalo{
+                    background-color: #04aa6d;
+                    width: 16.8vw;
+                height: 16.8vw;
+                border-radius: 50%;
+
+
+
+                }
+                .facebook{
+                    background-color: #04aa6d;
+                    width: 16.8vw;
+                    height: 16.8vw;
+                    border-radius: 50%;
+                }
+            }
+          
+        }
    
    
 .sanPham-shop{
