@@ -14,10 +14,10 @@ const DonHang = () => {
     console.log("allDonHang", allDonHang);
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const { userId } = useParams();
+    const { idShop } = useParams();
     useEffect(() => {
         const trangThaiDH = 4;
-        getDonHang(userId, trangThaiDH, dispatch);
+        getDonHang(idShop, trangThaiDH, dispatch);
     }, []);
     const handleDatLai = (id) => {
         const newDonHang = {
@@ -29,12 +29,12 @@ const DonHang = () => {
     return (
         <div className="donHang-container">
             <div className="donHang-nav">
-                <a href={`/don-hang/${userId}`}>Đơn Hàng Mới</a>
-                <a href={`/don-hang-dang-giao/${userId}`}>Đơn Hàng Đang Giao</a>
-                <a href={`/don-hang-hoan-thanh/${userId}`}>
+                <a href={`/don-hang/${idShop}`}>Đơn Hàng Mới</a>
+                <a href={`/don-hang-dang-giao/${idShop}`}>Đơn Hàng Đang Giao</a>
+                <a href={`/don-hang-hoan-thanh/${idShop}`}>
                     Đơn Hàng Hoàn Thành
                 </a>
-                <a href={`/don-hang-huy/${userId}`}>Đơn Hàng Huỷ</a>
+                <a href={`/don-hang-huy/${idShop}`}>Đơn Hàng Huỷ</a>
             </div>
             <div className="tieuDeDonHang">Danh Sách Đơn Hàng Huỷ</div>
             {allDonHang &&

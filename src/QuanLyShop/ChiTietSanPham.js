@@ -20,7 +20,7 @@ const ChiTietSanPham = () => {
     const allSanPham = useSelector(
         (state) => state.sanPham.sanPham.allsanPham?.allSanpham
     );
-    const { userId, spId } = useParams();
+    const { idShop, spId } = useParams();
     const [datHang, setdatHang] = useState(0);
     const thongTinSp = allSanPham?.find((item) => item._id === spId);
 
@@ -32,10 +32,10 @@ const ChiTietSanPham = () => {
         }
     }, []);
     useEffect(() => {
-        getttShop(userId, dispatch);
+        getttShop(idShop, dispatch);
     }, []);
     useEffect(() => {
-        const user = userId;
+        const user = idShop;
         getSanPham(user, dispatch);
     }, []);
 
@@ -58,7 +58,7 @@ const ChiTietSanPham = () => {
         try {
             const newDonHang = {
                 tenSp: thongTinSp?.TenSanPham,
-                linkSp: `/shop/${userId}/${spId}`,
+                linkSp: `/shop/${idShop}/${spId}`,
                 donGia: thongTinSp?.giaKhuyenMai,
                 giaNhap: thongTinSp?.giaNhap,
                 slSP: slSP,
@@ -131,7 +131,7 @@ const ChiTietSanPham = () => {
                 try {
                     const newDonHang = {
                         tenSp: thongTinSp?.TenSanPham,
-                        linkSp: `/shop/${userId}/${spId}`,
+                        linkSp: `/shop/${idShop}/${spId}`,
                         donGia: thongTinSp?.giaKhuyenMai,
                         giaNhap: thongTinSp?.giaNhap,
                         slSP: slSP2,
@@ -161,12 +161,12 @@ const ChiTietSanPham = () => {
                         cash: myDetail?.cash - goldDaTT2,
                     };
                     updatePost(newPost, idPost, dispatch);
-                    const idShop = ttShop._id;
+                    const id = ttShop._id;
                     const newShop = {
                         cash: ttShop.cash + goldDaTT2,
                     };
                     console.log("newShop", newShop);
-                    updatettShop(newShop, idShop, dispatch);
+                    updatettShop(newShop, id, dispatch);
                 } catch (err) {
                     console.log(err);
                 }
@@ -195,7 +195,7 @@ const ChiTietSanPham = () => {
                     <div className="tenCuaHang">{ttShop?.TenShop}</div>
                     <div className="container-ChiTietSanPham">
                         <div>
-                            <a className={"close"} href={`/shop/${userId}`}>
+                            <a className={"close"} href={`/shop/${idShop}`}>
                                 Close
                             </a>
                         </div>
@@ -262,7 +262,7 @@ const ChiTietSanPham = () => {
                 <div>
                     {myDetail && myDetail !== 0 ? (
                         <div className="datHang-container">
-                            <a className={"close"} href={`/shop/${userId}`}>
+                            <a className={"close"} href={`/shop/${idShop}`}>
                                 Close
                             </a>
                             <div className="anhSanPham">
@@ -386,7 +386,7 @@ const ChiTietSanPham = () => {
                         </div>
                     ) : (
                         <div className="datHang-container">
-                            <a className={"close"} href={`/shop/${userId}`}>
+                            <a className={"close"} href={`/shop/${idShop}`}>
                                 Close
                             </a>
                             <div className="anhSanPham">

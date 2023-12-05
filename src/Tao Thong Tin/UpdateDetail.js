@@ -237,7 +237,7 @@ const UpdateDetail = (props) => {
                 // Hien Dang Song
                 tinh: tenTinh2?.province_name,
                 huyen: tenHuyen2?.district_name,
-                xa: tenXa2?.ward_name || "Xã ...",
+                xa: tenXa2?.ward_name,
                 thonXom: thonXom,
             };
 
@@ -276,52 +276,50 @@ const UpdateDetail = (props) => {
                     </label>
                 </div>
             </div>
-            <div className="avatar-hoTenFormregis">
-                <div>
-                    <label hidden>avatar</label>
-                    <div className="container-avatar">
-                        <input
-                            id="avatar"
-                            type="file"
-                            hidden
-                            onChange={handleOnchangeImage}
-                        />
-                        <label htmlFor="avatar">
-                            <div>
-                                {previewAvatar ? (
-                                    <img
-                                        src={previewAvatar?.preview}
-                                        className="avatarFormregis"
-                                    />
-                                ) : (
-                                    <img
-                                        src={myDetail?.avatar}
-                                        className="avatarFormregis"
-                                    />
-                                )}
-                            </div>
-                        </label>
-                    </div>
+
+            <div>
+                <label hidden>avatar</label>
+                <div className="container-avatar">
+                    <input
+                        id="avatar"
+                        type="file"
+                        hidden
+                        onChange={handleOnchangeImage}
+                    />
+                    <label htmlFor="avatar">
+                        <div>
+                            {previewAvatar ? (
+                                <img
+                                    src={previewAvatar?.preview}
+                                    className="avatarFormregis"
+                                />
+                            ) : (
+                                <img
+                                    src={myDetail?.avatar}
+                                    className="avatarFormregis"
+                                />
+                            )}
+                        </div>
+                    </label>
                 </div>
             </div>
-            <div className="hoTen-sdt">
-                <div>
-                    <div>
-                        <label>Họ Và Tên</label>
-                    </div>
+
+            <div className="containerTieuChiFormregis">
+                <label className="tieuChiFormregis">Họ Và Tên</label>
+                <div className="noiDungFormregis3">
                     <input
-                        className="hoTenFormregis"
+                        className="inputFormregis3"
                         type="text"
                         placeholder={hoTen}
                         onChange={(e) => sethoTen(e.target.value)}
                     />
                 </div>
-                <div>
-                    <div>
-                        <label>Số Điện Thoại</label>
-                    </div>
+            </div>
+            <div className="containerTieuChiFormregis">
+                <label className="tieuChiFormregis">Số Điện Thoại</label>
+                <div className="noiDungFormregis3">
                     <input
-                        className="hoTenFormregis"
+                        className="inputFormregis3"
                         type="text"
                         placeholder={soDienThoai}
                         onChange={(e) => setsoDienThoai(e.target.value)}
@@ -329,70 +327,66 @@ const UpdateDetail = (props) => {
                 </div>
             </div>
 
-            <div className="gioitinh-ngaysinh">
-                <div className="containerTieuChiFormregis">
-                    <div>
-                        <label className="tieuChiFormregis" htmlFor="gioi-tinh">
-                            Giới Tính
-                        </label>
-                    </div>
+            <div className="containerTieuChiFormregis">
+                <label className="tieuChiFormregis" htmlFor="gioi-tinh">
+                    Giới Tính
+                </label>
 
-                    <select
-                        className="noiDungFormregis"
-                        name="gioi-tinh"
-                        id="gioi-tinh"
-                        onChange={(e) => setgioiTinh(e.target.value)}
-                    >
-                        <option>{gioiTinh}</option>
-                        <option>Nam</option>
-                        <option>Nữ</option>
+                <select
+                    className="noiDungFormregis"
+                    name="gioi-tinh"
+                    id="gioi-tinh"
+                    onChange={(e) => setgioiTinh(e.target.value)}
+                >
+                    <option>{gioiTinh}</option>
+                    <option>Nam</option>
+                    <option>Nữ</option>
+                </select>
+            </div>
+
+            <div className="containerTieuChiFormregis">
+                <div className="tieuChiFormregis">Ngày Sinh</div>
+
+                <div className="myNoiDungFormregis2">
+                    <label hidden>Ngày</label>
+                    <select onChange={(e) => setngaySinh(e.target.value)}>
+                        <option>{ngaySinh}</option>
+                        {arrDate &&
+                            arrDate.length > 0 &&
+                            arrDate.map((item, index) => {
+                                return <option key={index}>{item}</option>;
+                            })}
                     </select>
-                </div>
-
-                <div className="containerTieuChiFormregis">
-                    <div className="tieuChiFormregis">Ngày Sinh</div>
-
-                    <div className="myNoiDungFormregis2">
-                        <label hidden>Ngày</label>
-                        <select onChange={(e) => setngaySinh(e.target.value)}>
-                            <option>{ngaySinh}</option>
-                            {arrDate &&
-                                arrDate.length > 0 &&
-                                arrDate.map((item, index) => {
-                                    return <option key={index}>{item}</option>;
-                                })}
-                        </select>
-                        <label hidden>Tháng</label>
-                        <select onChange={(e) => setthangSinh(e.target.value)}>
-                            <option>{thangSinh}</option>
-                            {arrMonth &&
-                                arrMonth.length > 0 &&
-                                arrMonth.map((item, index) => {
-                                    return <option key={index}>{item}</option>;
-                                })}
-                        </select>
-                        <label hidden>Năm</label>
-                        <select onChange={(e) => setnamSinh(e.target.value)}>
-                            <option>{namSinh}</option>
-                            {arrYear &&
-                                arrYear.length > 0 &&
-                                arrYear.map((item, index) => {
-                                    return <option key={index}>{item}</option>;
-                                })}
-                        </select>
-                    </div>
+                    <label hidden>Tháng</label>
+                    <select onChange={(e) => setthangSinh(e.target.value)}>
+                        <option>{thangSinh}</option>
+                        {arrMonth &&
+                            arrMonth.length > 0 &&
+                            arrMonth.map((item, index) => {
+                                return <option key={index}>{item}</option>;
+                            })}
+                    </select>
+                    <label hidden>Năm</label>
+                    <select onChange={(e) => setnamSinh(e.target.value)}>
+                        <option>{namSinh}</option>
+                        {arrYear &&
+                            arrYear.length > 0 &&
+                            arrYear.map((item, index) => {
+                                return <option key={index}>{item}</option>;
+                            })}
+                    </select>
                 </div>
             </div>
 
             <div className="containerTieuChiFormregis">
-                <div className="tieuChiFormregis">Hiện Đang Sinh Sống</div>
-                <div className="myNoiDungFormregis">
+                <div className="tieuChiFormregis">Địa Chỉ</div>
+                <div className="myNoiDungFormregis2">
                     <select
                         id="provinces"
                         onChange={(e) => setprovincesID2(e.target.value)}
                         // onChange={(e) => console.log("e", e)}
                     >
-                        <option value="">{myDetail?.tinh}</option>
+                        <option value="">---{myDetail?.tinh}---</option>
                         {provinces2?.map((item) => {
                             return (
                                 <option
@@ -405,7 +399,7 @@ const UpdateDetail = (props) => {
                         })}
                     </select>
                     <select onChange={(e) => setDistrictID2(e.target.value)}>
-                        <option value="">{myDetail?.huyen}</option>
+                        <option value="">---{myDetail?.huyen}---</option>
                         {districts2?.map((item) => {
                             return (
                                 <option
@@ -418,7 +412,7 @@ const UpdateDetail = (props) => {
                         })}
                     </select>
                     <select onChange={(e) => setWardID2(e.target.value)}>
-                        <option value="">{myDetail?.xa}</option>
+                        <option value="">---{myDetail?.xa}---</option>
                         {wards2?.map((item) => {
                             return (
                                 <option value={item.ward_id} key={item.ward_id}>
@@ -427,9 +421,8 @@ const UpdateDetail = (props) => {
                             );
                         })}
                     </select>
-                </div>
-                <div>
                     <input
+                        type="text"
                         onChange={(e) => setthonXom(e.target.value)}
                         placeholder={myDetail?.thonXom}
                     />

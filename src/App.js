@@ -37,6 +37,7 @@ function App() {
                         path="/ket-ban"
                         element={
                             <>
+                                <Header className="header" />
                                 <KetBan />
                                 <Nav />
                             </>
@@ -46,6 +47,7 @@ function App() {
                         path="/mini-game"
                         element={
                             <>
+                                <Header className="header" />
                                 <MiniGame />
                                 <Nav />
                             </>
@@ -55,6 +57,7 @@ function App() {
                         path="/huong-dan"
                         element={
                             <>
+                                <Header className="header" />
                                 <Instruct />
                                 <Nav />
                             </>
@@ -64,6 +67,7 @@ function App() {
                         path="/ca-nhan"
                         element={
                             <>
+                                <Header className="header" />
                                 <ThongTinCaNhan />
                                 <Nav />
                             </>
@@ -77,6 +81,7 @@ function App() {
                         path="/hom-thu"
                         element={
                             <>
+                                <Header className="header" />
                                 <HomThu /> <Nav />
                             </>
                         }
@@ -90,7 +95,7 @@ function App() {
                         }
                     />
                     <Route
-                        path="/shop/:userId/:spId"
+                        path="/shop/:idShop/:spId"
                         element={
                             <>
                                 <ChiTietSanPham />
@@ -98,7 +103,7 @@ function App() {
                         }
                     />
                     <Route
-                        path="/shop/:userId"
+                        path="/shop/:idShop"
                         element={
                             <>
                                 <Shop />
@@ -106,15 +111,17 @@ function App() {
                         }
                     />
                     <Route
-                        path="/update-shop/:userId"
+                        path="/update-shop/:idShop"
                         element={
                             <>
+                                <Header className="header" />
                                 <UpdateShop />
+                                <Nav />
                             </>
                         }
                     />
                     <Route
-                        path="/don-hang/:userId"
+                        path="/don-hang/:idShop"
                         element={
                             <>
                                 <DonHang />
@@ -122,7 +129,7 @@ function App() {
                         }
                     />
                     <Route
-                        path="/don-hang-dang-giao/:userId"
+                        path="/don-hang-dang-giao/:idShop"
                         element={
                             <>
                                 <DonHangDangGiao />
@@ -130,7 +137,7 @@ function App() {
                         }
                     />
                     <Route
-                        path="/don-hang-hoan-thanh/:userId"
+                        path="/don-hang-hoan-thanh/:idShop"
                         element={
                             <>
                                 <DonHangHoanThanh />
@@ -138,7 +145,7 @@ function App() {
                         }
                     />
                     <Route
-                        path="/don-hang-huy/:userId"
+                        path="/don-hang-huy/:idShop"
                         element={
                             <>
                                 <DonHangHuy />
@@ -163,10 +170,9 @@ function App() {
                         }
                     />
                     <Route
-                        path="/fabysa/:userId/"
+                        path="/fabysa/:idShop/"
                         element={
                             <>
-                                {" "}
                                 <Header className="header" />
                                 <FabysaShop />
                                 <Nav />
@@ -174,7 +180,7 @@ function App() {
                         }
                     />
                     <Route
-                        path="/fabysa/:userId/:spId"
+                        path="/fabysa/:idShop/:spId"
                         element={
                             <>
                                 <Header className="header" />

@@ -12,7 +12,8 @@
             object-fit: cover;
         }
         }
-   
+   .avatar{
+    margin-bottom: 15vw;
     .avatarFormregis {
         width: 16.8vw;
         height: 16.8vw;
@@ -29,23 +30,114 @@
             border-radius: 50%;
         }
     }
-    .hoTen-sdt{
-        margin-top: 10vw;
-        display: flex;
-        gap: 5vw;
-        justify-content: center;
-        align-items: center;
+   }
+    
+    .hoTenFormregis {
+        margin-top: 3vw;
+        border: solid 0.1vw rgb(143, 140, 140);
+        width: 45vw;
+        margin-left: 22vw;
+        height: 6vw;
     }
-    .gioitinh-ngaysinh{
-        display: flex;
-        gap: 5vw;
-        justify-content: center;
-        align-items: center;
+    .cauNoiTamDacFormregis {
+        border: solid 0.1vw rgb(143, 140, 140);
+        width: 45vw;
+        height: 6vw;
+        margin-bottom: 1vw;
+        margin-left: 22vw;
     }
-    .myNoiDungFormregis{
+
+    
+    .containerTieuChiFormregis {
+        display: flex;
+        margin-top: 2vw;
+        margin-left: 2vw;
+        margin-right: 2vw;
+        text-align: center;
+        .tieuChiFormregis {
+            width: 30%;
+            font-size: 2vw;
+            padding: 1.2vw 0vw;
+            height: 6vw;
+            text-align: center;
+            border: solid 0.11vw rgb(143, 140, 140);
+        }
+       
+        .noiDungFormregis {
+            height: 6vw;
+            width: 70%;
+            border: solid 0.1vw rgb(143, 140, 140);
+            text-align: center;
+            border-radius: 1vw;
+            select{
+                height: 5vw;
+                width: 30%;
+                margin: 0.5vw;
+                border: solid 0.1vw rgb(143, 140, 140);
+                border-radius: 1vw;
+                option {
+                    // text-align: center;
+                    
+                }
+            }
+        }
+        .diaChi{
+            width: 30%;
+            font-size: 2vw;
+            padding: 1.2vw 0vw;
+            height: 11vw;
+            text-align: center;
+            justify-content: center;
+            align-items: center;
+            border: solid 0.11vw rgb(143, 140, 140);
+         }
+        .myNoiDungFormregis2 {
+            // height: 6vw;
+            width: 70%;
+            border: solid 0.1vw rgb(143, 140, 140);
+            text-align: center;
+            padding: 0.5vw 0vw;
+            border-radius: 1vw;
+         
+            select{
+                text-align: center;
+                width: 30%;
+                height: 5vw;
+                border: solid 0.1vw rgb(143, 140, 140);
+                border-radius: 1vw;
+                margin-right: 0.5vw;
+                option {
+                    // text-align: center;
+                    
+                }
+            }
+            input{
+                width: 91%; 
+            }
+            
+        }
+        .noiDungFormregis3{
+            width: 70%;
+            border: solid 0.1vw rgb(143, 140, 140);
+            text-align: center;
+            font-size: 1.8vw;
+            height: 6vw;
+            .inputFormregis3 {
+                text-align: center;
+                width: 98%;
+                border: none;
+                height: 5vw;
+                margin: 0.5vw auto;
+            }
+        }
         
     }
-   
+   .chucMung{
+    font-size: 3vw;
+    font-weight: 600;
+    margin-top: 3vw;
+    color: red;
+   }
     .luuThongTin {
         cursor: pointer;
         border-radius: 2vw;

@@ -228,24 +228,22 @@ const FormRegister = (props) => {
                 </div>
             </div>
 
-            <div className="hoTen-sdt">
-                <div>
-                    <div>
-                        <label>Họ Và Tên</label>
-                    </div>
+            <div className="containerTieuChiFormregis">
+                <label className="tieuChiFormregis">Họ Và Tên</label>
+                <div className="noiDungFormregis3">
                     <input
-                        className="hoTenFormregis"
+                        className="inputFormregis3"
                         type="text"
                         placeholder="Nhập Họ Và Tên"
                         onChange={(e) => sethoTen(e.target.value)}
                     />
                 </div>
-                <div>
-                    <div>
-                        <label>Số Điện Thoại</label>
-                    </div>
+            </div>
+            <div className="containerTieuChiFormregis">
+                <label className="tieuChiFormregis">Số Điện Thoại</label>
+                <div className="noiDungFormregis3">
                     <input
-                        className="hoTenFormregis"
+                        className="inputFormregis3"
                         type="text"
                         placeholder="Nhập Số Điện Thoại"
                         onChange={(e) => setsoDienThoai(e.target.value)}
@@ -253,64 +251,60 @@ const FormRegister = (props) => {
                 </div>
             </div>
 
-            <div className="gioitinh-ngaysinh">
-                <div className="containerTieuChiFormregis">
-                    <div>
-                        <label className="tieuChiFormregis" htmlFor="gioi-tinh">
-                            Giới Tính
-                        </label>
-                    </div>
+            <div className="containerTieuChiFormregis">
+                <label className="tieuChiFormregis" htmlFor="gioi-tinh">
+                    Giới Tính
+                </label>
 
-                    <select
-                        className="noiDungFormregis"
-                        name="gioi-tinh"
-                        id="gioi-tinh"
-                        onChange={(e) => setgioiTinh(e.target.value)}
-                    >
-                        <option value="">---Mời Chọn---</option>
-                        <option>Nam</option>
-                        <option>Nữ</option>
+                <select
+                    className="noiDungFormregis"
+                    name="gioi-tinh"
+                    id="gioi-tinh"
+                    onChange={(e) => setgioiTinh(e.target.value)}
+                >
+                    <option value="">---Mời Chọn---</option>
+                    <option>Nam</option>
+                    <option>Nữ</option>
+                </select>
+            </div>
+
+            <div className="containerTieuChiFormregis">
+                <div className="tieuChiFormregis">Ngày Sinh</div>
+
+                <div className="myNoiDungFormregis2">
+                    <label hidden>Ngày</label>
+                    <select onChange={(e) => setngaySinh(e.target.value)}>
+                        <option value="">---Chọn Ngày---</option>
+                        {arrDate &&
+                            arrDate.length > 0 &&
+                            arrDate.map((item, index) => {
+                                return <option key={index}>{item}</option>;
+                            })}
                     </select>
-                </div>
-
-                <div className="containerTieuChiFormregis">
-                    <div className="tieuChiFormregis">Ngày Sinh</div>
-
-                    <div className="myNoiDungFormregis2">
-                        <label hidden>Ngày</label>
-                        <select onChange={(e) => setngaySinh(e.target.value)}>
-                            <option value="">---Chọn Ngày---</option>
-                            {arrDate &&
-                                arrDate.length > 0 &&
-                                arrDate.map((item, index) => {
-                                    return <option key={index}>{item}</option>;
-                                })}
-                        </select>
-                        <label hidden>Tháng</label>
-                        <select onChange={(e) => setthangSinh(e.target.value)}>
-                            <option value="">---Chọn Tháng---</option>
-                            {arrMonth &&
-                                arrMonth.length > 0 &&
-                                arrMonth.map((item, index) => {
-                                    return <option key={index}>{item}</option>;
-                                })}
-                        </select>
-                        <label hidden>Năm</label>
-                        <select onChange={(e) => setnamSinh(e.target.value)}>
-                            <option value="">---Chọn Năm---</option>
-                            {arrYear &&
-                                arrYear.length > 0 &&
-                                arrYear.map((item, index) => {
-                                    return <option key={index}>{item}</option>;
-                                })}
-                        </select>
-                    </div>
+                    <label hidden>Tháng</label>
+                    <select onChange={(e) => setthangSinh(e.target.value)}>
+                        <option value="">---Chọn Tháng---</option>
+                        {arrMonth &&
+                            arrMonth.length > 0 &&
+                            arrMonth.map((item, index) => {
+                                return <option key={index}>{item}</option>;
+                            })}
+                    </select>
+                    <label hidden>Năm</label>
+                    <select onChange={(e) => setnamSinh(e.target.value)}>
+                        <option value="">---Chọn Năm---</option>
+                        {arrYear &&
+                            arrYear.length > 0 &&
+                            arrYear.map((item, index) => {
+                                return <option key={index}>{item}</option>;
+                            })}
+                    </select>
                 </div>
             </div>
 
             <div className="containerTieuChiFormregis">
-                <div className="tieuChiFormregis">Hiện Đang Sinh Sống</div>
-                <div className="myNoiDungFormregis">
+                <div className=" diaChi">Địa Chỉ</div>
+                <div className="myNoiDungFormregis2">
                     <select
                         id="provinces"
                         onChange={(e) => setprovincesID2(e.target.value)}
@@ -351,15 +345,17 @@ const FormRegister = (props) => {
                             );
                         })}
                     </select>
-                </div>
-                <div>
-                    <input
-                        onChange={(e) => setthonXom(e.target.value)}
-                        placeholder="Chi Tiết Thôn/Xóm/Số nhà/ ..."
-                    />
+                    <div>
+                        <input
+                            onChange={(e) => setthonXom(e.target.value)}
+                            placeholder="Chi Tiết Thôn/Xóm/Số nhà/ ..."
+                        />
+                    </div>
                 </div>
             </div>
-            <div>Xin Chúc Mừng Bạn Được Tặng 10.000 Gold</div>
+            <div className="chucMung">
+                Xin Chúc Mừng Bạn Được Tặng 10.000 Gold
+            </div>
             <button
                 className="luuThongTin"
                 type="submit"

@@ -95,6 +95,9 @@ import {
     deletettShopSuccess,
     deletettShopFailed,
     logOutSuccessttShop,
+    getAllttShopStart,
+    getAllttShopSuccess,
+    getAllttShopFailed,
 } from "./ttShopSlice";
 
 import {
@@ -335,10 +338,12 @@ export const getSanPhamDan = async (huyen, dispatch) => {
         dispatch(getSanPhamFailed());
     }
 };
-export const getKhoTongSi = async (huyen, dispatch) => {
+export const getKhoTongSi = async (huyen, user, dispatch) => {
     dispatch(getSanPhamStart());
     try {
-        const res = await axios.get(`/v1/shop/kho-tong-si/?huyen=${huyen}`);
+        const res = await axios.get(
+            `/v1/shop/kho-tong-si/?huyen=${huyen}&user=${user}`
+        );
         dispatch(getSanPhamSuccess(res.data));
     } catch (err) {
         dispatch(getSanPhamFailed());
@@ -374,18 +379,26 @@ export const registerttShop = async (newShop, dispatch) => {
     }
 };
 
-export const getttShop = async (userId, dispatch) => {
+export const getttShop = async (id, dispatch) => {
     dispatch(getttShopStart());
     try {
-        const res = await axios.get(
-            `/v1/shop/thong-tin-shop/?userId=${userId}`
-        );
+        const res = await axios.get(`/v1/shop/thong-tin-shop/?id=${id}`);
         dispatch(getttShopSuccess(res.data));
     } catch (err) {
         dispatch(getttShopFailed());
     }
 };
-
+export const getAllttShop = async (idShop, dispatch) => {
+    dispatch(getAllttShopStart());
+    try {
+        const res = await axios.get(
+            `/v1/shop/thong-tin-all-shop/?idShop=${idShop}`
+        );
+        dispatch(getAllttShopSuccess(res.data));
+    } catch (err) {
+        dispatch(getAllttShopFailed());
+    }
+};
 export const updatettShop = async (newShop, id, dispatch) => {
     dispatch(updatettShopStart());
     try {
@@ -415,11 +428,11 @@ export const updateDonHang = async (newDonHang, id, dispatch) => {
         dispatch(updatedonHangFailed(err.response.data));
     }
 };
-export const getDonHang = async (userId, trangThaiDH, dispatch) => {
+export const getDonHang = async (idShop, trangThaiDH, dispatch) => {
     dispatch(getdonHangStart());
     try {
         const res = await axios.get(
-            `/v1/shop/don-hang/?userId=${userId}&trangThaiDH=${trangThaiDH}`
+            `/v1/shop/don-hang/?idShop=${idShop}&trangThaiDH=${trangThaiDH}`
         );
         dispatch(getdonHangSuccess(res.data));
     } catch (err) {

@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useEffect } from "react";
 import { useState } from "react";
-import { getPost, logOut } from "../redux/apiRequest";
+import { getPost, logOut, getAllttShop } from "../redux/apiRequest";
 
 import { createAxios } from "../../src/createInstance";
 import { logOutSuccess } from "../redux/authSlice";
@@ -14,7 +14,10 @@ const MyDetail = (props) => {
     const [taodata, settaodata] = useState(0);
     const user = useSelector((state) => state.auth.login?.currentUser);
     const myDetail = useSelector((state) => state.post.post?.myDetail);
-
+    const allShop = useSelector(
+        (state) => state.ttShop.ttShop.allttShop?.AllShop
+    );
+    console.log("allShop", allShop);
     const accessToken = user?.accessToken;
     const id = user?._id;
     const dispatch = useDispatch();
@@ -32,6 +35,7 @@ const MyDetail = (props) => {
 
     useEffect(() => {
         getPost(user?._id, dispatch);
+        getAllttShop(user?._id, dispatch);
     }, [user]);
     const handleLogout = () => {
         logOut(dispatch, id, navigate, accessToken, axiosJWT);
@@ -57,12 +61,15 @@ const MyDetail = (props) => {
                     <div className="thongTinCaNhanChiTiet">
                         <div className="myDetail-avatar-hoTen-cauNoiTamDac">
                             <img src={avatar} className="myDetail-avatar" />
-                        </div>
-                        <div className="Container-myTieuChi-myNoiDung">
                             <div className="myDetail-hoTen-cauNoiTamDac">
-                                <div className="myTieuChi">Họ Và Tên</div>
+                                <div hidden className="myTieuChi">
+                                    Họ Và Tên
+                                </div>
                                 <div className="myDetail-hoTen">{hoTen}</div>
                             </div>
+                        </div>
+
+                        <div className="Container-myTieuChi-myNoiDung">
                             <div className="myTieuChi">Số Điện Thoại</div>
                             <div className="myNoiDung">
                                 {myDetail?.soDienThoai}
@@ -90,6 +97,24 @@ const MyDetail = (props) => {
                             <div className="myTieuChi">Tài Khoản Gold</div>
                             <div className="myNoiDung">{myDetail?.cash}</div>
                         </div>
+                    </div>
+
+                    <div className="quanLyShop-container">
+                        <div className="quanLyShop">Quản Lý Website</div>
+                        {allShop &&
+                            allShop.length !== 0 &&
+                            allShop.map((item) => {
+                                return (
+                                    <a
+                                        key={item._id}
+                                        href={`/update-shop/${item._id}`}
+                                    >
+                                        <button className="tenShopQuanLy">
+                                            {item.TenShop}
+                                        </button>
+                                    </a>
+                                );
+                            })}
                     </div>
                     <div>
                         <button

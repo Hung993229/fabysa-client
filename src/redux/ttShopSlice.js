@@ -57,6 +57,18 @@ const ttShopSlice = createSlice({
             state.ttShop.isFetching = false;
             state.ttShop.error = true;
         },
+        getAllttShopStart: (state) => {
+            state.ttShop.isFetching = true;
+        },
+        getAllttShopSuccess: (state, action) => {
+            state.ttShop.isFetching = false;
+            state.ttShop.allttShop = action.payload;
+            state.ttShop.success = true;
+        },
+        getAllttShopFailed: (state) => {
+            state.ttShop.isFetching = false;
+            state.ttShop.error = true;
+        },
         deletettShopStart: (state) => {
             state.ttShop.isFetching = true;
         },
@@ -83,6 +95,9 @@ export const {
     getttShopStart,
     getttShopSuccess,
     getttShopFailed,
+    getAllttShopStart,
+    getAllttShopSuccess,
+    getAllttShopFailed,
     deletettShopStart,
     deletettShopSuccess,
     deletettShopFailed,

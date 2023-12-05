@@ -18,7 +18,7 @@ const Shop = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    const { userId } = useParams();
+    const { idShop } = useParams();
     const [iddetailSanPham, setiddetailSanPham] = useState(0);
 
     const item = allSanPham?.find((item) => item._id === iddetailSanPham);
@@ -29,11 +29,10 @@ const Shop = () => {
         }
     }, []);
     useEffect(() => {
-        getttShop(userId, dispatch);
+        getttShop(idShop, dispatch);
     }, []);
     useEffect(() => {
-        const user = userId;
-        getSanPham(user, dispatch);
+        getSanPham(idShop, dispatch);
     }, []);
     const VND = new Intl.NumberFormat("vi-VN", {
         style: "currency",
@@ -100,14 +99,14 @@ const Shop = () => {
         <>
             {ttShop && ttShop.length !== 0 && (
                 <div className="shop">
-                    <div className="tenCuaHang">{ttShop?.TenShop}</div>
+                    
                     <div>
                         <img
                             src={ttShop?.Banner}
                             className="banner-container"
                         />
                     </div>
-
+                    <div className="tenCuaHang">{ttShop?.TenShop}</div>
                     <div className="slogan">{ttShop?.sloganShop}</div>
 
                     <div>
@@ -154,7 +153,7 @@ const Shop = () => {
                                                     className="sanPham"
                                                 >
                                                     <a
-                                                        href={`/shop/${userId}/${item._id}`}
+                                                        href={`/shop/${idShop}/${item._id}`}
                                                     >
                                                         <div>
                                                             <img
@@ -236,7 +235,7 @@ const Shop = () => {
                                                     className="sanPham"
                                                 >
                                                     <a
-                                                        href={`/shop/${userId}/${item._id}`}
+                                                        href={`/shop/${idShop}/${item._id}`}
                                                     >
                                                         <div>
                                                             <img
@@ -321,7 +320,7 @@ const Shop = () => {
                                                     className="sanPham"
                                                 >
                                                     <a
-                                                        href={`/shop/${userId}/${item._id}`}
+                                                        href={`/shop/${idShop}/${item._id}`}
                                                     >
                                                         <div>
                                                             <img
@@ -405,7 +404,7 @@ const Shop = () => {
                                                     className="sanPham"
                                                 >
                                                     <a
-                                                        href={`/shop/${userId}/${item._id}`}
+                                                        href={`/shop/${idShop}/${item._id}`}
                                                     >
                                                         <div>
                                                             <img
@@ -489,7 +488,7 @@ const Shop = () => {
                                                     className="sanPham"
                                                 >
                                                     <a
-                                                        href={`/shop/${userId}/${item._id}`}
+                                                        href={`/shop/${idShop}/${item._id}`}
                                                     >
                                                         <div>
                                                             <img
@@ -573,7 +572,7 @@ const Shop = () => {
                                                     className="sanPham"
                                                 >
                                                     <a
-                                                        href={`/shop/${userId}/${item._id}`}
+                                                        href={`/shop/${idShop}/${item._id}`}
                                                     >
                                                         <div>
                                                             <img
@@ -657,7 +656,7 @@ const Shop = () => {
                                                     className="sanPham"
                                                 >
                                                     <a
-                                                        href={`/shop/${userId}/${item._id}`}
+                                                        href={`/shop/${idShop}/${item._id}`}
                                                     >
                                                         <div>
                                                             <img
@@ -742,7 +741,7 @@ const Shop = () => {
                                                     className="sanPham"
                                                 >
                                                     <a
-                                                        href={`/shop/${userId}/${item._id}`}
+                                                        href={`/shop/${idShop}/${item._id}`}
                                                     >
                                                         <div>
                                                             <img
@@ -827,7 +826,7 @@ const Shop = () => {
                                                     className="sanPham"
                                                 >
                                                     <a
-                                                        href={`/shop/${userId}/${item._id}`}
+                                                        href={`/shop/${idShop}/${item._id}`}
                                                     >
                                                         <div>
                                                             <img
@@ -912,7 +911,7 @@ const Shop = () => {
                                                     className="sanPham"
                                                 >
                                                     <a
-                                                        href={`/shop/${userId}/${item._id}`}
+                                                        href={`/shop/${idShop}/${item._id}`}
                                                     >
                                                         <div>
                                                             <img
@@ -998,7 +997,7 @@ const Shop = () => {
                                                     className="sanPham"
                                                 >
                                                     <a
-                                                        href={`/shop/${userId}/${item._id}`}
+                                                        href={`/shop/${idShop}/${item._id}`}
                                                     >
                                                         <div>
                                                             <img
@@ -1084,7 +1083,7 @@ const Shop = () => {
                                                     className="sanPham"
                                                 >
                                                     <a
-                                                        href={`/shop/${userId}/${item._id}`}
+                                                        href={`/shop/${idShop}/${item._id}`}
                                                     >
                                                         <div>
                                                             <img
@@ -1170,7 +1169,7 @@ const Shop = () => {
                                                     className="sanPham"
                                                 >
                                                     <a
-                                                        href={`/shop/${userId}/${item._id}`}
+                                                        href={`/shop/${idShop}/${item._id}`}
                                                     >
                                                         <div>
                                                             <img
@@ -1256,7 +1255,7 @@ const Shop = () => {
                                                     className="sanPham"
                                                 >
                                                     <a
-                                                        href={`/shop/${userId}/${item._id}`}
+                                                        href={`/shop/${idShop}/${item._id}`}
                                                     >
                                                         <div>
                                                             <img
@@ -1342,7 +1341,7 @@ const Shop = () => {
                                                     className="sanPham"
                                                 >
                                                     <a
-                                                        href={`/shop/${userId}/${item._id}`}
+                                                        href={`/shop/${idShop}/${item._id}`}
                                                     >
                                                         <div>
                                                             <img
@@ -1428,7 +1427,7 @@ const Shop = () => {
                                                     className="sanPham"
                                                 >
                                                     <a
-                                                        href={`/shop/${userId}/${item._id}`}
+                                                        href={`/shop/${idShop}/${item._id}`}
                                                     >
                                                         <div>
                                                             <img
@@ -1514,7 +1513,7 @@ const Shop = () => {
                                                     className="sanPham"
                                                 >
                                                     <a
-                                                        href={`/shop/${userId}/${item._id}`}
+                                                        href={`/shop/${idShop}/${item._id}`}
                                                     >
                                                         <div>
                                                             <img
@@ -1600,7 +1599,7 @@ const Shop = () => {
                                                     className="sanPham"
                                                 >
                                                     <a
-                                                        href={`/shop/${userId}/${item._id}`}
+                                                        href={`/shop/${idShop}/${item._id}`}
                                                     >
                                                         <div>
                                                             <img

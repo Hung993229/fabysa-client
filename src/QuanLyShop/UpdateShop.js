@@ -19,8 +19,9 @@ import {
     apiGetPublicWard,
 } from "../redux/ApiProvince";
 const UpdateShop = () => {
-    const { userId } = useParams();
-    const user = useSelector((state) => state.auth.login.currentUser);
+    const { idShop } = useParams();
+    console.log("idShop", idShop);
+    const user = useSelector((state) => state.auth.login?.currentUser);
     const ttShop = useSelector((state) => state.ttShop.ttShop.ttShop?.shop);
     const allSanPham = useSelector(
         (state) => state.sanPham.sanPham.allsanPham?.allSanpham
@@ -29,14 +30,13 @@ const UpdateShop = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     useEffect(() => {
-        const user = userId;
-        getSanPham(user, dispatch);
+        getSanPham(idShop, dispatch);
     }, []);
     // san pham
     // shop
     const [suaThongTinShop, setsuaThongTinShop] = useState(0);
     useEffect(() => {
-        getttShop(userId, dispatch);
+        getttShop(idShop, dispatch);
     }, [suaThongTinShop]);
     const [previewAvatar, setpreviewAvatar] = useState();
     const [previewBanner, setpreviewBanner] = useState();
@@ -90,6 +90,7 @@ const UpdateShop = () => {
     const [thongTinSanPham2, setthongTinSanPham2] = useState();
     const [giaNhap2, setgiaNhap2] = useState(0);
     const [hoahongCTV2, sethoahongCTV2] = useState(0);
+    const [tuVanVaThongTin, settuVanVaThongTin] = useState(0);
     useEffect(() => {
         if (idSpSua && idSpSua.length !== 0) {
             setpreviewSanPham2(detailidSpSua?.AnhSanPham);
@@ -136,7 +137,8 @@ const UpdateShop = () => {
             tinh: ttShop?.tinh,
             vaiTro: ttShop?.vaiTro,
             affiliate: "",
-            user: user._id,
+            idtk: user._id,
+            user: idShop,
         };
         console.log("id", id);
         console.log("newSanPham", newSanPham);
@@ -145,9 +147,6 @@ const UpdateShop = () => {
     };
     const handleXoaSanPham = (id) => {
         deleteSanPham(id, dispatch);
-        // const huyenDs = myDetail?.huyenDs;
-        // const huyenQq = myDetail?.huyenQq;
-        // getShop(dispatch, huyenDs, huyenQq);
     };
     const handleThemSanPham = () => {
         if (
@@ -176,7 +175,8 @@ const UpdateShop = () => {
                 huyen: ttShop?.huyen,
                 tinh: ttShop?.tinh,
                 vaiTro: ttShop?.vaiTro,
-                user: user._id,
+                user: idShop,
+                idtk: user._id,
                 affiliate: "",
             };
             console.log("newSanPham", newSanPham);
@@ -301,27 +301,81 @@ const UpdateShop = () => {
 
     return (
         <>
-            {user && user?._id === userId && ttShop && ttShop.length !== 0 && (
-                <div>
-                    {/* ban dau */}
-                    <div className="tenCuaHang">{ttShop?.TenShop}</div>
-                    <div className="updateShopTo">
+            {user &&
+                user?._id === ttShop?.user &&
+                ttShop &&
+                ttShop?.length !== 0 && (
+                    <div className="updateShop-container">
+                        {/* ban dau */}
                         {+suaThongTinShop === 0 ? (
-                            <div className="shopUpdate">
-                                <div>
-                                    <img
-                                        src={ttShop?.Banner}
-                                        className="banner-container"
-                                    />
-                                </div>
+                            <div className="thongTinShop">
+                                <div className="headerShop">
+                                    <div>
+                                        <img
+                                            src={ttShop?.Banner}
+                                            className="bannerShop"
+                                        />
+                                    </div>
+                                    <div className="tenCuaHang">
+                                        {ttShop?.TenShop}
+                                    </div>
+                                    <div className="sloganShop">
+                                        {ttShop?.sloganShop}
+                                    </div>
 
-                                <div className="diachi-sodienthoai">
-                                    <div className="dc">
-                                        Đ/C:{ttShop?.dcShop}
+                                    <div className="tuVan-gioiThieu">
+                                        <button
+                                            className="tuVan"
+                                            onClick={() =>
+                                                settuVanVaThongTin(2)
+                                            }
+                                        >
+                                            Tư Vấn
+                                        </button>
+                                        <button
+                                            className="gioiThieu"
+                                            onClick={() =>
+                                                settuVanVaThongTin(1)
+                                            }
+                                        >
+                                            Giới Thiệu
+                                        </button>
                                     </div>
-                                    <div className="sdt">
-                                        SĐT: {ttShop?.sdtShop}
-                                    </div>
+                                    {tuVanVaThongTin === 1 && (
+                                        <div className="gioiThieuChiTiet">
+                                            <div className="tenCuaHang2">
+                                                {ttShop?.TenShop}
+                                            </div>
+                                            <div className="dc">
+                                                Địa Chỉ: {ttShop?.dcShop}
+                                            </div>
+                                            <div className="sdt">
+                                                Số Điện Thoại: {ttShop?.sdtShop}
+                                            </div>
+                                            <button
+                                                className="closeGioiThieu"
+                                                onClick={() =>
+                                                    settuVanVaThongTin(0)
+                                                }
+                                            >
+                                                close
+                                            </button>
+                                        </div>
+                                    )}
+                                    {tuVanVaThongTin === 2 && (
+                                        <div className="tuVanChiTiet">
+                                            <div className="zalo">Zalo</div>
+                                            <div className="facebook">Zalo</div>
+                                            <button
+                                                className="closeGioiThieu"
+                                                onClick={() =>
+                                                    settuVanVaThongTin(0)
+                                                }
+                                            >
+                                                close
+                                            </button>
+                                        </div>
+                                    )}
                                 </div>
 
                                 <div className="themSanPham-suaThongTinShop">
@@ -376,6 +430,7 @@ const UpdateShop = () => {
                                                             className="anhSanPham"
                                                             alt="timtim"
                                                         />
+
                                                         <div className="tenSanPham">
                                                             {item?.TenSanPham}
                                                         </div>
@@ -385,21 +440,40 @@ const UpdateShop = () => {
                                                                     item?.giaKhuyenMai
                                                                 )}
                                                             </div>
-                                                            <div className="giabanCu">
-                                                                {VND.format(
-                                                                    item?.giaNiemYet
-                                                                )}
+
+                                                            <div className="giaGiam">
+                                                                <div className="giabanCu">
+                                                                    {VND.format(
+                                                                        item?.giaNiemYet
+                                                                    )}
+                                                                </div>
+                                                                <div className="phanTram">
+                                                                    Giảm&nbsp;
+                                                                    {Math.floor(
+                                                                        (100 *
+                                                                            (item?.giaNiemYet -
+                                                                                item?.giaKhuyenMai)) /
+                                                                            item?.giaNiemYet
+                                                                    )}
+                                                                    %
+                                                                </div>
                                                             </div>
                                                         </div>
 
                                                         <button className="muaHang">
                                                             MUA HÀNG
                                                         </button>
-
-                                                        <div className="thongtinSanPham">
-                                                            {
-                                                                item?.thongTinSanPham
-                                                            }
+                                                        <div className="viTriSanPham">
+                                                            <i className="fa-solid fa-location-dot"></i>
+                                                            <div className="diachisanpham">
+                                                                {item?.xa}
+                                                            </div>
+                                                            <div className="diachisanpham">
+                                                                {item?.huyen}
+                                                            </div>
+                                                            <div className="diachisanpham">
+                                                                {item?.tinh}
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -421,11 +495,11 @@ const UpdateShop = () => {
                                             type="file"
                                             hidden
                                             onChange={handleOnchangeImageBanner}
-                                            className="bannerFormregis2"
+                                            className="bannerShop"
                                         />
                                         <label
                                             htmlFor="banner"
-                                            className="bannerFormregis2"
+                                            className="bannerShop"
                                         >
                                             <div>
                                                 {previewBanner ? (
@@ -433,21 +507,24 @@ const UpdateShop = () => {
                                                         src={
                                                             previewBanner.preview
                                                         }
-                                                        className="banner"
+                                                        className="bannerShop"
                                                     />
                                                 ) : (
                                                     <img
                                                         src={Banner}
-                                                        className="bannerFormregis2"
+                                                        className="bannerShop"
                                                     />
                                                 )}
                                             </div>
                                         </label>
                                     </div>
                                 </div>
-                                <div className="tenCuaHang2">
+                                <div className="containerTieuChiFormregis">
+                                    <div className="tieuChiFormregis">
+                                        Tên Shop
+                                    </div>
                                     <input
-                                        className="tenCuaHangInput"
+                                        className="noiDungFormregis3"
                                         placeholder={ttShop?.TenShop}
                                         type="text"
                                         onChange={(e) =>
@@ -455,33 +532,27 @@ const UpdateShop = () => {
                                         }
                                     />
                                 </div>
-                                <div className="diachi-sodienthoai">
-                                    <div className="diaChi">
-                                        <div className="dc">Đ/C:</div>
-                                        <input
-                                            className="dcInput"
-                                            placeholder={ttShop?.dcShop}
-                                            type="text"
-                                            onChange={(e) =>
-                                                setDcShop(e.target.value)
-                                            }
-                                        />
+
+                                <div className="containerTieuChiFormregis">
+                                    <div className="tieuChiFormregis">
+                                        Số Điện Thoại
                                     </div>
-                                    <div className="soDienThoai">
-                                        <div className="sdt">SĐT:</div>
-                                        <input
-                                            className="sdtIpnut"
-                                            placeholder={ttShop.sdtShop}
-                                            type="text"
-                                            onChange={(e) =>
-                                                setSdtShop(e.target.value)
-                                            }
-                                        />
-                                    </div>
-                                </div>
-                                <div className="slogan2">
                                     <input
-                                        className="slgIpnut"
+                                        className="noiDungFormregis3"
+                                        placeholder={ttShop.sdtShop}
+                                        type="text"
+                                        onChange={(e) =>
+                                            setSdtShop(e.target.value)
+                                        }
+                                    />
+                                </div>
+
+                                <div className="containerTieuChiFormregis">
+                                    <div className="tieuChiFormregis">
+                                        Khẩu Hiệu
+                                    </div>
+                                    <input
+                                        className="noiDungFormregis3"
                                         placeholder={ttShop?.sloganShop}
                                         type="text"
                                         onChange={(e) =>
@@ -491,10 +562,23 @@ const UpdateShop = () => {
                                 </div>
                                 <div className="containerTieuChiFormregis">
                                     <div className="tieuChiFormregis">
+                                        Địa Chỉ
+                                    </div>
+                                    <input
+                                        className="noiDungFormregis3"
+                                        placeholder={ttShop?.dcShop}
+                                        type="text"
+                                        onChange={(e) =>
+                                            setDcShop(e.target.value)
+                                        }
+                                    />
+                                </div>
+                                <div className="containerTieuChiFormregis">
+                                    <div className="tieuChiFormregis">
                                         Chọn Địa Chỉ Shop
                                     </div>
 
-                                    <div className="myNoiDungFormregis2">
+                                    <div className="noiDungFormregis">
                                         <label hidden>Tỉnh</label>
                                         <select
                                             id="provinces"
@@ -558,24 +642,27 @@ const UpdateShop = () => {
                                     </div>
                                 </div>
                                 {user?.admin === true && (
-                                    <div className="slogan">
-                                        <input
-                                            className="slgIpnut"
-                                            placeholder={ttShop?.user}
-                                            type="text"
-                                            onChange={(e) =>
-                                                setUserShop(e.target.value)
-                                            }
-                                        />
-                                        <div className="sanPhamChuLuc-container">
-                                            <div>
-                                                <label className="tieuDeSanPhamChuLuc">
-                                                    Nhóm Shop
-                                                </label>
+                                    <div>
+                                        <div className="containerTieuChiFormregis">
+                                            <div className="tieuChiFormregis">
+                                                Nhập ID Chủ Shop
                                             </div>
+                                            <input
+                                                className="noiDungFormregis3"
+                                                placeholder={ttShop?.user}
+                                                type="text"
+                                                onChange={(e) =>
+                                                    setUserShop(e.target.value)
+                                                }
+                                            />
+                                        </div>
+                                        <div className="containerTieuChiFormregis">
+                                            <label className="tieuChiFormregis">
+                                                Nhóm Shop
+                                            </label>
 
                                             <select
-                                                className="spChuLuc"
+                                                className="noiDungFormregis"
                                                 onChange={(e) =>
                                                     setvaiTro(e.target.value)
                                                 }
@@ -596,10 +683,10 @@ const UpdateShop = () => {
 
                                 <div>
                                     <button
-                                        className="luuThongTinShop"
+                                        className="luuThongTin"
                                         onClick={handleLuuThongTinShop}
                                     >
-                                        Lưu Thông Tin Shop
+                                        Lưu Thông Tin
                                     </button>
                                 </div>
                             </div>
@@ -608,7 +695,7 @@ const UpdateShop = () => {
                         )}
                         {/* them sp */}
                         {+suaThongTinShop === 2 ? (
-                            <div>
+                            <div className="them">
                                 <div className="container-themSanPham">
                                     <div className="close">
                                         <button
@@ -644,7 +731,9 @@ const UpdateShop = () => {
                                         </div>
                                         <div>
                                             <div>
-                                                <label>Tên Sản Phẩm</label>
+                                                <label className="tieuDeThemSanPham">
+                                                    Tên Sản Phẩm
+                                                </label>
                                                 <div>
                                                     <input
                                                         onChange={(e) =>
@@ -652,7 +741,7 @@ const UpdateShop = () => {
                                                                 e.target.value
                                                             )
                                                         }
-                                                        className="tenSanPham"
+                                                        className="inputTenSanPham"
                                                         placeholder="Tên Sản Phẩm"
                                                     />
                                                 </div>
@@ -660,7 +749,9 @@ const UpdateShop = () => {
                                         </div>
                                         <div className="giaBan">
                                             <div className="giabanCu">
-                                                <label>Giá Niêm Yết</label>
+                                                <label className="tenmuc">
+                                                    Giá Niêm Yết
+                                                </label>
 
                                                 <div>
                                                     <input
@@ -675,7 +766,9 @@ const UpdateShop = () => {
                                                 </div>
                                             </div>
                                             <div className="giaBanMoi">
-                                                <label>Giá Khuyến Mại</label>
+                                                <label className="tenmuc">
+                                                    Giá Khuyến Mại
+                                                </label>
                                                 <div>
                                                     <input
                                                         onChange={(e) =>
@@ -690,16 +783,15 @@ const UpdateShop = () => {
                                             </div>
                                         </div>
 
-                                        <div className="nhomSanPham-sanPhamChuLuc">
-                                            <div className="nhomSanPham-container">
+                                        <div className="giaBan">
+                                            <div className="giabanCu">
                                                 <div>
-                                                    <label className="tieuDeNhomSanPham">
+                                                    <label className="tenmuc">
                                                         Nhóm Sản Phẩm
                                                     </label>
                                                 </div>
 
                                                 <select
-                                                    className="nhomSanPham"
                                                     onChange={(e) =>
                                                         setnhomSanPham(
                                                             e.target.value
@@ -761,16 +853,15 @@ const UpdateShop = () => {
                                                     </option>
                                                 </select>
                                             </div>
-                                            <div className="sanPhamChuLuc-container">
+                                            <div className="giaBanMoi">
                                                 <div>
-                                                    <label className="tieuDeSanPhamChuLuc">
+                                                    <label className="tenmuc">
                                                         Sản Phẩm Dẫn
                                                     </label>
                                                 </div>
                                                 {allSanPhamDan &&
                                                 allSanPhamDan.length < 2 ? (
                                                     <select
-                                                        className="spChuLuc"
                                                         onChange={(e) =>
                                                             setsanPhamDan(
                                                                 e.target.value
@@ -796,7 +887,9 @@ const UpdateShop = () => {
                                         </div>
 
                                         <div>
-                                            <label>Thông Tin Sản Phẩm</label>
+                                            <label className="tenmuc">
+                                                Thông Tin Sản Phẩm
+                                            </label>
                                             <div>
                                                 <input
                                                     onChange={(e) =>
@@ -804,20 +897,23 @@ const UpdateShop = () => {
                                                             e.target.value
                                                         )
                                                     }
-                                                    className="thongTinSanPham"
+                                                    className="inputthongTinSanPham"
                                                     placeholder="Thông Tin Chi Tiết Sản Phẩm"
                                                 />
                                             </div>
                                         </div>
 
                                         <div className="ctv">
-                                            <div className="tieudeCTV">
+                                            <div className="tieudeCTV tenmuc">
                                                 Hợp Tác Cộng Tác Viên
                                             </div>
                                             <div className="noidungCTV">
                                                 <div>
-                                                    <div>Giá Nhập</div>
+                                                    <div className="noidunginputCTV tenmuc">
+                                                        Giá Nhập
+                                                    </div>
                                                     <input
+                                                        className="noidunginputCTV"
                                                         onChange={(e) =>
                                                             setgiaNhap(
                                                                 e.target.value
@@ -826,8 +922,11 @@ const UpdateShop = () => {
                                                     />
                                                 </div>
                                                 <div>
-                                                    <div>Hoa Hồng</div>
+                                                    <div className="noidunginputCTV tenmuc">
+                                                        Hoa Hồng
+                                                    </div>
                                                     <input
+                                                        className="noidunginputCTV"
                                                         onChange={(e) =>
                                                             sethoahongCTV(
                                                                 e.target.value
@@ -836,13 +935,13 @@ const UpdateShop = () => {
                                                     />
                                                 </div>
                                                 <div>
-                                                    <div>Lợi Nhuận Dự Kiến</div>
-                                                    <div>
-                                                        <div>
-                                                            {giaKhuyenMai -
-                                                                giaNhap -
-                                                                hoahongCTV}
-                                                        </div>
+                                                    <div className="noidunginputCTV tenmuc">
+                                                        Lợi Nhuận Dự Kiến
+                                                    </div>
+                                                    <div className="noidunginputCTV loinhuan">
+                                                        {giaKhuyenMai -
+                                                            giaNhap -
+                                                            hoahongCTV}
                                                     </div>
                                                 </div>
                                             </div>
@@ -860,9 +959,24 @@ const UpdateShop = () => {
                                     xuất hiện trên cùng Website. <br />- Mỗi
                                     Shop chỉ chọn ra 2 sản phẩm dẫn đáng chú ý
                                     nhất, không giảm giá tràn lan, tránh ảnh
-                                    hưởng lợi nhuận và thị trường chung. <br />{" "}
+                                    hưởng lợi nhuận và thị trường chung. <br />
                                     - Sản phẩm dẫn là sản phẩm có nhu cầu sử
                                     dụng cao, giá bán tốt hơn so với thị trường.
+                                    <br />
+                                    - Hoa hồng cộng tác viên là không bắt buộc.{" "}
+                                    <br />
+                                    - Tuy nhiên, khi tham gia bán hàng online
+                                    cùng Fabysa có nghĩa bạn cũng đã tham gia
+                                    cộng đồng người bán Fabysa. <br />
+                                    - Sản phẩm của bạn sẽ được niêm yết trong
+                                    tổng kho sỉ của Fabysa, từ đó ngoài khách lẻ
+                                    bạn sẽ có thêm lượng khách sỉ, là những chủ
+                                    shop online giống như bạn, bạn cũng có thể
+                                    làm Cộng Tác Viên bán sản phẩm từ những Shop
+                                    khác. <br />
+                                    - Chi tiết liên hệ Admin để được giải
+                                    đáp rõ hơn! <br />
+                                    Cảm ơn bạn đã tham gia bán hàng cùng Fabysa!
                                 </div>
                             </div>
                         ) : (
@@ -870,7 +984,7 @@ const UpdateShop = () => {
                         )}
                         {/* sua sp */}
                         {+suaThongTinShop === 3 ? (
-                            <div className="container-themSanPham">
+                            <div className="container-suaSanPham">
                                 <div className="close">
                                     <button
                                         onClick={() => setsuaThongTinShop(0)}
@@ -1123,9 +1237,7 @@ const UpdateShop = () => {
                             <div></div>
                         )}
                     </div>
-                    <div className="slogan">{ttShop?.sloganShop}</div>
-                </div>
-            )}
+                )}
         </>
     );
 };

@@ -9,6 +9,7 @@
             position: relative;
         }
         .myDetail-avatar-hoTen-cauNoiTamDac {
+           
             .myDetail-avatar {
                 width: 16.8vw;
                 height: 16.8vw;
@@ -18,17 +19,56 @@
                 top: 35vw;
                 left: 12vw;
             }
+            .myDetail-hoTen {
+                margin-bottom: 3vw;
+                margin-top: 5vw;
+                padding-left: 30.5vw;
+                text-align: left;
+                display: block;
+                font-size: 5vw;
+                font-weight: 600;
+            }
         }
-        .thongTinCaNhanChiTiet{
-            .Container-myTieuChi-myNoiDung{
+        .Container-myTieuChi-myNoiDung {
+            display: flex;
+            margin-top: 5vw;
+            .myTieuChi {
+                border-bottom: solid 0.1vw rgb(143, 140, 140);
+                width: 40%;
+                font-size: 3vw;
+            }
+            .myNoiDung {
+                text-align: center;
+                border-bottom: solid 0.1vw rgb(143, 140, 140);
+                width: 60%;
+            }
+            .myNoiDung2 {
+                justify-content: center;
+                align-items: center;
+                text-align: center;
+                border-bottom: solid 0.1vw rgb(143, 140, 140);
+                width: 60%;
                 display: flex;
-                gap: 3vw;
-                .myTieuChi{
-    
-                }
-                .myNoiDung{
-    
-                }
+            }
+        }
+        .quanLyShop-container{
+            a{text-decoration: none;}
+            margin-top: 5vw;
+            margin-bottom: 10vw;
+            .quanLyShop{
+                font-size: 5vw;
+                font-weight: 600;
+                
+
+            }
+            .tenShopQuanLy{
+                margin-top: 2vw;
+                border-radius: 3vw;
+                font-size: 5vw;
+                font-weight: 600;
+                cursor: pointer;
+                background-color: #04aa6d;
+
             }
         }
         

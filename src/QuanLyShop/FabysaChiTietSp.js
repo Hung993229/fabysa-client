@@ -14,7 +14,7 @@ import {
     updatettShop,
 } from "../redux/apiRequest";
 const FabysaChiTietSp = () => {
-    const { userId, spId } = useParams();
+    const { idShop, spId } = useParams();
     console.log("useParam", useParams());
     const user = useSelector((state) => state.auth.login.currentUser);
     const myDetail = useSelector((state) => state.post.post?.myDetail);
@@ -36,9 +36,7 @@ const FabysaChiTietSp = () => {
     }, []);
     console.log("myDetail", myDetail);
     useEffect(() => {
-        const user = userId;
-
-        getSanPham(user, dispatch);
+        getSanPham(idShop, dispatch);
     }, []);
     console.log("sthongTinSppId", thongTinSp);
     // thongtindonHang
@@ -60,7 +58,7 @@ const FabysaChiTietSp = () => {
         try {
             const newDonHang = {
                 tenSp: thongTinSp?.TenSanPham,
-                linkSp: `/fabysa/${userId}/${spId}`,
+                linkSp: `/fabysa/${idShop}/${spId}`,
                 donGia: thongTinSp?.giaKhuyenMai,
                 giaNhap: thongTinSp?.giaNhap,
                 slSP: slSP,
@@ -133,7 +131,7 @@ const FabysaChiTietSp = () => {
                 try {
                     const newDonHang = {
                         tenSp: thongTinSp?.TenSanPham,
-                        linkSp: `/fabysa/${userId}/${spId}`,
+                        linkSp: `/fabysa/${idShop}/${spId}`,
                         donGia: thongTinSp?.giaKhuyenMai,
                         giaNhap: thongTinSp?.giaNhap,
                         slSP: slSP2,
@@ -163,12 +161,12 @@ const FabysaChiTietSp = () => {
                         cash: myDetail?.cash - goldDaTT2,
                     };
                     updatePost(newPost, idPost, dispatch);
-                    const idShop = ttShop._id;
+                    const id = ttShop._id;
                     const newShop = {
                         cash: ttShop.cash + goldDaTT2,
                     };
                     console.log("newShop", newShop);
-                    updatettShop(newShop, idShop, dispatch);
+                    updatettShop(newShop, id, dispatch);
                 } catch (err) {
                     console.log(err);
                 }
@@ -198,7 +196,7 @@ const FabysaChiTietSp = () => {
                 <div className="container-FabysaChiTietSpTo">
                     <div className="container-FabysaChiTietSp">
                         <div>
-                            <a className="close" href={`/fabysa/${userId}`}>
+                            <a className="close" href={`/fabysa/${idShop}`}>
                                 Close
                             </a>
                         </div>
@@ -266,7 +264,7 @@ const FabysaChiTietSp = () => {
                     {/* Co User */}
                     {myDetail && myDetail !== 0 ? (
                         <div className="datHang-container">
-                            <a className="close" href={`/fabysa/${userId}`}>
+                            <a className="close" href={`/fabysa/${idShop}`}>
                                 Close
                             </a>
                             <div className="anhSanPham">

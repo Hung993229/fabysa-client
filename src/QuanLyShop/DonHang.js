@@ -15,16 +15,16 @@ const DonHang = () => {
     console.log("allDonHang", allDonHang);
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const { userId } = useParams();
-    console.log("userId", userId);
+    const { idShop } = useParams();
+    console.log("idShop", idShop);
     useEffect(() => {
-        getttShop(userId, dispatch);
+        getttShop(idShop, dispatch);
     }, []);
     useEffect(() => {
         const trangThaiDH = 1;
-        // const user = userId;
-        getDonHang(userId, trangThaiDH, dispatch);
-    }, [userId]);
+        // const user = idShop;
+        getDonHang(idShop, trangThaiDH, dispatch);
+    }, [idShop]);
     const handleGiaoHang = (id) => {
         const newDonHang = {
             trangThaiDH: 2,
@@ -37,27 +37,27 @@ const DonHang = () => {
     );
     //  Đơn Hàng Từ Cộng Tác Viên
     const allDonHang3 = allDonHang?.filter(
-        (item) => item.user === user._id && item.affiliate.length !== 0
+        (item) => item.user === ttShop._id && item.affiliate.length !== 0
     );
 
     //  Đơn Hàng Bạn Là Cộng Tác Viên
     const allDonHang2 = allDonHang?.filter(
-        (item) => item.affiliate === user._id && item.affiliate.length !== 0
+        (item) => item.affiliate === ttShop._id && item.affiliate.length !== 0
     );
 
     return (
         <div>
-            {userId === user._id && ttShop && ttShop.length !== 0 && (
+            {ttShop?.user === user._id && ttShop && ttShop?.length !== 0 && (
                 <div className="donHang-container">
                     <div className="donHang-nav">
-                        <a href={`/don-hang/${userId}`}>Đơn Hàng Mới</a>
-                        <a href={`/don-hang-dang-giao/${userId}`}>
+                        <a href={`/don-hang/${idShop}`}>Đơn Hàng Mới</a>
+                        <a href={`/don-hang-dang-giao/${idShop}`}>
                             Đơn Hàng Đang Giao
                         </a>
-                        <a href={`/don-hang-hoan-thanh/${userId}`}>
+                        <a href={`/don-hang-hoan-thanh/${idShop}`}>
                             Đơn Hàng Hoàn Thành
                         </a>
-                        <a href={`/don-hang-huy/${userId}`}>Đơn Hàng Huỷ</a>
+                        <a href={`/don-hang-huy/${idShop}`}>Đơn Hàng Huỷ</a>
                     </div>
                     <div className="tieuDeDonHang">Danh Sách Đơn Hàng Mới</div>
                     <div className="tieuDeDonHang">Đơn Hàng Trực Tiếp</div>

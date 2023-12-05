@@ -6,7 +6,7 @@ import { useDispatch } from "react-redux";
 import { NavLink, useNavigate, useParams } from "react-router-dom";
 import { useEffect } from "react";
 import {
-    getttShop,
+    getAllttShop,
     getKhoTongSi,
     getPost,
     registerSanPham,
@@ -14,15 +14,20 @@ import {
     updatettShop,
 } from "../redux/apiRequest";
 const TongKhoSiChiTiet = () => {
-    const { userId, spId } = useParams();
+    const { idShop, spId } = useParams();
     console.log("useParam", useParams());
     const user = useSelector((state) => state.auth.login.currentUser);
     const myDetail = useSelector((state) => state.post.post?.myDetail);
     console.log("myDetail", myDetail);
     const ttShop = useSelector((state) => state.ttShop.ttShop.ttShop?.shop);
+    const allShop = useSelector(
+        (state) => state.ttShop.ttShop.allttShop?.AllShop
+    );
+    console.log("allShop", allShop);
     const allSanPham = useSelector(
         (state) => state.sanPham.sanPham.allsanPham?.allSanpham
     );
+    const [chonShop, setchonShop] = useState("");
     const [datHang, setdatHang] = useState(0);
     const thongTinSp = allSanPham?.find((item) => item._id === spId);
 
@@ -32,12 +37,14 @@ const TongKhoSiChiTiet = () => {
     useEffect(() => {
         if (user && user.length !== 0) {
             getPost(user?._id, dispatch);
+            getAllttShop(user?._id, dispatch);
         }
     }, []);
     useEffect(() => {
         if (myDetail && myDetail.length !== 0) {
             const huyen = myDetail?.huyen;
-            getKhoTongSi(huyen, dispatch);
+
+            getKhoTongSi(huyen, user._id, dispatch);
         }
     }, []);
     const VND = new Intl.NumberFormat("vi-VN", {
@@ -61,7 +68,7 @@ const TongKhoSiChiTiet = () => {
             huyen: thongTinSp?.huyen,
             tinh: thongTinSp?.tinh,
             vaiTro: thongTinSp?.vaiTro,
-            user: user._id,
+            user: chonShop,
             affiliate: thongTinSp?.user,
         };
         console.log("newSanPham", newSanPham);
@@ -72,7 +79,7 @@ const TongKhoSiChiTiet = () => {
         <div className="container-TongKhoSiChiTietTo">
             <div className="container-TongKhoSiChiTiet">
                 <div>
-                    <a className="close" href={`/fabysa/${userId}`}>
+                    <a className="close" href={`/fabysa/${idShop}`}>
                         Close
                     </a>
                 </div>
@@ -104,9 +111,7 @@ const TongKhoSiChiTiet = () => {
                         </div>
                     </div>
                     <a href={thongTinSp?.thongTinNguoiBan} target="_blank">
-                        <button onClick={themVaoGianHang} className="muaHang">
-                            THÊM VÀO GIAN HÀNG
-                        </button>
+                        <button className="muaHang">MUA HÀNG</button>
                     </a>
                     <div className="tenShop">{thongTinSp?.TenShop}</div>
                     <div className="viTriSanPham">
@@ -119,6 +124,21 @@ const TongKhoSiChiTiet = () => {
                         {thongTinSp?.thongTinSanPham}
                     </div>
                 </div>
+                <select onChange={(e) => setchonShop(e.target.value)}>
+                    <option value="">---Chọn Shop---</option>
+                    {allShop &&
+                        allShop.length > 0 &&
+                        allShop.map((item, index) => {
+                            return (
+                                <option key={item._id} value={item._id}>
+                                    {item.TenShop}
+                                </option>
+                            );
+                        })}
+                </select>
+                <button onClick={themVaoGianHang} className="muaHang">
+                    THÊM VÀO GIAN HÀNG
+                </button>
             </div>
         </div>
     );

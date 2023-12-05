@@ -19,7 +19,7 @@ const FabysaShop = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    const { userId } = useParams();
+    const { idShop } = useParams();
     const [iddetailSanPham, setiddetailSanPham] = useState(0);
 
     const item = allSanPham?.find((item) => item._id === iddetailSanPham);
@@ -29,10 +29,10 @@ const FabysaShop = () => {
         }
     }, []);
     useEffect(() => {
-        getttShop(userId, dispatch);
+        getttShop(idShop, dispatch);
     }, []);
     useEffect(() => {
-        const user = userId;
+        const user = idShop;
         getSanPham(user, dispatch);
     }, []);
     const VND = new Intl.NumberFormat("vi-VN", {
@@ -116,7 +116,7 @@ const FabysaShop = () => {
                 {tuVanVaThongTin === 1 && (
                     <div className="diachi-sodienthoai">
                         <div onClick={() => settuVanVaThongTin(0)}>close</div>
-                        <div className="tenCuaHang2">{ttShop?.TenShop}</div>
+                        <div className="tenCuaHang">{ttShop?.TenShop}</div>
                         <div className="dc">Đ/C:{ttShop?.dcShop}</div>
                         <div className="sdt">SĐT: {ttShop?.sdtShop}</div>
                     </div>
@@ -131,7 +131,7 @@ const FabysaShop = () => {
                                     return (
                                         <div key={item._id} className="sanPham">
                                             <a
-                                                href={`/fabysa/${userId}/${item._id}`}
+                                                href={`/fabysa/${idShop}/${item._id}`}
                                             >
                                                 <div>
                                                     <img
@@ -209,7 +209,7 @@ const FabysaShop = () => {
                                                 className="sanPham"
                                             >
                                                 <a
-                                                    href={`/fabysa/${userId}/${item._id}`}
+                                                    href={`/fabysa/${idShop}/${item._id}`}
                                                 >
                                                     <div>
                                                         <img
@@ -293,7 +293,7 @@ const FabysaShop = () => {
                                                 className="sanPham"
                                             >
                                                 <a
-                                                    href={`/fabysa/${userId}/${item._id}`}
+                                                    href={`/fabysa/${idShop}/${item._id}`}
                                                 >
                                                     <div>
                                                         <img
@@ -376,7 +376,7 @@ const FabysaShop = () => {
                                                 className="sanPham"
                                             >
                                                 <a
-                                                    href={`/fabysa/${userId}/${item._id}`}
+                                                    href={`/fabysa/${idShop}/${item._id}`}
                                                 >
                                                     <div>
                                                         <img
@@ -459,7 +459,7 @@ const FabysaShop = () => {
                                                 className="sanPham"
                                             >
                                                 <a
-                                                    href={`/fabysa/${userId}/${item._id}`}
+                                                    href={`/fabysa/${idShop}/${item._id}`}
                                                 >
                                                     <div>
                                                         <img
@@ -542,7 +542,7 @@ const FabysaShop = () => {
                                                 className="sanPham"
                                             >
                                                 <a
-                                                    href={`/fabysa/${userId}/${item._id}`}
+                                                    href={`/fabysa/${idShop}/${item._id}`}
                                                 >
                                                     <div>
                                                         <img
@@ -625,7 +625,7 @@ const FabysaShop = () => {
                                                 className="sanPham"
                                             >
                                                 <a
-                                                    href={`/fabysa/${userId}/${item._id}`}
+                                                    href={`/fabysa/${idShop}/${item._id}`}
                                                 >
                                                     <div>
                                                         <img
@@ -709,7 +709,7 @@ const FabysaShop = () => {
                                                 className="sanPham"
                                             >
                                                 <a
-                                                    href={`/fabysa/${userId}/${item._id}`}
+                                                    href={`/fabysa/${idShop}/${item._id}`}
                                                 >
                                                     <div>
                                                         <img
@@ -793,7 +793,7 @@ const FabysaShop = () => {
                                                 className="sanPham"
                                             >
                                                 <a
-                                                    href={`/fabysa/${userId}/${item._id}`}
+                                                    href={`/fabysa/${idShop}/${item._id}`}
                                                 >
                                                     <div>
                                                         <img
@@ -877,7 +877,7 @@ const FabysaShop = () => {
                                                 className="sanPham"
                                             >
                                                 <a
-                                                    href={`/fabysa/${userId}/${item._id}`}
+                                                    href={`/fabysa/${idShop}/${item._id}`}
                                                 >
                                                     <div>
                                                         <img
@@ -961,7 +961,7 @@ const FabysaShop = () => {
                                                 className="sanPham"
                                             >
                                                 <a
-                                                    href={`/fabysa/${userId}/${item._id}`}
+                                                    href={`/fabysa/${idShop}/${item._id}`}
                                                 >
                                                     <div>
                                                         <img
@@ -1045,7 +1045,7 @@ const FabysaShop = () => {
                                                 className="sanPham"
                                             >
                                                 <a
-                                                    href={`/fabysa/${userId}/${item._id}`}
+                                                    href={`/fabysa/${idShop}/${item._id}`}
                                                 >
                                                     <div>
                                                         <img
@@ -1129,7 +1129,7 @@ const FabysaShop = () => {
                                                 className="sanPham"
                                             >
                                                 <a
-                                                    href={`/fabysa/${userId}/${item._id}`}
+                                                    href={`/fabysa/${idShop}/${item._id}`}
                                                 >
                                                     <div>
                                                         <img
@@ -1213,7 +1213,7 @@ const FabysaShop = () => {
                                                 className="sanPham"
                                             >
                                                 <a
-                                                    href={`/fabysa/${userId}/${item._id}`}
+                                                    href={`/fabysa/${idShop}/${item._id}`}
                                                 >
                                                     <div>
                                                         <img
@@ -1297,7 +1297,7 @@ const FabysaShop = () => {
                                                 className="sanPham"
                                             >
                                                 <a
-                                                    href={`/fabysa/${userId}/${item._id}`}
+                                                    href={`/fabysa/${idShop}/${item._id}`}
                                                 >
                                                     <div>
                                                         <img
@@ -1381,7 +1381,7 @@ const FabysaShop = () => {
                                                 className="sanPham"
                                             >
                                                 <a
-                                                    href={`/fabysa/${userId}/${item._id}`}
+                                                    href={`/fabysa/${idShop}/${item._id}`}
                                                 >
                                                     <div>
                                                         <img
@@ -1465,7 +1465,7 @@ const FabysaShop = () => {
                                                 className="sanPham"
                                             >
                                                 <a
-                                                    href={`/fabysa/${userId}/${item._id}`}
+                                                    href={`/fabysa/${idShop}/${item._id}`}
                                                 >
                                                     <div>
                                                         <img
@@ -1549,7 +1549,7 @@ const FabysaShop = () => {
                                                 className="sanPham"
                                             >
                                                 <a
-                                                    href={`/fabysa/${userId}/${item._id}`}
+                                                    href={`/fabysa/${idShop}/${item._id}`}
                                                 >
                                                     <div>
                                                         <img
