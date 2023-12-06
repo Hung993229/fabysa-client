@@ -131,15 +131,11 @@ const Fabysa = () => {
                                 href={`https://www.facebook.com/profile.php?id=61553364305734`}
                                 target="_blank"
                             >
-                                <img
-                                    src={facebookLogo}
-                                    width="150"
-                                    height="150"
-                                />
+                                <img className="facebook" src={facebookLogo} />
                             </a>
                             <div>
-                                Hãy Like Fage Facebook trên và nhắn tin với nội
-                                dung : <br />
+                                Hãy nhắn tin Fage Facebook trên với nội dung :
+                                <br />
                                 "Đăng Kí Nhà Bán Hàng"
                             </div>
                             <button
@@ -156,7 +152,7 @@ const Fabysa = () => {
                 {+moihoptac === 2 ? (
                     <div>
                         <div>
-                            Đăng kí nhà bán hàng mới có quyền Thêm Sản Phẩm
+                            Đăng kí nhà bán hàng để có quyền Thêm Sản Phẩm
                         </div>
                         <button
                             className="CloseShop"

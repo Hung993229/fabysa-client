@@ -131,11 +131,12 @@ const Shop = () => {
                             <div className="sdt">
                                 Số Điện Thoại: {ttShop?.sdtShop}
                             </div>
+                            <div className="sdt">{ttShop?.sloganShop}</div>
                             <button
                                 className="closeGioiThieu"
                                 onClick={() => settuVanVaThongTin(0)}
                             >
-                                close
+                                Close
                             </button>
                         </div>
                     )}
@@ -169,7 +170,7 @@ const Shop = () => {
                                 className="closeGioiThieu"
                                 onClick={() => settuVanVaThongTin(0)}
                             >
-                                close
+                                Close
                             </button>
                         </div>
                     )}

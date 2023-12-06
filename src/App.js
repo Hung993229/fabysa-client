@@ -197,7 +197,7 @@ function App() {
                         path="/tongkhosi"
                         element={
                             <>
-                                {/* <Header className="header" /> */}
+                                <Header className="header" />
                                 <TongKhoSi />
                                 <Nav />
                             </>
@@ -207,7 +207,7 @@ function App() {
                         path="/tongkhosi/:spId"
                         element={
                             <>
-                                {/* <Header className="header" /> */}
+                                <Header className="header" />
                                 <TongKhoSiChiTiet />
                                 <Nav />
                             </>
@@ -226,6 +226,7 @@ function App() {
                         path="/mua-hang-affiliate"
                         element={
                             <>
+                                  <Header className="header" />
                                 <HomThu /> <Nav />
                             </>
                         }
@@ -234,6 +235,7 @@ function App() {
                         path="/"
                         element={
                             <>
+                                  <Header className="header" />
                                 <MiniGame />
                                 <Nav />
                             </>

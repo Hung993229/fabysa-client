@@ -1,5 +1,6 @@
 import "./FabysaShop.scss";
-import CommonUtils from "../component/CommonUtils";
+import facebookLogo from "../assets/images/Facebook_Logo.png";
+import zaloLogo from "../assets/images/zaloLogo.png";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
@@ -105,20 +106,51 @@ const FabysaShop = () => {
                 <div className="tenCuaHang">{ttShop?.TenShop}</div>
                 <div className="slogan">{ttShop?.sloganShop}</div>
 
-                <div>
+                <div className="tuVan-gioiThieu">
                     <a href="/fabysa">
-                        <button>San Sale</button>
+                        <button className="tuVan">Săn Sale</button>
                     </a>
-                    <button onClick={() => settuVanVaThongTin(1)}>
+                    <button
+                        className="gioiThieu"
+                        onClick={() => settuVanVaThongTin(1)}
+                    >
                         Giới Thiệu
                     </button>
                 </div>
                 {tuVanVaThongTin === 1 && (
-                    <div className="diachi-sodienthoai">
-                        <div onClick={() => settuVanVaThongTin(0)}>close</div>
-                        <div className="tenCuaHang">{ttShop?.TenShop}</div>
-                        <div className="dc">Đ/C:{ttShop?.dcShop}</div>
-                        <div className="sdt">SĐT: {ttShop?.sdtShop}</div>
+                    <div className="gioiThieuChiTiet">
+                        <div className="tenCuaHang2">{ttShop?.TenShop}</div>
+                        <div className="dc">Địa Chỉ: {ttShop?.dcShop}</div>
+                        <div className="sdt">
+                            Số Điện Thoại: {ttShop?.sdtShop}
+                        </div>
+
+                        <div className="sdt">
+                            Quý Khách có thắc mắc hoặc cần tư vấn gì có thể nhắn
+                            tin 24/7 <br /> qua Zalo, Facebook bên dưới!
+                        </div>
+                        <div className="mxh">
+                            <div className="zalo">
+                                <a href={ttShop?.linkZalo} target="_blank">
+                                    <img src={zaloLogo} className="zalo" />
+                                </a>
+                            </div>
+                            <div className="facebook">
+                                <a href={ttShop?.linkFacebook} target="_blank">
+                                    <img
+                                        src={facebookLogo}
+                                        className="facebook"
+                                    />
+                                </a>
+                            </div>
+                        </div>
+                        <div className="sdt">{ttShop?.sloganShop}</div>
+                        <button
+                            className="closeGioiThieu"
+                            onClick={() => settuVanVaThongTin(0)}
+                        >
+                            Close
+                        </button>
                     </div>
                 )}
 

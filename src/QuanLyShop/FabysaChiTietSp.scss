@@ -1,12 +1,12 @@
 
 .chitietsp-datHang-fabysa{
     a{text-decoration: none};
-    
+    background-color: #9cddc2;
     .container-FabysaChiTietSpTo{
         background-color: #9cddc2;
         margin: 15vw auto;
         padding: 5vw 0vw 15vw 0vw;
-       
+        a{text-decoration: none};
         .container-FabysaChiTietSp {
            
             width: 85%;
@@ -128,92 +128,113 @@
         }
     }
     .datHang-container{
+        width: 85%;
+        justify-content: center;
+        align-items: center;
+        border: solid 0.5vw #9cddc2;
+        background-color: #fff;
+        margin: 15vw auto;
+       
+        border-radius: 3vw;
+        box-shadow: 12px 14px 12px -1px rgba(0,0,0,0.75);
+        -webkit-box-shadow: 12px 14px 12px -1px rgba(0,0,0,0.75);
+        -moz-box-shadow: 12px 14px 12px -1px rgba(0,0,0,0.75);
+    
         a{text-decoration: none};
+        .close{
+            font-size: 3vw;
+            background-color: red;
+            font-weight: 600;
+            border-radius: 2vw;
+        }
         .anhSanPham{
+            width: 76vw;
+            height: 90vw;
+            margin-left: auto;
+            margin-right: auto;
+            object-fit: cover;
+            border: solid 0.1vw gray;
+            background-color: #fff;
+            border-radius: 2vw;
+    
     
         }
         .tenSanPham{
+            font-size: 5vw;
+            font-weight: 600;
+            margin-top: 3vw;
+            text-transform: uppercase;
     
         }
-        .GiaSanPham{
+        .containerTieuChiFormregis {
             display: flex;
-            justify-content: center;
-            gap: 5vw;
-            .donGia{
-    
+            margin-top: 2vw;
+            margin-left: 2vw;
+            margin-right: 2vw;
+            text-align: center;
+            .tieuChiFormregis {
+                width: 30%;
+                font-size: 2vw;
+                padding: 1.2vw 0vw;
+                height: 6vw;
+                text-align: center;
+                border: solid 0.11vw rgb(143, 140, 140);
             }
-            .soLuong{
-    
+            .noiDungFormregis {
+                height: 6vw;
+                width: 70%;
+                border: solid 0.1vw rgb(143, 140, 140);
+                text-align: center;
+                border-radius: 1vw;
+                select{
+                    height: 5vw;
+                    width: 30%;
+                    margin: 0.5vw;
+                    border: solid 0.1vw rgb(143, 140, 140);
+                    border-radius: 1vw;
+                    option {
+                        // text-align: center;
+                        
+                    }
+                }
             }
-            .thanhTien{
-    
-            }
-        }
-        .taiKhoanGold{
-    
-        }
-        .gold{
-            display: flex;
-            justify-content: center;
-            gap: 5vw;
-            .soGold{
-    
-            }
-            .truVaoTienHang{
-    
-            }
-        }
-        .thanhToansoTien{
-            display: flex;
-            justify-content: center;
-            gap: 5vw;
-            .canThanhToan{
-    
-            }
-            .soTienCanThanhToan{
-    
-            }
-        }
-        .phuongThucThanhToan{
-            display: flex;
-            justify-content: center;
-            gap: 5vw;
-            .chonthanhToan{
-    
-            }
-            .phuongThucThanhToan{
-    
-            }
-    
+
         }
         .thongTinNhanHang{
-    
+            text-transform: uppercase;
+        font-size: 2.5vw;
+        font-weight: 600;
+        text-align: left;
+        padding-left: 3.0vw;
+        margin-top: 2vw;
         }
-        .hoTen-sdt{
-            display: flex;
-            justify-content: center;
-            gap: 5vw;
-            .hoTen{
-    
-            }
-            .sdt{
-    
-            }
-        }
-        .diaChi{
-            display: flex;
-            justify-content: center;
-            gap: 5vw;
-    
-        }
-        .ghiChu{
-            display: flex;
-            justify-content: center;
-            gap: 5vw;
-    
-        }
+        
         .hoanThanh{
-    
+            cursor: pointer;
+            border-radius: 2vw;
+            width: 35vw;
+            font-size: 3.5vw;
+            font-weight: 600;
+            text-align: center;
+            background-color: #04aa6d;
+            margin-top: 5vw;
+            margin-bottom: 8vw;
+            height: 12vw;
+        }
+        .luuY{
+            font-size: 2.2vw;
+            font-weight: 600;
+        }
+        .luuY2{
+            font-size: 2.2vw;
+            font-weight: 600;
+            color: red;
+        }
+        .dangkingay{
+            // border: solid 0.1vw rgb(143, 140, 140);
+            font-size: 3.5vw;
+            font-weight: 600;
+            margin-bottom: 3vw;
         }
     }
 }

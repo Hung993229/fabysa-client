@@ -261,11 +261,10 @@ const FabysaChiTietSp = () => {
                 </div>
             ) : (
                 <div>
-                    {/* Co User */}
                     {myDetail && myDetail !== 0 ? (
                         <div className="datHang-container">
-                            <a className="close" href={`/fabysa/${idShop}`}>
-                                Close
+                            <a href={`/fabysa/${idShop}`}>
+                                <button className="close">Close</button>
                             </a>
                             <div className="anhSanPham">
                                 <img
@@ -277,102 +276,120 @@ const FabysaChiTietSp = () => {
                             <div className="tenSanPham">
                                 {thongTinSp?.TenSanPham}
                             </div>
-                            <div className="GiaSanPham">
-                                <div className="donGia">
-                                    <div>Đơn Giá</div>
-                                    <div>
-                                        {" "}
-                                        {VND.format(thongTinSp?.giaKhuyenMai)}
-                                    </div>
+
+                            <div className="containerTieuChiFormregis">
+                                <div className="tieuChiFormregis">Đơn Giá</div>
+                                <div className="noiDungFormregis">
+                                    {VND.format(thongTinSp?.giaKhuyenMai)}
                                 </div>
-                                <div className="soLuong">
-                                    <div>Số Lượng</div>
-                                    <input
-                                        onChange={(e) =>
-                                            setslSP2(e.target.value)
-                                        }
-                                        placeholder={slSP}
-                                    />
+                            </div>
+                            <div className="containerTieuChiFormregis">
+                                <div className="tieuChiFormregis">Số Lượng</div>
+                                <input
+                                    className="noiDungFormregis"
+                                    onChange={(e) => setslSP2(e.target.value)}
+                                    placeholder={slSP}
+                                />
+                            </div>
+                            <div className="containerTieuChiFormregis">
+                                <div className="tieuChiFormregis">
+                                    Thành Tiền
                                 </div>
-                                <div className="thanhTien">
-                                    <div>Thành Tiền</div>
-                                    <div>{thanhTien2}</div>
+                                <div className="noiDungFormregis">
+                                    {VND.format(thanhTien2)}
                                 </div>
                             </div>
 
-                            <div className="gold">
-                                <div>
-                                    <div className="taiKhoanGold">
-                                        Tài Khoản Gold
-                                    </div>
-                                    <div className="soGold">{gold2} Gold</div>
+                            <div className="containerTieuChiFormregis">
+                                <div className="tieuChiFormregis">
+                                    Tài Khoản Gold
                                 </div>
-                                <div>
-                                    <div>Thanh Toán Bằng Gold</div>
-                                    <input
-                                        onChange={(e) =>
-                                            setgoldDaTT2(e.target.value)
-                                        }
-                                        placeholder="Nhập số Gold"
-                                    />
+                                <div className="noiDungFormregis">
+                                    {gold2} Gold
                                 </div>
                             </div>
-                            <div className="thanhToansoTien">
-                                <div className="canThanhToan">
-                                    Cần Thanh Toán Số Tiền:
+                            <div className="containerTieuChiFormregis">
+                                <div className="tieuChiFormregis">
+                                    Thanh Toán Bằng Gold
                                 </div>
-                                <div className="soTienCanThanhToan">
-                                    {soTienCanTT2} vnd
+                                <input
+                                    className="noiDungFormregis"
+                                    onChange={(e) =>
+                                        setgoldDaTT2(e.target.value)
+                                    }
+                                    placeholder="Nhập số Gold"
+                                />
+                            </div>
+
+                            <div className="containerTieuChiFormregis">
+                                <div className="tieuChiFormregis">
+                                    Cần Thanh Toán Số Tiền
+                                </div>
+                                <div className="noiDungFormregis">
+                                    {VND.format(soTienCanTT2)}
                                 </div>
                             </div>
-                            <div className="phuongThucThanhToan">
-                                <div className="chonthanhToan">Thanh Toán</div>
+                            <div className="containerTieuChiFormregis">
+                                <div className="tieuChiFormregis">
+                                    Thanh Toán
+                                </div>
                                 <select
                                     onChange={(e) =>
                                         setphuongThucTT2(e.target.value)
                                     }
-                                    className="phuongThucThanhToan"
+                                    className="noiDungFormregis"
                                 >
                                     <option value="">---Mời Chọn---</option>
                                     <option>Thanh Toán Khi Nhận</option>
                                     <option>Chuyển Khoản Ngay</option>
                                 </select>
                             </div>
+
                             <div className="thongTinNhanHang">
                                 Thông Tin Người Nhận
                             </div>
-                            <div className="hoTen-sdt">
-                                <div className="sdt">
-                                    <div>Số Điện Thoại</div>
-                                    <input
-                                        onChange={(e) =>
-                                            setsdtNguoiMua2(e.target.value)
-                                        }
-                                        placeholder={sdtNguoiMua2}
-                                    />
+
+                            <div className="containerTieuChiFormregis">
+                                <div className="tieuChiFormregis">
+                                    Số Điện Thoại
                                 </div>
-                                <div className="hoTen">
-                                    <div>Họ Và Tên</div>
-                                    <input
-                                        onChange={(e) =>
-                                            sethoTenNguoiMua2(e.target.value)
-                                        }
-                                        placeholder={hoTenNguoiMua2}
-                                    />
-                                </div>
-                            </div>
-                            <div className="diaChi">
-                                <div>Địa Chỉ :</div>
                                 <input
+                                    className="noiDungFormregis"
+                                    onChange={(e) =>
+                                        setsdtNguoiMua2(e.target.value)
+                                    }
+                                    placeholder={sdtNguoiMua2}
+                                />
+                            </div>
+                            <div className="containerTieuChiFormregis">
+                                <div className="tieuChiFormregis">
+                                    Họ Và Tên
+                                </div>
+                                <input
+                                    className="noiDungFormregis"
+                                    onChange={(e) =>
+                                        sethoTenNguoiMua2(e.target.value)
+                                    }
+                                    placeholder={hoTenNguoiMua2}
+                                />
+                            </div>
+
+                            <div className="containerTieuChiFormregis">
+                                <div className="tieuChiFormregis">Địa Chỉ</div>
+                                <input
+                                    className="noiDungFormregis"
                                     onChange={(e) =>
                                         setdcNguoiNMua2(e.target.value)
                                     }
                                     placeholder={dcNguoiNMua2}
                                 />
                             </div>
-                            <div className="ghiChu">
-                                <div>Ghi Chú Thêm :</div>
+                            <div className="containerTieuChiFormregis">
+                                <div className="tieuChiFormregis">
+                                    Ghi Chú Thêm :
+                                </div>
                                 <input
+                                    className="noiDungFormregis"
                                     placeholder={ghiChuNguoiMua2}
                                     onChange={(e) =>
                                         ghiChuNguoiMua2(e.target.value)
@@ -388,8 +405,8 @@ const FabysaChiTietSp = () => {
                         </div>
                     ) : (
                         <div className="datHang-container">
-                            <a className={"close"} href={`/fabysa/${spId}`}>
-                                Close
+                            <a href={`/fabysa/${spId}`}>
+                                <button className="close">Close</button>
                             </a>
                             <div className="anhSanPham">
                                 <img
@@ -401,100 +418,117 @@ const FabysaChiTietSp = () => {
                             <div className="tenSanPham">
                                 {thongTinSp?.TenSanPham}
                             </div>
-                            <div className="GiaSanPham">
-                                <div className="donGia">
-                                    <div>Đơn Giá</div>
-                                    <div>
-                                        {" "}
-                                        {VND.format(thongTinSp?.giaKhuyenMai)}
-                                    </div>
+                            {/* hhhhhh */}
+                            <div className="containerTieuChiFormregis">
+                                <div className="tieuChiFormregis">Đơn Giá</div>
+                                <div className="noiDungFormregis">
+                                    {VND.format(thongTinSp?.giaKhuyenMai)}
                                 </div>
-                                <div className="soLuong">
-                                    <div>Số Lượng</div>
-                                    <input
-                                        onChange={(e) =>
-                                            setslSP(e.target.value)
-                                        }
-                                        placeholder={slSP}
-                                    />
+                            </div>
+                            <div className="containerTieuChiFormregis">
+                                <div className="tieuChiFormregis">Số Lượng</div>
+                                <input
+                                    className="noiDungFormregis"
+                                    onChange={(e) => setslSP(e.target.value)}
+                                    placeholder={slSP}
+                                />
+                            </div>
+                            <div className="containerTieuChiFormregis">
+                                <div className="tieuChiFormregis">
+                                    Thành Tiền
                                 </div>
-                                <div className="thanhTien">
-                                    <div>Thành Tiền</div>
-                                    <div>{thanhTien}</div>
+                                <div className="noiDungFormregis">
+                                    {VND.format(thanhTien)}
                                 </div>
                             </div>
 
-                            <div className="phuongThucThanhToan">
-                                <div className="chonthanhToan">Thanh Toán</div>
+                            <div className="containerTieuChiFormregis">
+                                <div className="tieuChiFormregis">
+                                    Thanh Toán
+                                </div>
                                 <select
                                     onChange={(e) =>
                                         setphuongThucTT(e.target.value)
                                     }
-                                    className="phuongThucThanhToan"
+                                    className="noiDungFormregis"
                                 >
                                     <option value="">---Mời Chọn---</option>
                                     <option>Thanh Toán Khi Nhận</option>
                                     <option>Chuyển Khoản Ngay</option>
-                                    <option>Thanh Toán Bằng Gold</option>
                                 </select>
                             </div>
 
                             <div className="thongTinNhanHang">
                                 Thông Tin Người Nhận
                             </div>
-                            <div className="hoTen-sdt">
-                                <div className="sdt">
-                                    <div>Số Điện Thoại</div>
-                                    <input
-                                        onChange={(e) =>
-                                            setsdtNguoiMua(e.target.value)
-                                        }
-                                        placeholder="Nhập số điện thoại"
-                                    />
+
+                            <div className="containerTieuChiFormregis">
+                                <div className="tieuChiFormregis">
+                                    Số Điện Thoại
                                 </div>
-                                <div className="hoTen">
-                                    <div>Họ Và Tên</div>
-                                    <input
-                                        onChange={(e) =>
-                                            sethoTenNguoiMua(e.target.value)
-                                        }
-                                        placeholder="Nhập Họ và Tên"
-                                    />
-                                </div>
-                            </div>
-                            <div className="diaChi">
-                                <div>Địa Chỉ :</div>
                                 <input
+                                    className="noiDungFormregis"
+                                    onChange={(e) =>
+                                        setsdtNguoiMua(e.target.value)
+                                    }
+                                    placeholder="Nhập số điện thoại"
+                                />
+                            </div>
+                            <div className="containerTieuChiFormregis">
+                                <div className="tieuChiFormregis">
+                                    Họ Và Tên
+                                </div>
+                                <input
+                                    className="noiDungFormregis"
+                                    onChange={(e) =>
+                                        sethoTenNguoiMua(e.target.value)
+                                    }
+                                    placeholder="Nhập Họ và Tên"
+                                />
+                            </div>
+
+                            <div className="containerTieuChiFormregis">
+                                <div className="tieuChiFormregis">Địa Chỉ</div>
+                                <input
+                                    className="noiDungFormregis"
                                     onChange={(e) =>
                                         setdcNguoiNMua(e.target.value)
                                     }
                                     placeholder="Nhập địa chỉ"
                                 />
                             </div>
-                            <div className="ghiChu">
-                                <div>Ghi Chú Thêm :</div>
+                            <div className="containerTieuChiFormregis">
+                                <div className="tieuChiFormregis">
+                                    Ghi Chú Thêm :
+                                </div>
                                 <input
+                                    className="noiDungFormregis"
                                     placeholder="Giao nhanh nhé Shop! ..."
                                     onChange={(e) =>
                                         setghiChuNguoiMua(e.target.value)
                                     }
                                 />
                             </div>
+
+                            {/* hhhhhhh */}
+
                             <button
                                 className="hoanThanh"
                                 onClick={hoanThanhDonHang}
                             >
                                 Hoàn Thành
                             </button>
-                            <div className="gold">
+                            <div className="luuY">
                                 Đăng kí tài khoản để lưu lại địa chỉ giúp mua
                                 hàng nhanh hơn vào các lần sau!
                             </div>
-                            <div>
+                            <div className="luuY2">
                                 Đặc Biệt: Tặng ngẫu nhiên 10k - 100k Gold khi
                                 đăng kí tài khoản mới!
                             </div>
-                            <a href="/dang-ki">Đăng Kí Ngay</a>
+                            <a className="dangkingay" href="/dang-ki">
+                                Đăng Kí Ngay
+                            </a>
                         </div>
                     )}
                 </div>

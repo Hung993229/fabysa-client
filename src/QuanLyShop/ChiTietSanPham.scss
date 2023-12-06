@@ -110,9 +110,8 @@
         align-items: center;
         border: solid 0.5vw #9cddc2;
         background-color: #fff;
-        margin-top: 15vw;
-        margin-left: auto;
-        margin-right: auto;
+        margin: 15vw auto;
+       
         border-radius: 3vw;
         box-shadow: 12px 14px 12px -1px rgba(0,0,0,0.75);
         -webkit-box-shadow: 12px 14px 12px -1px rgba(0,0,0,0.75);
@@ -196,8 +195,23 @@
             text-align: center;
             background-color: #04aa6d;
             margin-top: 5vw;
-            margin-bottom: 20vw;
+            margin-bottom: 8vw;
             height: 12vw;
+        }
+        .luuY{
+            font-size: 2.2vw;
+            font-weight: 600;
+        }
+        .luuY2{
+            font-size: 2.2vw;
+            font-weight: 600;
+            color: red;
+        }
+        .dangkingay{
+            // border: solid 0.1vw rgb(143, 140, 140);
+            font-size: 3.5vw;
+            font-weight: 600;
+            margin-bottom: 3vw;
         }
     }
 }
