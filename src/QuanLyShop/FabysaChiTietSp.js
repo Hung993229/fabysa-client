@@ -1,4 +1,4 @@
-import "./FabysaChiTietSp.scss";
+import "./ChiTietSanPham.scss";
 import CommonUtils from "../component/CommonUtils";
 import { useState } from "react";
 import { useSelector } from "react-redux";
@@ -189,15 +189,15 @@ const FabysaChiTietSp = () => {
     // thongtindonHanguser
 
     return (
-        <div className="chitietsp-datHang-fabysa">
+        <div className="chitietsp-datHang">
             {/* Chi Tiet San Pham */}
 
             {+datHang === 0 ? (
-                <div className="container-FabysaChiTietSpTo">
-                    <div className="container-FabysaChiTietSp">
+                <div className="container-ChiTietSanPhamTo">
+                    <div className="container-ChiTietSanPham">
                         <div>
-                            <a className="close" href={`/fabysa/${idShop}`}>
-                                Close
+                            <a href={`/fabysa/${idShop}`}>
+                                <button className="close">Close</button>
                             </a>
                         </div>
                         <div>
@@ -240,7 +240,6 @@ const FabysaChiTietSp = () => {
                                     MUA HÀNG
                                 </button>
                             </a>
-                            <div className="tenShop">{thongTinSp?.TenShop}</div>
                             <div className="viTriSanPham">
                                 <i className="fa-solid fa-location-dot"></i>
                                 <div className="diachisanpham">
@@ -405,7 +404,7 @@ const FabysaChiTietSp = () => {
                         </div>
                     ) : (
                         <div className="datHang-container">
-                            <a href={`/fabysa/${spId}`}>
+                            <a href={`/fabysa/${idShop}`}>
                                 <button className="close">Close</button>
                             </a>
                             <div className="anhSanPham">

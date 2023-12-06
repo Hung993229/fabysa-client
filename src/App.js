@@ -15,6 +15,7 @@ import QuanLyUser from "./QuanLyUser/QuanLyUser";
 import Shop from "./QuanLyShop/Shop";
 import UpdateShop from "./QuanLyShop/UpdateShop";
 import DonHang from "./QuanLyShop/DonHang";
+import DonHangMoi from "./QuanLyShop/DonHangMoi";
 import DonHangDangGiao from "./QuanLyShop/DonHangDangGiao";
 import DonHangHoanThanh from "./QuanLyShop/DonHangHoanThanh";
 import DonHangHuy from "./QuanLyShop/DonHangHuy";
@@ -128,7 +129,19 @@ function App() {
                         path="/don-hang/:idShop"
                         element={
                             <>
+                                <Header className="header" />
+                                <DonHangMoi />
+                                <Nav />
+                            </>
+                        }
+                    />
+                    <Route
+                        path="/don-hang/:idShop/:idDonHang"
+                        element={
+                            <>
+                                <Header className="header" />
                                 <DonHang />
+                                <Nav />
                             </>
                         }
                     />
@@ -136,7 +149,9 @@ function App() {
                         path="/don-hang-dang-giao/:idShop"
                         element={
                             <>
+                                <Header className="header" />
                                 <DonHangDangGiao />
+                                <Nav />
                             </>
                         }
                     />
@@ -144,7 +159,8 @@ function App() {
                         path="/don-hang-hoan-thanh/:idShop"
                         element={
                             <>
-                                <DonHangHoanThanh />
+                                <Header className="header" />
+                                <DonHangHoanThanh /> <Nav />
                             </>
                         }
                     />
@@ -152,7 +168,9 @@ function App() {
                         path="/don-hang-huy/:idShop"
                         element={
                             <>
+                                <Header className="header" />
                                 <DonHangHuy />
+                                <Nav />
                             </>
                         }
                     />
@@ -160,6 +178,7 @@ function App() {
                         path="/affiliate"
                         element={
                             <>
+                                <Header className="header" />
                                 <HomThu /> <Nav />
                             </>
                         }
@@ -226,7 +245,7 @@ function App() {
                         path="/mua-hang-affiliate"
                         element={
                             <>
-                                  <Header className="header" />
+                                <Header className="header" />
                                 <HomThu /> <Nav />
                             </>
                         }
@@ -235,7 +254,7 @@ function App() {
                         path="/"
                         element={
                             <>
-                                  <Header className="header" />
+                                <Header className="header" />
                                 <MiniGame />
                                 <Nav />
                             </>

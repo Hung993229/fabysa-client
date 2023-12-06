@@ -15,8 +15,10 @@ const DonHang = () => {
     console.log("allDonHang", allDonHang);
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const { idShop } = useParams();
-    console.log("idShop", idShop);
+    const { idShop, idDonHang } = useParams();
+    const thongTindh = allDonHang?.find((thongTindh) => thongTindh._id === idDonHang);
+    console.log("thongTinSp", thongTindh);
+    console.log("idDonHang", idDonHang);
     useEffect(() => {
         getttShop(idShop, dispatch);
     }, []);
@@ -31,332 +33,75 @@ const DonHang = () => {
         };
         updateDonHang(newDonHang, id, dispatch);
     };
-    //    Đơn Hàng Trực Tiếp
-    const allDonHang1 = allDonHang?.filter(
-        (item) => item.affiliate.length === 0
-    );
-    //  Đơn Hàng Từ Cộng Tác Viên
-    const allDonHang3 = allDonHang?.filter(
-        (item) => item.user === ttShop._id && item.affiliate.length !== 0
-    );
-
-    //  Đơn Hàng Bạn Là Cộng Tác Viên
-    const allDonHang2 = allDonHang?.filter(
-        (item) => item.affiliate === ttShop._id && item.affiliate.length !== 0
-    );
 
     return (
-        <div>
-            {ttShop?.user === user._id && ttShop && ttShop?.length !== 0 && (
-                <div className="donHang-container">
-                    <div className="donHang-nav">
-                        <a href={`/don-hang/${idShop}`}>Đơn Hàng Mới</a>
-                        <a href={`/don-hang-dang-giao/${idShop}`}>
-                            Đơn Hàng Đang Giao
-                        </a>
-                        <a href={`/don-hang-hoan-thanh/${idShop}`}>
-                            Đơn Hàng Hoàn Thành
-                        </a>
-                        <a href={`/don-hang-huy/${idShop}`}>Đơn Hàng Huỷ</a>
-                    </div>
-                    <div className="tieuDeDonHang">Danh Sách Đơn Hàng Mới</div>
-                    <div className="tieuDeDonHang">Đơn Hàng Trực Tiếp</div>
-                    {allDonHang1 &&
-                        allDonHang1?.map((item) => {
-                            return (
-                                <div
-                                    key={item._id}
-                                    className="detailDonHang-container"
-                                >
-                                    <div className="hang1">
-                                        <div className="tieuDe">
-                                            <div className="noiDung1">
-                                                Mã Đơn
-                                            </div>
-                                            <div className="noiDung2">
-                                                {item._id.slice(-9)}
-                                            </div>
-                                        </div>
-                                        <div className="tieuDe">
-                                            <div className="noiDung1">
-                                                Tên Sản Phẩm
-                                            </div>
-                                            <a href={item.linkSp}>
-                                                <div className="noiDung2">
-                                                    {item.tenSp}
-                                                </div>
-                                            </a>
-                                        </div>
-                                        <div className="tieuDe">
-                                            <div className="noiDung1">
-                                                Số Lượng
-                                            </div>
-                                            <div className="noiDung2">
-                                                {item.slSP}
-                                            </div>
-                                        </div>
-                                        <div className="tieuDe">
-                                            <div className="noiDung1">
-                                                Thời Gian
-                                            </div>
-                                            <div className="noiDung2">
-                                                {item.createdAt}
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="hang2">
-                                        <div className="tieuDe">
-                                            <div className="noiDung1">
-                                                Đơn Giá
-                                            </div>
-                                            <div className="noiDung2">
-                                                {item.donGia}
-                                            </div>
-                                        </div>
-                                        <div className="tieuDe">
-                                            <div className="noiDung1">
-                                                Thành Tiền
-                                            </div>
-                                            <div className="noiDung2">
-                                                {item.thanhTien}
-                                            </div>
-                                        </div>
-                                        <div className="tieuDe">
-                                            <div className="noiDung1">
-                                                Gold Đã TT
-                                            </div>
-                                            <div className="noiDung2">
-                                                {item.goldDaTT}
-                                            </div>
-                                        </div>
-                                        <div className="tieuDe">
-                                            <div className="noiDung1">
-                                                Số Tiền Cần Thu
-                                            </div>
-                                            <div className="noiDung2">
-                                                {item.soTienCanTT}
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="hang3">
-                                        <div className="tieuDe">
-                                            <div className="noiDung1">
-                                                Tên Người Nhận
-                                            </div>
-                                            <div className="noiDung2">
-                                                {item.hoTenNguoiMua}
-                                            </div>
-                                        </div>
-                                        <div className="tieuDe">
-                                            <div className="noiDung1">
-                                                Số Điện Thoại
-                                            </div>
-                                            <div className="noiDung2">
-                                                {item.sdtNguoiMua}
-                                            </div>
-                                        </div>
-                                        <div>
-                                            <div>Ghi Chú</div>
-                                            <div>{item.ghiChuNguoiMua}</div>
-                                        </div>
-                                    </div>
-                                    <div className="hang3">
-                                        <div className="tieuDe">
-                                            <div className="noiDung1">
-                                                Địa Chỉ
-                                            </div>
-                                            <div className="noiDung2">
-                                                {item.dcNguoiNMua}
-                                            </div>
-                                        </div>
-
-                                        <button
-                                            onClick={() =>
-                                                handleGiaoHang(item._id)
-                                            }
-                                            className="giaoHang"
-                                        >
-                                            Giao Hàng
-                                        </button>
-                                    </div>
-                                </div>
-                            );
-                        })}
-                    <div className="tieuDeDonHang">
-                        Đơn Hàng Từ Cộng Tác Viên
-                    </div>
-                    {allDonHang2 &&
-                        allDonHang2?.map((item) => {
-                            return (
-                                <div
-                                    key={item._id}
-                                    className="detailDonHang-container"
-                                >
-                                    <div className="hang1">
-                                        <div className="tieuDe">
-                                            <div className="noiDung1">
-                                                Mã Đơn
-                                            </div>
-                                            <div className="noiDung2">
-                                                {item._id.slice(-9)}
-                                            </div>
-                                        </div>
-                                        <div className="tieuDe">
-                                            <div className="noiDung1">
-                                                Tên Sản Phẩm
-                                            </div>
-                                            <a href={item.linkSp}>
-                                                <div className="noiDung2">
-                                                    {item.tenSp}
-                                                </div>
-                                            </a>
-                                        </div>
-                                        <div className="tieuDe">
-                                            <div className="noiDung1">
-                                                Số Lượng
-                                            </div>
-                                            <div className="noiDung2">
-                                                {item.slSP}
-                                            </div>
-                                        </div>
-                                        <div className="tieuDe">
-                                            <div className="noiDung1">
-                                                Thời Gian
-                                            </div>
-                                            <div className="noiDung2">
-                                                {item.createdAt}
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="hang2">
-                                        <div className="tieuDe">
-                                            <div className="noiDung1">
-                                                Đơn Giá
-                                            </div>
-                                            <div className="noiDung2">
-                                                {item.donGia}
-                                            </div>
-                                        </div>
-                                        <div className="tieuDe">
-                                            <div className="noiDung1">
-                                                Thành Tiền
-                                            </div>
-                                            <div className="noiDung2">
-                                                {item.thanhTien}
-                                            </div>
-                                        </div>
-                                        <div className="tieuDe">
-                                            <div className="noiDung1">
-                                                Gold Đã TT
-                                            </div>
-                                            <div className="noiDung2">
-                                                {item.goldDaTT}
-                                            </div>
-                                        </div>
-                                        <div className="tieuDe">
-                                            <div className="noiDung1">
-                                                Số Tiền Cần Thu
-                                            </div>
-                                            <div className="noiDung2">
-                                                {item.soTienCanTT}
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="hang3">
-                                        <div className="tieuDe">
-                                            <div className="noiDung1">
-                                                Tên Người Nhận
-                                            </div>
-                                            <div className="noiDung2">
-                                                {item.hoTenNguoiMua}
-                                            </div>
-                                        </div>
-                                        <div className="tieuDe">
-                                            <div className="noiDung1">
-                                                Số Điện Thoại
-                                            </div>
-                                            <div className="noiDung2">
-                                                {item.sdtNguoiMua}
-                                            </div>
-                                        </div>
-                                        <div>
-                                            <div>Ghi Chú</div>
-                                            <div>{item.ghiChuNguoiMua}</div>
-                                        </div>
-                                    </div>
-                                    <div className="hang3">
-                                        <div className="tieuDe">
-                                            <div className="noiDung1">
-                                                Địa Chỉ
-                                            </div>
-                                            <div className="noiDung2">
-                                                {item.dcNguoiNMua}
-                                            </div>
-                                        </div>
-
-                                        <button
-                                            onClick={() =>
-                                                handleGiaoHang(item._id)
-                                            }
-                                            className="giaoHang"
-                                        >
-                                            Giao Hàng
-                                        </button>
-                                    </div>
-                                </div>
-                            );
-                        })}
-                    <div className="tieuDeDonHang">
-                        Đơn Hàng Bạn Là Cộng Tác Viên
-                    </div>
-                    {allDonHang3 &&
-                        allDonHang3?.map((item) => {
-                            return (
-                                <div
-                                    key={item._id}
-                                    className="detailDonHang-container"
-                                >
-                                    <div className="hang1">
-                                        <div className="tieuDe">
-                                            <div className="noiDung1">
-                                                Tên Sản Phẩm
-                                            </div>
-                                            <a href={item.linkSp}>
-                                                <div className="noiDung2">
-                                                    {item.tenSp}
-                                                </div>
-                                            </a>
-                                        </div>
-                                        <div className="tieuDe">
-                                            <div className="noiDung1">
-                                                Số Lượng
-                                            </div>
-                                            <div className="noiDung2">
-                                                {item.slSP}
-                                            </div>
-                                        </div>
-                                        <div className="tieuDe">
-                                            <div className="noiDung1">
-                                                Hoa Hồng CTV
-                                            </div>
-                                            <div className="noiDung2">
-                                                {item.hoahongCTV * item.slSP}
-                                            </div>
-                                        </div>
-                                        <div className="tieuDe">
-                                            <div className="noiDung1">
-                                                Thời Gian
-                                            </div>
-                                            <div className="noiDung2">
-                                                {item.createdAt}
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            );
-                        })}
+        <div className="chiTietDonHang-Container">
+            <div className="datHang-container">
+                <a href={`/don-hang/${idShop}`}>
+                    <button className="close">Close</button>
+                </a>
+                <div className="tieuDeDonHang">Chi Tiết Đơn Hàng</div>
+                <div className="tieuDeDonHang">Mã Đơn Hàng / Thời Gian</div>
+                <div className="containerTieuChiFormregis">
+                    <div className="tieuChiFormregis">Tên Sản Phẩm</div>
+                    <div className="noiDungFormregis"><a href={thongTindh.linkSp}>{thongTindh.tenSp}</a></div>
                 </div>
-            )}
+
+                <div className="containerTieuChiFormregis">
+                    <div className="tieuChiFormregis"> Số Lượng</div>
+                    <div className="noiDungFormregis">{thongTindh.slSP}</div>
+                </div>
+
+                <div className="containerTieuChiFormregis">
+                    <div className="tieuChiFormregis">Đơn Giá</div>
+                    <div className="noiDungFormregis">{thongTindh.donGia}</div>
+                </div>
+
+                <div className="containerTieuChiFormregis">
+                    <div className="tieuChiFormregis">Thành Tiền</div>
+                    <div className="noiDungFormregis">{thongTindh.thanhTien}</div>
+                </div>
+                <div className="containerTieuChiFormregis">
+                    <div className="tieuChiFormregis">Gold Đã TT</div>
+                    <div className="noiDungFormregis">{thongTindh.goldDaTT}</div>
+                </div>
+                <div className="containerTieuChiFormregis">
+                    <div className="tieuChiFormregis">Số Tiền Cần Thu</div>
+                    <div className="noiDungFormregis">{thongTindh.soTienCanTT}</div>
+                </div>
+                <div className="thongTinNhanHang">Hoa Hồng Cộng Tác Viên</div>
+
+                <div className="containerTieuChiFormregis">
+                    <div className="tieuChiFormregis">Hoa Hồng CTV</div>
+                    <div className="noiDungFormregis">{thongTindh.hoahongCTV}</div>
+                </div>
+
+                <div className="thongTinNhanHang">Thông Tin Người Nhận</div>
+
+                <div className="containerTieuChiFormregis">
+                    <div className="tieuChiFormregis">Tên Người Nhận</div>
+                    <div className="noiDungFormregis">{thongTindh.hoTenNguoiMua}</div>
+                </div>
+                <div className="containerTieuChiFormregis">
+                    <div className="tieuChiFormregis">Số Điện Thoại</div>
+                    <div className="noiDungFormregis">{thongTindh.sdtNguoiMua}</div>
+                </div>
+
+                <div className="containerTieuChiFormregis">
+                    <div className="tieuChiFormregis">Địa Chỉ</div>
+                    <div className="noiDungFormregis">{thongTindh.dcNguoiNMua}</div>
+                </div>
+                <div className="containerTieuChiFormregis">
+                    <div className="tieuChiFormregis">Ghi Chú</div>
+                    <div className="noiDungFormregis">{thongTindh.ghiChuNguoiMua}</div>
+                </div>
+                <button
+                    className="hoanThanh"
+                    // onClick={hoanThanhDonHanguser}
+                >
+                    Hoàn Thành
+                </button>
+            </div>
         </div>
     );
 };

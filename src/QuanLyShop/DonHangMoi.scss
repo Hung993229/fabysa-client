@@ -1,0 +1,43 @@
+.donHang-container{
+    a{text-decoration: none};
+    margin-top: 9vw;
+    margin-bottom: 20vw;
+    padding: 1vw;
+    .donHang-nav{
+        display: flex;
+        gap: 5vw;
+    
+       
+    }
+.tieuDeDonHang{
+    font-size: 5vw;
+    font-weight: 600;
+    margin: 3vw auto;
+
+}
+.tenbangContainer{
+    margin-top: 5vw;
+    .tenbang{
+        font-size: 3.5vw;
+    font-weight: 600;
+    
+    }
+    .chiTietDonHang{
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+        .chiTietTungO{
+            border: solid 1px gray;
+            word-wrap:break-word;
+            overflow:auto;
+            height: 5vw;
+            justify-content: center;
+            align-items: center;
+
+        }
+        }
+}
+
+
+    
+
+}

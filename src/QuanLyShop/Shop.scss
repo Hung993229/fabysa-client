@@ -166,10 +166,14 @@
                 border-radius: 2vw;
             }
             .tenSanPham {
+                width: 43vw;
+                height: 12vw;
                 font-size: 3vw;
                 font-weight: 600;
                 margin: 2vw auto;
                 text-transform: uppercase;
+                word-wrap:break-word;
+            overflow:auto;
             }
             .giaBan {
                 text-align: center;
