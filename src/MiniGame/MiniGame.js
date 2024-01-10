@@ -393,7 +393,7 @@ const MiniGame = () => {
                     thưởng trong không quá 30 ngày. <br />
                     - Phần thưởng là Gold thì được cộng ngay vào tài khoản Gold.
                     <br />- Gold có thể dùng để mua hàng trong mục Shopping
-                    (1Gold = 1Vnđ)
+                    (1Gold = 1VND)
                 </p>
                 {!user ? (
                     <div>
