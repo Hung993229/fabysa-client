@@ -1,4 +1,7 @@
-.loader { margin-top: 20vw;
+
+  /* Mobile & Tablet */
+@media screen and (max-width : 1023px) {
+  .loader { margin-top: 20vw;
     border: 0.2vw solid #FFF;
     width: 30vw;
     height: 30vw;
@@ -33,3 +36,10 @@
     font-size: 5vw;
     font-weight: 600;
   }
+
+}
+
+/* PC*/
+@media screen and (min-width : 1024px) {
+   
+}

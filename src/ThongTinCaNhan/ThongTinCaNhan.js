@@ -7,6 +7,7 @@ import { getPost } from "../redux/apiRequest";
 import MyDetail from "./MyDetail";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
+import { NavLink, useNavigate, useParams } from "react-router-dom";
 
 import DangNhap from "../DangNhap/DangNhap";
 import MoiDangKi from "../GiaoDienChung/MoiDangKi";
@@ -15,7 +16,8 @@ const ThongTinCaNhan = () => {
     const myDetailId = useSelector((state) => state.post.post.myDetail?._id);
     const user = useSelector((state) => state.auth.login?.currentUser);
     const dispatch = useDispatch();
-
+    const { idShop } = useParams();
+    console.log("idShop", idShop);
     useEffect(() => {
         const getPostMydetail = () => {
             if (!user) {
@@ -28,7 +30,7 @@ const ThongTinCaNhan = () => {
         getPostMydetail();
     }, [user]);
     return !user ? (
-        <MoiDangKi />
+        <DangNhap />
     ) : (
         <div className="container-thongTinCanhan">
             <div>
@@ -38,14 +40,16 @@ const ThongTinCaNhan = () => {
                             <div>
                                 <MyDetail
                                     suaPost={suaPost}
-                                    setsuaPost={setsuaPost}
+                                        setsuaPost={setsuaPost}
+                                        idShop={idShop}
                                 />
                             </div>
                         ) : (
                             <div>
                                 <UpdateDetail
                                     suaPost={suaPost}
-                                    setsuaPost={setsuaPost}
+                                            setsuaPost={setsuaPost}
+                                            idShop={idShop}
                                 />
                             </div>
                         )}
@@ -54,7 +58,8 @@ const ThongTinCaNhan = () => {
                     <div>
                         <FormRegister
                             suaPost={suaPost}
-                            setsuaPost={setsuaPost}
+                                    setsuaPost={setsuaPost}
+                                    idShop={idShop}
                         />
                     </div>
                 )}

@@ -116,23 +116,23 @@ import {
     logOutSuccessdonHang,
 } from "./donHangSlice";
 
-export const loginUser = async (user, dispatch, navigate) => {
+export const loginUser = async (user, dispatch) => {
     dispatch(loginStart());
     try {
         const res = await axios.post("/v1/auth/login", user);
         dispatch(loginSuccess(res.data));
-        navigate("/mini-game");
+        
     } catch (err) {
         dispatch(loginFailed());
     }
 };
 
-export const registerUser = async (user, dispatch, navigate) => {
+export const registerUser = async (user, dispatch) => {
     dispatch(registerStart());
     try {
         await axios.post("/v1/auth/register", user);
         dispatch(registerSuccess());
-        navigate("/dang-nhap");
+        
     } catch (err) {
         dispatch(registerFailed());
     }
@@ -159,7 +159,7 @@ export const deleteUser = async (accessToken, dispatch, id, axiosJWT) => {
         dispatch(deleteUserFailed(err.response.data));
     }
 };
-export const logOut = async (dispatch, id, navigate, accessToken, axiosJWT) => {
+export const logOut = async (dispatch, id,  accessToken, axiosJWT) => {
     dispatch(logOutStart());
     try {
         await axiosJWT.post("/v1/auth/logout", id, {
@@ -173,18 +173,18 @@ export const logOut = async (dispatch, id, navigate, accessToken, axiosJWT) => {
         dispatch(logOutSuccessYourStatus());
         dispatch(logOutSuccessttShop());
         dispatch(logOutSuccessdonHang());
-        navigate("/dang-nhap");
+        
     } catch (err) {
         dispatch(logOutFailed());
     }
 };
-export const registerPost = async (post, dispatch, navigate, setloading) => {
+export const registerPost = async (post, dispatch, setloading) => {
     dispatch(registerPostStart());
     try {
         const res = await axios.post("/v1/post/", post);
         dispatch(registerPostSuccess(res.data));
         setloading(0);
-        navigate("/ca-nhan");
+        
     } catch (err) {
         dispatch(registerPostFailed());
     }

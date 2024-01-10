@@ -77,69 +77,76 @@ const TongKhoSiChiTiet = () => {
     };
 
     return (
-        <div className="container-TongKhoSiChiTietTo">
-            <div className="container-TongKhoSiChiTiet">
-                <div>
-                    <a className="close" href={`/fabysa/${idShop}`}>
-                        Close
-                    </a>
-                </div>
-                <div>
-                    <img
-                        src={thongTinSp?.AnhSanPham}
-                        className="anhSanPham"
-                        alt="timtim"
-                    />
-                    <div className="tenSanPham">{thongTinSp?.TenSanPham}</div>
-                    <div className="giaBan">
-                        <div className="giaBanMoi">
-                            {VND.format(thongTinSp?.giaKhuyenMai)}
+        <div className="chitietsp-datHang-tongKhoSi">
+            <div className="container-FabysaChiTietSpTo">
+                <div className="container-FabysaChiTietSp">
+                    <div>
+                        <a href={`/tongkhosi`}>
+                            <button className="close">Close</button>
+                        </a>
+                    </div>
+                    <div>
+                        <img
+                            src={thongTinSp?.AnhSanPham}
+                            className="anhSanPham"
+                            alt="timtim"
+                        />
+                        <div className="tenSanPham">
+                            {thongTinSp?.TenSanPham}
                         </div>
-                        <div className="giaGiam">
-                            <div className="giabanCu">
-                                {VND.format(thongTinSp?.giaNiemYet)}
+                        <div className="giaBan">
+                            <div className="giaBanMoi">
+                                {VND.format(thongTinSp?.giaKhuyenMai)}
                             </div>
-                            <div className="phanTram">
-                                Giảm&nbsp;
-                                {Math.floor(
-                                    (100 *
-                                        (thongTinSp?.giaNiemYet -
-                                            thongTinSp?.giaKhuyenMai)) /
-                                        thongTinSp?.giaNiemYet
-                                )}
-                                %
+                            <div className="giaGiam">
+                                <div className="giabanCu">
+                                    {VND.format(thongTinSp?.giaNiemYet)}
+                                </div>
+                                <div className="phanTram">
+                                    Giảm&nbsp;
+                                    {Math.floor(
+                                        (100 *
+                                            (thongTinSp?.giaNiemYet -
+                                                thongTinSp?.giaKhuyenMai)) /
+                                            thongTinSp?.giaNiemYet
+                                    )}
+                                    %
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <a href={thongTinSp?.thongTinNguoiBan} target="_blank">
-                        <button className="muaHang">MUA HÀNG</button>
-                    </a>
-                    <div className="tenShop">{thongTinSp?.TenShop}</div>
-                    <div className="viTriSanPham">
-                        <i className="fa-solid fa-location-dot"></i>
-                        <div className="diachisanpham">{thongTinSp?.xa}</div>
-                        <div className="diachisanpham">{thongTinSp?.huyen}</div>
-                        <div className="diachisanpham">{thongTinSp?.tinh}</div>
-                    </div>
-                    <div className="thongtinSanPham">
-                        {thongTinSp?.thongTinSanPham}
+                        <select className="chonShop" onChange={(e) => setchonShop(e.target.value)}>
+                            <option value="">---Chọn Shop---</option>
+                            {allShop &&
+                                allShop.length > 0 &&
+                                allShop.map((item, index) => {
+                                    return (
+                                        <option key={item._id} value={item._id}>
+                                            {item.TenShop}
+                                        </option>
+                                    );
+                                })}
+                        </select>
+                        <button onClick={themVaoGianHang} className="muaHang2">
+                            THÊM VÀO GIAN HÀNG
+                        </button>
+                        <div className="tenShop">{thongTinSp?.TenShop}</div>
+                        <div className="viTriSanPham">
+                            <i className="fa-solid fa-location-dot"></i>
+                            <div className="diachisanpham">
+                                {thongTinSp?.xa}
+                            </div>
+                            <div className="diachisanpham">
+                                {thongTinSp?.huyen}
+                            </div>
+                            <div className="diachisanpham">
+                                {thongTinSp?.tinh}
+                            </div>
+                        </div>
+                        <div className="thongtinSanPham">
+                            {thongTinSp?.thongTinSanPham}
+                        </div>
                     </div>
                 </div>
-                <select onChange={(e) => setchonShop(e.target.value)}>
-                    <option value="">---Chọn Shop---</option>
-                    {allShop &&
-                        allShop.length > 0 &&
-                        allShop.map((item, index) => {
-                            return (
-                                <option key={item._id} value={item._id}>
-                                    {item.TenShop}
-                                </option>
-                            );
-                        })}
-                </select>
-                <button onClick={themVaoGianHang} className="muaHang">
-                    THÊM VÀO GIAN HÀNG
-                </button>
             </div>
         </div>
     );

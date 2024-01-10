@@ -4,7 +4,12 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import { getDonHang, updateDonHang, updatettShop } from "../redux/apiRequest";
+import {
+    getDonHang,
+    updateDonHang,
+    updatettShop,
+    getttShop,
+} from "../redux/apiRequest";
 import { useEffect } from "react";
 const DonHang = () => {
     const user = useSelector((state) => state.auth.login.currentUser);
@@ -17,10 +22,12 @@ const DonHang = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const { idShop } = useParams();
-
+    const trangThaiDH = 3;
     useEffect(() => {
-        const trangThaiDH = 3;
         getDonHang(idShop, trangThaiDH, dispatch);
+    }, []);
+    useEffect(() => {
+        getttShop(idShop, dispatch);
     }, []);
     const handleTraHang = (id) => {
         const donHangTraLai = allDonHang?.find((item) => item._id === id);
@@ -35,6 +42,23 @@ const DonHang = () => {
         };
         updatettShop(newShop, idShop, dispatch);
     };
+    //    Đơn Hàng Trực Tiếp
+    const allDonHang1 = allDonHang?.filter(
+        (item) => item.affiliate.length === 0
+    );
+    //  Đơn Hàng Từ Cộng Tác Viên
+    const allDonHang3 = allDonHang?.filter(
+        (item) => item.user === ttShop._id && item.affiliate.length !== 0
+    );
+
+    //  Đơn Hàng Bạn Là Cộng Tác Viên
+    const allDonHang2 = allDonHang?.filter(
+        (item) => item.affiliate === ttShop._id && item.affiliate.length !== 0
+    );
+    const VND = new Intl.NumberFormat("vi-VN", {
+        style: "currency",
+        currency: "VND",
+    });
 
     // DoanhThu
     let doanhThu = 0;
@@ -64,124 +88,135 @@ const DonHang = () => {
                 <a href={`/don-hang-huy/${idShop}`}>Đơn Hàng Huỷ</a>
             </div>
             <div className="tieuDeDonHang">Danh Sách Đơn Hàng Hoàn Thành</div>
+            <div className="tenbangContainer">
+                <div className="tenbang">Đơn Hàng Từ Website</div>
+                <div className="chiTietDonHang">
+                    <div className="chiTietTungO">Thời Gian</div>
+                    <div className="chiTietTungO">Sản Phẩm</div>
+                    <div className="chiTietTungO">Đơn Giá</div>
+                    <div className="chiTietTungO">Số Lượng</div>
+                    <div className="chiTietTungO">Thành Tiền</div>
 
-            <div className="bangTongKet">Bảng Tổng Kết</div>
-            <div className="bangtongket-container">
-                <div className="tongket1">
-                    <div>Doanh Thu</div>
-                    <div>{doanhThu}</div>
+                    <div className="chiTietTungO">Xem Chi Tiết</div>
                 </div>
-                <div className="tongket1">
-                    <div>Lợi Nhuận</div>
-                    <div>{doanhThu}</div>
-                </div>
-                <div className="tongket1">
-                    <div>Nợ Hoa Hồng CTV</div>
-                    <div>{hoahongCTV}</div>
-                </div>
-                <div className="tongket1">
-                    <div>Phí Sàn</div>
-                    <div>{phiSan}</div>
-                </div>
+                {allDonHang1 &&
+                    allDonHang1?.map((item) => {
+                        return (
+                            <a
+                                key={item._id}
+                                href={`/don-hang/${idShop}/${item._id}/${trangThaiDH}`}
+                            >
+                                <div className="chiTietDonHang">
+                                    <div className="chiTietTungO">
+                                        {item.createdAt.slice(0, 10)}
+                                    </div>
+                                    <div className="chiTietTungO">
+                                        {item.tenSp}
+                                    </div>
+                                    <div className="chiTietTungO">
+                                        {VND.format(item.donGia)}
+                                    </div>
+                                    <div className="chiTietTungO">
+                                        {item.slSP}
+                                    </div>
+                                    <div className="chiTietTungO">
+                                        {VND.format(item.thanhTien)}
+                                    </div>
+
+                                    <div className="chiTietTungO">
+                                        Xem Chi Tiết
+                                    </div>
+                                </div>
+                            </a>
+                        );
+                    })}
             </div>
+            <div className="tenbangContainer">
+                <div className="tenbang">Đơn Hàng Từ Cộng Tác Viên</div>
+                <div className="chiTietDonHang">
+                    <div className="chiTietTungO">Thời Gian</div>
+                    <div className="chiTietTungO">Sản Phẩm</div>
+                    <div className="chiTietTungO">Đơn Giá</div>
+                    <div className="chiTietTungO">Số Lượng</div>
+                    <div className="chiTietTungO">Thành Tiền</div>
 
-            {allDonHang &&
-                allDonHang?.map((item) => {
-                    return (
-                        <div key={item._id} className="detailDonHang-container">
-                            <div className="hang1">
-                                <div className="tieuDe">
-                                    <div className="noiDung1">Mã Đơn</div>
-                                    <div className="noiDung2">
-                                        {item._id.slice(-9)}
+                    <div className="chiTietTungO">Xem Chi Tiết</div>
+                </div>
+                {allDonHang2 &&
+                    allDonHang2?.map((item) => {
+                        return (
+                            <a
+                                key={item._id}
+                                href={`/don-hang/${idShop}/${item._id}/${trangThaiDH}`}
+                            >
+                                <div className="chiTietDonHang">
+                                    <div className="chiTietTungO">
+                                        {item.createdAt.slice(0, 10)}
+                                    </div>
+                                    <div className="chiTietTungO">
+                                        {item.tenSp}
+                                    </div>
+                                    <div className="chiTietTungO">
+                                        {VND.format(item.donGia)}
+                                    </div>
+                                    <div className="chiTietTungO">
+                                        {item.slSP}
+                                    </div>
+                                    <div className="chiTietTungO">
+                                        {VND.format(item.thanhTien)}
+                                    </div>
+
+                                    <div className="chiTietTungO">
+                                        Xem Chi Tiết
                                     </div>
                                 </div>
-                                <div className="tieuDe">
-                                    <div className="noiDung1">Tên Sản Phẩm</div>
-                                    <a href={item.linkSp}>
-                                        <div className="noiDung2">
-                                            {item.tenSp}
-                                        </div>
-                                    </a>
-                                </div>
-                                <div className="tieuDe">
-                                    <div className="noiDung1">Số Lượng</div>
-                                    <div className="noiDung2">{item.slSP}</div>
-                                </div>
-                                <div className="tieuDe">
-                                    <div className="noiDung1">Thời Gian</div>
-                                    <div className="noiDung2">
-                                        {item.createdAt}
+                            </a>
+                        );
+                    })}
+            </div>
+            <div className="tenbangContainer">
+                <div className="tenbang">Đơn Hàng Bạn Là Cộng Tác Viên</div>
+                <div className="chiTietDonHang">
+                    <div className="chiTietTungO">Thời Gian</div>
+                    <div className="chiTietTungO">Sản Phẩm</div>
+                    <div className="chiTietTungO">Đơn Giá</div>
+                    <div className="chiTietTungO">Số Lượng</div>
+                    <div className="chiTietTungO">Thành Tiền</div>
+
+                    <div className="chiTietTungO">Xem Chi Tiết</div>
+                </div>
+                {allDonHang3 &&
+                    allDonHang3?.map((item) => {
+                        return (
+                            <a
+                                key={item._id}
+                                href={`/don-hang/${idShop}/${item._id}/${trangThaiDH}`}
+                            >
+                                <div className="chiTietDonHang">
+                                    <div className="chiTietTungO">
+                                        {item.createdAt.slice(0, 10)}
+                                    </div>
+                                    <div className="chiTietTungO">
+                                        {item.tenSp}
+                                    </div>
+                                    <div className="chiTietTungO">
+                                        {VND.format(item.donGia)}
+                                    </div>
+                                    <div className="chiTietTungO">
+                                        {item.slSP}
+                                    </div>
+                                    <div className="chiTietTungO">
+                                        {VND.format(item.thanhTien)}
+                                    </div>
+
+                                    <div className="chiTietTungO">
+                                        Xem Chi Tiết
                                     </div>
                                 </div>
-                            </div>
-                            <div className="hang2">
-                                <div className="tieuDe">
-                                    <div className="noiDung1">Đơn Giá</div>
-                                    <div className="noiDung2">
-                                        {item.donGia}
-                                    </div>
-                                </div>
-                                <div className="tieuDe">
-                                    <div className="noiDung1">Thành Tiền</div>
-                                    <div className="noiDung2">
-                                        {item.thanhTien}
-                                    </div>
-                                </div>
-                                <div className="tieuDe">
-                                    <div className="noiDung1">Gold Đã TT</div>
-                                    <div className="noiDung2">
-                                        {item.goldDaTT}
-                                    </div>
-                                </div>
-                                <div className="tieuDe">
-                                    <div className="noiDung1">
-                                        Số Tiền Cần Thu
-                                    </div>
-                                    <div className="noiDung2">
-                                        {item.soTienCanTT}
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="hang3">
-                                <div className="tieuDe">
-                                    <div className="noiDung1">
-                                        Tên Người Nhận
-                                    </div>
-                                    <div className="noiDung2">
-                                        {item.hoTenNguoiMua}
-                                    </div>
-                                </div>
-                                <div className="tieuDe">
-                                    <div className="noiDung1">
-                                        Số Điện Thoại
-                                    </div>
-                                    <div className="noiDung2">
-                                        {item.sdtNguoiMua}
-                                    </div>
-                                </div>
-                                <div className="tieuDe">
-                                    <div className="noiDung1">Địa Chỉ</div>
-                                    <div className="noiDung2">
-                                        {item.dcNguoiNMua}
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="hang3">
-                                <div>
-                                    <div>Hoa Hồng CTV</div>
-                                    <div>{item.hoahongCTV}</div>
-                                </div>
-                                <button
-                                    onClick={() => handleTraHang(item._id)}
-                                    className="giaoHang"
-                                >
-                                    Trả Hàng
-                                </button>
-                            </div>
-                        </div>
-                    );
-                })}
+                            </a>
+                        );
+                    })}
+            </div>
         </div>
     );
 };

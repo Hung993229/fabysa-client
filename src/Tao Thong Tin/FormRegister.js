@@ -13,7 +13,7 @@ import {
 } from "../redux/ApiProvince";
 import Loading from "../GiaoDienChung/Loading";
 const FormRegister = (props) => {
-    const { suaPost, setsuaPost } = props;
+    const { suaPost, setsuaPost, idShop } = props;
     const user = useSelector((state) => state.auth.login?.currentUser);
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -171,7 +171,46 @@ const FormRegister = (props) => {
                 user: user._id,
             };
             console.log("newPost", newPost);
-            registerPost(newPost, dispatch, navigate, setloading);
+            registerPost(newPost, dispatch, setloading);
+            navigate("/ca-nhan");
+        } catch (err) {
+            console.log(err);
+        }
+    };
+    const handleRegisterPost2 = (e) => {
+        e.preventDefault();
+
+        // Hien Dang Song
+        const tenTinh2 = provinces2?.find(
+            (item) => item.province_id === provincesID2
+        );
+        const tenHuyen2 = districts2?.find(
+            (item) => item.district_id === districtID2
+        );
+        const tenXa2 = wards2?.find((item) => item.ward_id === wardID2);
+        try {
+            const newPost = {
+                banner: banner,
+                avatar: avatar,
+                hoTen: hoTen,
+                soDienThoai: soDienThoai,
+                gioiTinh: gioiTinh,
+                // ngay sinh
+                ngaySinh: ngaySinh,
+                thangSinh: thangSinh,
+                namSinh: namSinh,
+                // Hien Dang Song
+                tinh: tenTinh2?.province_name,
+                huyen: tenHuyen2?.district_name,
+                xa: tenXa2?.ward_name || "Xã ...",
+                thonXom: thonXom,
+                cash: 10000,
+                vaiTro: 0,
+                user: user._id,
+            };
+            console.log("newPost", newPost);
+            registerPost(newPost, dispatch, setloading);
+            navigate(`/shop/ca-nhan/${idShop}`);
         } catch (err) {
             console.log(err);
         }
@@ -356,13 +395,23 @@ const FormRegister = (props) => {
             <div className="chucMung">
                 Xin Chúc Mừng Bạn Được Tặng 10.000 Gold
             </div>
-            <button
-                className="luuThongTin"
-                type="submit"
-                onClick={handleRegisterPost}
-            >
-                Lưu Thông Tin
-            </button>
+            {idShop && idShop.length !== 0 ? (
+                <button
+                    className="luuThongTin"
+                    type="submit"
+                    onClick={handleRegisterPost2}
+                >
+                    Lưu Thông Tin
+                </button>
+            ) : (
+                <button
+                    className="luuThongTin"
+                    type="submit"
+                    onClick={handleRegisterPost}
+                >
+                    Lưu Thông Tin
+                </button>
+            )}
         </div>
     );
 };

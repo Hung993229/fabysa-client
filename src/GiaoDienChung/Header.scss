@@ -1,79 +1,292 @@
-.container-header {
-    display: flex;
-    margin: auto;
-    top: 0px;
-    z-index: 1;
-    position: fixed;
-    background-image: 
-    linear-gradient(
-        to bottom,
-        #04aa6d,
-        #04aa6d
-    );
-    width: 100vw;
-    .container-logo {
-        text-align: center;
-        margin: 0px auto;
-        width: 20%;
-        .logo {
-        width: 5vw;
-        height: 5vw;
-        border-radius: 50%;
-        margin: 0.4vw auto 0.2vw auto;
-        }
-    
-        .my-cash2 {
-            max-width: 70%;
-            margin: 0.2vw auto 0.4vw auto;
-            border-radius: 0.5vw;
-            color: #e6f702;
-            background-color: #ff0000;
-            font-size: 2vw;
-            
-        }
+
+/* Mobile & Tablet */
+@media screen and (max-width : 1023px) {
+    .container-header2{
+        display: none;
     }
-    
-    .title {
-        color: #FFF;
-        font-size: 5vw;
-        font-weight: 600;
-        min-width: 60%;
-        text-align: center;
-        align-items: center;
-        padding-top: 1vw;
-        // text-shadow: 0.3vw 0.2vw 0.2vw #fff;
-       
-    }
-    .my-detail {
-        width: 20%;
-        text-align: center;
-        .my-avatar {
+    .container-header {
+        a{text-decoration: none;}
+        display: flex;
+        top: 0px;
+        z-index: 1;
+        position: fixed;
+        background-image: 
+        linear-gradient(
+            to bottom,
+            #04aa6d,
+            #04aa6d
+        );
+        width: 100vw;
+        .container-logo {
+            text-align: center;
+            margin: 0px auto;
+            width: 17%;
+            .logo {
             width: 5vw;
             height: 5vw;
             border-radius: 50%;
             margin: 0.4vw auto 0.2vw auto;
+            }
+        
+            .my-cash2 {
+                max-width: 90%;
+                margin: 0.2vw auto 0.4vw auto;
+                border-radius: 0.5vw;
+                color: #e6f702;
+                background-color: #ff0000;
+                font-size: 2vw;
+                
+            }
+        }
+        .title2{
+            color: #FFF;
+            font-size: 6vw;
+            font-weight: 600;
+            min-width: 66%;
+            text-align: center;
+            height: 8vw;
+            margin-top: 1vw;
+        }
+        
+        .title {
+            color: #FFF;
+            font-size: 6vw;
+            font-weight: 600;
+            min-width: 66%;
+            text-align: center;
+            margin-top: 1vw;
+            height: 8vw;
            
         }
-        .my-cash {
-            display: flex;
-            max-width: 70%;
-            margin: 0.2vw auto 0.4vw auto;
-            border-radius: 0.5vw;
-            color: #e6f702;
-            background-color: #ff0000;
-            padding: 0px 10%;
-            align-items: center;
+        .my-detail {
+            a{text-decoration: none;}
+            width: 17%;
+            text-align: center;
             justify-content: center;
-            .my-cash-title {
-                color: #e6f702;
-                max-width: 80%;
-                font-size: 2vw;
+           
+            .my-avatar {
+                width: 5vw;
+                height: 5vw;
+                border-radius: 50%;
+                margin: 0.4vw auto 0.2vw auto;
+                // background-color: #ff0000;
+               
             }
-            .gold {
-                width: 1.5vw;
-                height: 1.5vw;
-                max-width: 20%;
-                margin: 0px 0.4vw;
+            .my-cash {
+                display: flex;
+                max-width: 90%;
+                margin: 0.2vw auto 0.4vw auto;
+                border-radius: 0.5vw;
+                color: #e6f702;
+                background-color: #ff0000;
+                padding: 0px 10%;
+                align-items: center;
+                justify-content: center;
+                .dangNhap{
+                border-radius: 0.5vw;
+                color: #e6f702;
+                font-size: 2vw;
+                }
+                .my-cash-title {
+                    color: #e6f702;
+                    max-width: 80%;
+                    font-size: 2vw;
+                }
+                .gold {
+                    width: 1.5vw;
+                    height: 1.5vw;
+                    max-width: 20%;
+                    margin: 0px 0.4vw;
+                }
+            }
+        }
+    }
+}
+
+/* PC*/
+@media screen and (min-width : 1024px) {
+    .container-header{
+        display: none;
+    }
+    .container-header2{
+        display: flex;
+        background-color: #04aa6d;
+        top: 0px;
+        z-index: 1;
+        position: fixed;
+        width: 100vw;
+        .title{
+            color: #e6f702;
+            width: 30vw;
+            border-right: solid 1px #fff;
+            font-size: 3vw;
+            font-weight: 600;
+            background-color: red;
+        }
+        .container-nav2 {
+            overflow: hidden;
+            display: flex;
+            width: 60vw;
+           
+            a {
+                text-decoration: none;
+                font-size: 1.5vw;
+                font-weight: 600;
+                color: #f2f2f2;
+                width: calc(100% / 6);
+                border-right: solid 1px #fff;
+                i{
+                    margin-bottom: 1.2vw;
+                    margin-top: 0.5vw;
+                }
+            }
+        
+            a:hover {
+                background-color: #f2f2f2;
+                color: black;
+            }
+        
+            a.active1 {
+                background-color: #e6f702;
+                color: black;
+                width: calc(100% / 6);
+            }
+            
+        }
+        .my-detail {
+            right: 0px;
+            a{text-decoration: none;}
+            width: 10%;
+            text-align: center;
+            justify-content: center;
+            background-color: #ff0000;
+           
+            .my-avatar {
+                width: 2.5vw;
+                height: 2.5vw;
+                border-radius: 50%;
+                margin: 0.1vw auto 0.2vw auto;
+               
+            }
+            .my-cash {
+                display: flex;
+                max-width: 70%;
+                margin: 0.2vw auto 0.4vw auto;
+                border-radius: 0.5vw;
+                color: red;
+                background-color: #e6f702;
+                padding: 0px 10%;
+                align-items: center;
+                justify-content: center;
+                .dangNhap{
+                border-radius: 0.5vw;
+                color: red;
+                font-size: 0.8vw;
+                }
+                .my-cash-title {
+                    color: red;
+                    max-width: 80%;
+                    font-size: 1vw;
+                }
+                .gold {
+                    width: 1vw;
+                    height: 1vw;
+                    max-width: 20%;
+                    margin: 0px 0.4vw;
+                }
+            }
+        }
+    }
+    .container-header3 {
+        a{text-decoration: none;}
+        display: flex;
+        background-color: #04aa6d;
+        top: 0px;
+        z-index: 1;
+        position: fixed;
+        width: 100vw;
+        
+        width: 100vw;
+        .container-logo {
+            text-align: center;
+            margin: 0px auto;
+            width: 17%;
+            .logo {
+            width: 2vw;
+            height: 2vw;
+            border-radius: 50%;
+            margin: 0.4vw auto 0.2vw auto;
+            }
+        
+            .my-cash2 {
+                max-width: 60%;
+                margin: 0.2vw auto 0.4vw auto;
+                border-radius: 0.5vw;
+                color: #e6f702;
+                background-color: #ff0000;
+                font-size: 1vw;
+                
+            }
+        }
+        .title2{
+            color: #FFF;
+            font-size: 3vw;
+            font-weight: 600;
+            min-width: 66%;
+            text-align: center;
+            margin-top: 1vw;
+        }
+        
+        .title {
+            color: #FFF;
+            font-size: 6vw;
+            font-weight: 600;
+            min-width: 66%;
+            text-align: center;
+            margin-top: 1vw;
+            height: 8vw;
+           
+        }
+        .my-detail {
+            a{text-decoration: none;}
+            width: 17%;
+            text-align: center;
+            justify-content: center;
+           
+            .my-avatar {
+                width: 2vw;
+                height: 2vw;
+                border-radius: 50%;
+                margin: 0.4vw auto 0.2vw auto;
+                // background-color: #ff0000;
+               
+            }
+            .my-cash {
+                display: flex;
+                max-width: 60%;
+                margin: 0.2vw auto 0.4vw auto;
+                border-radius: 0.5vw;
+                color: #e6f702;
+                background-color: #ff0000;
+                padding: 0px 10%;
+                align-items: center;
+                justify-content: center;
+                .dangNhap{
+                border-radius: 0.5vw;
+                color: #e6f702;
+                font-size: 1vw;
+                }
+                .my-cash-title {
+                    color: #e6f702;
+                    max-width: 80%;
+                    font-size: 1vw;
+                }
+                .gold {
+                    width: 1vw;
+                    height: 1vw;
+                    max-width: 20%;
+                    margin: 0px 0.4vw;
+                }
             }
         }
     }

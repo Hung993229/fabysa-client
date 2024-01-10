@@ -1,87 +1,96 @@
-.quanlyShop{
-    .banner-container{
-        .bannerFormregis2{
-            width: 100%;
-            height: 40vw;
-            object-fit: cover;
-            position: relative;
-            background-color: rgb(242, 255, 0);
-        .banner {
-            width: 100%;
-            height:40vw;
-            object-fit: cover;
-        }
-        }
-    }
-    .tenCuaHang{
-        text-align: center;
-        font-size: 5vw;
-        font-weight: 600;
-        
-        .tenCuaHangInput{
-            width: 100%;
-            text-align: center;
-        }
-    }
-    .diachi-sodienthoai{
-        justify-content: center;
-        align-items: center;
-        display: flex;
-        // gap: 3vw;
-        .diaChi{
-            width: 65%;
-            display: flex;
-            .dc{
-                width: 20%;
 
+/* Mobile & Tablet */
+@media screen and (max-width : 1023px) {
+    .quanlyShop{
+        .banner-container{
+            .bannerFormregis2{
+                width: 100%;
+                height: 40vw;
+                object-fit: cover;
+                position: relative;
+                background-color: rgb(242, 255, 0);
+            .banner {
+                width: 100%;
+                height:40vw;
+                object-fit: cover;
             }
-            .dcInput{
-                width: 80%;
+            }
+        }
+        .tenCuaHang{
+            text-align: center;
+            font-size: 5vw;
+            font-weight: 600;
+            
+            .tenCuaHangInput{
+                width: 100%;
                 text-align: center;
             }
-
         }
-        .soDienThoai{
-            width: 35%;
+        .diachi-sodienthoai{
+            justify-content: center;
+            align-items: center;
             display: flex;
-            .sdt{
-                width: 20%;
-                margin: auto 1vw;
-
+            // gap: 3vw;
+            .diaChi{
+                width: 65%;
+                display: flex;
+                .dc{
+                    width: 20%;
+    
+                }
+                .dcInput{
+                    width: 80%;
+                    text-align: center;
+                }
+    
             }
-            .sdtIpnut{
-                width: 80%;
-                
+            .soDienThoai{
+                width: 35%;
+                display: flex;
+                .sdt{
+                    width: 20%;
+                    margin: auto 1vw;
+    
+                }
+                .sdtIpnut{
+                    width: 80%;
+                    
+                    text-align: center;
+                }
+    
+            }
+        }
+        .slogan{
+            .slg{
+    
+            }
+            .slgIpnut{
+                width: 100%;
                 text-align: center;
             }
-
+        }
+        .luuThongTinShop{
+            
+        }
+        .themSanPham-suaSanPham{
+            display: flex;
+            .themSanPham{
+                width: 50%;
+    
+            }
+            .suaSanPham{
+                width: 50%;
+    
+            }
+        }
+    
+        .sanPham-container{
+    
         }
     }
-    .slogan{
-        .slg{
+}
 
-        }
-        .slgIpnut{
-            width: 100%;
-            text-align: center;
-        }
-    }
-    .luuThongTinShop{
-        
-    }
-    .themSanPham-suaSanPham{
-        display: flex;
-        .themSanPham{
-            width: 50%;
-
-        }
-        .suaSanPham{
-            width: 50%;
-
-        }
-    }
-
-    .sanPham-container{
-
-    }
+/* PC*/
+@media screen and (min-width : 1024px) {
+   
 }

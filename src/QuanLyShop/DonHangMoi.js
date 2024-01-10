@@ -20,8 +20,8 @@ const DonHangMoi = () => {
     useEffect(() => {
         getttShop(idShop, dispatch);
     }, []);
+    const trangThaiDH = 1;
     useEffect(() => {
-        const trangThaiDH = 1;
         // const user = idShop;
         getDonHang(idShop, trangThaiDH, dispatch);
     }, [idShop]);
@@ -74,27 +74,32 @@ const DonHangMoi = () => {
                 {allDonHang1 &&
                     allDonHang1?.map((item) => {
                         return (
-                            <div key={item._id} className="chiTietDonHang">
-                                <div className="chiTietTungO">
-                                    {item.createdAt.slice(0, 10)}
-                                </div>
-                                <div className="chiTietTungO">
-                                    <a href={item.linkSp}>{item.tenSp} </a>
-                                </div>
-                                <div className="chiTietTungO">
-                                    {VND.format(item.donGia)}
-                                </div>
-                                <div className="chiTietTungO">{item.slSP}</div>
-                                <div className="chiTietTungO">
-                                    {VND.format(item.thanhTien)}
-                                </div>
+                            <a
+                                key={item._id}
+                                href={`/don-hang/${idShop}/${item._id}/${trangThaiDH}`}
+                            >
+                                <div className="chiTietDonHang">
+                                    <div className="chiTietTungO">
+                                        {item.createdAt.slice(0, 10)}
+                                    </div>
+                                    <div className="chiTietTungO">
+                                        {item.tenSp}
+                                    </div>
+                                    <div className="chiTietTungO">
+                                        {VND.format(item.donGia)}
+                                    </div>
+                                    <div className="chiTietTungO">
+                                        {item.slSP}
+                                    </div>
+                                    <div className="chiTietTungO">
+                                        {VND.format(item.thanhTien)}
+                                    </div>
 
-                                <div className="chiTietTungO">
-                                    <a href={`/don-hang/${idShop}/${item._id}`}>
+                                    <div className="chiTietTungO">
                                         Xem Chi Tiết
-                                    </a>
+                                    </div>
                                 </div>
-                            </div>
+                            </a>
                         );
                     })}
             </div>
@@ -112,27 +117,32 @@ const DonHangMoi = () => {
                 {allDonHang2 &&
                     allDonHang2?.map((item) => {
                         return (
-                            <div key={item._id} className="chiTietDonHang">
-                                <div className="chiTietTungO">
-                                    {item.createdAt.slice(0, 10)}
-                                </div>
-                                <div className="chiTietTungO">
-                                    <a href={item.linkSp}>{item.tenSp} </a>
-                                </div>
-                                <div className="chiTietTungO">
-                                    {VND.format(item.donGia)}
-                                </div>
-                                <div className="chiTietTungO">{item.slSP}</div>
-                                <div className="chiTietTungO">
-                                    {VND.format(item.thanhTien)}
-                                </div>
+                            <a
+                                key={item._id}
+                                href={`/don-hang/${idShop}/${item._id}/${trangThaiDH}`}
+                            >
+                                <div className="chiTietDonHang">
+                                    <div className="chiTietTungO">
+                                        {item.createdAt.slice(0, 10)}
+                                    </div>
+                                    <div className="chiTietTungO">
+                                        {item.tenSp}
+                                    </div>
+                                    <div className="chiTietTungO">
+                                        {VND.format(item.donGia)}
+                                    </div>
+                                    <div className="chiTietTungO">
+                                        {item.slSP}
+                                    </div>
+                                    <div className="chiTietTungO">
+                                        {VND.format(item.thanhTien)}
+                                    </div>
 
-                                <div className="chiTietTungO">
-                                    <a href={`/don-hang/${idShop}/${item._id}`}>
+                                    <div className="chiTietTungO">
                                         Xem Chi Tiết
-                                    </a>
+                                    </div>
                                 </div>
-                            </div>
+                            </a>
                         );
                     })}
             </div>
@@ -150,27 +160,32 @@ const DonHangMoi = () => {
                 {allDonHang3 &&
                     allDonHang3?.map((item) => {
                         return (
-                            <div key={item._id} className="chiTietDonHang">
-                                <div className="chiTietTungO">
-                                    {item.createdAt.slice(0, 10)}
-                                </div>
-                                <div className="chiTietTungO">
-                                    <a href={item.linkSp}>{item.tenSp} </a>
-                                </div>
-                                <div className="chiTietTungO">
-                                    {VND.format(item.donGia)}
-                                </div>
-                                <div className="chiTietTungO">{item.slSP}</div>
-                                <div className="chiTietTungO">
-                                    {VND.format(item.thanhTien)}
-                                </div>
+                            <a
+                                key={item._id}
+                                href={`/don-hang/${idShop}/${item._id}/${trangThaiDH}`}
+                            >
+                                <div className="chiTietDonHang">
+                                    <div className="chiTietTungO">
+                                        {item.createdAt.slice(0, 10)}
+                                    </div>
+                                    <div className="chiTietTungO">
+                                        {item.tenSp}
+                                    </div>
+                                    <div className="chiTietTungO">
+                                        {VND.format(item.donGia)}
+                                    </div>
+                                    <div className="chiTietTungO">
+                                        {item.slSP}
+                                    </div>
+                                    <div className="chiTietTungO">
+                                        {VND.format(item.thanhTien)}
+                                    </div>
 
-                                <div className="chiTietTungO">
-                                    <a href={`/don-hang/${idShop}/${item._id}`}>
+                                    <div className="chiTietTungO">
                                         Xem Chi Tiết
-                                    </a>
+                                    </div>
                                 </div>
-                            </div>
+                            </a>
                         );
                     })}
             </div>

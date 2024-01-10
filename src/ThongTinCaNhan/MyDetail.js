@@ -10,8 +10,7 @@ import { createAxios } from "../../src/createInstance";
 import { logOutSuccess } from "../redux/authSlice";
 import Loading from "../GiaoDienChung/Loading";
 const MyDetail = (props) => {
-    const { suaPost, setsuaPost } = props;
-    const [taodata, settaodata] = useState(0);
+    const { suaPost, setsuaPost, idShop } = props;
     const user = useSelector((state) => state.auth.login?.currentUser);
     const myDetail = useSelector((state) => state.post.post?.myDetail);
     const allShop = useSelector(
@@ -38,7 +37,12 @@ const MyDetail = (props) => {
         getAllttShop(user?._id, dispatch);
     }, [user]);
     const handleLogout = () => {
-        logOut(dispatch, id, navigate, accessToken, axiosJWT);
+        logOut(dispatch, id, accessToken, axiosJWT);
+        navigate("/dang-nhap");
+    };
+    const handleLogout2 = () => {
+        logOut(dispatch, id, accessToken, axiosJWT);
+        navigate(`/shop/dang-nhap/${idShop}`);
     };
 
     const Admin = () => {
@@ -48,151 +52,160 @@ const MyDetail = (props) => {
         <Loading />
     ) : (
         <div className="container-myDetail">
-            {+taodata === 0 ? (
-                <div className="thongTinCaNhan">
+            <div className="thongTinCaNhan">
+                <div>
                     <div>
-                        <div>
-                            <img
-                                src={banner}
-                                className="bannerThongTinCaNhan"
-                            />
+                        <img src={banner} className="bannerThongTinCaNhan" />
+                    </div>
+                </div>
+                <div className="thongTinCaNhanChiTiet">
+                    <div className="myDetail-avatar-hoTen-cauNoiTamDac">
+                        <img src={avatar} className="myDetail-avatar" />
+                        <div className="myDetail-hoTen-cauNoiTamDac">
+                            <div hidden className="myTieuChi">
+                                Họ Và Tên
+                            </div>
+                            <div className="myDetail-hoTen">{hoTen}</div>
                         </div>
                     </div>
-                    <div className="thongTinCaNhanChiTiet">
-                        <div className="myDetail-avatar-hoTen-cauNoiTamDac">
-                            <img src={avatar} className="myDetail-avatar" />
-                            <div className="myDetail-hoTen-cauNoiTamDac">
-                                <div hidden className="myTieuChi">
-                                    Họ Và Tên
-                                </div>
-                                <div className="myDetail-hoTen">{hoTen}</div>
-                            </div>
-                        </div>
 
-                        <div className="Container-myTieuChi-myNoiDung">
-                            <div className="myTieuChi">Số Điện Thoại</div>
-                            <div className="myNoiDung">
-                                {myDetail?.soDienThoai}
-                            </div>
-                        </div>
-                        <div className="Container-myTieuChi-myNoiDung">
-                            <div className="myTieuChi">Giới Tính</div>
-                            <div className="myNoiDung">{gioiTinh}</div>
-                        </div>
-                        <div className="Container-myTieuChi-myNoiDung">
-                            <div className="myTieuChi">Ngày Sinh</div>
-                            <div className="myNoiDung">
-                                {myDetail?.ngaySinh}/{myDetail?.thangSinh}/
-                                {myDetail?.namSinh}
-                            </div>
-                        </div>
-                        <div className="Container-myTieuChi-myNoiDung">
-                            <div className="myTieuChi">Địa Chỉ</div>
-                            <div className="myNoiDung">
-                                {myDetail?.thonXom} - {myDetail?.xa} -{" "}
-                                {myDetail?.huyen} - {myDetail?.tinh}
-                            </div>
-                        </div>
-                        <div className="Container-myTieuChi-myNoiDung">
-                            <div className="myTieuChi">Tài Khoản Gold</div>
-                            <div className="myNoiDung">{myDetail?.cash}</div>
+                    <div className="Container-myTieuChi-myNoiDung">
+                        <div className="myTieuChi">Số Điện Thoại</div>
+                        <div className="myNoiDung">{myDetail?.soDienThoai}</div>
+                    </div>
+                    <div className="Container-myTieuChi-myNoiDung">
+                        <div className="myTieuChi">Giới Tính</div>
+                        <div className="myNoiDung">{gioiTinh}</div>
+                    </div>
+                    <div className="Container-myTieuChi-myNoiDung">
+                        <div className="myTieuChi">Ngày Sinh</div>
+                        <div className="myNoiDung">
+                            {myDetail?.ngaySinh}/{myDetail?.thangSinh}/
+                            {myDetail?.namSinh}
                         </div>
                     </div>
-                    {allShop && allShop.length !== 0 && (
-                        <div className="quanLyShop-container">
-                            <div className="TieuDeQuanLy">
-                                <div className="quanLyShop">
-                                    Quản Lý Website
-                                </div>
-                                <div className="quanLyShop">
-                                    Quản Lý Đơn Hàng
-                                </div>
-                                <div className="quanLyShop">Review Website</div>
-                            </div>
-                            <div className="noiDungQuanLy">
-                                <div>
-                                    {allShop &&
-                                        allShop.length !== 0 &&
-                                        allShop.map((item) => {
-                                            return (
-                                                <a
-                                                    key={item._id}
-                                                    href={`/update-shop/${item._id}`}
-                                                >
-                                                    <button className="tenShopQuanLy">
-                                                        {item.TenShop}
-                                                    </button>
-                                                </a>
-                                            );
-                                        })}
-                                </div>
-                                <div>
-                                    {allShop &&
-                                        allShop.length !== 0 &&
-                                        allShop.map((item) => {
-                                            return (
-                                                <a
-                                                    key={item._id}
-                                                    href={`/don-hang/${item._id}`}
-                                                >
-                                                    <button className="tenShopQuanLy">
-                                                        {item.TenShop}
-                                                    </button>
-                                                </a>
-                                            );
-                                        })}
-                                </div>
-                                <div>
-                                    {allShop &&
-                                        allShop.length !== 0 &&
-                                        allShop.map((item) => {
-                                            return (
-                                                <a
-                                                    key={item._id}
-                                                    href={`/shop/${item._id}`}
-                                                >
-                                                    <button className="tenShopQuanLy">
-                                                        {item.TenShop}
-                                                    </button>
-                                                </a>
-                                            );
-                                        })}
-                                </div>
-                            </div>
+                    <div className="Container-myTieuChi-myNoiDung">
+                        <div className="myTieuChi">Địa Chỉ</div>
+                        <div className="myNoiDung">
+                            {myDetail?.thonXom} - {myDetail?.xa} -{" "}
+                            {myDetail?.huyen} - {myDetail?.tinh}
                         </div>
-                    )}
-                    <div>
-                        <button
-                            className="suaThongTin"
-                            onClick={() => setsuaPost(1)}
-                        >
-                            Sửa Thông Tin
+                    </div>
+                    <div className="Container-myTieuChi-myNoiDung">
+                        <div className="myTieuChi">Tài Khoản Gold</div>
+                        <div className="myNoiDung">{myDetail?.cash}</div>
+                    </div>
+                    <div className="Container-myTieuChi-myNoiDung">
+                        <div className="myTieuChi">ID</div>
+                        <div className="myNoiDung">{user?._id}</div>
+                    </div>
+                </div>
+                {idShop && idShop.length !== 0 ? (
+                    <a href={`/shop/${idShop}`}>
+                        <button className="tiepTucMuaHang">
+                            Tiếp Tục Mua Hàng
                         </button>
+                    </a>
+                ) : (
+                    <div>
+                        {allShop && allShop.length !== 0 && (
+                            <div className="quanLyShop-container">
+                                <div className="TieuDeQuanLy">
+                                    <div className="quanLyShop">
+                                        Quản Lý Website
+                                    </div>
+                                    <div className="quanLyShop">
+                                        Quản Lý Đơn Hàng
+                                    </div>
+                                    <div className="quanLyShop">
+                                        Review Website
+                                    </div>
+                                </div>
+                                <div className="noiDungQuanLy">
+                                    <div>
+                                        {allShop &&
+                                            allShop.length !== 0 &&
+                                            allShop.map((item) => {
+                                                return (
+                                                    <a
+                                                        key={item._id}
+                                                        href={`/update-shop/${item._id}`}
+                                                    >
+                                                        <button className="tenShopQuanLy">
+                                                            {item.TenShop}
+                                                        </button>
+                                                    </a>
+                                                );
+                                            })}
+                                    </div>
+                                    <div>
+                                        {allShop &&
+                                            allShop.length !== 0 &&
+                                            allShop.map((item) => {
+                                                return (
+                                                    <a
+                                                        key={item._id}
+                                                        href={`/don-hang/${item._id}`}
+                                                    >
+                                                        <button className="tenShopQuanLy">
+                                                            {item.TenShop}
+                                                        </button>
+                                                    </a>
+                                                );
+                                            })}
+                                    </div>
+                                    <div>
+                                        {allShop &&
+                                            allShop.length !== 0 &&
+                                            allShop.map((item) => {
+                                                return (
+                                                    <a
+                                                        key={item._id}
+                                                        href={`/shop/${item._id}`}
+                                                    >
+                                                        <button className="tenShopQuanLy">
+                                                            {item.TenShop}
+                                                        </button>
+                                                    </a>
+                                                );
+                                            })}
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+                    </div>
+                )}
+
+                <div>
+                    <button
+                        className="suaThongTin"
+                        onClick={() => setsuaPost(1)}
+                    >
+                        Sửa Thông Tin
+                    </button>
+                    {idShop && idShop.length !== 0 ? (
+                        <button className="dangXuat" onClick={handleLogout2}>
+                            Đăng Xuất
+                        </button>
+                    ) : (
                         <button className="dangXuat" onClick={handleLogout}>
                             Đăng Xuất
                         </button>
-                    </div>
-                    <div>
-                        {+myDetail?.vaiTro === 2 || user?.admin === true ? (
-                            <button
-                                className="suaThongTin"
-                                onClick={() => settaodata(1)}
-                            >
-                                Quản Lý
-                            </button>
-                        ) : (
-                            <></>
-                        )}
-                        {user?.admin === true && (
-                            <button className="dangXuat" onClick={Admin}>
+                    )}
+                </div>
+                <div>
+                    {user?.admin === true && (
+                        <div>
+                            <button className="suaThongTin" onClick={Admin}>
                                 Admin
                             </button>
-                        )}
-                    </div>
+                            <a href="/add-shop">
+                                <button className="dangXuat">Thêm Shop</button>
+                            </a>
+                        </div>
+                    )}
                 </div>
-            ) : (
-                <></>
-            )}
+            </div>
         </div>
     );
 };

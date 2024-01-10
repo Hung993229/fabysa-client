@@ -27,11 +27,11 @@ const Nav = () => {
 
             <NavLink
                 className={({ isActive }) => (isActive ? "active1" : "")}
-                to="/hom-thu"
+                to="/tongkhosi"
             >
                 <div className="nav-detail">
-                    <i className="fa-solid fa-envelope"></i>
-                    <div>Affiliate</div>
+                    <i className="fa-solid fa-mosque"></i>
+                    <div>Tổng Kho Sỉ</div>
                 </div>
             </NavLink>
 

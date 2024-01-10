@@ -1,10 +1,13 @@
 
+/* Mobile & Tablet */
+@media screen and (max-width : 1023px) {
+ 
 .chitietsp-datHang-fabysa{
     a{text-decoration: none};
     background-color: #9cddc2;
     .container-FabysaChiTietSpTo{
         background-color: #9cddc2;
-        margin: 15vw auto;
+        margin: auto auto;
         padding: 5vw 0vw 15vw 0vw;
         a{text-decoration: none};
         .container-FabysaChiTietSp {
@@ -56,6 +59,10 @@
                 font-weight: 600;
                 margin-top: 3vw;
                 text-transform: uppercase;
+                word-wrap:break-word;
+                overflow:auto;
+                height: 5vw;
+                width: 43vw;
             }
             .giaBan {
                 // display: flex;
@@ -237,4 +244,10 @@
             margin-bottom: 3vw;
         }
     }
+}  
+}
+
+/* PC*/
+@media screen and (min-width : 1024px) {
+   
 }

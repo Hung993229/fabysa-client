@@ -126,9 +126,13 @@ const Shop = () => {
                     </div>
                     {tuVanVaThongTin === 1 && (
                         <div className="gioiThieuChiTiet">
-                            <div className="tenCuaHang2">{ttShop?.TenShop}</div>
+                            <a href={`/ca-nhan`}>
+                                <div className="tenCuaHang2">
+                                    {ttShop?.TenShop}
+                                </div>
+                            </a>
                             <div className="dc">Địa Chỉ: {ttShop?.dcShop}</div>
-                            <div className="sdt">
+                            <div className="dc">
                                 Số Điện Thoại: {ttShop?.sdtShop}
                             </div>
                             <div className="sdt">{ttShop?.sloganShop}</div>
@@ -142,9 +146,9 @@ const Shop = () => {
                     )}
                     {tuVanVaThongTin === 2 && (
                         <div className="tuVanChiTiet">
-                            <div>
-                                Quý Khách có thắc mắc hoặc cần tư vấn gì có thể
-                                nhắn tin 24/7 <br /> qua Zalo, Facebook bên
+                            <div className="loiNhan">
+                                Quý Khách có thắc mắc hoặc cần tư vấn xin vui
+                                lòng <br /> nhắn tin qua Zalo, Facebook bên
                                 dưới!
                             </div>
                             <div className="mxh">
@@ -165,7 +169,9 @@ const Shop = () => {
                                     </a>
                                 </div>
                             </div>
-
+                            <div className="loiNhan">
+                                Xin trân trọng cảm ơn!
+                            </div>
                             <button
                                 className="closeGioiThieu"
                                 onClick={() => settuVanVaThongTin(0)}

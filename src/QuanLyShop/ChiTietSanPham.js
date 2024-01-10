@@ -23,6 +23,7 @@ const ChiTietSanPham = () => {
     const { idShop, spId } = useParams();
     const [datHang, setdatHang] = useState(0);
     const thongTinSp = allSanPham?.find((item) => item._id === spId);
+    console.log("thongTinSp", thongTinSp);
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -40,10 +41,10 @@ const ChiTietSanPham = () => {
     }, []);
 
     // thongtindonHang
-    const [slSP, setslSP] = useState(1);
-    const [thanhTien, setthanhTien] = useState(thongTinSp?.giaKhuyenMai * slSP);
 
-    const [soTienCanTT, setsoTienCanTT] = useState(thanhTien);
+    const [slSP, setslSP] = useState(0);
+    const [thanhTien, setthanhTien] = useState(0);
+    // const [soTienCanTT, setsoTienCanTT] = useState();
     const [phuongThucTT, setphuongThucTT] = useState(
         "Thanh Toán Khi Nhận Hàng"
     );
@@ -55,39 +56,50 @@ const ChiTietSanPham = () => {
     const [ghiChuNguoiMua, setghiChuNguoiMua] = useState("Giao sớm nhé Shop!");
 
     const hoanThanhDonHang = () => {
-        try {
-            const newDonHang = {
-                tenSp: thongTinSp?.TenSanPham,
-                linkSp: `/shop/${idShop}/${spId}`,
-                donGia: thongTinSp?.giaKhuyenMai,
-                giaNhap: thongTinSp?.giaNhap,
-                slSP: slSP,
-                thanhTien: thanhTien,
-                goldDaTT: "",
-                soTienCanTT: thanhTien,
-                phuongThucTT: phuongThucTT,
-                // nguoimua
-                sdtNguoiMua: sdtNguoiMua,
-                hoTenNguoiMua: hoTenNguoiMua,
-                dcNguoiNMua: dcNguoiNMua,
-                ghiChuNguoiMua: ghiChuNguoiMua,
-                idPost: "",
-                // Ctv
-                affiliate: thongTinSp?.affiliate,
-                hoahongCTV: thongTinSp?.hoahongCTV,
-                // nguoi ban
-                giamTru: 0,
-                trangThaiDH: 1,
-                user: thongTinSp?.user,
-            };
-            console.log("newDonHang", newDonHang);
-            registerDonHang(newDonHang, dispatch);
-        } catch (err) {
-            console.log(err);
+        if (slSP === 0) {
+            alert("Bạn chưa nhập số lượng");
+        } else {
+            if (!sdtNguoiMua || !hoTenNguoiMua || !dcNguoiNMua) {
+                alert("Bạn nhập thiếu thông tin nhận hàng!");
+            } else {
+                try {
+                    const newDonHang = {
+                        tenSp: thongTinSp?.TenSanPham,
+                        linkSp: `/shop/${idShop}/${spId}`,
+                        donGia: thongTinSp?.giaKhuyenMai,
+                        giaNhap: thongTinSp?.giaNhap,
+                        slSP: slSP,
+                        thanhTien: thanhTien,
+                        goldDaTT: "",
+                        soTienCanTT: thanhTien,
+                        phuongThucTT: phuongThucTT,
+                        // nguoimua
+                        sdtNguoiMua: sdtNguoiMua,
+                        hoTenNguoiMua: hoTenNguoiMua,
+                        dcNguoiNMua: dcNguoiNMua,
+                        ghiChuNguoiMua: ghiChuNguoiMua,
+                        idPost: "",
+                        // Ctv
+                        affiliate: thongTinSp?.affiliate,
+                        hoahongCTV: thongTinSp?.hoahongCTV,
+                        // nguoi ban
+                        giamTru: 0,
+                        trangThaiDH: 1,
+                        user: thongTinSp?.user,
+                    };
+                    console.log("newDonHang", newDonHang);
+                    registerDonHang(newDonHang, dispatch);
+                    navigate(`/shop/${idShop}`);
+                } catch (err) {
+                    console.log(err);
+                }
+            }
         }
     };
     useEffect(() => {
-        setthanhTien(thongTinSp?.giaKhuyenMai * slSP);
+        if (slSP > 0) {
+            setthanhTien(thongTinSp?.giaKhuyenMai * slSP);
+        }
     }, [slSP]);
     // thongtindonHang
 
@@ -100,15 +112,11 @@ const ChiTietSanPham = () => {
     console.log("thanhTien", thanhTien);
 
     // thongtindonHanguser
-    const [slSP2, setslSP2] = useState(1);
-    const [thanhTien2, setthanhTien2] = useState(
-        thongTinSp?.giaKhuyenMai * slSP2
-    );
+    const [slSP2, setslSP2] = useState(0);
+    const [thanhTien2, setthanhTien2] = useState(0);
     const [gold2, setgold2] = useState(myDetail?.cash);
     const [goldDaTT2, setgoldDaTT2] = useState(0);
-    const [soTienCanTT2, setsoTienCanTT2] = useState(
-        thongTinSp?.giaKhuyenMai * slSP2
-    );
+    const [soTienCanTT2, setsoTienCanTT2] = useState(0);
     const [phuongThucTT2, setphuongThucTT2] = useState(
         "Thanh Toán Khi Nhận Hàng"
     );
@@ -118,72 +126,94 @@ const ChiTietSanPham = () => {
     const [dcNguoiNMua2, setdcNguoiNMua2] = useState(
         `${myDetail?.thonXom} - ${myDetail?.xa} - ${myDetail?.huyen} - ${myDetail?.tinh}`
     );
-    console.log("slSP", slSP);
+    console.log("goldDaTT2", goldDaTT2);
     const [ghiChuNguoiMua2, setghiChuNguoiMua2] =
         useState("Giao sớm nhé Shop!");
     const hoanThanhDonHanguser = () => {
-        if (gold2 > myDetail?.cash) {
-            alert("Bạn đã nhập quá Gold đang có!");
+        if (slSP2 === 0) {
+            alert("Bạn chưa nhập số lượng");
         } else {
-            if (goldDaTT2 > thanhTien2) {
-                alert("Bạn đã nhập quá Tiền Cần thanh Toán!");
+            if (!sdtNguoiMua2 || !hoTenNguoiMua2 || !dcNguoiNMua2) {
+                alert("Bạn nhập thiếu thông tin nhận hàng!");
             } else {
-                try {
-                    const newDonHang = {
-                        tenSp: thongTinSp?.TenSanPham,
-                        linkSp: `/shop/${idShop}/${spId}`,
-                        donGia: thongTinSp?.giaKhuyenMai,
-                        giaNhap: thongTinSp?.giaNhap,
-                        slSP: slSP2,
-                        thanhTien: thanhTien2,
-                        goldDaTT: goldDaTT2,
-                        soTienCanTT: soTienCanTT2,
-                        phuongThucTT: phuongThucTT2,
-                        // nguoimua
-                        sdtNguoiMua: sdtNguoiMua2,
-                        hoTenNguoiMua: hoTenNguoiMua2,
-                        dcNguoiNMua: dcNguoiNMua2,
-                        ghiChuNguoiMua: ghiChuNguoiMua2,
-                        idPost: myDetail?._id,
-                        // Ctv
-                        affiliate: thongTinSp?.affiliate,
-                        hoahongCTV: thongTinSp?.hoahongCTV,
-                        // nguoi ban
+                if (goldDaTT2 < 0) {
+                    alert("Số Gold bạn nhập không phù hợp!");
+                    setgoldDaTT2(0);
+                } else {
+                    if (gold2 > myDetail?.cash) {
+                        alert("Bạn đã nhập quá Gold đang có!");
+                        setgoldDaTT2(0);
+                    } else {
+                        if (goldDaTT2 > thanhTien2) {
+                            alert("Bạn đã nhập quá Tiền Cần thanh Toán!");
+                            setgoldDaTT2(0);
+                        } else {
+                            try {
+                                const newDonHang = {
+                                    tenSp: thongTinSp?.TenSanPham,
+                                    linkSp: `/shop/${idShop}/${spId}`,
+                                    donGia: thongTinSp?.giaKhuyenMai,
+                                    giaNhap: thongTinSp?.giaNhap,
+                                    slSP: slSP2,
+                                    thanhTien: thanhTien2,
+                                    goldDaTT: goldDaTT2,
+                                    soTienCanTT: soTienCanTT2,
+                                    phuongThucTT: phuongThucTT2,
+                                    // nguoimua
+                                    sdtNguoiMua: sdtNguoiMua2,
+                                    hoTenNguoiMua: hoTenNguoiMua2,
+                                    dcNguoiNMua: dcNguoiNMua2,
+                                    ghiChuNguoiMua: ghiChuNguoiMua2,
+                                    idPost: myDetail?._id,
+                                    // Ctv
+                                    affiliate: thongTinSp?.affiliate,
+                                    hoahongCTV: thongTinSp?.hoahongCTV,
+                                    // nguoi ban
 
-                        giamTru: 0,
-                        trangThaiDH: 1,
-                        user: thongTinSp?.user,
-                    };
-                    console.log("newDonHang", newDonHang);
-                    registerDonHang(newDonHang, dispatch);
-                    const idPost = myDetail?._id;
-                    const newPost = {
-                        cash: myDetail?.cash - goldDaTT2,
-                    };
-                    updatePost(newPost, idPost, dispatch);
-                    const id = ttShop._id;
-                    const newShop = {
-                        cash: ttShop.cash + goldDaTT2,
-                    };
-                    console.log("newShop", newShop);
-                    updatettShop(newShop, id, dispatch);
-                } catch (err) {
-                    console.log(err);
+                                    giamTru: 0,
+                                    trangThaiDH: 1,
+                                    user: thongTinSp?.user,
+                                };
+                                registerDonHang(newDonHang, dispatch);
+                                const idPost = myDetail?._id;
+                                const newPost = {
+                                    cash: myDetail?.cash - goldDaTT2,
+                                };
+                                updatePost(newPost, idPost, dispatch);
+                                const id = ttShop._id;
+                                const newShop = {
+                                    cash: ttShop.cash + goldDaTT2,
+                                };
+                                updatettShop(newShop, id, dispatch);
+                                navigate(`/shop/${idShop}`);
+                            } catch (err) {
+                                console.log(err);
+                            }
+                        }
+                    }
                 }
             }
         }
     };
     useEffect(() => {
-        setthanhTien2(thongTinSp?.giaKhuyenMai * slSP2);
-        setsoTienCanTT2(thongTinSp?.giaKhuyenMai * slSP2);
+        if (slSP2 > 0) {
+            setthanhTien2(thongTinSp?.giaKhuyenMai * slSP2);
+            setsoTienCanTT2(thongTinSp?.giaKhuyenMai * slSP2);
+        }
     }, [slSP2]);
     useEffect(() => {
         setsoTienCanTT2(thongTinSp?.giaKhuyenMai * slSP2 - goldDaTT2);
+        if (goldDaTT2 < 0) {
+            alert("Số Gold bạn nhập không phù hợp!");
+            setgoldDaTT2(0);
+        }
         if (goldDaTT2 > myDetail?.cash) {
             alert("Bạn đã nhập quá Gold đang có!");
+            setgoldDaTT2(0);
         }
         if (goldDaTT2 > thanhTien2) {
             alert("Bạn đã nhập quá Tiền Cần thanh Toán!");
+            setgoldDaTT2(0);
         }
     }, [goldDaTT2]);
     // thongtindonHanguser
@@ -285,7 +315,7 @@ const ChiTietSanPham = () => {
                                 <input
                                     className="noiDungFormregis"
                                     onChange={(e) => setslSP2(e.target.value)}
-                                    placeholder={slSP}
+                                    placeholder="Nhập Số Lượng"
                                 />
                             </div>
                             <div className="containerTieuChiFormregis">
@@ -293,11 +323,11 @@ const ChiTietSanPham = () => {
                                     Thành Tiền
                                 </div>
                                 <div className="noiDungFormregis">
-                                    {thanhTien2}
+                                    {VND.format(thanhTien2)}
                                 </div>
                             </div>
 
-                            <div className="containerTieuChiFormregis">
+                            {/* <div className="containerTieuChiFormregis">
                                 <div className="tieuChiFormregis">
                                     Tài Khoản Gold
                                 </div>
@@ -314,7 +344,7 @@ const ChiTietSanPham = () => {
                                     onChange={(e) =>
                                         setgoldDaTT2(e.target.value)
                                     }
-                                    placeholder="Nhập số Gold"
+                                    placeholder={goldDaTT2}
                                 />
                             </div>
 
@@ -323,13 +353,16 @@ const ChiTietSanPham = () => {
                                     Cần Thanh Toán Số Tiền
                                 </div>
                                 <div className="noiDungFormregis">
-                                    {soTienCanTT2} vnd
+                                    {VND.format(soTienCanTT2)}
                                 </div>
-                            </div>
+                            </div> */}
                             <div className="containerTieuChiFormregis">
                                 <div className="tieuChiFormregis">
                                     Thanh Toán
                                 </div>
+                                {/* <div className="noiDungFormregis">
+                                    Thanh Toán Khi Nhận
+                                </div> */}
                                 <select
                                     onChange={(e) =>
                                         setphuongThucTT2(e.target.value)
@@ -393,12 +426,14 @@ const ChiTietSanPham = () => {
                                     }
                                 />
                             </div>
+                            {/* <a href={`/shop/${idShop}`}> */}
                             <button
                                 className="hoanThanh"
                                 onClick={hoanThanhDonHanguser}
                             >
                                 Hoàn Thành
                             </button>
+                            {/* </a> */}
                         </div>
                     ) : (
                         <div className="datHang-container">
@@ -427,7 +462,7 @@ const ChiTietSanPham = () => {
                                 <input
                                     className="noiDungFormregis"
                                     onChange={(e) => setslSP(e.target.value)}
-                                    placeholder={slSP}
+                                    placeholder="Nhập Số Lượng"
                                 />
                             </div>
                             <div className="containerTieuChiFormregis">
@@ -435,7 +470,7 @@ const ChiTietSanPham = () => {
                                     Thành Tiền
                                 </div>
                                 <div className="noiDungFormregis">
-                                    {thanhTien}
+                                    {VND.format(thanhTien)}
                                 </div>
                             </div>
 
@@ -443,6 +478,9 @@ const ChiTietSanPham = () => {
                                 <div className="tieuChiFormregis">
                                     Thanh Toán
                                 </div>
+                                {/* <div className="noiDungFormregis">
+                                    Thanh Toán Khi Nhận
+                                </div> */}
                                 <select
                                     onChange={(e) =>
                                         setphuongThucTT(e.target.value)
@@ -508,22 +546,26 @@ const ChiTietSanPham = () => {
                             </div>
 
                             {/* hhhhhhh */}
-
+                            {/* <a href={`/shop/${idShop}`}> */}
                             <button
                                 className="hoanThanh"
                                 onClick={hoanThanhDonHang}
                             >
                                 Hoàn Thành
                             </button>
+                            {/* </a> */}
                             <div className="luuY">
                                 Đăng kí tài khoản để lưu lại địa chỉ giúp mua
                                 hàng nhanh hơn vào các lần sau!
                             </div>
-                            <div className="luuY2">
+                            {/* <div className="luuY2">
                                 Đặc Biệt: Tặng ngẫu nhiên 10k - 100k Gold khi
                                 đăng kí tài khoản mới!
-                            </div>
-                            <a className="dangkingay" href="/dang-ki">
+                            </div> */}
+                            <a
+                                className="dangkingay"
+                                href={`/shop/dang-ki/${idShop}`}
+                            >
                                 Đăng Kí Ngay
                             </a>
                         </div>

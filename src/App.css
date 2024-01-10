@@ -128,12 +128,7 @@ table {
     border-collapse: collapse;
     border-spacing: 0;
 }
-.App{
-    max-width: calc(100% - 0px);
-    margin: 0 auto;
-    text-align: center;
-   
-}
+
 html {
     font-size: 2.5vw;
 }
@@ -147,4 +142,38 @@ button {
     border-radius: 4px;
     color: white;
     background-color: rgb(161, 161, 161);
+}
+.App{
+    max-width: calc(100% - 0px);
+    /* max-width: 699px; */
+    margin: 0 auto;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    /* width: 699px; */
+   
+}
+/* Mobile < 740px*/
+@media screen and (max-width : 739px) {
+   
+}
+
+/* Table: >=740px - <1024px */
+@media screen and (min-width : 740px) and (max-width : 1023px) {
+   
+}
+
+/* PC >= 1024px*/
+@media screen and (min-width : 1024px) {
+   
+}
+
+/* Mobile & Tablet */
+@media screen and (max-width : 1023px) {
+   
+}
+
+/* PC*/
+@media screen and (min-width : 1024px) {
+   
 }

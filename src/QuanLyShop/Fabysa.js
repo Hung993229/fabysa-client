@@ -128,7 +128,7 @@ const Fabysa = () => {
                         </div>
                         <div>
                             <a
-                                href={`https://www.facebook.com/profile.php?id=61553364305734`}
+                                href={`https://www.facebook.com/profile.php?id=61554188707999`}
                                 target="_blank"
                             >
                                 <img className="facebook" src={facebookLogo} />

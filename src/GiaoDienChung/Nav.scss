@@ -1,43 +1,54 @@
-.container-nav {
-    overflow: hidden;
-    // background-color: #04aa6d;
-    margin: auto;
-    justify-content: center;
-    align-items: center;
-    bottom: 0px;
-    z-index: 1;
-    position: fixed;
-    width: 100vw;
-   
-   
-    a {
-        float: left;
-        color: #f2f2f2;
-        text-align: center;
-        text-decoration: none;
-        font-size: 2.5vw;
-        width: calc(100% / 6);
-        border: solid 0.4vw #fff;
-        border-radius: 1.5vw;
-        padding: 0.5vw;
-        background-color: #04aa6d;
-        margin-bottom: 1vw;
-        height: 9vw;
-        i{
-            margin-bottom: 1.2vw;
-            margin-top: 0.5vw;
+
+/* Mobile & Tablet */
+@media screen and (max-width : 1023px) {
+    .container-nav {
+        overflow: hidden;
+        // background-color: #04aa6d;
+        margin: auto;
+        justify-content: center;
+        align-items: center;
+        bottom: 0px;
+        z-index: 1;
+        position: fixed;
+        width: 100vw;
+       
+       
+        a {
+            float: left;
+            color: #f2f2f2;
+            text-align: center;
+            text-decoration: none;
+            font-size: 2.5vw;
+            width: calc(100% / 6);
+            border: solid 0.4vw #fff;
+            border-radius: 1.5vw;
+            padding: 0.5vw;
+            background-color: #04aa6d;
+            margin-bottom: 1vw;
+            height: 9vw;
+            i{
+                margin-bottom: 1.2vw;
+                margin-top: 0.5vw;
+            }
         }
-    }
-
-    a:hover {
-        background-color: #f2f2f2;
-        color: black;
-    }
-
-    a.active1 {
-        background-color: #e6f702;
-        color: black;
-        width: calc(100% / 6);
-    }
     
+        a:hover {
+            background-color: #f2f2f2;
+            color: black;
+        }
+    
+        a.active1 {
+            background-color: #e6f702;
+            color: black;
+            width: calc(100% / 6);
+        }
+        
+    }
+}
+
+/* PC*/
+@media screen and (min-width : 1024px) {
+    .container-nav{
+        display: none;
+    }
 }

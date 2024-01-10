@@ -1,4 +1,65 @@
-.sanSale{
-    position: absolute;
-    top: 30vw
+
+/* Mobile & Tablet */
+@media screen and (max-width : 1023px) {
+    .hoiFA-container{
+        text-align: center;
+        margin-top: 9vw;
+        margin-bottom: 15vw;
+        padding: 5vw 3vw;
+        .thamGiaNgay{
+            margin-top: 3vw;
+            border-radius: 3vw;
+            background-color: #04aa6d;
+            text-align: center;
+            font-size: 4vw;
+            color: #fff;
+    
+        }
+        .tieuDe-noiDung{
+            .tieuDe{
+                margin: 5vw auto 3vw auto;
+                font-size: 4vw;
+                font-weight: 600;
+                text-align: left;
+    
+            }
+            .noiDung{
+                font-size: 4vw;
+               text-align: justify;
+            }
+        }
+    }
+}
+
+/* PC*/
+@media screen and (min-width : 1024px) {
+    .hoiFA-container{
+        text-align: center;
+        margin-top: 6vw;
+        margin-bottom: 15vw;
+        padding: 0vw 3vw;
+        .thamGiaNgay{
+            margin-top: 3vw;
+            border-radius: 1vw;
+            background-color: #04aa6d;
+            text-align: center;
+            font-size: 3vw;
+            color: #fff;
+            padding: 0.5vw;
+    
+        }
+        .tieuDe-noiDung{
+            .tieuDe{
+                margin: 2vw auto 1vw auto;
+                font-size: 2vw;
+                font-weight: 600;
+                text-align: left;
+    
+            }
+            .noiDung{
+                font-size: 1.5vw;
+               text-align: justify;
+            }
+        }
+    }
 }

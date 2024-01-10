@@ -1,43 +1,96 @@
-.donHang-container{
-    a{text-decoration: none};
-    margin-top: 9vw;
-    margin-bottom: 20vw;
-    padding: 1vw;
-    .donHang-nav{
-        display: flex;
-        gap: 5vw;
-    
-       
-    }
-.tieuDeDonHang{
-    font-size: 5vw;
-    font-weight: 600;
-    margin: 3vw auto;
 
-}
-.tenbangContainer{
-    margin-top: 5vw;
-    .tenbang{
-        font-size: 3.5vw;
-    font-weight: 600;
+/* Mobile & Tablet */
+@media screen and (max-width : 1023px) {
+    .donHang-container{
+        a{text-decoration: none};
+        margin-top: 9vw;
+        margin-bottom: 20vw;
+        padding: 1vw;
+        .donHang-nav{
+            display: flex;
+            gap: 5vw;
+        
+           
+        }
+    .tieuDeDonHang{
+        font-size: 5vw;
+        font-weight: 600;
+        margin: 3vw auto;
     
     }
-    .chiTietDonHang{
-        display: grid;
-        grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
-        .chiTietTungO{
-            border: solid 1px gray;
-            word-wrap:break-word;
-            overflow:auto;
-            height: 5vw;
-            justify-content: center;
-            align-items: center;
-
+    .tenbangContainer{
+        margin-top: 5vw;
+        .tenbang{
+            font-size: 3.5vw;
+        font-weight: 600;
+        
         }
-        }
+        .chiTietDonHang{
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+            .chiTietTungO{
+                border: solid 1px gray;
+                word-wrap:break-word;
+                overflow:auto;
+                height: 5vw;
+                justify-content: center;
+                align-items: center;
+    
+            }
+            }
+    }
+    
+    
+        
+    
+    }
 }
 
-
+/* PC*/
+@media screen and (min-width : 1024px) {
+    .donHang-container{
+        a{text-decoration: none};
+        margin-top: 6vw;
+        margin-bottom: 20vw;
+        padding: 1vw;
+        .donHang-nav{
+            display: flex;
+            gap: 3vw;
+        
+           
+        }
+    .tieuDeDonHang{
+        font-size: 3vw;
+        font-weight: 600;
+        margin: 2vw auto;
     
-
+    }
+    .tenbangContainer{
+        margin-top: 2vw;
+        .tenbang{
+            font-size: 2vw;
+        font-weight: 600;
+        color: red;
+        
+        }
+        .chiTietDonHang{
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+            .chiTietTungO{
+                border: solid 1px gray;
+                word-wrap:break-word;
+                overflow:auto;
+                font-size: 1.5vw;
+                padding: 0.5vw;
+                justify-content: center;
+                align-items: center;
+    
+            }
+            }
+    }
+    
+    
+        
+    
+    }
 }

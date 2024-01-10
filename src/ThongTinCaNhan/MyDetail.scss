@@ -1,105 +1,254 @@
 
-.container-myDetail {
-    text-align: center;
-    .thongTinCaNhan {
-        .bannerThongTinCaNhan {
-            width: 100vw;
-            height: 40vw;
-            object-fit: cover;
-            position: relative;
-        }
-        .myDetail-avatar-hoTen-cauNoiTamDac {
-           
-            .myDetail-avatar {
-                width: 16.8vw;
-                height: 16.8vw;
+
+/* Mobile & Tablet */
+@media screen and (max-width : 1023px) {
+    .container-myDetail {
+        text-align: center;
+        .thongTinCaNhan {
+            .bannerThongTinCaNhan {
+                width: 100vw;
+                height: 40vw;
                 object-fit: cover;
-                position: absolute;
-                border-radius: 50%;
-                top: 35vw;
-                left: 12vw;
+                position: relative;
             }
-            .myDetail-hoTen {
-                margin-bottom: 3vw;
-                margin-top: 5vw;
-                padding-left: 30.5vw;
-                text-align: left;
-                display: block;
-                font-size: 5vw;
-                font-weight: 600;
-            }
-        }
-        .Container-myTieuChi-myNoiDung {
-            display: flex;
-            margin-top: 5vw;
-            .myTieuChi {
-                border-bottom: solid 0.1vw rgb(143, 140, 140);
-                width: 40%;
-                font-size: 3vw;
-            }
-            .myNoiDung {
-                text-align: center;
-                border-bottom: solid 0.1vw rgb(143, 140, 140);
-                width: 60%;
-            }
-            .myNoiDung2 {
-                justify-content: center;
-                align-items: center;
-                text-align: center;
-                border-bottom: solid 0.1vw rgb(143, 140, 140);
-                width: 60%;
-                display: flex;
-            }
-        }
-        .quanLyShop-container{
-            a{text-decoration: none;}
-            margin-top: 5vw;
-            margin-bottom: 10vw;
-            .TieuDeQuanLy{
-                display: grid;
-                margin-bottom: 3vw;
-        grid-template-columns: 1fr 1fr 1fr;
-        .quanLyShop{
-            // font-size: 3vw;
-            font-weight: 600;
-            
-
-        }
-
-            }
-            .noiDungQuanLy{
-                display: grid;
-                grid-template-columns: 1fr 1fr 1fr;
-                .tenShopQuanLy{
-                    // // margin-top: 2vw;
-                    border-radius: 3vw;
-                    // font-size: 3vw;
+            .myDetail-avatar-hoTen-cauNoiTamDac {
+               
+                .myDetail-avatar {
+                    width: 16.8vw;
+                    height: 16.8vw;
+                    object-fit: cover;
+                    position: absolute;
+                    border-radius: 50%;
+                    top: 35vw;
+                    left: 12vw;
+                }
+                .myDetail-hoTen {
+                    margin-bottom: 3vw;
+                    margin-top: 5vw;
+                    padding-left: 30.5vw;
+                    text-align: left;
+                    display: block;
+                    font-size: 5vw;
                     font-weight: 600;
-                    cursor: pointer;
-                    background-color: #04aa6d;
-    
                 }
             }
-            
-            
-        }
+            .Container-myTieuChi-myNoiDung {
+                display: flex;
+                margin-top: 5vw;
+                .myTieuChi {
+                    border-bottom: solid 0.1vw rgb(143, 140, 140);
+                    width: 40%;
+                    font-size: 3vw;
+                }
+                .myNoiDung {
+                    text-align: center;
+                    border-bottom: solid 0.1vw rgb(143, 140, 140);
+                    width: 60%;
+                }
+                .myNoiDung2 {
+                    justify-content: center;
+                    align-items: center;
+                    text-align: center;
+                    border-bottom: solid 0.1vw rgb(143, 140, 140);
+                    width: 60%;
+                    display: flex;
+                }
+            }
+            .tiepTucMuaHang{
+                text-decoration: none;
+                border-radius: 1vw;
+                color: #fff;
+                        font-size: 5vw;
+                        font-weight: 600;
+                        cursor: pointer;
+                        background-color: #04aa6d;
+                        padding: 1vw;
+                        margin: 5vw;
+            }
+            .quanLyShop-container{
+                a{text-decoration: none;}
+                margin-top: 5vw;
+                margin-bottom: 10vw;
+                .TieuDeQuanLy{
+                    display: grid;
+                    margin-bottom: 3vw;
+            grid-template-columns: 1fr 1fr 1fr;
+            .quanLyShop{
+                // font-size: 3vw;
+                font-weight: 600;
+                
+    
+            }
+    
+                }
+                .noiDungQuanLy{
+                    display: grid;
+                    grid-template-columns: 1fr 1fr 1fr;
+                    .tenShopQuanLy{
+                        // // margin-top: 2vw;
+                        border-radius: 3vw;
+                        // font-size: 3vw;
+                        font-weight: 600;
+                        cursor: pointer;
+                        background-color: #04aa6d;
         
-
-        .suaThongTin {
-            margin-bottom: 2vw;
-            cursor: pointer;
-            border-radius: 1vw;
-            width: 25vw;
-            margin-right: 20%;
-            margin-top: 5vw;
-            background-color: #04aa6d;
-            color: #fff;
+                    }
+                }
+                
+                
+            }
+            
+    
+            .suaThongTin {
+                margin-bottom: 2vw;
+                cursor: pointer;
+                border-radius: 1vw;
+                width: 25vw;
+                margin-right: 20%;
+                margin-top: 5vw;
+                background-color: #04aa6d;
+                color: #fff;
+            }
+            .dangXuat {
+                cursor: pointer;
+                border-radius: 1vw;
+                width: 25vw;
+                background-color: #ff0000;
+            }
         }
-        .dangXuat {
-            cursor: pointer;
-            border-radius: 1vw;
-            width: 25vw;
-            background-color: #ff0000;
+    }
+}
+
+/* PC*/
+@media screen and (min-width : 1024px) {
+    .container-myDetail {
+        text-align: center;
+        .thongTinCaNhan {
+            .bannerThongTinCaNhan {
+                width: 100vw;
+                height: 25vw;
+                object-fit: cover;
+                position: relative;
+            }
+            .myDetail-avatar-hoTen-cauNoiTamDac {
+               
+                .myDetail-avatar {
+                    width: 8vw;
+                    height: 8vw;
+                    object-fit: cover;
+                    position: absolute;
+                    border-radius: 50%;
+                    top: 23vw;
+                    left: 12vw;
+                }
+                .myDetail-hoTen {
+                    margin-bottom: 1.5vw;
+                    margin-top: 4vw;
+                    padding-left: 20.5vw;
+                    text-align: left;
+                    display: block;
+                    font-size: 2vw;
+                    font-weight: 600;
+                }
+            }
+            .Container-myTieuChi-myNoiDung {
+                display: flex;
+                margin-top: 1.5vw;
+                .myTieuChi {
+                    border-bottom: solid 0.1vw rgb(143, 140, 140);
+                    width: 40%;
+                    font-size: 1.5vw;
+                }
+                .myNoiDung {
+                    text-align: center;
+                    border-bottom: solid 0.1vw rgb(143, 140, 140);
+                    width: 60%;
+                    font-size: 1.5vw;
+                }
+                .myNoiDung2 {
+                    justify-content: center;
+                    align-items: center;
+                    text-align: center;
+                    border-bottom: solid 0.1vw rgb(143, 140, 140);
+                    width: 60%;
+                    display: flex;
+                    font-size: 1vw;
+                }
+            }
+            .tiepTucMuaHang{
+                text-decoration: none;
+                border-radius: 1vw;
+                color: #fff;
+                        font-size: 2vw;
+                        font-weight: 600;
+                        cursor: pointer;
+                        background-color: #04aa6d;
+                        padding: 1vw;
+                        margin: 1vw;
+            }
+            .quanLyShop-container{
+                a{text-decoration: none;}
+                margin-top: 1vw;
+                margin-bottom: 1vw;
+                .TieuDeQuanLy{
+                    display: grid;
+                    margin-bottom: 1vw;
+            grid-template-columns: 1fr 1fr 1fr;
+            .quanLyShop{
+                // font-size: 3vw;
+                font-weight: 600;
+                
+    
+            }
+    
+                }
+                .noiDungQuanLy{
+                    display: grid;
+                    grid-template-columns: 1fr 1fr 1fr;
+                    a{
+                        display: block;
+                        .tenShopQuanLy{
+                            // // margin-top: 2vw;
+                            border-radius: 1vw;
+                            font-size: 1.5vw;
+                            font-weight: 600;
+                            padding: 0.5vw;
+                            cursor: pointer;
+                            background-color: #04aa6d;
+                           
+            
+            
+    
+            
+                        }
+                    }
+                   
+                }
+                
+                
+            }
+            
+    
+            .suaThongTin {
+                margin-bottom: 1vw;
+                cursor: pointer;
+                font-size: 1.5vw;
+                border-radius: 1vw;
+                width: 15vw;
+                margin-right: 20%;
+                margin-top: 1vw;
+                background-color: #04aa6d;
+                color: #fff;
+                padding: 0.5vw;
+            }
+            .dangXuat {
+                cursor: pointer;
+                padding: 0.5vw;
+                font-size: 1.5vw;
+                border-radius: 1vw;
+                width: 15vw;
+                background-color: #ff0000;
+            }
         }
     }
 }

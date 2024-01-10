@@ -1,5 +1,6 @@
 import "./App.css";
 import Header from "./GiaoDienChung/Header";
+import Header2 from "./GiaoDienChung/Header2";
 import Nav from "./GiaoDienChung/Nav";
 import KetBan from "./KetBan/KetBan";
 import MiniGame from "./MiniGame/MiniGame";
@@ -7,7 +8,9 @@ import Instruct from "./HuongDan/Instruct";
 import ThongTinCaNhan from "./ThongTinCaNhan/ThongTinCaNhan";
 import FormRegister from "./Tao Thong Tin/FormRegister";
 import DangNhap from "./DangNhap/DangNhap";
+import DangNhap2 from "./DangNhap/DangNhap2";
 import DangKi from "./DangKi/DangKi";
+import DangKi2 from "./DangKi/DangKi2";
 import AddShop from "./QuanLyShop/AddShop";
 import ChiTietSanPham from "./QuanLyShop/ChiTietSanPham";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
@@ -15,6 +18,8 @@ import QuanLyUser from "./QuanLyUser/QuanLyUser";
 import Shop from "./QuanLyShop/Shop";
 import UpdateShop from "./QuanLyShop/UpdateShop";
 import DonHang from "./QuanLyShop/DonHang";
+import DangHoanThien from "./GiaoDienChung/DangHoanThien";
+
 import DonHangMoi from "./QuanLyShop/DonHangMoi";
 import DonHangDangGiao from "./QuanLyShop/DonHangDangGiao";
 import DonHangHoanThanh from "./QuanLyShop/DonHangHoanThanh";
@@ -49,7 +54,8 @@ function App() {
                         element={
                             <>
                                 <Header className="header" />
-                                <MiniGame />
+                                {/* <MiniGame /> */}
+                                <DangHoanThien />
                                 <Nav />
                             </>
                         }
@@ -99,9 +105,9 @@ function App() {
                         path="/shop/:idShop/:spId"
                         element={
                             <>
-                                <Header className="header" />
+                                <Header2 className="header" />
                                 <ChiTietSanPham />
-                                <Nav />
+                                {/* <Nav /> */}
                             </>
                         }
                     />
@@ -109,9 +115,39 @@ function App() {
                         path="/shop/:idShop"
                         element={
                             <>
-                                <Header className="header" />
+                                <Header2 className="header" />
                                 <Shop />
-                                <Nav />
+                                {/* <Nav /> */}
+                            </>
+                        }
+                    />
+                    <Route
+                        path="/shop/dang-ki/:idShop"
+                        element={
+                            <>
+                                {/* <Header className="header" /> */}
+                                <DangKi2 />
+                                {/* <Nav /> */}
+                            </>
+                        }
+                    />
+                    <Route
+                        path="/shop/dang-nhap/:idShop"
+                        element={
+                            <>
+                                {/* <Header className="header" /> */}
+                                <DangNhap2 />
+                                {/* <Nav /> */}
+                            </>
+                        }
+                    />
+                    <Route
+                        path="/shop/ca-nhan/:idShop"
+                        element={
+                            <>
+                                <Header2 className="header" />
+                                <ThongTinCaNhan />
+                                {/* <Nav /> */}
                             </>
                         }
                     />
@@ -136,7 +172,7 @@ function App() {
                         }
                     />
                     <Route
-                        path="/don-hang/:idShop/:idDonHang"
+                        path="/don-hang/:idShop/:idDonHang/:trangThai"
                         element={
                             <>
                                 <Header className="header" />
@@ -187,7 +223,9 @@ function App() {
                         path="/fabysa"
                         element={
                             <>
-                                <Header className="header" /> <Fabysa />
+                                <Header className="header" />
+                                <DangHoanThien />
+                                {/* <Fabysa /> */}
                                 <Nav />
                             </>
                         }
@@ -217,7 +255,8 @@ function App() {
                         element={
                             <>
                                 <Header className="header" />
-                                <TongKhoSi />
+                                <DangHoanThien />
+                                {/* <TongKhoSi /> */}
                                 <Nav />
                             </>
                         }
@@ -255,7 +294,7 @@ function App() {
                         element={
                             <>
                                 <Header className="header" />
-                                <MiniGame />
+                                <Instruct />
                                 <Nav />
                             </>
                         }

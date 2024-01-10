@@ -1,82 +1,172 @@
 
-.login-containerTo{
-    position: absolute;
-    .login-container {
-        position: relative;
-        background-color: #88d3b4;
-        width: 90vw;
-        margin: 4vw 4vw 20vw 4vw;
-        top: 9vw;
-        text-align: center;
-        border-radius: 5vw;
-        border: solid 1px gray;
-        box-shadow: 11px 16px 20px 4px rgba(0,0,0,0.75);
-    -webkit-box-shadow: 11px 16px 20px 4px rgba(0,0,0,0.75);
-    -moz-box-shadow: 11px 16px 20px 4px rgba(0,0,0,0.75);
-        .login-title {
-            font-weight: 700;
-            font-size: 8vw;
+
+/* Mobile & Tablet */
+@media screen and (max-width : 1023px) {
+    .login-containerTo{
+        position: absolute;
+        .login-container {
+            position: relative;
+            background-color: #88d3b4;
+            width: 90vw;
+            margin: 4vw 4vw 20vw 4vw;
+            top: 9vw;
             text-align: center;
-            margin: 5vw auto;
-           
-        }
-        form {
-            text-align: center;
-            
-            .labelDangNhap{
-                text-align: left;
-                margin-bottom: 1vw;
-                font-size: 4vw;
-                font-weight: 600;
-            }
-            .inputDangNhap {
+            border-radius: 5vw;
+            border: solid 1px gray;
+            box-shadow: 11px 16px 20px 4px rgba(0,0,0,0.75);
+        -webkit-box-shadow: 11px 16px 20px 4px rgba(0,0,0,0.75);
+        -moz-box-shadow: 11px 16px 20px 4px rgba(0,0,0,0.75);
+            .login-title {
+                font-weight: 700;
+                font-size: 8vw;
                 text-align: center;
-                width: 80%;
-                height: 10vw;
-                margin-bottom: 5vw;
-                border-radius: 1vw;
-                font-size: 5vw;
-                font-weight: 600;
+                margin: 5vw auto;
+               
             }
-            
-            .buttonDangNhap {
+            form {
+                text-align: center;
+                
+                .labelDangNhap{
+                    text-align: left;
+                    margin-bottom: 1vw;
+                    font-size: 4vw;
+                    font-weight: 600;
+                }
+                .inputDangNhap {
+                    text-align: center;
+                    width: 80%;
+                    height: 10vw;
+                    margin-bottom: 5vw;
+                    border-radius: 1vw;
+                    font-size: 5vw;
+                    font-weight: 600;
+                }
+                
+                .buttonDangNhap {
+                    cursor: pointer;
+                    border: none;
+                    color: white;
+                    background-color: #04aa6d;
+                    width: 30vw;
+                    height: 10vw;
+                    font-size: 4vw;
+                    font-weight: 600;
+                    border-radius: 6px;
+                }
+        
+                
+            }
+            .login-register {
+                margin: 3vw 1vw 0 1vw;
+                font-size: 3.5vw;
+            }
+            .login-register-link {
+                text-decoration: none;
                 cursor: pointer;
-                border: none;
-                color: white;
-                background-color: #04aa6d;
-                width: 30vw;
-                height: 10vw;
+                margin-top: 2vw;
+                font-weight: 700;
                 font-size: 4vw;
-                font-weight: 600;
-                border-radius: 6px;
             }
-    
-            
+            .logoDangNhap{
+                margin-top: 8vw;
+                margin-bottom: 3vw;
+                text-align: center;
+                img{
+                    width: 50vw;
+                    height: 50vw;
+                    border-radius: 50%;
+                }
+            }
+            .sloganDangNhap{
+                margin-bottom: 2vw;
+            }
+           
+           
+            }
         }
-        .login-register {
-            margin: 3vw 1vw 0 1vw;
-            font-size: 3.5vw;
-        }
-        .login-register-link {
-            text-decoration: none;
-            cursor: pointer;
-            margin-top: 2vw;
-            font-weight: 700;
-            font-size: 4vw;
-        }
-        .logoDangNhap{
-            margin-top: 8vw;
-            margin-bottom: 3vw;
+}
+
+/* PC*/
+@media screen and (min-width : 1024px) {
+    .login-containerTo{
+        position: absolute;
+        top: 4vw;
+        .login-container {
+            position: relative;
+            background-color: #88d3b4;
+            width: 30vw;
+            margin: 3.5vw 35vw;
             text-align: center;
-            img{
-                width: 50vw;
-                height: 50vw;
-                border-radius: 50%;
+            border-radius: 2vw;
+            border: solid 1px gray;
+            box-shadow: 11px 16px 20px 4px rgba(0,0,0,0.75);
+        -webkit-box-shadow: 11px 16px 20px 4px rgba(0,0,0,0.75);
+        -moz-box-shadow: 11px 16px 20px 4px rgba(0,0,0,0.75);
+            .login-title {
+                font-weight: 700;
+                font-size: 2vw;
+                text-align: center;
+                margin: 0.5vw auto;
+               
+            }
+            form {
+                text-align: center;
+                
+                .labelDangNhap{
+                    // text-align: left;
+                    margin-bottom: 0.1vw;
+                    font-size: 2vw;
+                    font-weight: 600;
+                }
+                .inputDangNhap {
+                    text-align: center;
+                    width: 80%;
+                    height: 3vw;
+                    margin-bottom: 0.1vw;
+                    border-radius: 1vw;
+                    font-size: 1.5vw;
+                    font-weight: 600;
+                }
+                
+                .buttonDangNhap {
+                    cursor: pointer;
+                    border: none;
+                    color: white;
+                    background-color: #04aa6d;
+                    margin-top: 1vw;
+                    font-size: 2vw;
+                    font-weight: 600;
+                    border-radius: 1vw;
+                    width: 20vw;
+                }
+        
+                
+            }
+            .login-register {
+                font-size: 2vw;
+            }
+            .login-register-link {
+                text-decoration: none;
+                cursor: pointer;
+                margin-top: 1vw;
+                font-weight: 700;
+                font-size: 2vw;
+            }
+            .logoDangNhap{
+                margin-top: 1vw;
+                margin-bottom: 3vw;
+                text-align: center;
+                img{
+                    width: 6vw;
+                    height: 6vw;
+                    border-radius: 50%;
+                }
+            }
+            .sloganDangNhap{
+                margin-bottom: 2vw;
+            }
+           
+           
             }
         }
-        .sloganDangNhap{
-            margin-bottom: 2vw;
-        }
-       
-       
-        }}
+}

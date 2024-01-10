@@ -4,35 +4,31 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { registerUser } from "../redux/apiRequest";
 import logo from "../assets/images/logo.jpg";
-import { NavLink } from "react-router-dom";
+import { NavLink, useParams } from "react-router-dom";
 const DangKi = () => {
     const [email, setEmail] = useState("");
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const { idShop } = useParams();
+    console.log("idShop", idShop);
     const handleRegister = (e) => {
         e.preventDefault();
         if (password !== email) {
             alert("Xác nhận mật khẩu chưa khớp");
             return;
-        } else {
-            if (!password || !username) {
-                alert("Vui lòng nhập đầy dủ thông tin");
-                return;
-            } else {
-                try {
-                    const newUser = {
-                        email: email,
-                        password: password,
-                        username: username,
-                    };
-                    registerUser(newUser, dispatch);
-                    navigate("/dang-nhap");
-                } catch (err) {
-                    console.log(err);
-                }
-            }
+        }
+        try {
+            const newUser = {
+                email: email,
+                password: password,
+                username: username,
+            };
+            registerUser(newUser, dispatch);
+            navigate(`/shop/dang-nhap/${idShop}`);
+        } catch (err) {
+            console.log(err);
         }
     };
     return (
@@ -73,7 +69,10 @@ const DangKi = () => {
                         Tạo Tài Khoản
                     </button>
                     <div className="login-register"> Nếu có tài khoản? </div>
-                    <NavLink className="login-register-link" to="/dang-nhap">
+                    <NavLink
+                        className="login-register-link"
+                        to={`/shop/dang-nhap/${idShop}`}
+                    >
                         Đăng Nhập Ngay
                     </NavLink>
                     <div className="logoDangNhap">

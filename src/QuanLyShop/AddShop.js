@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { registerttShop } from "../redux/apiRequest";
+import { registerttShop, updatePost, getPost } from "../redux/apiRequest";
 import { useEffect } from "react";
 import {
     apiGetPublicProvinces,
@@ -13,6 +13,7 @@ import {
 } from "../redux/ApiProvince";
 const AddShop = () => {
     const user = useSelector((state) => state.auth.login.currentUser);
+
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const [previewAvatar, setpreviewAvatar] = useState();
@@ -104,26 +105,30 @@ const AddShop = () => {
             (item) => item.district_id === districtID
         );
         const tenXa = wards?.find((item) => item.ward_id === wardID);
-        try {
-            const newShop = {
-                Banner: Banner,
-                TenShop: TenShop,
-                dcShop: DcShop,
-                sdtShop: SdtShop,
-                sloganShop: SloganShop,
-                tinh: tenTinh?.province_name,
-                huyen: tenHuyen?.district_name,
-                xa: tenXa?.ward_name || "Xã ...",
-                cash: 0,
-                taikhoan: 0,
-                vaiTro: 1,
+        if (!Banner || !TenShop || !DcShop || !SdtShop) {
+            alert("Vui lòng nhập đủ thông tin");
+        } else {
+            try {
+                const newShop = {
+                    Banner: Banner,
+                    TenShop: TenShop,
+                    dcShop: DcShop,
+                    sdtShop: SdtShop,
+                    sloganShop: SloganShop,
+                    tinh: tenTinh?.province_name,
+                    huyen: tenHuyen?.district_name,
+                    xa: tenXa?.ward_name || "Xã ...",
+                    cash: 0,
+                    taikhoan: 0,
+                    vaiTro: 1,
 
-                user: UserShop || user._id,
-            };
-            console.log("newShop", newShop);
-            registerttShop(newShop, dispatch);
-        } catch (err) {
-            console.log(err);
+                    user: UserShop || user._id,
+                };
+                registerttShop(newShop, dispatch);
+                navigate(`/ca-nhan`);
+            } catch (err) {
+                console.log(err);
+            }
         }
     };
     return (
@@ -139,48 +144,50 @@ const AddShop = () => {
                         className="bannerFormregis2"
                     />
                     <label htmlFor="banner" className="bannerFormregis2">
-                        <dispatchEvent>
+                        <div>
                             {previewBanner && (
                                 <img
                                     src={previewBanner.preview}
                                     className="banner"
                                 />
                             )}
-                        </dispatchEvent>
+                        </div>
                     </label>
                 </div>
             </div>
-            <div className="tenCuaHang">
+            <div className="containerTieuChiFormregis">
+                <div className="tieuChiFormregis">Tên Shop</div>
                 <input
-                    className="tenCuaHangInput"
+                    className="noiDungFormregis3"
                     placeholder="Tên Shop"
                     type="text"
                     onChange={(e) => setTenShop(e.target.value)}
                 />
             </div>
-            <div className="diachi-sodienthoai">
-                <div className="diaChi">
-                    <div className="dc">Đ/C:</div>
-                    <input
-                        className="dcInput"
-                        placeholder="Địa chỉ"
-                        type="text"
-                        onChange={(e) => setDcShop(e.target.value)}
-                    />
-                </div>
-                <div className="soDienThoai">
-                    <div className="sdt">SĐT:</div>
-                    <input
-                        className="sdtIpnut"
-                        placeholder="Số điện thoại"
-                        type="text"
-                        onChange={(e) => setSdtShop(e.target.value)}
-                    />
-                </div>
-            </div>
-            <div className="slogan">
+
+            <div className="containerTieuChiFormregis">
+                <div className="tieuChiFormregis">Địa Chỉ</div>
                 <input
-                    className="slgIpnut"
+                    className="noiDungFormregis3"
+                    placeholder="Địa chỉ"
+                    type="text"
+                    onChange={(e) => setDcShop(e.target.value)}
+                />
+            </div>
+            <div className="containerTieuChiFormregis">
+                <div className="tieuChiFormregis">Số Điện Thoại</div>
+                <input
+                    className="noiDungFormregis3"
+                    placeholder="Số điện thoại"
+                    type="text"
+                    onChange={(e) => setSdtShop(e.target.value)}
+                />
+            </div>
+
+            <div className="containerTieuChiFormregis">
+                <div className="tieuChiFormregis">Slogan</div>
+                <input
+                    className="noiDungFormregis3"
                     placeholder="Khẩu hiệu bán hàng"
                     type="text"
                     onChange={(e) => setSloganShop(e.target.value)}
@@ -234,17 +241,20 @@ const AddShop = () => {
                     </select>
                 </div>
             </div>
-            <div className="slogan">
+            <div className="containerTieuChiFormregis">
+                <div className="tieuChiFormregis">Quản Lý Shop</div>
                 <input
-                    className="slgIpnut"
+                    className="noiDungFormregis3"
                     placeholder="idUser Quan Ly"
                     type="text"
                     onChange={(e) => setUserShop(e.target.value)}
                 />
             </div>
+            <a href="/ca-nhan"><div>Quay Lại</div></a>
             <button className="luuThongTinShop" onClick={handleLuuThongTinShop}>
                 Lưu Thông Tin Shop
             </button>
+
         </div>
     );
 };

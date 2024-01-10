@@ -1,5 +1,5 @@
 import "./DangNhap.scss";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate, useParams } from "react-router-dom";
 import { useState } from "react";
 import { loginUser } from "../redux/apiRequest";
 import { useDispatch } from "react-redux";
@@ -7,7 +7,7 @@ import logo from "../assets/images/logo.jpg";
 const DangNhap = () => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
-
+    const { idShop } = useParams();
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
@@ -19,7 +19,7 @@ const DangNhap = () => {
             password: password,
         };
         loginUser(user, dispatch);
-        navigate("/ca-nhan");
+        navigate(`/shop/ca-nhan/${idShop}`);
     };
     return (
         <div className="login-containerTo">
@@ -49,7 +49,10 @@ const DangNhap = () => {
                     </button>
                 </form>
                 <div className="login-register"> Nếu chưa có tài khoản? </div>
-                <NavLink className="login-register-link" to="/dang-ki">
+                <NavLink
+                    className="login-register-link"
+                    to={`/shop/dang-ki/${idShop}`}
+                >
                     Đăng Kí Ngay
                 </NavLink>
                 <div className="logoDangNhap">

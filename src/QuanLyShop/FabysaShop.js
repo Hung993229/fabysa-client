@@ -99,7 +99,7 @@ const FabysaShop = () => {
     console.log("allSanPham1", allSanPham1);
     return (
         <div>
-            <div className="shop">
+            <div className="fabysaShop">
                 <div>
                     <img src={ttShop?.Banner} className="banner-container" />
                 </div>
