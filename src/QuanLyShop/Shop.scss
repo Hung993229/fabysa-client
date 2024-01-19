@@ -168,7 +168,6 @@
                 }
                 .tenSanPham {
                     width: 43vw;
-                    height: 12vw;
                     font-size: 3vw;
                     font-weight: 600;
                     margin: 2vw auto;
@@ -179,7 +178,6 @@
                 .giaBan {
                     text-align: center;
                     justify-content: center;
-                    // margin: 2vw auto;
                     
                     .giaBanMoi {
                         color: red;
@@ -215,17 +213,14 @@
                     background-color: red;
                     width: 100%;
                     margin: 2vw auto;
-                    border-radius: 3vw;
+                    border-radius: 2vw;
                 }
-                .thongtinSanPham {
-                    margin-top: 2vw;
-                    text-align: justify;
-                    padding: 2vw;
-                    word-wrap:break-word;
-                    width: 45vw;
-                    height: 20vw;
-                    overflow:auto
+                .xemChiTiet{
+                    color: #04aa6d;
+                   font-size: 3vw;
+                   cursor: pointer;
                 }
+               
               
             }
                     
@@ -458,34 +453,20 @@
                     
                 }
                 .muaHang {
-                    font-size: 1.5vw;
+                    font-size: 1vw;
                     font-weight: 600;
                     background-color: red;
                     width: 90%;
                     margin: 0.5vw auto;
-                    border-radius: 1vw;
+                    border-radius: 0.5vw;
                     padding: 0.5vw;
                 }
-                .viTriSanPham{
-                justify-content: center;
-                align-items: center;
-                    display: flex;
-                    font-size: 0.6vw;
-                    gap: 0.4vw;
-                    .diachisanpham{
-                        
-                    }
+                .xemChiTiet{
+                    color: #04aa6d;
+                   font-size: 1.5vw;
+                   cursor: pointer;
                 }
-                
-                .thongtinSanPham {
-                    // margin-top: 2vw;
-                    text-align: justify;
-                    // padding: 2vw;
-                    word-wrap:break-word;
-                    width: 20vw;
-                    height: 20vw;
-                    overflow:auto
-                }
+               
               
             }
                     

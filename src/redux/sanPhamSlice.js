@@ -8,6 +8,7 @@ const sanPhamSlice = createSlice({
             error: false,
             success: false,
             allsanPham: null,
+            arrsanPham:null
         },
     },
     reducers: {
@@ -17,6 +18,7 @@ const sanPhamSlice = createSlice({
             state.sanPham.error = false;
             state.sanPham.success = false;
             state.sanPham.allsanPham = null;
+            state.sanPham.arrsanPham = null;
         },
         updateSanPhamStart: (state) => {
             state.sanPham.isFetching = true;
@@ -57,6 +59,18 @@ const sanPhamSlice = createSlice({
             state.sanPham.isFetching = false;
             state.sanPham.error = true;
         },
+        getArrSanPhamStart: (state) => {
+            state.sanPham.isFetching = true;
+        },
+        getArrSanPhamSuccess: (state, action) => {
+            state.sanPham.isFetching = false;
+            state.sanPham.arrsanPham = action.payload;
+            state.sanPham.success = true;
+        },
+        getArrSanPhamFailed: (state) => {
+            state.sanPham.isFetching = false;
+            state.sanPham.error = true;
+        },
         deleteSanPhamStart: (state) => {
             state.sanPham.isFetching = true;
         },
@@ -83,6 +97,9 @@ export const {
     getSanPhamStart,
     getSanPhamSuccess,
     getSanPhamFailed,
+    getArrSanPhamStart,
+    getArrSanPhamSuccess,
+    getArrSanPhamFailed,
     deleteSanPhamStart,
     deleteSanPhamSuccess,
     deleteSanPhamFailed,

@@ -1,12 +1,13 @@
 import "./Header.scss";
 import logo from "../assets/images/logo.jpg";
-import tuvanvien from "../assets/images/tuvanvien.jpg";
+import giohang from "../assets/images/giohang.jpg";
 import logo2 from "../assets/images/logo2.jpeg";
 import gold from "../assets/images/Gold.png";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { getStatus, getPost } from "../redux/apiRequest";
+import { useNavigate, useParams } from "react-router-dom";
 import currency from "currency.js";
 import { NavLink } from "react-router-dom";
 const Header = () => {
@@ -31,15 +32,17 @@ const Header = () => {
     })
         .format()
         .slice(0, -3);
-
+    const { idShop, idUser } = useParams();
+    console.log("idShop", idShop);
+    console.log("idUser", idUser);
     return (
         <>
             <div className="container-header">
                 <div className="container-logo">
                     <div>
-                        <img src={tuvanvien} alt="he" className="logo" />
+                        <img src={giohang} alt="he" className="logo" />
 
-                        <div className="my-cash2">Welcome to</div>
+                        <div className="my-cash2">150.000đ</div>
                     </div>
                 </div>
 

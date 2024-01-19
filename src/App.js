@@ -32,9 +32,13 @@ import TongKhoSiChiTiet from "./QuanLyShop/TongKhoSiChiTiet";
 
 import HomThu from "./KetBan/HomThu";
 import { useSelector } from "react-redux";
+import GioHang from "./QuanLyShop/GioHang";
+import { useState } from "react";
 
 function App() {
     const user = useSelector((state) => state.auth.login.currentUser);
+    const [cart, setcart] = useState([]);
+    const [showcart, setshowcart] = useState(0);
     return (
         <Router>
             <div className="App">
@@ -115,8 +119,19 @@ function App() {
                         path="/shop/:idShop"
                         element={
                             <>
-                                <Header2 className="header" />
-                                <Shop />
+                                <Header2
+                                    className="header"
+                                    cart={cart}
+                                    setcart={setcart}
+                                    showcart={showcart}
+                                    setshowcart={setshowcart}
+                                />
+                                <Shop
+                                    cart={cart}
+                                    setcart={setcart}
+                                    showcart={showcart}
+                                    setshowcart={setshowcart}
+                                />
                                 {/* <Nav /> */}
                             </>
                         }
@@ -147,6 +162,27 @@ function App() {
                             <>
                                 <Header2 className="header" />
                                 <ThongTinCaNhan />
+                                {/* <Nav /> */}
+                            </>
+                        }
+                    />
+                    <Route
+                        path="/shop/gio-hang/:idShop/:idUser"
+                        element={
+                            <>
+                                <Header2
+                                    className="header"
+                                    cart={cart}
+                                    setcart={setcart}
+                                    showcart={showcart}
+                                    setshowcart={setshowcart}
+                                />
+                                <GioHang
+                                    cart={cart}
+                                    setcart={setcart}
+                                    showcart={showcart}
+                                    setshowcart={setshowcart}
+                                />
                                 {/* <Nav /> */}
                             </>
                         }

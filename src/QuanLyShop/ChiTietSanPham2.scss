@@ -1,0 +1,244 @@
+/* Mobile & Tablet */
+@media screen and (max-width : 1023px) {
+   
+   .chiTietSanPham-container{
+    padding: 10vw 0vw;
+    .close{
+      background-color: red;
+      width: 25vw;
+      font-size: 3.5vw;
+      padding: 0.5vw;
+      border-radius: 2vw;
+      margin: 3vw auto;
+      font-weight: 500;
+color: #fff;
+
+    }
+    .anhVaTen{
+      // display: flex;
+     
+      justify-content: center;
+      align-items: center;
+      .trai{
+         // width: 50%;
+         // border: solid 1px red;
+        
+         .anhSanPham{
+            width: 80%;
+            height: 90vw;
+            object-fit: cover;
+            border-radius: 2vw;
+            border: solid 0.1vw gray;
+            
+         }
+      }
+      .phai{
+         // width: 50%;
+         // border: solid 1px red;
+
+        
+         .tenSanPham {
+            font-size: 5vw;
+            font-weight: 600;
+            margin-top: 3vw;
+            text-transform: uppercase;
+            word-wrap:break-word;
+            overflow:auto;
+            text-align: center;
+            justify-content: center;
+            
+        }
+        .giaBan {
+            // display: flex;
+            margin-top: 1vw;
+            text-align: center;
+            justify-content: center;
+           
+            
+            .giaBanMoi {
+                color: red;
+                font-size: 6vw;
+            font-weight: 600;
+            }
+            .giaGiam{
+                display: flex;
+                gap: 3.5vw;
+                align-items: center;
+                justify-content: center;
+                margin-top: 1vw;
+                .giabanCu {
+                    text-decoration: line-through;
+                    font-size: 4.5vw;
+                    font-weight: 300;
+    
+                }
+                .phanTram{
+                    font-size: 4.5vw;
+                    font-weight: 300;
+                }
+            
+        }
+           
+        }
+        .muaHang {
+            font-size: 5vw;
+            font-weight: 600;
+            background-color: red;
+            width: 80%;
+            margin-top: 2vw;
+            border-radius: 2vw;
+        }
+        .viTriSanPham{
+          padding: 0vw 5vw;
+          margin-top: 2vw;
+          justify-content: center;
+          align-items: center;
+              display: flex;
+              font-size: 3.5vw;
+              gap: 3vw;
+              .diachisanpham{
+                  
+              }
+          }
+      }
+
+    }
+  
+    .tieuDeThongTinSanPham{
+      margin-top: 5vw;
+      font-size: 5vw;
+      font-weight: 600;
+    }
+    .thongTinSanPham{
+      margin-top: 3vw;
+      font-size: 3vw;
+      text-align: justify;
+      padding: 0vw 5vw;
+
+
+    }
+
+   }
+    }
+    
+    /* PC*/
+    @media screen and (min-width : 1024px) {
+      .chiTietSanPham-container{
+        padding: 6vw 0vw;
+        .close{
+          background-color: red;
+          width: 10vw;
+          font-size: 2vw;
+          padding: 0.5vw;
+          border-radius: 0.5vw;
+          margin: 1vw auto;
+          font-weight: 500;
+    
+    
+        }
+        .anhVaTen{
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        
+          .trai{
+             width: 50%;
+            
+            
+             .anhSanPham{
+                width: 40%;
+                height: 25vw;
+                object-fit: cover;
+                border-radius: 0.5vw;
+                border: solid 0.1vw gray;
+                justify-content: center;
+                align-items: center;
+             
+                
+             }
+          }
+          .phai{
+             width: 50%;
+             .tenSanPham {
+                font-size: 3vw;
+                font-weight: 600;
+                text-transform: uppercase;
+                word-wrap:break-word;
+                overflow:auto;
+                text-align: center;
+                justify-content: center;
+                
+            }
+            .giaBan {
+                // display: flex;
+                margin-top: 1vw;
+                text-align: center;
+                justify-content: center;
+                
+                .giaBanMoi {
+                    color: red;
+                    font-size: 2vw;
+                font-weight: 600;
+                }
+                .giaGiam{
+                    display: flex;
+                    gap: 3.5vw;
+                    align-items: center;
+                    justify-content: center;
+                    margin-top: 1vw;
+                    .giabanCu {
+                        text-decoration: line-through;
+                        font-size: 1.5vw;
+                        font-weight: 300;
+        
+                    }
+                    .phanTram{
+                        font-size: 1.5vw;
+                        font-weight: 300;
+                    }
+                
+            }
+               
+            }
+            .muaHang {
+                font-size: 2vw;
+                font-weight: 600;
+                background-color: red;
+                width: 50%;
+                margin-top: 1vw;
+                border-radius: 1vw;
+            }
+            .viTriSanPham{
+              padding: 0vw 5vw;
+              margin-top: 1vw;
+              justify-content: center;
+              align-items: center;
+                  display: flex;
+                  font-size: 1.2vw;
+                  gap: 1vw;
+                  .diachisanpham{
+                      
+                  }
+              }
+          }
+    
+        }
+      
+        .tieuDeThongTinSanPham{
+
+        border-top: solid 1px gray ;
+          margin-top: 2vw;
+          font-size: 2vw;
+          font-weight: 600;
+        }
+        .thongTinSanPham{
+          margin-top: 1vw;
+          font-size: 1.5vw;
+          text-align: justify;
+          padding: 0vw 5vw;
+    
+    
+        }
+    
+       }
+    }

@@ -76,6 +76,9 @@ import {
     getSanPhamStart,
     getSanPhamSuccess,
     getSanPhamFailed,
+    getArrSanPhamStart,
+    getArrSanPhamSuccess,
+    getArrSanPhamFailed,
     deleteSanPhamStart,
     deleteSanPhamSuccess,
     deleteSanPhamFailed,
@@ -116,12 +119,29 @@ import {
     logOutSuccessdonHang,
 } from "./donHangSlice";
 
+import {
+    updategioHangStart,
+    updategioHangSuccess,
+    updategioHangFailed,
+    registergioHangStart,
+    registergioHangSuccess,
+    registergioHangFailed,
+    getAllGioHangStart,
+    getAllGioHangSuccess,
+    getAllGioHangFailed,
+    getgioHangStart,
+    getgioHangSuccess,
+    getgioHangFailed,
+    deletegioHangStart,
+    deletegioHangSuccess,
+    deletegioHangFailed,
+    logOutSuccessgioHang,
+} from "./gioHangSlice";
 export const loginUser = async (user, dispatch) => {
     dispatch(loginStart());
     try {
         const res = await axios.post("/v1/auth/login", user);
         dispatch(loginSuccess(res.data));
-        
     } catch (err) {
         dispatch(loginFailed());
     }
@@ -132,7 +152,6 @@ export const registerUser = async (user, dispatch) => {
     try {
         await axios.post("/v1/auth/register", user);
         dispatch(registerSuccess());
-        
     } catch (err) {
         dispatch(registerFailed());
     }
@@ -159,7 +178,7 @@ export const deleteUser = async (accessToken, dispatch, id, axiosJWT) => {
         dispatch(deleteUserFailed(err.response.data));
     }
 };
-export const logOut = async (dispatch, id,  accessToken, axiosJWT) => {
+export const logOut = async (dispatch, id, accessToken, axiosJWT) => {
     dispatch(logOutStart());
     try {
         await axiosJWT.post("/v1/auth/logout", id, {
@@ -173,7 +192,7 @@ export const logOut = async (dispatch, id,  accessToken, axiosJWT) => {
         dispatch(logOutSuccessYourStatus());
         dispatch(logOutSuccessttShop());
         dispatch(logOutSuccessdonHang());
-        
+        dispatch(logOutSuccessgioHang());
     } catch (err) {
         dispatch(logOutFailed());
     }
@@ -184,7 +203,6 @@ export const registerPost = async (post, dispatch, setloading) => {
         const res = await axios.post("/v1/post/", post);
         dispatch(registerPostSuccess(res.data));
         setloading(0);
-        
     } catch (err) {
         dispatch(registerPostFailed());
     }
@@ -350,6 +368,17 @@ export const getKhoTongSi = async (huyen, user, dispatch) => {
     }
 };
 
+export const getArrSanPham = async (arrIdSanPham, dispatch) => {
+    dispatch(getArrSanPhamStart());
+    console.log("arrIdSanPham", arrIdSanPham);
+    try {
+        const res = await axios.post(`/v1/shop/arr-san-pham`, arrIdSanPham);
+        dispatch(getArrSanPhamSuccess(res.data));
+    } catch (err) {
+        dispatch(getArrSanPhamFailed());
+    }
+};
+
 export const deleteSanPham = async (id, dispatch) => {
     dispatch(deleteSanPhamStart());
     try {
@@ -439,3 +468,53 @@ export const getDonHang = async (idShop, trangThaiDH, dispatch) => {
         dispatch(getdonHangFailed());
     }
 };
+// Don Hang
+// Gio Hang
+export const registerGioHang = async (newGioHang, dispatch) => {
+    dispatch(registergioHangStart());
+    try {
+        const res = await axios.post("/v1/shop/gio-hang", newGioHang);
+        dispatch(registergioHangSuccess(res.data));
+    } catch (err) {
+        dispatch(registergioHangFailed());
+    }
+};
+export const updateGioHang = async (newGioHang, id, dispatch) => {
+    dispatch(updategioHangStart());
+    try {
+        const res = await axios.put(`/v1/shop/gio-hang/${id}`, newGioHang);
+        dispatch(updategioHangSuccess(res.data));
+    } catch (err) {
+        dispatch(updategioHangFailed(err.response.data));
+    }
+};
+export const getAllGioHang = async (user, dispatch) => {
+    dispatch(getAllGioHangStart());
+    try {
+        const res = await axios.get(`/v1/shop/all-gio-hang/?user=${user}`);
+        dispatch(getAllGioHangSuccess(res.data));
+    } catch (err) {
+        dispatch(getAllGioHangFailed());
+    }
+};
+export const getGioHang = async (idShop, user, dispatch) => {
+    dispatch(getgioHangStart());
+    try {
+        const res = await axios.get(
+            `/v1/shop/gio-hang/?idShop=${idShop}&user=${user}`
+        );
+        dispatch(getgioHangSuccess(res.data));
+    } catch (err) {
+        dispatch(getgioHangFailed());
+    }
+};
+export const deleteGioHang = async (id, dispatch) => {
+    dispatch(deletegioHangStart());
+    try {
+        const res = await axios.delete(`/v1/shop/gio-hang/${id}`);
+        dispatch(deletegioHangSuccess(res.data));
+    } catch (err) {
+        dispatch(deletegioHangFailed());
+    }
+};
+// Gio Hang

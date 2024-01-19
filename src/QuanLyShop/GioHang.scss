@@ -1,0 +1,187 @@
+/* Mobile & Tablet */
+@media screen and (max-width : 1023px) {
+   .gioHang-container{
+    padding-top: 10vw;
+    .close{
+      background-color: red;
+      width: 15vw;
+      font-size: 3.5vw;
+      padding: 0.5vw;
+      border-radius: 1vw;
+      margin: 3vw auto;
+      font-weight: 500;
+      color: #fff;
+      cursor: pointer;
+    }
+    .phancach{
+   
+      .thongTinDonHang{
+        text-align: left;
+        font-size: 3.5vw;
+        font-weight: 600;
+        margin-bottom: 2vw;
+        padding-left: 5vw;
+        color: #04aa6d;
+        
+      }
+      .gioHangTrong{
+        font-size: 5vw;
+        font-weight: 600;
+      }
+      .sanPham{
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr 1fr ;
+        margin-bottom: 3vw;
+        font-size: 2vw;
+        .anhVaTen{
+          justify-content: center;
+          align-items: center;
+          .anhSanPham{
+            width: 8vw;
+            height: 10;
+            object-fit: cover;
+            border-radius: 0.5vw;
+  
+          }
+          .tenSanPham{
+            font-size: 2.5vw;
+            font-weight: 600;
+            text-transform: uppercase;
+            word-wrap:break-word;
+            overflow:auto;
+  
+          }
+  
+        }
+        .giaBan {
+          text-align: center;
+          justify-content: center;
+          margin: auto;
+          
+          .giaBanMoi {
+              color: red;
+              font-size: 3vw;
+          font-weight: 600;
+          // margin-bottom: 1vw;
+          }
+          
+              .giaGiam{
+                  display: flex;
+                  gap: 1vw;
+                  align-items: center;
+                  justify-content: center;
+                  .giabanCu {
+                      text-decoration: line-through;
+                      font-size: 1.8vw;
+                      font-weight: 300;
+      
+                  }
+                  .phanTram{
+                      font-size: 1.8vw;
+                      font-weight: 300;
+                  }
+              
+          }
+          
+         
+          
+      }
+        .soLuong{
+      margin: auto;
+          width: 8vw;
+          height: 8vw;
+          justify-content: center;
+          align-items: center;
+          border-radius: 1vw;
+          text-align: center;
+          
+  
+      }
+        .thanhTien{
+          margin: auto;
+      }
+      
+      }
+      .tongTien{
+        display: flex;
+        padding-bottom: 1vw;
+        border-bottom: #04aa6d solid 0.1vw;
+        font-size: 3vw;
+        font-weight: 600;
+        color: red;
+  .tieude{
+    width: 75%;
+    text-align: center;
+    
+  
+  }
+  .sotien{
+    width: 25%;
+    text-align: center;
+  
+  }
+      }
+    }
+    .phancach{
+      .thongTinNguoiNhan{
+        text-align: left;
+        font-size: 3.5vw;
+        font-weight: 600;
+        margin: 5vw 2vw auto;
+        padding-left: 3vw;
+        color: #04aa6d;
+       
+        
+      }
+      .thongTinChiTiet{
+        display: flex;
+        margin-top: 1vw;
+        margin-left: 1vw;
+        margin-right: 1vw;
+        text-align: center;
+        .tieuDe{
+          width: 30%;
+          font-size: 2.2vw;
+          padding: auto;
+          text-align: center;
+          border: solid 0.11vw rgb(143, 140, 140);
+  
+        }
+        .noiDung{
+         
+          width: 70%;
+          padding: auto;
+          font-size: 2.2vw;
+          border: solid 0.1vw rgb(143, 140, 140);
+          text-align: center;
+          border-radius: 0.3vw;
+  
+        }
+      }
+    }
+   .luuY{
+    margin: 1vw auto;
+    color: #04aa6d;
+    font-size: 2.5vw;
+    font-weight: 500;
+    text-decoration: none;
+   }
+    
+    .datHang{
+      background-color: red;
+      width: 25vw;
+      font-size: 3.5vw;
+      padding: 0.2vw;
+      border-radius: 1vw;
+      margin: 3vw auto;
+      font-weight: 500;
+      color: #fff;
+      cursor: pointer;
+    }
+   }
+}
+
+/* PC*/
+@media screen and (min-width : 1024px) {
+   
+}

@@ -57,10 +57,10 @@ const ChiTietSanPham = () => {
 
     const hoanThanhDonHang = () => {
         if (slSP === 0) {
-            alert("Bạn chưa nhập số lượng");
+            alert("Vui lòng nhập số lượng");
         } else {
             if (!sdtNguoiMua || !hoTenNguoiMua || !dcNguoiNMua) {
-                alert("Bạn nhập thiếu thông tin nhận hàng!");
+                alert("Vui lòng nhập đủ thông tin nhận hàng!");
             } else {
                 try {
                     const newDonHang = {
@@ -131,21 +131,21 @@ const ChiTietSanPham = () => {
         useState("Giao sớm nhé Shop!");
     const hoanThanhDonHanguser = () => {
         if (slSP2 === 0) {
-            alert("Bạn chưa nhập số lượng");
+            alert("Vui lòng nhập số lượng");
         } else {
             if (!sdtNguoiMua2 || !hoTenNguoiMua2 || !dcNguoiNMua2) {
-                alert("Bạn nhập thiếu thông tin nhận hàng!");
+                alert("Vui lòng nhập đủ thông tin nhận hàng!");
             } else {
                 if (goldDaTT2 < 0) {
-                    alert("Số Gold bạn nhập không phù hợp!");
+                    alert("Số Gold không phù hợp!");
                     setgoldDaTT2(0);
                 } else {
                     if (gold2 > myDetail?.cash) {
-                        alert("Bạn đã nhập quá Gold đang có!");
+                        alert("Vượt quá Gold đang có!");
                         setgoldDaTT2(0);
                     } else {
                         if (goldDaTT2 > thanhTien2) {
-                            alert("Bạn đã nhập quá Tiền Cần thanh Toán!");
+                            alert("Vượt quá số tiền cần thanh toán!");
                             setgoldDaTT2(0);
                         } else {
                             try {
@@ -204,15 +204,15 @@ const ChiTietSanPham = () => {
     useEffect(() => {
         setsoTienCanTT2(thongTinSp?.giaKhuyenMai * slSP2 - goldDaTT2);
         if (goldDaTT2 < 0) {
-            alert("Số Gold bạn nhập không phù hợp!");
+            alert("Số Gold không phù hợp!");
             setgoldDaTT2(0);
         }
         if (goldDaTT2 > myDetail?.cash) {
-            alert("Bạn đã nhập quá Gold đang có!");
+            alert("Vượt quá Gold đang có!");
             setgoldDaTT2(0);
         }
         if (goldDaTT2 > thanhTien2) {
-            alert("Bạn đã nhập quá Tiền Cần thanh Toán!");
+            alert("Vượt quá số tiền cần thanh toán!");
             setgoldDaTT2(0);
         }
     }, [goldDaTT2]);
@@ -416,7 +416,7 @@ const ChiTietSanPham = () => {
                             </div>
                             <div className="containerTieuChiFormregis">
                                 <div className="tieuChiFormregis">
-                                    Ghi Chú Thêm :
+                                    Ghi Chú Thêm
                                 </div>
                                 <input
                                     className="noiDungFormregis"
@@ -518,7 +518,7 @@ const ChiTietSanPham = () => {
                                     onChange={(e) =>
                                         sethoTenNguoiMua(e.target.value)
                                     }
-                                    placeholder="Nhập Họ và Tên"
+                                    placeholder="Nhập họ và tên"
                                 />
                             </div>
 
@@ -534,7 +534,7 @@ const ChiTietSanPham = () => {
                             </div>
                             <div className="containerTieuChiFormregis">
                                 <div className="tieuChiFormregis">
-                                    Ghi Chú Thêm :
+                                    Ghi Chú Thêm
                                 </div>
                                 <input
                                     className="noiDungFormregis"

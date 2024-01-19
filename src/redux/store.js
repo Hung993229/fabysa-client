@@ -7,6 +7,7 @@ import yourStatusReducer from "./yourStatusSlice";
 import sanPhamReducer from "./sanPhamSlice";
 import ttShopReducer from "./ttShopSlice";
 import donHangReducer from "./donHangSlice";
+import gioHangReducer from "./gioHangSlice";
 
 import {
     persistStore,
@@ -34,6 +35,7 @@ const rootReducer = combineReducers({
     sanPham: sanPhamReducer,
     ttShop: ttShopReducer,
     donHang: donHangReducer,
+    gioHang: gioHangReducer,
 });
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
