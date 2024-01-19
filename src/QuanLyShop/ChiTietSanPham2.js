@@ -1,11 +1,19 @@
 import "./ChiTietSanPham2.scss";
+import { useSelector } from "react-redux";
 const ChiTietSanPham2 = (props) => {
     const {
-        handleThemGioHang,
+        cart,
+        setcart,
+        handleThemGioHangCoUser,
+        handleThemGioHangKhongUser,
         thongTinSp,
         showChiTietSanPham,
         setshowChiTietSanPham,
     } = props;
+    const gioHang = useSelector(
+        (state) => state.gioHang.gioHang.gioHang?.gioHang
+    );
+    const user = useSelector((state) => state.auth.login.currentUser);
     const VND = new Intl.NumberFormat("vi-VN", {
         style: "currency",
         currency: "VND",
@@ -46,32 +54,66 @@ const ChiTietSanPham2 = (props) => {
                         </div>
                     </div>
 
-                    <button
-                        onClick={() => {
-                            handleThemGioHang(thongTinSp);
-                        }}
-                        className="muaHang"
-                    >
-                        THÊM GIỎ HÀNG
-                    </button>
+                    {!user ? (
+                        <>
+                            {cart?.find(
+                                (thongTinSp2) =>
+                                    thongTinSp2._id === thongTinSp._id
+                            ) ? (
+                                <button className="daThem">ĐÃ THÊM</button>
+                            ) : (
+                                <button
+                                    onClick={() =>
+                                        handleThemGioHangKhongUser(thongTinSp)
+                                    }
+                                    className="muaHang"
+                                >
+                                    THÊM GIỎ HÀNG
+                                </button>
+                            )}
+                        </>
+                    ) : (
+                        <>
+                            {!gioHang ? (
+                                <button
+                                    onClick={() =>
+                                        handleThemGioHangCoUser(thongTinSp._id)
+                                    }
+                                    className="muaHang"
+                                >
+                                    THÊM GIỎ HÀNG
+                                </button>
+                            ) : (
+                                <>
+                                    {gioHang?.gioHang.find(
+                                        (thongTinSp2) =>
+                                            thongTinSp2 === thongTinSp._id
+                                    ) ? (
+                                        <button className="daThem">
+                                            ĐÃ THÊM
+                                        </button>
+                                    ) : (
+                                        <button
+                                            onClick={() =>
+                                                handleThemGioHangCoUser(
+                                                    thongTinSp._id
+                                                )
+                                            }
+                                            className="muaHang"
+                                        >
+                                            THÊM GIỎ HÀNG
+                                        </button>
+                                    )}
+                                </>
+                            )}
+                        </>
+                    )}
                     <div className="viTriSanPham">
-                                                                                    <i className="fa-solid fa-location-dot"></i>
-                                                                                    <div className="diachisanpham">
-                                                                                        {
-                                                                                            thongTinSp?.xa
-                                                                                        }
-                                                                                    </div>
-                                                                                    <div className="diachisanpham">
-                                                                                        {
-                                                                                            thongTinSp?.huyen
-                                                                                        }
-                                                                                    </div>
-                                                                                    <div className="diachisanpham">
-                                                                                        {
-                                                                                            thongTinSp?.tinh
-                                                                                        }
-                                                                                    </div>
-                                                                                </div>
+                        <i className="fa-solid fa-location-dot"></i>
+                        <div className="diachisanpham">{thongTinSp?.xa}</div>
+                        <div className="diachisanpham">{thongTinSp?.huyen}</div>
+                        <div className="diachisanpham">{thongTinSp?.tinh}</div>
+                    </div>
                 </div>
             </div>
             <div className="tieuDeThongTinSanPham">Thông Tin Sản Phẩm</div>

@@ -11,12 +11,11 @@ import { useState } from "react";
 import currency from "currency.js";
 import { NavLink, useNavigate, useParams } from "react-router-dom";
 const Header = (props) => {
-    const { cart, setcart, showcart, setshowcart } = props;
+    const { showcart, setshowcart, Tongtien, Tongsoluong } = props;
     const user = useSelector((state) => state.auth.login?.currentUser);
     const myDetail = useSelector((state) => state.post.post?.myDetail);
     const dispatch = useDispatch();
-    const [Tongtien, setTongtien] = useState(0);
-    const [Tongsoluong, setTongsoluong] = useState(0);
+
     useEffect(() => {
         if (user) {
             getStatus(user?._id, dispatch);
@@ -27,24 +26,7 @@ const Header = (props) => {
             getPost(user?._id, dispatch);
         }
     }, [user, dispatch]);
-    const tinhtongtien = () => {
-        let tt = 0;
-        cart?.map((sp) => {
-            tt += sp.giaKhuyenMai * sp.quantity;
-        });
-        setTongtien(tt);
-    };
-    const tinhsoluong = () => {
-        let tt = 0;
-        cart?.map((sp) => {
-            tt += +sp.quantity;
-        });
-        setTongsoluong(tt);
-    };
-    useEffect(() => {
-        tinhtongtien();
-        tinhsoluong();
-    });
+
     const cash = currency(myDetail?.cash, {
         symbol: "$",
         separator: ".",
@@ -56,9 +38,7 @@ const Header = (props) => {
         style: "currency",
         currency: "VND",
     });
-    const { idShop, idUser } = useParams();
-    console.log("idShop", idShop);
-    console.log("idUser", idUser);
+    const { idShop } = useParams();
 
     return (
         <>
@@ -69,6 +49,7 @@ const Header = (props) => {
                         <span className="tongSoLuong">{Tongsoluong}</span>
                         <div className="my-cash2">{VND.format(Tongtien)}</div>
                     </div>
+                    
                 </div>
                 <div className="title2">Kính Chào Quý Khách</div>
                 <div className="my-detail">

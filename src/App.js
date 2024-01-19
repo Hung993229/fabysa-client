@@ -37,8 +37,11 @@ import { useState } from "react";
 
 function App() {
     const user = useSelector((state) => state.auth.login.currentUser);
-    const [cart, setcart] = useState([]);
     const [showcart, setshowcart] = useState(0);
+    const [Tongsoluong, setTongsoluong] = useState(0);
+    const [Tongtien, setTongtien] = useState(0);
+    const [arraySanPhamQuantity, setarraySanPhamQuantity] = useState([]);
+
     return (
         <Router>
             <div className="App">
@@ -78,7 +81,10 @@ function App() {
                         path="/ca-nhan"
                         element={
                             <>
-                                <Header className="header" />
+                                <Header
+                                    Tongsoluong={Tongsoluong}
+                                    Tongtien={Tongtien}
+                                />
                                 <ThongTinCaNhan />
                                 <Nav />
                             </>
@@ -120,19 +126,27 @@ function App() {
                         element={
                             <>
                                 <Header2
-                                    className="header"
-                                    cart={cart}
-                                    setcart={setcart}
                                     showcart={showcart}
                                     setshowcart={setshowcart}
+                                    Tongsoluong={Tongsoluong}
+                                    Tongtien={Tongtien}
+                                    arraySanPhamQuantity={arraySanPhamQuantity}
+                                    setarraySanPhamQuantity={
+                                        setarraySanPhamQuantity
+                                    }
                                 />
                                 <Shop
-                                    cart={cart}
-                                    setcart={setcart}
                                     showcart={showcart}
                                     setshowcart={setshowcart}
+                                    setTongtien={setTongtien}
+                                    setTongsoluong={setTongsoluong}
+                                    Tongtien={Tongtien}
+                                    Tongsoluong={Tongsoluong}
+                                    arraySanPhamQuantity={arraySanPhamQuantity}
+                                    setarraySanPhamQuantity={
+                                        setarraySanPhamQuantity
+                                    }
                                 />
-                                {/* <Nav /> */}
                             </>
                         }
                     />
@@ -140,9 +154,7 @@ function App() {
                         path="/shop/dang-ki/:idShop"
                         element={
                             <>
-                                {/* <Header className="header" /> */}
                                 <DangKi2 />
-                                {/* <Nav /> */}
                             </>
                         }
                     />
@@ -160,30 +172,30 @@ function App() {
                         path="/shop/ca-nhan/:idShop"
                         element={
                             <>
-                                <Header2 className="header" />
+                                <Header2
+                                    Tongsoluong={Tongsoluong}
+                                    Tongtien={Tongtien}
+                                    showcart={showcart}
+                                    setshowcart={setshowcart}
+                                />
                                 <ThongTinCaNhan />
-                                {/* <Nav /> */}
                             </>
                         }
                     />
                     <Route
-                        path="/shop/gio-hang/:idShop/:idUser"
+                        path="/shop/gio-hang/:idShop"
                         element={
                             <>
                                 <Header2
-                                    className="header"
-                                    cart={cart}
-                                    setcart={setcart}
-                                    showcart={showcart}
-                                    setshowcart={setshowcart}
+                                    Tongsoluong={Tongsoluong}
+                                    Tongtien={Tongtien}
                                 />
                                 <GioHang
-                                    cart={cart}
-                                    setcart={setcart}
-                                    showcart={showcart}
-                                    setshowcart={setshowcart}
+                                    Tongsoluong={Tongsoluong}
+                                    setTongsoluong={setTongsoluong}
+                                    Tongtien={Tongtien}
+                                    setTongtien={setTongtien}
                                 />
-                                {/* <Nav /> */}
                             </>
                         }
                     />

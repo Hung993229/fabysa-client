@@ -32,6 +32,10 @@ const Header = () => {
     })
         .format()
         .slice(0, -3);
+        const VND = new Intl.NumberFormat("vi-VN", {
+            style: "currency",
+            currency: "VND",
+        });
     const { idShop, idUser } = useParams();
     console.log("idShop", idShop);
     console.log("idUser", idUser);
@@ -39,10 +43,10 @@ const Header = () => {
         <>
             <div className="container-header">
                 <div className="container-logo">
-                    <div>
+                <div>
                         <img src={giohang} alt="he" className="logo" />
-
-                        <div className="my-cash2">150.000đ</div>
+                        <span className="tongSoLuong">0</span>
+                        <div className="my-cash2">{VND.format(0)}</div>
                     </div>
                 </div>
 

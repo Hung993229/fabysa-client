@@ -2,6 +2,7 @@
 @media screen and (max-width : 1023px) {
    .gioHang-container{
     padding-top: 10vw;
+    a{text-decoration: none;}
     .close{
       background-color: red;
       width: 15vw;
@@ -12,6 +13,7 @@
       font-weight: 500;
       color: #fff;
       cursor: pointer;
+      
     }
     .phancach{
    
@@ -32,7 +34,8 @@
         display: grid;
         grid-template-columns: 1fr 1fr 1fr 1fr ;
         margin-bottom: 3vw;
-        font-size: 2vw;
+        font-size: 2.5vw;
+        font-weight: 400;
         .anhVaTen{
           justify-content: center;
           align-items: center;
@@ -86,17 +89,39 @@
          
           
       }
+      .soluong-xoaSanPham{
+        justify-content: center;
+        align-items: center;
+       
+        display: flex;
         .soLuong{
-      margin: auto;
-          width: 8vw;
-          height: 8vw;
-          justify-content: center;
-          align-items: center;
-          border-radius: 1vw;
-          text-align: center;
-          
-  
+          width: 50%;
+          margin: auto;
+              width: 8vw;
+              height: 8vw;
+              justify-content: center;
+              align-items: center;
+              border-radius: 1vw;
+              text-align: center;
+              border: solid 1px red;
+              font-size: 3vw;
+      
+          }
+          .xoaSanPham{
+            width: 50%;
+           
+            font-size: 3vw;
+            margin: auto;
+              width: 8vw;
+              height: 8vw;
+              background-color: red;
+              justify-content: center;
+              align-items: center;
+              border-radius: 1vw;
+              text-align: center;
+          }
       }
+       
         .thanhTien{
           margin: auto;
       }

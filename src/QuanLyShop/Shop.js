@@ -14,22 +14,36 @@ import {
     registerGioHang,
     updateGioHang,
     getGioHang,
+    getArrSanPham,
 } from "../redux/apiRequest";
 import { useEffect } from "react";
 import GioHang from "./GioHang";
 import ChiTietSanPham2 from "./ChiTietSanPham2";
 const Shop = (props) => {
-    const { cart, setcart, showcart, setshowcart } = props;
+    const {
+        showcart,
+        setshowcart,
+        setTongtien,
+        setTongsoluong,
+        Tongtien,
+        Tongsoluong,
+        arraySanPhamQuantity,
+        setarraySanPhamQuantity,
+    } = props;
     const user = useSelector((state) => state.auth.login.currentUser);
     const myDetail = useSelector((state) => state.post.post?.myDetail);
     const gioHang = useSelector(
         (state) => state.gioHang.gioHang.gioHang?.gioHang
     );
-    console.log("gioHang", gioHang?._id);
+    const arraySanPham = useSelector(
+        (state) => state.sanPham.sanPham.arrsanPham?.arrSanpham
+    );
     const ttShop = useSelector((state) => state.ttShop.ttShop.ttShop?.shop);
     const allSanPham = useSelector(
         (state) => state.sanPham.sanPham.allsanPham?.allSanpham
     );
+    const [cart, setcart] = useState([]);
+
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const { idShop } = useParams();
@@ -37,6 +51,7 @@ const Shop = (props) => {
     const [showChiTietSanPham, setshowChiTietSanPham] = useState(0);
     const thongTinSp = allSanPham?.find((item) => item._id === iddetailSanPham);
     const [tuVanVaThongTin, settuVanVaThongTin] = useState(0);
+
     useEffect(() => {
         if (user && user.length !== 0) {
             getPost(user?._id, dispatch);
@@ -49,6 +64,21 @@ const Shop = (props) => {
     useEffect(() => {
         getSanPham(idShop, dispatch);
     }, []);
+
+    useEffect(() => {
+        if (gioHang?.gioHang) {
+            getArrSanPham(gioHang?.gioHang, dispatch);
+        }
+    }, [gioHang?.gioHang]);
+    useEffect(() => {
+        if (user) {
+            setarraySanPhamQuantity(
+                arraySanPham?.map((item) => {
+                    return { ...item, quantity: 1 };
+                })
+            );
+        }
+    }, [arraySanPham]);
     const VND = new Intl.NumberFormat("vi-VN", {
         style: "currency",
         currency: "VND",
@@ -111,7 +141,7 @@ const Shop = (props) => {
     );
     // phan loai san pham
     // Them gio Hang
-    const handleThemGioHang = (item) => {
+    const handleThemGioHangKhongUser = (item) => {
         const ProductExist = cart?.find((item2) => item2?._id === item._id);
         if (ProductExist) {
             const gioHang2 = cart.map((item3) =>
@@ -123,57 +153,76 @@ const Shop = (props) => {
                     : item3
             );
             setcart(gioHang2);
-            if (user && user.length !== 0) {
-                if (gioHang && gioHang.length !== 0) {
-                    const newGioHang = {
-                        idShop: idShop,
-                        gioHang: gioHang2,
-                        user: user._id,
-                    };
-                    // const id = gioHang._id;
-                    updateGioHang(newGioHang, gioHang._id, dispatch);
-                } else {
-                    const newGioHang = {
-                        idShop: idShop,
-                        gioHang: gioHang2,
-                        user: user._id,
-                    };
-                    registerGioHang(newGioHang, dispatch);
-                }
-            }
         } else {
             const gioHang3 = [...cart, { ...item, quantity: 1 }];
             setcart(gioHang3);
-            if (user && user.length !== 0) {
-                if (gioHang && gioHang.length !== 0) {
-                    const newGioHang = {
-                        idShop: idShop,
-                        gioHang: gioHang3,
-                        user: user._id,
-                    };
-                    updateGioHang(newGioHang, gioHang._id, dispatch);
-                } else {
-                    const newGioHang = {
-                        idShop: idShop,
-                        gioHang: gioHang3,
-                        user: user._id,
-                    };
-                    registerGioHang(newGioHang, dispatch);
-                }
-            }
         }
     };
-    console.log("showcart", showcart);
-    console.log("cart", cart);
+    const handleThemGioHangCoUser = (id) => {
+        if (!gioHang) {
+            console.log("id", id);
+            const newGioHang = {
+                idShop: idShop,
+                user: user._id,
+                gioHang: id,
+            };
+            registerGioHang(newGioHang, dispatch);
+        } else {
+            console.log("hii");
+            const gioHangUpdate = [...gioHang.gioHang, id];
+            const newGioHang = {
+                idShop: idShop,
+                user: user._id,
+                gioHang: gioHangUpdate,
+            };
+            updateGioHang(newGioHang, gioHang._id, dispatch);
+        }
+    };
     // Them Gio Hang
+    // Tinh So Luong - Tong So Tien
+    const tinhtongtien = () => {
+        let tt = 0;
+        if (cart?.length !== 0) {
+            cart?.map((sp) => {
+                tt += sp.giaKhuyenMai * sp.quantity;
+            });
+        }
+        if (arraySanPhamQuantity?.length !== 0) {
+            arraySanPhamQuantity?.map((sp) => {
+                tt += sp.giaKhuyenMai * sp.quantity;
+            });
+        }
 
+        setTongtien(tt);
+    };
+    const tinhsoluong = () => {
+        let tt = 0;
+        if (cart?.length !== 0) {
+            cart?.map((sp) => {
+                tt += +sp.quantity;
+            });
+        }
+        if (arraySanPhamQuantity?.length !== 0) {
+            arraySanPhamQuantity?.map((sp) => {
+                tt += +sp.quantity;
+            });
+        }
+
+        setTongsoluong(tt);
+    };
+    useEffect(() => {
+        tinhtongtien();
+        tinhsoluong();
+    });
+
+    console.log("arraySanPhamQuantity", arraySanPhamQuantity);
+    // Tinh So Luong - Tong So Tien
     // Chi Tiet San Pham
     const handleChiTietSanPham = (id) => {
         setshowChiTietSanPham(1);
         setiddetailSanPham(id);
     };
     // Chi Tiet San Pham
-
     return (
         <>
             {showcart === 0 ? (
@@ -346,19 +395,80 @@ const Shop = (props) => {
                                                                                         </div>
                                                                                     </div>
                                                                                 </div>
-
-                                                                                <button
-                                                                                    onClick={() =>
-                                                                                        handleThemGioHang(
-                                                                                            item
-                                                                                        )
-                                                                                    }
-                                                                                    className="muaHang"
-                                                                                >
-                                                                                    THÊM
-                                                                                    GIỎ
-                                                                                    HÀNG
-                                                                                </button>
+                                                                                {!user ? (
+                                                                                    <>
+                                                                                        {cart?.find(
+                                                                                            (
+                                                                                                item2
+                                                                                            ) =>
+                                                                                                item2._id ===
+                                                                                                item._id
+                                                                                        ) ? (
+                                                                                            <button className="daThem">
+                                                                                                ĐÃ
+                                                                                                THÊM
+                                                                                            </button>
+                                                                                        ) : (
+                                                                                            <button
+                                                                                                onClick={() =>
+                                                                                                    handleThemGioHangKhongUser(
+                                                                                                        item
+                                                                                                    )
+                                                                                                }
+                                                                                                className="muaHang"
+                                                                                            >
+                                                                                                THÊM
+                                                                                                GIỎ
+                                                                                                HÀNG
+                                                                                            </button>
+                                                                                        )}
+                                                                                    </>
+                                                                                ) : (
+                                                                                    <>
+                                                                                        {!gioHang ? (
+                                                                                            <button
+                                                                                                onClick={() =>
+                                                                                                    handleThemGioHangCoUser(
+                                                                                                        item._id
+                                                                                                    )
+                                                                                                }
+                                                                                                className="muaHang"
+                                                                                            >
+                                                                                                THÊM
+                                                                                                GIỎ
+                                                                                                HÀNG
+                                                                                            </button>
+                                                                                        ) : (
+                                                                                            <>
+                                                                                                {gioHang?.gioHang.find(
+                                                                                                    (
+                                                                                                        item2
+                                                                                                    ) =>
+                                                                                                        item2 ===
+                                                                                                        item._id
+                                                                                                ) ? (
+                                                                                                    <button className="daThem">
+                                                                                                        ĐÃ
+                                                                                                        THÊM
+                                                                                                    </button>
+                                                                                                ) : (
+                                                                                                    <button
+                                                                                                        onClick={() =>
+                                                                                                            handleThemGioHangCoUser(
+                                                                                                                item._id
+                                                                                                            )
+                                                                                                        }
+                                                                                                        className="muaHang"
+                                                                                                    >
+                                                                                                        THÊM
+                                                                                                        GIỎ
+                                                                                                        HÀNG
+                                                                                                    </button>
+                                                                                                )}
+                                                                                            </>
+                                                                                        )}
+                                                                                    </>
+                                                                                )}
 
                                                                                 <div
                                                                                     onClick={() =>
@@ -442,18 +552,80 @@ const Shop = (props) => {
                                                                                 </div>
                                                                             </div>
 
-                                                                            <button
-                                                                                onClick={() =>
-                                                                                    handleThemGioHang(
-                                                                                        item
-                                                                                    )
-                                                                                }
-                                                                                className="muaHang"
-                                                                            >
-                                                                                THÊM
-                                                                                GIỎ
-                                                                                HÀNG
-                                                                            </button>
+                                                                            {!user ? (
+                                                                                <>
+                                                                                    {cart?.find(
+                                                                                        (
+                                                                                            item2
+                                                                                        ) =>
+                                                                                            item2._id ===
+                                                                                            item._id
+                                                                                    ) ? (
+                                                                                        <button className="daThem">
+                                                                                            ĐÃ
+                                                                                            THÊM
+                                                                                        </button>
+                                                                                    ) : (
+                                                                                        <button
+                                                                                            onClick={() =>
+                                                                                                handleThemGioHangKhongUser(
+                                                                                                    item
+                                                                                                )
+                                                                                            }
+                                                                                            className="muaHang"
+                                                                                        >
+                                                                                            THÊM
+                                                                                            GIỎ
+                                                                                            HÀNG
+                                                                                        </button>
+                                                                                    )}
+                                                                                </>
+                                                                            ) : (
+                                                                                <>
+                                                                                    {!gioHang ? (
+                                                                                        <button
+                                                                                            onClick={() =>
+                                                                                                handleThemGioHangCoUser(
+                                                                                                    item._id
+                                                                                                )
+                                                                                            }
+                                                                                            className="muaHang"
+                                                                                        >
+                                                                                            THÊM
+                                                                                            GIỎ
+                                                                                            HÀNG
+                                                                                        </button>
+                                                                                    ) : (
+                                                                                        <>
+                                                                                            {gioHang?.gioHang.find(
+                                                                                                (
+                                                                                                    item2
+                                                                                                ) =>
+                                                                                                    item2 ===
+                                                                                                    item._id
+                                                                                            ) ? (
+                                                                                                <button className="daThem">
+                                                                                                    ĐÃ
+                                                                                                    THÊM
+                                                                                                </button>
+                                                                                            ) : (
+                                                                                                <button
+                                                                                                    onClick={() =>
+                                                                                                        handleThemGioHangCoUser(
+                                                                                                            item._id
+                                                                                                        )
+                                                                                                    }
+                                                                                                    className="muaHang"
+                                                                                                >
+                                                                                                    THÊM
+                                                                                                    GIỎ
+                                                                                                    HÀNG
+                                                                                                </button>
+                                                                                            )}
+                                                                                        </>
+                                                                                    )}
+                                                                                </>
+                                                                            )}
 
                                                                             <div
                                                                                 onClick={() =>
@@ -540,18 +712,80 @@ const Shop = (props) => {
                                                                                 </div>
                                                                             </div>
 
-                                                                            <button
-                                                                                onClick={() =>
-                                                                                    handleThemGioHang(
-                                                                                        item
-                                                                                    )
-                                                                                }
-                                                                                className="muaHang"
-                                                                            >
-                                                                                THÊM
-                                                                                GIỎ
-                                                                                HÀNG
-                                                                            </button>
+                                                                            {!user ? (
+                                                                                <>
+                                                                                    {cart?.find(
+                                                                                        (
+                                                                                            item2
+                                                                                        ) =>
+                                                                                            item2._id ===
+                                                                                            item._id
+                                                                                    ) ? (
+                                                                                        <button className="daThem">
+                                                                                            ĐÃ
+                                                                                            THÊM
+                                                                                        </button>
+                                                                                    ) : (
+                                                                                        <button
+                                                                                            onClick={() =>
+                                                                                                handleThemGioHangKhongUser(
+                                                                                                    item
+                                                                                                )
+                                                                                            }
+                                                                                            className="muaHang"
+                                                                                        >
+                                                                                            THÊM
+                                                                                            GIỎ
+                                                                                            HÀNG
+                                                                                        </button>
+                                                                                    )}
+                                                                                </>
+                                                                            ) : (
+                                                                                <>
+                                                                                    {!gioHang ? (
+                                                                                        <button
+                                                                                            onClick={() =>
+                                                                                                handleThemGioHangCoUser(
+                                                                                                    item._id
+                                                                                                )
+                                                                                            }
+                                                                                            className="muaHang"
+                                                                                        >
+                                                                                            THÊM
+                                                                                            GIỎ
+                                                                                            HÀNG
+                                                                                        </button>
+                                                                                    ) : (
+                                                                                        <>
+                                                                                            {gioHang?.gioHang.find(
+                                                                                                (
+                                                                                                    item2
+                                                                                                ) =>
+                                                                                                    item2 ===
+                                                                                                    item._id
+                                                                                            ) ? (
+                                                                                                <button className="daThem">
+                                                                                                    ĐÃ
+                                                                                                    THÊM
+                                                                                                </button>
+                                                                                            ) : (
+                                                                                                <button
+                                                                                                    onClick={() =>
+                                                                                                        handleThemGioHangCoUser(
+                                                                                                            item._id
+                                                                                                        )
+                                                                                                    }
+                                                                                                    className="muaHang"
+                                                                                                >
+                                                                                                    THÊM
+                                                                                                    GIỎ
+                                                                                                    HÀNG
+                                                                                                </button>
+                                                                                            )}
+                                                                                        </>
+                                                                                    )}
+                                                                                </>
+                                                                            )}
 
                                                                             <div
                                                                                 onClick={() =>
@@ -637,18 +871,80 @@ const Shop = (props) => {
                                                                                 </div>
                                                                             </div>
 
-                                                                            <button
-                                                                                onClick={() =>
-                                                                                    handleThemGioHang(
-                                                                                        item
-                                                                                    )
-                                                                                }
-                                                                                className="muaHang"
-                                                                            >
-                                                                                THÊM
-                                                                                GIỎ
-                                                                                HÀNG
-                                                                            </button>
+                                                                            {!user ? (
+                                                                                <>
+                                                                                    {cart?.find(
+                                                                                        (
+                                                                                            item2
+                                                                                        ) =>
+                                                                                            item2._id ===
+                                                                                            item._id
+                                                                                    ) ? (
+                                                                                        <button className="daThem">
+                                                                                            ĐÃ
+                                                                                            THÊM
+                                                                                        </button>
+                                                                                    ) : (
+                                                                                        <button
+                                                                                            onClick={() =>
+                                                                                                handleThemGioHangKhongUser(
+                                                                                                    item
+                                                                                                )
+                                                                                            }
+                                                                                            className="muaHang"
+                                                                                        >
+                                                                                            THÊM
+                                                                                            GIỎ
+                                                                                            HÀNG
+                                                                                        </button>
+                                                                                    )}
+                                                                                </>
+                                                                            ) : (
+                                                                                <>
+                                                                                    {!gioHang ? (
+                                                                                        <button
+                                                                                            onClick={() =>
+                                                                                                handleThemGioHangCoUser(
+                                                                                                    item._id
+                                                                                                )
+                                                                                            }
+                                                                                            className="muaHang"
+                                                                                        >
+                                                                                            THÊM
+                                                                                            GIỎ
+                                                                                            HÀNG
+                                                                                        </button>
+                                                                                    ) : (
+                                                                                        <>
+                                                                                            {gioHang?.gioHang.find(
+                                                                                                (
+                                                                                                    item2
+                                                                                                ) =>
+                                                                                                    item2 ===
+                                                                                                    item._id
+                                                                                            ) ? (
+                                                                                                <button className="daThem">
+                                                                                                    ĐÃ
+                                                                                                    THÊM
+                                                                                                </button>
+                                                                                            ) : (
+                                                                                                <button
+                                                                                                    onClick={() =>
+                                                                                                        handleThemGioHangCoUser(
+                                                                                                            item._id
+                                                                                                        )
+                                                                                                    }
+                                                                                                    className="muaHang"
+                                                                                                >
+                                                                                                    THÊM
+                                                                                                    GIỎ
+                                                                                                    HÀNG
+                                                                                                </button>
+                                                                                            )}
+                                                                                        </>
+                                                                                    )}
+                                                                                </>
+                                                                            )}
 
                                                                             <div
                                                                                 onClick={() =>
@@ -734,18 +1030,80 @@ const Shop = (props) => {
                                                                                 </div>
                                                                             </div>
 
-                                                                            <button
-                                                                                onClick={() =>
-                                                                                    handleThemGioHang(
-                                                                                        item
-                                                                                    )
-                                                                                }
-                                                                                className="muaHang"
-                                                                            >
-                                                                                THÊM
-                                                                                GIỎ
-                                                                                HÀNG
-                                                                            </button>
+                                                                            {!user ? (
+                                                                                <>
+                                                                                    {cart?.find(
+                                                                                        (
+                                                                                            item2
+                                                                                        ) =>
+                                                                                            item2._id ===
+                                                                                            item._id
+                                                                                    ) ? (
+                                                                                        <button className="daThem">
+                                                                                            ĐÃ
+                                                                                            THÊM
+                                                                                        </button>
+                                                                                    ) : (
+                                                                                        <button
+                                                                                            onClick={() =>
+                                                                                                handleThemGioHangKhongUser(
+                                                                                                    item
+                                                                                                )
+                                                                                            }
+                                                                                            className="muaHang"
+                                                                                        >
+                                                                                            THÊM
+                                                                                            GIỎ
+                                                                                            HÀNG
+                                                                                        </button>
+                                                                                    )}
+                                                                                </>
+                                                                            ) : (
+                                                                                <>
+                                                                                    {!gioHang ? (
+                                                                                        <button
+                                                                                            onClick={() =>
+                                                                                                handleThemGioHangCoUser(
+                                                                                                    item._id
+                                                                                                )
+                                                                                            }
+                                                                                            className="muaHang"
+                                                                                        >
+                                                                                            THÊM
+                                                                                            GIỎ
+                                                                                            HÀNG
+                                                                                        </button>
+                                                                                    ) : (
+                                                                                        <>
+                                                                                            {gioHang?.gioHang.find(
+                                                                                                (
+                                                                                                    item2
+                                                                                                ) =>
+                                                                                                    item2 ===
+                                                                                                    item._id
+                                                                                            ) ? (
+                                                                                                <button className="daThem">
+                                                                                                    ĐÃ
+                                                                                                    THÊM
+                                                                                                </button>
+                                                                                            ) : (
+                                                                                                <button
+                                                                                                    onClick={() =>
+                                                                                                        handleThemGioHangCoUser(
+                                                                                                            item._id
+                                                                                                        )
+                                                                                                    }
+                                                                                                    className="muaHang"
+                                                                                                >
+                                                                                                    THÊM
+                                                                                                    GIỎ
+                                                                                                    HÀNG
+                                                                                                </button>
+                                                                                            )}
+                                                                                        </>
+                                                                                    )}
+                                                                                </>
+                                                                            )}
 
                                                                             <div
                                                                                 onClick={() =>
@@ -831,18 +1189,80 @@ const Shop = (props) => {
                                                                                 </div>
                                                                             </div>
 
-                                                                            <button
-                                                                                onClick={() =>
-                                                                                    handleThemGioHang(
-                                                                                        item
-                                                                                    )
-                                                                                }
-                                                                                className="muaHang"
-                                                                            >
-                                                                                THÊM
-                                                                                GIỎ
-                                                                                HÀNG
-                                                                            </button>
+                                                                            {!user ? (
+                                                                                <>
+                                                                                    {cart?.find(
+                                                                                        (
+                                                                                            item2
+                                                                                        ) =>
+                                                                                            item2._id ===
+                                                                                            item._id
+                                                                                    ) ? (
+                                                                                        <button className="daThem">
+                                                                                            ĐÃ
+                                                                                            THÊM
+                                                                                        </button>
+                                                                                    ) : (
+                                                                                        <button
+                                                                                            onClick={() =>
+                                                                                                handleThemGioHangKhongUser(
+                                                                                                    item
+                                                                                                )
+                                                                                            }
+                                                                                            className="muaHang"
+                                                                                        >
+                                                                                            THÊM
+                                                                                            GIỎ
+                                                                                            HÀNG
+                                                                                        </button>
+                                                                                    )}
+                                                                                </>
+                                                                            ) : (
+                                                                                <>
+                                                                                    {!gioHang ? (
+                                                                                        <button
+                                                                                            onClick={() =>
+                                                                                                handleThemGioHangCoUser(
+                                                                                                    item._id
+                                                                                                )
+                                                                                            }
+                                                                                            className="muaHang"
+                                                                                        >
+                                                                                            THÊM
+                                                                                            GIỎ
+                                                                                            HÀNG
+                                                                                        </button>
+                                                                                    ) : (
+                                                                                        <>
+                                                                                            {gioHang?.gioHang.find(
+                                                                                                (
+                                                                                                    item2
+                                                                                                ) =>
+                                                                                                    item2 ===
+                                                                                                    item._id
+                                                                                            ) ? (
+                                                                                                <button className="daThem">
+                                                                                                    ĐÃ
+                                                                                                    THÊM
+                                                                                                </button>
+                                                                                            ) : (
+                                                                                                <button
+                                                                                                    onClick={() =>
+                                                                                                        handleThemGioHangCoUser(
+                                                                                                            item._id
+                                                                                                        )
+                                                                                                    }
+                                                                                                    className="muaHang"
+                                                                                                >
+                                                                                                    THÊM
+                                                                                                    GIỎ
+                                                                                                    HÀNG
+                                                                                                </button>
+                                                                                            )}
+                                                                                        </>
+                                                                                    )}
+                                                                                </>
+                                                                            )}
 
                                                                             <div
                                                                                 onClick={() =>
@@ -928,18 +1348,80 @@ const Shop = (props) => {
                                                                                 </div>
                                                                             </div>
 
-                                                                            <button
-                                                                                onClick={() =>
-                                                                                    handleThemGioHang(
-                                                                                        item
-                                                                                    )
-                                                                                }
-                                                                                className="muaHang"
-                                                                            >
-                                                                                THÊM
-                                                                                GIỎ
-                                                                                HÀNG
-                                                                            </button>
+                                                                            {!user ? (
+                                                                                <>
+                                                                                    {cart?.find(
+                                                                                        (
+                                                                                            item2
+                                                                                        ) =>
+                                                                                            item2._id ===
+                                                                                            item._id
+                                                                                    ) ? (
+                                                                                        <button className="daThem">
+                                                                                            ĐÃ
+                                                                                            THÊM
+                                                                                        </button>
+                                                                                    ) : (
+                                                                                        <button
+                                                                                            onClick={() =>
+                                                                                                handleThemGioHangKhongUser(
+                                                                                                    item
+                                                                                                )
+                                                                                            }
+                                                                                            className="muaHang"
+                                                                                        >
+                                                                                            THÊM
+                                                                                            GIỎ
+                                                                                            HÀNG
+                                                                                        </button>
+                                                                                    )}
+                                                                                </>
+                                                                            ) : (
+                                                                                <>
+                                                                                    {!gioHang ? (
+                                                                                        <button
+                                                                                            onClick={() =>
+                                                                                                handleThemGioHangCoUser(
+                                                                                                    item._id
+                                                                                                )
+                                                                                            }
+                                                                                            className="muaHang"
+                                                                                        >
+                                                                                            THÊM
+                                                                                            GIỎ
+                                                                                            HÀNG
+                                                                                        </button>
+                                                                                    ) : (
+                                                                                        <>
+                                                                                            {gioHang?.gioHang.find(
+                                                                                                (
+                                                                                                    item2
+                                                                                                ) =>
+                                                                                                    item2 ===
+                                                                                                    item._id
+                                                                                            ) ? (
+                                                                                                <button className="daThem">
+                                                                                                    ĐÃ
+                                                                                                    THÊM
+                                                                                                </button>
+                                                                                            ) : (
+                                                                                                <button
+                                                                                                    onClick={() =>
+                                                                                                        handleThemGioHangCoUser(
+                                                                                                            item._id
+                                                                                                        )
+                                                                                                    }
+                                                                                                    className="muaHang"
+                                                                                                >
+                                                                                                    THÊM
+                                                                                                    GIỎ
+                                                                                                    HÀNG
+                                                                                                </button>
+                                                                                            )}
+                                                                                        </>
+                                                                                    )}
+                                                                                </>
+                                                                            )}
 
                                                                             <div
                                                                                 onClick={() =>
@@ -1026,18 +1508,80 @@ const Shop = (props) => {
                                                                                 </div>
                                                                             </div>
 
-                                                                            <button
-                                                                                onClick={() =>
-                                                                                    handleThemGioHang(
-                                                                                        item
-                                                                                    )
-                                                                                }
-                                                                                className="muaHang"
-                                                                            >
-                                                                                THÊM
-                                                                                GIỎ
-                                                                                HÀNG
-                                                                            </button>
+                                                                            {!user ? (
+                                                                                <>
+                                                                                    {cart?.find(
+                                                                                        (
+                                                                                            item2
+                                                                                        ) =>
+                                                                                            item2._id ===
+                                                                                            item._id
+                                                                                    ) ? (
+                                                                                        <button className="daThem">
+                                                                                            ĐÃ
+                                                                                            THÊM
+                                                                                        </button>
+                                                                                    ) : (
+                                                                                        <button
+                                                                                            onClick={() =>
+                                                                                                handleThemGioHangKhongUser(
+                                                                                                    item
+                                                                                                )
+                                                                                            }
+                                                                                            className="muaHang"
+                                                                                        >
+                                                                                            THÊM
+                                                                                            GIỎ
+                                                                                            HÀNG
+                                                                                        </button>
+                                                                                    )}
+                                                                                </>
+                                                                            ) : (
+                                                                                <>
+                                                                                    {!gioHang ? (
+                                                                                        <button
+                                                                                            onClick={() =>
+                                                                                                handleThemGioHangCoUser(
+                                                                                                    item._id
+                                                                                                )
+                                                                                            }
+                                                                                            className="muaHang"
+                                                                                        >
+                                                                                            THÊM
+                                                                                            GIỎ
+                                                                                            HÀNG
+                                                                                        </button>
+                                                                                    ) : (
+                                                                                        <>
+                                                                                            {gioHang?.gioHang.find(
+                                                                                                (
+                                                                                                    item2
+                                                                                                ) =>
+                                                                                                    item2 ===
+                                                                                                    item._id
+                                                                                            ) ? (
+                                                                                                <button className="daThem">
+                                                                                                    ĐÃ
+                                                                                                    THÊM
+                                                                                                </button>
+                                                                                            ) : (
+                                                                                                <button
+                                                                                                    onClick={() =>
+                                                                                                        handleThemGioHangCoUser(
+                                                                                                            item._id
+                                                                                                        )
+                                                                                                    }
+                                                                                                    className="muaHang"
+                                                                                                >
+                                                                                                    THÊM
+                                                                                                    GIỎ
+                                                                                                    HÀNG
+                                                                                                </button>
+                                                                                            )}
+                                                                                        </>
+                                                                                    )}
+                                                                                </>
+                                                                            )}
 
                                                                             <div
                                                                                 onClick={() =>
@@ -1124,18 +1668,80 @@ const Shop = (props) => {
                                                                                 </div>
                                                                             </div>
 
-                                                                            <button
-                                                                                onClick={() =>
-                                                                                    handleThemGioHang(
-                                                                                        item
-                                                                                    )
-                                                                                }
-                                                                                className="muaHang"
-                                                                            >
-                                                                                THÊM
-                                                                                GIỎ
-                                                                                HÀNG
-                                                                            </button>
+                                                                            {!user ? (
+                                                                                <>
+                                                                                    {cart?.find(
+                                                                                        (
+                                                                                            item2
+                                                                                        ) =>
+                                                                                            item2._id ===
+                                                                                            item._id
+                                                                                    ) ? (
+                                                                                        <button className="daThem">
+                                                                                            ĐÃ
+                                                                                            THÊM
+                                                                                        </button>
+                                                                                    ) : (
+                                                                                        <button
+                                                                                            onClick={() =>
+                                                                                                handleThemGioHangKhongUser(
+                                                                                                    item
+                                                                                                )
+                                                                                            }
+                                                                                            className="muaHang"
+                                                                                        >
+                                                                                            THÊM
+                                                                                            GIỎ
+                                                                                            HÀNG
+                                                                                        </button>
+                                                                                    )}
+                                                                                </>
+                                                                            ) : (
+                                                                                <>
+                                                                                    {!gioHang ? (
+                                                                                        <button
+                                                                                            onClick={() =>
+                                                                                                handleThemGioHangCoUser(
+                                                                                                    item._id
+                                                                                                )
+                                                                                            }
+                                                                                            className="muaHang"
+                                                                                        >
+                                                                                            THÊM
+                                                                                            GIỎ
+                                                                                            HÀNG
+                                                                                        </button>
+                                                                                    ) : (
+                                                                                        <>
+                                                                                            {gioHang?.gioHang.find(
+                                                                                                (
+                                                                                                    item2
+                                                                                                ) =>
+                                                                                                    item2 ===
+                                                                                                    item._id
+                                                                                            ) ? (
+                                                                                                <button className="daThem">
+                                                                                                    ĐÃ
+                                                                                                    THÊM
+                                                                                                </button>
+                                                                                            ) : (
+                                                                                                <button
+                                                                                                    onClick={() =>
+                                                                                                        handleThemGioHangCoUser(
+                                                                                                            item._id
+                                                                                                        )
+                                                                                                    }
+                                                                                                    className="muaHang"
+                                                                                                >
+                                                                                                    THÊM
+                                                                                                    GIỎ
+                                                                                                    HÀNG
+                                                                                                </button>
+                                                                                            )}
+                                                                                        </>
+                                                                                    )}
+                                                                                </>
+                                                                            )}
 
                                                                             <div
                                                                                 onClick={() =>
@@ -1222,18 +1828,80 @@ const Shop = (props) => {
                                                                                 </div>
                                                                             </div>
 
-                                                                            <button
-                                                                                onClick={() =>
-                                                                                    handleThemGioHang(
-                                                                                        item
-                                                                                    )
-                                                                                }
-                                                                                className="muaHang"
-                                                                            >
-                                                                                THÊM
-                                                                                GIỎ
-                                                                                HÀNG
-                                                                            </button>
+                                                                            {!user ? (
+                                                                                <>
+                                                                                    {cart?.find(
+                                                                                        (
+                                                                                            item2
+                                                                                        ) =>
+                                                                                            item2._id ===
+                                                                                            item._id
+                                                                                    ) ? (
+                                                                                        <button className="daThem">
+                                                                                            ĐÃ
+                                                                                            THÊM
+                                                                                        </button>
+                                                                                    ) : (
+                                                                                        <button
+                                                                                            onClick={() =>
+                                                                                                handleThemGioHangKhongUser(
+                                                                                                    item
+                                                                                                )
+                                                                                            }
+                                                                                            className="muaHang"
+                                                                                        >
+                                                                                            THÊM
+                                                                                            GIỎ
+                                                                                            HÀNG
+                                                                                        </button>
+                                                                                    )}
+                                                                                </>
+                                                                            ) : (
+                                                                                <>
+                                                                                    {!gioHang ? (
+                                                                                        <button
+                                                                                            onClick={() =>
+                                                                                                handleThemGioHangCoUser(
+                                                                                                    item._id
+                                                                                                )
+                                                                                            }
+                                                                                            className="muaHang"
+                                                                                        >
+                                                                                            THÊM
+                                                                                            GIỎ
+                                                                                            HÀNG
+                                                                                        </button>
+                                                                                    ) : (
+                                                                                        <>
+                                                                                            {gioHang?.gioHang.find(
+                                                                                                (
+                                                                                                    item2
+                                                                                                ) =>
+                                                                                                    item2 ===
+                                                                                                    item._id
+                                                                                            ) ? (
+                                                                                                <button className="daThem">
+                                                                                                    ĐÃ
+                                                                                                    THÊM
+                                                                                                </button>
+                                                                                            ) : (
+                                                                                                <button
+                                                                                                    onClick={() =>
+                                                                                                        handleThemGioHangCoUser(
+                                                                                                            item._id
+                                                                                                        )
+                                                                                                    }
+                                                                                                    className="muaHang"
+                                                                                                >
+                                                                                                    THÊM
+                                                                                                    GIỎ
+                                                                                                    HÀNG
+                                                                                                </button>
+                                                                                            )}
+                                                                                        </>
+                                                                                    )}
+                                                                                </>
+                                                                            )}
 
                                                                             <div
                                                                                 onClick={() =>
@@ -1320,18 +1988,80 @@ const Shop = (props) => {
                                                                                 </div>
                                                                             </div>
 
-                                                                            <button
-                                                                                onClick={() =>
-                                                                                    handleThemGioHang(
-                                                                                        item
-                                                                                    )
-                                                                                }
-                                                                                className="muaHang"
-                                                                            >
-                                                                                THÊM
-                                                                                GIỎ
-                                                                                HÀNG
-                                                                            </button>
+                                                                            {!user ? (
+                                                                                <>
+                                                                                    {cart?.find(
+                                                                                        (
+                                                                                            item2
+                                                                                        ) =>
+                                                                                            item2._id ===
+                                                                                            item._id
+                                                                                    ) ? (
+                                                                                        <button className="daThem">
+                                                                                            ĐÃ
+                                                                                            THÊM
+                                                                                        </button>
+                                                                                    ) : (
+                                                                                        <button
+                                                                                            onClick={() =>
+                                                                                                handleThemGioHangKhongUser(
+                                                                                                    item
+                                                                                                )
+                                                                                            }
+                                                                                            className="muaHang"
+                                                                                        >
+                                                                                            THÊM
+                                                                                            GIỎ
+                                                                                            HÀNG
+                                                                                        </button>
+                                                                                    )}
+                                                                                </>
+                                                                            ) : (
+                                                                                <>
+                                                                                    {!gioHang ? (
+                                                                                        <button
+                                                                                            onClick={() =>
+                                                                                                handleThemGioHangCoUser(
+                                                                                                    item._id
+                                                                                                )
+                                                                                            }
+                                                                                            className="muaHang"
+                                                                                        >
+                                                                                            THÊM
+                                                                                            GIỎ
+                                                                                            HÀNG
+                                                                                        </button>
+                                                                                    ) : (
+                                                                                        <>
+                                                                                            {gioHang?.gioHang.find(
+                                                                                                (
+                                                                                                    item2
+                                                                                                ) =>
+                                                                                                    item2 ===
+                                                                                                    item._id
+                                                                                            ) ? (
+                                                                                                <button className="daThem">
+                                                                                                    ĐÃ
+                                                                                                    THÊM
+                                                                                                </button>
+                                                                                            ) : (
+                                                                                                <button
+                                                                                                    onClick={() =>
+                                                                                                        handleThemGioHangCoUser(
+                                                                                                            item._id
+                                                                                                        )
+                                                                                                    }
+                                                                                                    className="muaHang"
+                                                                                                >
+                                                                                                    THÊM
+                                                                                                    GIỎ
+                                                                                                    HÀNG
+                                                                                                </button>
+                                                                                            )}
+                                                                                        </>
+                                                                                    )}
+                                                                                </>
+                                                                            )}
 
                                                                             <div
                                                                                 onClick={() =>
@@ -1418,18 +2148,80 @@ const Shop = (props) => {
                                                                                 </div>
                                                                             </div>
 
-                                                                            <button
-                                                                                onClick={() =>
-                                                                                    handleThemGioHang(
-                                                                                        item
-                                                                                    )
-                                                                                }
-                                                                                className="muaHang"
-                                                                            >
-                                                                                THÊM
-                                                                                GIỎ
-                                                                                HÀNG
-                                                                            </button>
+                                                                            {!user ? (
+                                                                                <>
+                                                                                    {cart?.find(
+                                                                                        (
+                                                                                            item2
+                                                                                        ) =>
+                                                                                            item2._id ===
+                                                                                            item._id
+                                                                                    ) ? (
+                                                                                        <button className="daThem">
+                                                                                            ĐÃ
+                                                                                            THÊM
+                                                                                        </button>
+                                                                                    ) : (
+                                                                                        <button
+                                                                                            onClick={() =>
+                                                                                                handleThemGioHangKhongUser(
+                                                                                                    item
+                                                                                                )
+                                                                                            }
+                                                                                            className="muaHang"
+                                                                                        >
+                                                                                            THÊM
+                                                                                            GIỎ
+                                                                                            HÀNG
+                                                                                        </button>
+                                                                                    )}
+                                                                                </>
+                                                                            ) : (
+                                                                                <>
+                                                                                    {!gioHang ? (
+                                                                                        <button
+                                                                                            onClick={() =>
+                                                                                                handleThemGioHangCoUser(
+                                                                                                    item._id
+                                                                                                )
+                                                                                            }
+                                                                                            className="muaHang"
+                                                                                        >
+                                                                                            THÊM
+                                                                                            GIỎ
+                                                                                            HÀNG
+                                                                                        </button>
+                                                                                    ) : (
+                                                                                        <>
+                                                                                            {gioHang?.gioHang.find(
+                                                                                                (
+                                                                                                    item2
+                                                                                                ) =>
+                                                                                                    item2 ===
+                                                                                                    item._id
+                                                                                            ) ? (
+                                                                                                <button className="daThem">
+                                                                                                    ĐÃ
+                                                                                                    THÊM
+                                                                                                </button>
+                                                                                            ) : (
+                                                                                                <button
+                                                                                                    onClick={() =>
+                                                                                                        handleThemGioHangCoUser(
+                                                                                                            item._id
+                                                                                                        )
+                                                                                                    }
+                                                                                                    className="muaHang"
+                                                                                                >
+                                                                                                    THÊM
+                                                                                                    GIỎ
+                                                                                                    HÀNG
+                                                                                                </button>
+                                                                                            )}
+                                                                                        </>
+                                                                                    )}
+                                                                                </>
+                                                                            )}
 
                                                                             <div
                                                                                 onClick={() =>
@@ -1516,18 +2308,80 @@ const Shop = (props) => {
                                                                                 </div>
                                                                             </div>
 
-                                                                            <button
-                                                                                onClick={() =>
-                                                                                    handleThemGioHang(
-                                                                                        item
-                                                                                    )
-                                                                                }
-                                                                                className="muaHang"
-                                                                            >
-                                                                                THÊM
-                                                                                GIỎ
-                                                                                HÀNG
-                                                                            </button>
+                                                                            {!user ? (
+                                                                                <>
+                                                                                    {cart?.find(
+                                                                                        (
+                                                                                            item2
+                                                                                        ) =>
+                                                                                            item2._id ===
+                                                                                            item._id
+                                                                                    ) ? (
+                                                                                        <button className="daThem">
+                                                                                            ĐÃ
+                                                                                            THÊM
+                                                                                        </button>
+                                                                                    ) : (
+                                                                                        <button
+                                                                                            onClick={() =>
+                                                                                                handleThemGioHangKhongUser(
+                                                                                                    item
+                                                                                                )
+                                                                                            }
+                                                                                            className="muaHang"
+                                                                                        >
+                                                                                            THÊM
+                                                                                            GIỎ
+                                                                                            HÀNG
+                                                                                        </button>
+                                                                                    )}
+                                                                                </>
+                                                                            ) : (
+                                                                                <>
+                                                                                    {!gioHang ? (
+                                                                                        <button
+                                                                                            onClick={() =>
+                                                                                                handleThemGioHangCoUser(
+                                                                                                    item._id
+                                                                                                )
+                                                                                            }
+                                                                                            className="muaHang"
+                                                                                        >
+                                                                                            THÊM
+                                                                                            GIỎ
+                                                                                            HÀNG
+                                                                                        </button>
+                                                                                    ) : (
+                                                                                        <>
+                                                                                            {gioHang?.gioHang.find(
+                                                                                                (
+                                                                                                    item2
+                                                                                                ) =>
+                                                                                                    item2 ===
+                                                                                                    item._id
+                                                                                            ) ? (
+                                                                                                <button className="daThem">
+                                                                                                    ĐÃ
+                                                                                                    THÊM
+                                                                                                </button>
+                                                                                            ) : (
+                                                                                                <button
+                                                                                                    onClick={() =>
+                                                                                                        handleThemGioHangCoUser(
+                                                                                                            item._id
+                                                                                                        )
+                                                                                                    }
+                                                                                                    className="muaHang"
+                                                                                                >
+                                                                                                    THÊM
+                                                                                                    GIỎ
+                                                                                                    HÀNG
+                                                                                                </button>
+                                                                                            )}
+                                                                                        </>
+                                                                                    )}
+                                                                                </>
+                                                                            )}
 
                                                                             <div
                                                                                 onClick={() =>
@@ -1614,18 +2468,80 @@ const Shop = (props) => {
                                                                                 </div>
                                                                             </div>
 
-                                                                            <button
-                                                                                onClick={() =>
-                                                                                    handleThemGioHang(
-                                                                                        item
-                                                                                    )
-                                                                                }
-                                                                                className="muaHang"
-                                                                            >
-                                                                                THÊM
-                                                                                GIỎ
-                                                                                HÀNG
-                                                                            </button>
+                                                                            {!user ? (
+                                                                                <>
+                                                                                    {cart?.find(
+                                                                                        (
+                                                                                            item2
+                                                                                        ) =>
+                                                                                            item2._id ===
+                                                                                            item._id
+                                                                                    ) ? (
+                                                                                        <button className="daThem">
+                                                                                            ĐÃ
+                                                                                            THÊM
+                                                                                        </button>
+                                                                                    ) : (
+                                                                                        <button
+                                                                                            onClick={() =>
+                                                                                                handleThemGioHangKhongUser(
+                                                                                                    item
+                                                                                                )
+                                                                                            }
+                                                                                            className="muaHang"
+                                                                                        >
+                                                                                            THÊM
+                                                                                            GIỎ
+                                                                                            HÀNG
+                                                                                        </button>
+                                                                                    )}
+                                                                                </>
+                                                                            ) : (
+                                                                                <>
+                                                                                    {!gioHang ? (
+                                                                                        <button
+                                                                                            onClick={() =>
+                                                                                                handleThemGioHangCoUser(
+                                                                                                    item._id
+                                                                                                )
+                                                                                            }
+                                                                                            className="muaHang"
+                                                                                        >
+                                                                                            THÊM
+                                                                                            GIỎ
+                                                                                            HÀNG
+                                                                                        </button>
+                                                                                    ) : (
+                                                                                        <>
+                                                                                            {gioHang?.gioHang.find(
+                                                                                                (
+                                                                                                    item2
+                                                                                                ) =>
+                                                                                                    item2 ===
+                                                                                                    item._id
+                                                                                            ) ? (
+                                                                                                <button className="daThem">
+                                                                                                    ĐÃ
+                                                                                                    THÊM
+                                                                                                </button>
+                                                                                            ) : (
+                                                                                                <button
+                                                                                                    onClick={() =>
+                                                                                                        handleThemGioHangCoUser(
+                                                                                                            item._id
+                                                                                                        )
+                                                                                                    }
+                                                                                                    className="muaHang"
+                                                                                                >
+                                                                                                    THÊM
+                                                                                                    GIỎ
+                                                                                                    HÀNG
+                                                                                                </button>
+                                                                                            )}
+                                                                                        </>
+                                                                                    )}
+                                                                                </>
+                                                                            )}
 
                                                                             <div
                                                                                 onClick={() =>
@@ -1712,18 +2628,80 @@ const Shop = (props) => {
                                                                                 </div>
                                                                             </div>
 
-                                                                            <button
-                                                                                onClick={() =>
-                                                                                    handleThemGioHang(
-                                                                                        item
-                                                                                    )
-                                                                                }
-                                                                                className="muaHang"
-                                                                            >
-                                                                                THÊM
-                                                                                GIỎ
-                                                                                HÀNG
-                                                                            </button>
+                                                                            {!user ? (
+                                                                                <>
+                                                                                    {cart?.find(
+                                                                                        (
+                                                                                            item2
+                                                                                        ) =>
+                                                                                            item2._id ===
+                                                                                            item._id
+                                                                                    ) ? (
+                                                                                        <button className="daThem">
+                                                                                            ĐÃ
+                                                                                            THÊM
+                                                                                        </button>
+                                                                                    ) : (
+                                                                                        <button
+                                                                                            onClick={() =>
+                                                                                                handleThemGioHangKhongUser(
+                                                                                                    item
+                                                                                                )
+                                                                                            }
+                                                                                            className="muaHang"
+                                                                                        >
+                                                                                            THÊM
+                                                                                            GIỎ
+                                                                                            HÀNG
+                                                                                        </button>
+                                                                                    )}
+                                                                                </>
+                                                                            ) : (
+                                                                                <>
+                                                                                    {!gioHang ? (
+                                                                                        <button
+                                                                                            onClick={() =>
+                                                                                                handleThemGioHangCoUser(
+                                                                                                    item._id
+                                                                                                )
+                                                                                            }
+                                                                                            className="muaHang"
+                                                                                        >
+                                                                                            THÊM
+                                                                                            GIỎ
+                                                                                            HÀNG
+                                                                                        </button>
+                                                                                    ) : (
+                                                                                        <>
+                                                                                            {gioHang?.gioHang.find(
+                                                                                                (
+                                                                                                    item2
+                                                                                                ) =>
+                                                                                                    item2 ===
+                                                                                                    item._id
+                                                                                            ) ? (
+                                                                                                <button className="daThem">
+                                                                                                    ĐÃ
+                                                                                                    THÊM
+                                                                                                </button>
+                                                                                            ) : (
+                                                                                                <button
+                                                                                                    onClick={() =>
+                                                                                                        handleThemGioHangCoUser(
+                                                                                                            item._id
+                                                                                                        )
+                                                                                                    }
+                                                                                                    className="muaHang"
+                                                                                                >
+                                                                                                    THÊM
+                                                                                                    GIỎ
+                                                                                                    HÀNG
+                                                                                                </button>
+                                                                                            )}
+                                                                                        </>
+                                                                                    )}
+                                                                                </>
+                                                                            )}
 
                                                                             <div
                                                                                 onClick={() =>
@@ -1810,18 +2788,80 @@ const Shop = (props) => {
                                                                                 </div>
                                                                             </div>
 
-                                                                            <button
-                                                                                onClick={() =>
-                                                                                    handleThemGioHang(
-                                                                                        item
-                                                                                    )
-                                                                                }
-                                                                                className="muaHang"
-                                                                            >
-                                                                                THÊM
-                                                                                GIỎ
-                                                                                HÀNG
-                                                                            </button>
+                                                                            {!user ? (
+                                                                                <>
+                                                                                    {cart?.find(
+                                                                                        (
+                                                                                            item2
+                                                                                        ) =>
+                                                                                            item2._id ===
+                                                                                            item._id
+                                                                                    ) ? (
+                                                                                        <button className="daThem">
+                                                                                            ĐÃ
+                                                                                            THÊM
+                                                                                        </button>
+                                                                                    ) : (
+                                                                                        <button
+                                                                                            onClick={() =>
+                                                                                                handleThemGioHangKhongUser(
+                                                                                                    item
+                                                                                                )
+                                                                                            }
+                                                                                            className="muaHang"
+                                                                                        >
+                                                                                            THÊM
+                                                                                            GIỎ
+                                                                                            HÀNG
+                                                                                        </button>
+                                                                                    )}
+                                                                                </>
+                                                                            ) : (
+                                                                                <>
+                                                                                    {!gioHang ? (
+                                                                                        <button
+                                                                                            onClick={() =>
+                                                                                                handleThemGioHangCoUser(
+                                                                                                    item._id
+                                                                                                )
+                                                                                            }
+                                                                                            className="muaHang"
+                                                                                        >
+                                                                                            THÊM
+                                                                                            GIỎ
+                                                                                            HÀNG
+                                                                                        </button>
+                                                                                    ) : (
+                                                                                        <>
+                                                                                            {gioHang?.gioHang.find(
+                                                                                                (
+                                                                                                    item2
+                                                                                                ) =>
+                                                                                                    item2 ===
+                                                                                                    item._id
+                                                                                            ) ? (
+                                                                                                <button className="daThem">
+                                                                                                    ĐÃ
+                                                                                                    THÊM
+                                                                                                </button>
+                                                                                            ) : (
+                                                                                                <button
+                                                                                                    onClick={() =>
+                                                                                                        handleThemGioHangCoUser(
+                                                                                                            item._id
+                                                                                                        )
+                                                                                                    }
+                                                                                                    className="muaHang"
+                                                                                                >
+                                                                                                    THÊM
+                                                                                                    GIỎ
+                                                                                                    HÀNG
+                                                                                                </button>
+                                                                                            )}
+                                                                                        </>
+                                                                                    )}
+                                                                                </>
+                                                                            )}
 
                                                                             <div
                                                                                 onClick={() =>
@@ -1908,18 +2948,80 @@ const Shop = (props) => {
                                                                                 </div>
                                                                             </div>
 
-                                                                            <button
-                                                                                onClick={() =>
-                                                                                    handleThemGioHang(
-                                                                                        item
-                                                                                    )
-                                                                                }
-                                                                                className="muaHang"
-                                                                            >
-                                                                                THÊM
-                                                                                GIỎ
-                                                                                HÀNG
-                                                                            </button>
+                                                                            {!user ? (
+                                                                                <>
+                                                                                    {cart?.find(
+                                                                                        (
+                                                                                            item2
+                                                                                        ) =>
+                                                                                            item2._id ===
+                                                                                            item._id
+                                                                                    ) ? (
+                                                                                        <button className="daThem">
+                                                                                            ĐÃ
+                                                                                            THÊM
+                                                                                        </button>
+                                                                                    ) : (
+                                                                                        <button
+                                                                                            onClick={() =>
+                                                                                                handleThemGioHangKhongUser(
+                                                                                                    item
+                                                                                                )
+                                                                                            }
+                                                                                            className="muaHang"
+                                                                                        >
+                                                                                            THÊM
+                                                                                            GIỎ
+                                                                                            HÀNG
+                                                                                        </button>
+                                                                                    )}
+                                                                                </>
+                                                                            ) : (
+                                                                                <>
+                                                                                    {!gioHang ? (
+                                                                                        <button
+                                                                                            onClick={() =>
+                                                                                                handleThemGioHangCoUser(
+                                                                                                    item._id
+                                                                                                )
+                                                                                            }
+                                                                                            className="muaHang"
+                                                                                        >
+                                                                                            THÊM
+                                                                                            GIỎ
+                                                                                            HÀNG
+                                                                                        </button>
+                                                                                    ) : (
+                                                                                        <>
+                                                                                            {gioHang?.gioHang.find(
+                                                                                                (
+                                                                                                    item2
+                                                                                                ) =>
+                                                                                                    item2 ===
+                                                                                                    item._id
+                                                                                            ) ? (
+                                                                                                <button className="daThem">
+                                                                                                    ĐÃ
+                                                                                                    THÊM
+                                                                                                </button>
+                                                                                            ) : (
+                                                                                                <button
+                                                                                                    onClick={() =>
+                                                                                                        handleThemGioHangCoUser(
+                                                                                                            item._id
+                                                                                                        )
+                                                                                                    }
+                                                                                                    className="muaHang"
+                                                                                                >
+                                                                                                    THÊM
+                                                                                                    GIỎ
+                                                                                                    HÀNG
+                                                                                                </button>
+                                                                                            )}
+                                                                                        </>
+                                                                                    )}
+                                                                                </>
+                                                                            )}
 
                                                                             <div
                                                                                 onClick={() =>
@@ -2006,18 +3108,80 @@ const Shop = (props) => {
                                                                                 </div>
                                                                             </div>
 
-                                                                            <button
-                                                                                onClick={() =>
-                                                                                    handleThemGioHang(
-                                                                                        item
-                                                                                    )
-                                                                                }
-                                                                                className="muaHang"
-                                                                            >
-                                                                                THÊM
-                                                                                GIỎ
-                                                                                HÀNG
-                                                                            </button>
+                                                                            {!user ? (
+                                                                                <>
+                                                                                    {cart?.find(
+                                                                                        (
+                                                                                            item2
+                                                                                        ) =>
+                                                                                            item2._id ===
+                                                                                            item._id
+                                                                                    ) ? (
+                                                                                        <button className="daThem">
+                                                                                            ĐÃ
+                                                                                            THÊM
+                                                                                        </button>
+                                                                                    ) : (
+                                                                                        <button
+                                                                                            onClick={() =>
+                                                                                                handleThemGioHangKhongUser(
+                                                                                                    item
+                                                                                                )
+                                                                                            }
+                                                                                            className="muaHang"
+                                                                                        >
+                                                                                            THÊM
+                                                                                            GIỎ
+                                                                                            HÀNG
+                                                                                        </button>
+                                                                                    )}
+                                                                                </>
+                                                                            ) : (
+                                                                                <>
+                                                                                    {!gioHang ? (
+                                                                                        <button
+                                                                                            onClick={() =>
+                                                                                                handleThemGioHangCoUser(
+                                                                                                    item._id
+                                                                                                )
+                                                                                            }
+                                                                                            className="muaHang"
+                                                                                        >
+                                                                                            THÊM
+                                                                                            GIỎ
+                                                                                            HÀNG
+                                                                                        </button>
+                                                                                    ) : (
+                                                                                        <>
+                                                                                            {gioHang?.gioHang.find(
+                                                                                                (
+                                                                                                    item2
+                                                                                                ) =>
+                                                                                                    item2 ===
+                                                                                                    item._id
+                                                                                            ) ? (
+                                                                                                <button className="daThem">
+                                                                                                    ĐÃ
+                                                                                                    THÊM
+                                                                                                </button>
+                                                                                            ) : (
+                                                                                                <button
+                                                                                                    onClick={() =>
+                                                                                                        handleThemGioHangCoUser(
+                                                                                                            item._id
+                                                                                                        )
+                                                                                                    }
+                                                                                                    className="muaHang"
+                                                                                                >
+                                                                                                    THÊM
+                                                                                                    GIỎ
+                                                                                                    HÀNG
+                                                                                                </button>
+                                                                                            )}
+                                                                                        </>
+                                                                                    )}
+                                                                                </>
+                                                                            )}
 
                                                                             <div
                                                                                 onClick={() =>
@@ -2048,7 +3212,12 @@ const Shop = (props) => {
                         </div>
                     ) : (
                         <ChiTietSanPham2
-                            handleThemGioHang={handleThemGioHang}
+                            cart={cart}
+                            setcart={setcart}
+                            handleThemGioHangCoUser={handleThemGioHangCoUser}
+                            handleThemGioHangKhongUser={
+                                handleThemGioHangKhongUser
+                            }
                             thongTinSp={thongTinSp}
                             showChiTietSanPham={showChiTietSanPham}
                             setshowChiTietSanPham={setshowChiTietSanPham}
@@ -2061,6 +3230,12 @@ const Shop = (props) => {
                     setcart={setcart}
                     showcart={showcart}
                     setshowcart={setshowcart}
+                    setTongtien={setTongtien}
+                    setTongsoluong={setTongsoluong}
+                    Tongtien={Tongtien}
+                    Tongsoluong={Tongsoluong}
+                    arraySanPhamQuantity={arraySanPhamQuantity}
+                    setarraySanPhamQuantity={setarraySanPhamQuantity}
                 />
             )}
         </>
