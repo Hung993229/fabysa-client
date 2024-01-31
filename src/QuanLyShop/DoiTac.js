@@ -88,7 +88,7 @@ const DoiTac = () => {
                 <div className="tieuDe">Danh Sách Đối Tác</div>
                 <div className="danhSachTong">
                     <div className="chiaDoi">
-                        <div>Khách Sỉ</div>
+                        <div className="khachSi">Khách Sỉ</div>
                         <div className="danhSach">
                             <input
                                 onChange={(e) => setsodienThoai(e.target.value)}
@@ -103,7 +103,7 @@ const DoiTac = () => {
                         </div>
                         <div className="danhSach">
                             <div>Số Điện Thoại</div>
-                            <div className="xoa">Xoá</div>
+                            <div>Xoá</div>
                         </div>
                         {khachSi?.map((item, index) => {
                             return (
@@ -120,7 +120,7 @@ const DoiTac = () => {
                         })}
                     </div>
                     <div className="chiaDoi">
-                        <div>Cộng Tác Viên</div>
+                        <div className="khachSi">Cộng Tác Viên</div>
                         <div className="danhSach">
                             <input
                                 onChange={(e) => setsodienThoai(e.target.value)}
@@ -135,7 +135,7 @@ const DoiTac = () => {
                         </div>
                         <div className="danhSach">
                             <div>Số Điện Thoại</div>
-                            <div className="xoa">Xoá</div>
+                            <div>Xoá</div>
                         </div>
                         {khachCtv?.map((item, index) => {
                             return (

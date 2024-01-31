@@ -273,38 +273,16 @@ const KhoSi = (props) => {
                                                 </div>
                                                 {tuVanVaThongTin === 1 && (
                                                     <div className="gioiThieuChiTiet">
-                                                        <a href={`/ca-nhan`}>
+                                                        <a
+                                                            href={`/shop/${idShop}`}
+                                                        >
                                                             <div className="tenCuaHang2">
                                                                 {
                                                                     ttShop?.TenShop
                                                                 }
                                                             </div>
                                                         </a>
-                                                        <a
-                                                            href={`/shop/kho-ctv/${idShop}`}
-                                                        >
-                                                            <div className="tenCuaHang2">
-                                                                Kho CTV
-                                                            </div>
-                                                        </a>
-                                                        <a
-                                                            href={`/shop/kho-si/${idShop}`}
-                                                        >
-                                                            <div className="tenCuaHang2">
-                                                                Kho Sỉ
-                                                            </div>
-                                                        </a>
-                                                        <div className="dc">
-                                                            Địa Chỉ:{" "}
-                                                            {ttShop?.dcShop}
-                                                        </div>
-                                                        <div className="dc">
-                                                            Số Điện Thoại:{" "}
-                                                            {ttShop?.sdtShop}
-                                                        </div>
-                                                        <div className="sdt">
-                                                            {ttShop?.sloganShop}
-                                                        </div>
+
                                                         <button
                                                             className="closeGioiThieu"
                                                             onClick={() =>
@@ -491,57 +469,59 @@ const KhoSi = (props) => {
                                                                                                             </button>
                                                                                                         )}
                                                                                                     </>
-                                                                                                    <select
-                                                                                                        onChange={(
-                                                                                                            e
-                                                                                                        ) =>
-                                                                                                            setidShopLienKet(
+                                                                                                    <div className="chonShopThem">
+                                                                                                        <select
+                                                                                                            className="chonShop"
+                                                                                                            onChange={(
                                                                                                                 e
-                                                                                                                    .target
-                                                                                                                    .value
-                                                                                                            )
-                                                                                                        }
-                                                                                                    >
-                                                                                                        <option value="">
-                                                                                                            ---Chọn
-                                                                                                            Shop---
-                                                                                                        </option>
-                                                                                                        {allShop &&
-                                                                                                            allShop.length >
-                                                                                                                0 &&
-                                                                                                            allShop.map(
-                                                                                                                (
-                                                                                                                    item,
-                                                                                                                    index
-                                                                                                                ) => {
-                                                                                                                    return (
-                                                                                                                        <option
-                                                                                                                            value={
-                                                                                                                                item._id
-                                                                                                                            }
-                                                                                                                            key={
-                                                                                                                                index
-                                                                                                                            }
-                                                                                                                        >
-                                                                                                                            {
-                                                                                                                                item.TenShop
-                                                                                                                            }
-                                                                                                                        </option>
-                                                                                                                    );
-                                                                                                                }
-                                                                                                            )}
-                                                                                                    </select>
-                                                                                                    <div
-                                                                                                        onClick={() =>
-                                                                                                            handleThemVaoShop(
-                                                                                                                item._id
-                                                                                                            )
-                                                                                                        }
-                                                                                                        className="themVaoShop"
-                                                                                                    >
-                                                                                                        THÊM
-                                                                                                        VÀO
-                                                                                                        SHOP
+                                                                                                            ) =>
+                                                                                                                setidShopLienKet(
+                                                                                                                    e
+                                                                                                                        .target
+                                                                                                                        .value
+                                                                                                                )
+                                                                                                            }
+                                                                                                        >
+                                                                                                            <option value="">
+                                                                                                                ---Chọn
+                                                                                                                Shop---
+                                                                                                            </option>
+                                                                                                            {allShop &&
+                                                                                                                allShop.length >
+                                                                                                                    0 &&
+                                                                                                                allShop.map(
+                                                                                                                    (
+                                                                                                                        item,
+                                                                                                                        index
+                                                                                                                    ) => {
+                                                                                                                        return (
+                                                                                                                            <option
+                                                                                                                                value={
+                                                                                                                                    item._id
+                                                                                                                                }
+                                                                                                                                key={
+                                                                                                                                    index
+                                                                                                                                }
+                                                                                                                            >
+                                                                                                                                {
+                                                                                                                                    item.TenShop
+                                                                                                                                }
+                                                                                                                            </option>
+                                                                                                                        );
+                                                                                                                    }
+                                                                                                                )}
+                                                                                                        </select>
+                                                                                                        <div
+                                                                                                            onClick={() =>
+                                                                                                                handleThemVaoShop(
+                                                                                                                    item._id
+                                                                                                                )
+                                                                                                            }
+                                                                                                            className="themVaoShop"
+                                                                                                        >
+                                                                                                            Sao
+                                                                                                            Chép
+                                                                                                        </div>
                                                                                                     </div>
                                                                                                     <div className="viTriSanPham">
                                                                                                         <i className="fa-solid fa-location-dot"></i>

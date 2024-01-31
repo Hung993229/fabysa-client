@@ -23,14 +23,12 @@ import {
 import DangNhap from "../DangNhap/DangNhap";
 const UpdateShop = () => {
     const { idShop } = useParams();
-    console.log("idShop", idShop);
     const user = useSelector((state) => state.auth.login?.currentUser);
     const myDetail = useSelector((state) => state.post.post?.myDetail);
     const ttShop = useSelector((state) => state.ttShop.ttShop.ttShop?.shop);
     const allSanPham = useSelector(
         (state) => state.sanPham.sanPham.allsanPham?.allSanpham
     );
-    console.log("allSanPham", allSanPham);
     const dispatch = useDispatch();
     const navigate = useNavigate();
     useEffect(() => {
@@ -74,6 +72,7 @@ const UpdateShop = () => {
     const [TenSanPham, setTenSanPham] = useState();
     const [tinhTrang, settinhTrang] = useState("Còn Hàng");
     const [nhomSanPham, setnhomSanPham] = useState();
+    const [nhomSanPhamMoi, setnhomSanPhamMoi] = useState();
     const [giaNiemYet, setgiaNiemYet] = useState(0);
     const [giaKhuyenMai, setgiaKhuyenMai] = useState(0);
     const [giaNhap, setgiaNhap] = useState(0);
@@ -85,8 +84,6 @@ const UpdateShop = () => {
     const allSanPhamDan = allSanPham?.filter(
         (item) => item.nhomSanPham === "Sản Phẩm Dẫn"
     );
-    // San Pham Ban la CTV
-    console.log("allSanPhamDan", allSanPhamDan);
     // sua sanPham
     const handleSuaSanPham = (id) => {
         setsuaThongTinShop(3);
@@ -98,8 +95,8 @@ const UpdateShop = () => {
     const [AnhSanPham2, setAnhSanPham2] = useState();
     const [TenSanPham2, setTenSanPham2] = useState();
     const [tinhTrang2, settinhTrang2] = useState();
-
     const [nhomSanPham2, setnhomSanPham2] = useState();
+    const [nhomSanPhamMoi2, setnhomSanPhamMoi2] = useState();
     const [giaNiemYet2, setgiaNiemYet2] = useState(0);
     const [giaKhuyenMai2, setgiaKhuyenMai2] = useState(0);
     const [giaNhap2, setgiaNhap2] = useState(0);
@@ -120,15 +117,6 @@ const UpdateShop = () => {
             setthongTinSanPham2(detailidSpSua?.thongTinSanPham);
         }
     }, [idSpSua]);
-    console.log("giaKhuyenMai2", giaKhuyenMai2);
-    console.log("idSpSua", idSpSua);
-
-    // sua sp
-    // useEffect(() => {
-    //     return () => {
-    //         previewSanPham2 && URL.revokeObjectURL(previewSanPham2.preview);
-    //     };
-    // }, [previewSanPham2]);
     const handleOnchangeImagesuaSanPham = async (e) => {
         console.log("e", e);
         const fileSanPham = e.target.files[0];
@@ -139,18 +127,17 @@ const UpdateShop = () => {
         setAnhSanPham2(SanPhamBase64);
         setpreviewSanPham2(fileSanPham);
     };
-    console.log("AnhSanPham2", AnhSanPham2);
-    console.log("previewSanPham2", previewSanPham2);
     const handleLuuSanPham = (id) => {
         const newSanPham = {
             AnhSanPham: AnhSanPham2,
             TenSanPham: TenSanPham2,
-            nhomSanPham: nhomSanPham2,
+            nhomSanPham: nhomSanPhamMoi2 || nhomSanPham2,
             giaNiemYet: giaNiemYet2,
             giaKhuyenMai: giaKhuyenMai2,
             giaNhap: giaNhap2,
             giaCtv: giaCtv2,
             giaSi: giaSi2,
+            tinhTrang: tinhTrang2,
             thongTinSanPham: thongTinSanPham2,
             TenShop: ttShop?.TenShop,
             xa: ttShop?.xa,
@@ -185,12 +172,13 @@ const UpdateShop = () => {
                 AnhSanPham: AnhSanPham,
                 TenSanPham: TenSanPham,
                 tinhTrang: tinhTrang,
-                nhomSanPham: nhomSanPham,
+                nhomSanPham: nhomSanPhamMoi || nhomSanPham,
                 giaNiemYet: giaNiemYet,
                 giaKhuyenMai: giaKhuyenMai,
                 giaNhap: giaNhap,
                 giaCtv: giaCtv,
                 giaSi: giaSi,
+                tinhTrang: tinhTrang,
                 thongTinSanPham: thongTinSanPham,
                 TenShop: ttShop?.TenShop,
                 xa: ttShop?.xa,
@@ -214,6 +202,7 @@ const UpdateShop = () => {
             setgiaSi();
             setthongTinSanPham();
             setpreviewSanPham();
+            setnhomSanPhamMoi();
             // navigate(`/update-shop/${idShop}`);
         }
     };
@@ -226,7 +215,6 @@ const UpdateShop = () => {
         setAnhSanPham(SanPhamBase64);
         setpreviewSanPham(fileSanPham);
     };
-
     //  Que Quan
     // Tinh
     useEffect(() => {
@@ -238,8 +226,6 @@ const UpdateShop = () => {
         };
         fetchPublicProvince();
     }, []);
-    // console.log("provincesID", provincesID);
-    // console.log("provinces", provinces);
     // Huyen
     useEffect(() => {
         const fetchPublicDictrict = async () => {
@@ -252,8 +238,6 @@ const UpdateShop = () => {
 
         !provincesID && setDistricts([]);
     }, [provincesID]);
-    // console.log("districtID", districtID);
-    // console.log("districts", districts);
     // Xa
     useEffect(() => {
         const fetchPublicWard = async () => {
@@ -268,9 +252,6 @@ const UpdateShop = () => {
 
         !districtID && setWards([]);
     }, [districtID]);
-
-    // console.log("wardID", wardID);
-    // console.log("wards", wards);
     // Que Quan
     // banner
     useEffect(() => {
@@ -288,7 +269,6 @@ const UpdateShop = () => {
         setBanner(bannerBase64);
         setpreviewBanner(fileBanner);
     };
-    console.log("previewBanner", previewBanner);
 
     // banner
     const handleLuuThongTinShop = () => {
@@ -333,7 +313,6 @@ const UpdateShop = () => {
         style: "currency",
         currency: "VND",
     });
-    console.log(ttShop?.idNhanVien);
 
     return (
         <>
@@ -861,6 +840,9 @@ const UpdateShop = () => {
                                                                 Sản Phẩm Dẫn
                                                             </option>
                                                         )}
+                                                    <option value="1">
+                                                        Thêm Nhóm Mới
+                                                    </option>
                                                     <option>
                                                         Thời Trang & Phụ Kiện
                                                         Nam
@@ -908,11 +890,25 @@ const UpdateShop = () => {
                                                     <option>
                                                         Bách Hóa Online
                                                     </option>
-                                                    <option>
-                                                        Dịch Vụ KHác
-                                                    </option>
                                                 </select>
                                             </div>
+                                            {nhomSanPham === "1" && (
+                                                <div className="tieuDeNoiDung">
+                                                    <label className="tieuDe">
+                                                        Thêm Nhóm Mới
+                                                    </label>
+
+                                                    <input
+                                                        className="noiDung"
+                                                        onChange={(e) =>
+                                                            setnhomSanPhamMoi(
+                                                                e.target.value
+                                                            )
+                                                        }
+                                                        placeholder="Thêm nhóm mới"
+                                                    />
+                                                </div>
+                                            )}
 
                                             <div className="tieuDeNoiDung">
                                                 <label className="tieuDe">
@@ -1147,6 +1143,9 @@ const UpdateShop = () => {
                                                                 Sản Phẩm Dẫn
                                                             </option>
                                                         )}
+                                                    <option value="1">
+                                                        Thêm Nhóm Mới
+                                                    </option>
                                                     <option>
                                                         Thời Trang & Phụ Kiện
                                                         Nam
@@ -1199,6 +1198,23 @@ const UpdateShop = () => {
                                                     </option>
                                                 </select>
                                             </div>
+                                            {nhomSanPham2 === "1" && (
+                                                <div className="tieuDeNoiDung">
+                                                    <label className="tieuDe">
+                                                        Thêm Nhóm Mới
+                                                    </label>
+
+                                                    <input
+                                                        className="noiDung"
+                                                        onChange={(e) =>
+                                                            setnhomSanPhamMoi2(
+                                                                e.target.value
+                                                            )
+                                                        }
+                                                        placeholder="Thêm nhóm mới"
+                                                    />
+                                                </div>
+                                            )}
 
                                             <div className="tieuDeNoiDung">
                                                 <label className="tieuDe">

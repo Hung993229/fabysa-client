@@ -233,17 +233,34 @@
                    border-radius: 2vw;
                    cursor: pointer;
                }
-               .themVaoShop{
-                  font-size: 3.9vw;
-                  padding: 1.5vw;
-                  font-weight: 600;
-                  background-color: #04aa6d;
-                  width: 100%;
+               .chonShopThem{
+                display: flex;
                   margin: 2vw auto;
-                  border-radius: 2vw;
-                  color: #fff;
-                  cursor: pointer;
+                gap: 1vw;
+                  text-align: center;
+                    align-items: center;
+               
+                .chonShop{
+                    font-size: 2vw;
+                    padding: 0.5vw;
+                    width: 70%;
+                    border-radius: 1vw;
+                    text-align: center;
+                    align-items: center;
+                }
+                .themVaoShop{
+                    width: 30%;
+                    font-size: 2vw;
+                    padding: 0.5vw;
+                    background-color: #04aa6d;
+                    font-weight: 500;
+                  
+                    border-radius: 1vw;
+                    color: #fff;
+                    cursor: pointer;
+                 }
                }
+               
                .xemChiTiet{
                    color: #04aa6d;
                   font-size: 3vw;

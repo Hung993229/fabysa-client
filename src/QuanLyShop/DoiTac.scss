@@ -3,6 +3,9 @@
    .DoiTac{
     margin-top: 10vw;
     .tieuDe{
+      font-size: 5vw;
+      font-weight: 600;
+      margin: 3vw;
 
     }
     .timSdt{
@@ -12,14 +15,49 @@
     .danhSachTong{
       display: flex;
       padding: 1vw;
+      gap: 1vw;
+  
       .chiaDoi{
          width: 50%;
          border: solid 1px gray;
+         text-align: center;
+         align-items: center;
+         .khachSi{
+          font-size: 3.5vw;
+          font-weight: 600;
+         }
          .danhSach{
             display: grid;
             grid-template-columns: 3fr 1fr;
             padding: 1vw;
             border-bottom: solid 1px gray;
+            input{
+              text-align: center;
+align-items: center;
+            }
+            .them{
+font-size: 3vw;
+color: #fff;
+background-color: #04aa6d;
+border-radius: 1vw;
+margin: 1vw;
+width: 10vw;
+text-align: center;
+align-items: center;
+cursor: pointer;
+            }
+            .xoa{
+              font-size: 2vw;
+color: #fff;
+background-color: red;
+border-radius: 1vw;
+padding: 0.5vw;
+cursor: pointer;
+width: 10vw;
+text-align: center;
+align-items: center;
+
+            }
           }
       }
       

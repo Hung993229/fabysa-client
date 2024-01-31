@@ -50,7 +50,7 @@ const Header = () => {
 
                 <div className="title">Mua Online Nhiều Khuyến Mại</div>
                 <div className="my-detail">
-                    {myDetail && myDetail.length !== 0 ? (
+                    {/* {myDetail && myDetail.length !== 0 ? (
                         <img
                             src={myDetail?.avatar}
                             alt="Avatar"
@@ -58,9 +58,14 @@ const Header = () => {
                         />
                     ) : (
                         <img src={logo2} alt="Avatar" className="my-avatar" />
-                    )}
+                    )} */}
                     {myDetail && myDetail.length !== 0 ? (
                         <a href="/ca-nhan">
+                            <img
+                                src={myDetail?.avatar}
+                                alt="Avatar"
+                                className="my-avatar"
+                            />
                             <div className="my-cash">
                                 <div className="my-cash-title">{cash} </div>
 
@@ -69,6 +74,11 @@ const Header = () => {
                         </a>
                     ) : (
                         <a href="/dang-nhap">
+                            <img
+                                src={logo2}
+                                alt="Avatar"
+                                className="my-avatar"
+                            />
                             <div className="my-cash">
                                 <div className="dangNhap">Đăng Nhập</div>
                             </div>

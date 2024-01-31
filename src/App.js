@@ -231,7 +231,7 @@ function App() {
                                     //     setarraySanPhamQuantity
                                     // }
                                 />
-                                <Nav />
+                                {/* <Nav /> */}
                             </>
                         }
                     />
@@ -272,7 +272,7 @@ function App() {
                             <>
                                 <Header className="header" />
                                 <UpdateShop />
-                                <Nav />
+                                {/* <Nav /> */}
                             </>
                         }
                     />
@@ -282,7 +282,7 @@ function App() {
                             <>
                                 <Header className="header" />
                                 <DonHangMoi />
-                                <Nav />
+                                {/* <Nav /> */}
                             </>
                         }
                     />
@@ -292,7 +292,7 @@ function App() {
                             <>
                                 <Header className="header" />
                                 <DonHang />
-                                <Nav />
+                                {/* <Nav /> */}
                             </>
                         }
                     />
@@ -302,7 +302,7 @@ function App() {
                             <>
                                 <Header className="header" />
                                 <DonHangDangGiao />
-                                <Nav />
+                                {/* <Nav /> */}
                             </>
                         }
                     />
@@ -321,7 +321,7 @@ function App() {
                             <>
                                 <Header />
                                 <DonHangHuy />
-                                <Nav />
+                                {/* <Nav /> */}
                             </>
                         }
                     />
@@ -331,7 +331,7 @@ function App() {
                             <>
                                 <Header />
                                 <DonHangCtv />
-                                <Nav />
+                                {/* <Nav /> */}
                             </>
                         }
                     />
@@ -341,7 +341,7 @@ function App() {
                             <>
                                 <Header />
                                 <DonHangLienKet />
-                                <Nav />
+                                {/* <Nav /> */}
                             </>
                         }
                     />
@@ -351,7 +351,7 @@ function App() {
                             <>
                                 <Header />
                                 <DoiTac />
-                                <Nav />
+                                {/* <Nav /> */}
                             </>
                         }
                     />

@@ -32,16 +32,21 @@ const Shop = (props) => {
     } = props;
     const user = useSelector((state) => state.auth.login.currentUser);
     const myDetail = useSelector((state) => state.post.post?.myDetail);
-    console.log("myDetail", myDetail);
     const gioHang = useSelector(
         (state) => state.gioHang.gioHang.gioHang?.gioHang
     );
-    const arraySanPham = useSelector(
+    const arraySanPhamx = useSelector(
         (state) => state.sanPham.sanPham.arrsanPham?.arrSanpham
     );
     const ttShop = useSelector((state) => state.ttShop.ttShop.ttShop?.shop);
-    const allSanPham1 = useSelector(
+    const allSanPhamx = useSelector(
         (state) => state.sanPham.sanPham.allsanPham?.allSanpham
+    );
+    const allSanPham1 = allSanPhamx?.filter(
+        (item) => item.tinhTrang === "Còn Hàng"
+    );
+    const arraySanPham = arraySanPhamx?.filter(
+        (item) => item.tinhTrang === "Còn Hàng"
     );
     const allshopLienKet = useSelector(
         (state) => state.yourStatus.yourStatus.allYourStatus?.yourStatus
@@ -49,7 +54,6 @@ const Shop = (props) => {
     const [cart, setcart] = useState([]);
     const [allSanPham, setallSanPham] = useState([]);
     const [arrNhomSanPham, setarrNhomSanPham] = useState([]);
-    console.log("arrNhomSanPham", arrNhomSanPham);
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -89,7 +93,7 @@ const Shop = (props) => {
 
             setarrNhomSanPham([...arrNhomSanPham2]);
         }
-    }, [allSanPham1]);
+    }, [allSanPhamx]);
     // San Pham Shop
 
     // san pham lien ket
@@ -117,7 +121,7 @@ const Shop = (props) => {
 
             setarrNhomSanPham([...arrNhomSanPham2]);
         }
-    }, [arraySanPham]);
+    }, [arraySanPhamx]);
     useEffect(() => {
         if (arraySanPham) {
             const arrNhomSanPham3 = allSanPham?.map((item) => {
@@ -134,8 +138,6 @@ const Shop = (props) => {
         (item) => item?._id === iddetailSanPham
     );
     // phan loai san pham
-
-    console.log("allSanPham", allSanPham);
     // phan loai san pham
     // Them gio Hang
     const handleThemGioHang = (item) => {
@@ -223,13 +225,6 @@ const Shop = (props) => {
             }
         }
     };
-    console.log(
-        "ihihii",
-        khachCtv?.find((item) => item === user?.username) ||
-            user?._id === ttShop?.user ||
-            myDetail?.vaiTro === 1 ||
-            user?._id === ttShop?.idNhanVien
-    );
     return (
         <>
             {loading === 0 ? (
@@ -278,66 +273,110 @@ const Shop = (props) => {
                                                             {ttShop?.TenShop}
                                                         </div>
                                                     </a>
-                                                    {myDetail?.vaiTro === 1 ||
-                                                    user?._id ===
-                                                        ttShop?.idNhanVien ? (
-                                                        <a href={`/ca-nhan`}>
-                                                            <div className="tenCuaHang2">
-                                                                Admin
-                                                            </div>
-                                                        </a>
-                                                    ) : (
-                                                        <></>
-                                                    )}
-                                                    {khachCtv?.find(
-                                                        (item) =>
-                                                            item ===
-                                                            user?.username
-                                                    ) ||
-                                                    user?._id ===
-                                                        ttShop?.user ||
-                                                    myDetail?.vaiTro === 1 ||
-                                                    user?._id ===
-                                                        ttShop?.idNhanVien ? (
-                                                        <a
-                                                            href={`/shop/kho-ctv/${idShop}`}
-                                                        >
-                                                            <div className="tenCuaHang2">
-                                                                Kho CTV
-                                                            </div>
-                                                        </a>
-                                                    ) : (
-                                                        <></>
-                                                    )}
-                                                    {khachSi?.find(
-                                                        (item) =>
-                                                            item ===
-                                                            user?.username
-                                                    ) ||
-                                                    user?._id ===
-                                                        ttShop?.user ||
-                                                    user?._id ===
-                                                        ttShop?.idNhanVien ? (
-                                                        <a
-                                                            href={`/shop/kho-si/${idShop}`}
-                                                        >
-                                                            <div className="tenCuaHang2">
-                                                                Kho Sỉ
-                                                            </div>
-                                                        </a>
-                                                    ) : (
-                                                        <></>
-                                                    )}
+                                                    <div className="khoContainer">
+                                                        {myDetail?.vaiTro ===
+                                                            1 ||
+                                                        user?._id ===
+                                                            ttShop?.idNhanVien ? (
+                                                            <a
+                                                                href={`/ca-nhan`}
+                                                            >
+                                                                <div className="kho">
+                                                                    Admin
+                                                                </div>
+                                                            </a>
+                                                        ) : (
+                                                            <></>
+                                                        )}
+                                                        {khachCtv?.find(
+                                                            (item) =>
+                                                                item ===
+                                                                user?.username
+                                                        ) ||
+                                                        user?._id ===
+                                                            ttShop?.user ||
+                                                        myDetail?.vaiTro ===
+                                                            1 ||
+                                                        user?._id ===
+                                                            ttShop?.idNhanVien ? (
+                                                            <a
+                                                                href={`/shop/kho-ctv/${idShop}`}
+                                                            >
+                                                                <div className="kho">
+                                                                    Kho CTV
+                                                                </div>
+                                                            </a>
+                                                        ) : (
+                                                            <></>
+                                                        )}
+                                                        {khachSi?.find(
+                                                            (item) =>
+                                                                item ===
+                                                                user?.username
+                                                        ) ||
+                                                        user?._id ===
+                                                            ttShop?.user ||
+                                                        user?._id ===
+                                                            ttShop?.idNhanVien ? (
+                                                            <a
+                                                                href={`/shop/kho-si/${idShop}`}
+                                                            >
+                                                                <div className="kho">
+                                                                    Kho Sỉ
+                                                                </div>
+                                                            </a>
+                                                        ) : (
+                                                            <></>
+                                                        )}
+                                                    </div>
                                                     <div className="dc">
-                                                        Địa Chỉ:{" "}
+                                                        - Địa Chỉ:{" "}
                                                         {ttShop?.dcShop}
                                                     </div>
                                                     <div className="dc">
-                                                        Số Điện Thoại:{" "}
+                                                        - Số Điện Thoại:{" "}
                                                         {ttShop?.sdtShop}
                                                     </div>
+                                                    <div className="dc">
+                                                        - Quý Khách có thắc mắc
+                                                        hoặc cần tư vấn xin vui
+                                                        lòng <br /> nhắn tin qua
+                                                        Zalo, Facebook bên dưới!
+                                                    </div>
+                                                    <div className="mxh">
+                                                        <div className="zalo">
+                                                            <a
+                                                                href={
+                                                                    ttShop?.linkZalo
+                                                                }
+                                                                target="_blank"
+                                                            >
+                                                                <img
+                                                                    src={
+                                                                        zaloLogo
+                                                                    }
+                                                                    className="zalo"
+                                                                />
+                                                            </a>
+                                                        </div>
+                                                        <div className="facebook">
+                                                            <a
+                                                                href={
+                                                                    ttShop?.linkFacebook
+                                                                }
+                                                                target="_blank"
+                                                            >
+                                                                <img
+                                                                    src={
+                                                                        facebookLogo
+                                                                    }
+                                                                    className="facebook"
+                                                                />
+                                                            </a>
+                                                        </div>
+                                                    </div>
                                                     <div className="sdt">
-                                                        {ttShop?.sloganShop}
+                                                        Xin chân thành cảm ơn!
                                                     </div>
                                                     <button
                                                         className="closeGioiThieu"
