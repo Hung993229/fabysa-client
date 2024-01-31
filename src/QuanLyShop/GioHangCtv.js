@@ -9,7 +9,7 @@ import {
     registerDonHang,
     deleteGioHang,
 } from "../redux/apiRequest";
-const GioHang = (props) => {
+const GioHangCtv = (props) => {
     const {
         cart,
         setcart,
@@ -45,13 +45,10 @@ const GioHang = (props) => {
                 idSanPham: item._id,
                 TenSanPham: item.TenSanPham,
                 soLuong: item.quantity,
-                khoSi: item.khoSi,
-                khoCtv: item.khoCtv,
-                khoCopy: item.khoCopy,
             };
         })
     );
-    console.log("donHangQuantity", donHangQuantity);
+    console.log("cart", cart);
     useEffect(() => {
         setdonHangQuantity(
             cart?.map((item) => {
@@ -59,9 +56,6 @@ const GioHang = (props) => {
                     idSanPham: item._id,
                     TenSanPham: item.TenSanPham,
                     soLuong: item.quantity,
-                    khoSi: item.khoSi,
-                    khoCtv: item.khoCtv,
-                    khoCopy: item.khoCopy,
                 };
             })
         );
@@ -118,6 +112,7 @@ const GioHang = (props) => {
                     phuongThucTT: phuongThucTT,
                     noiNhan: noiNhan,
                     soBan: soBan,
+                    Kho: 'ctv'
                 };
 
                 const newDonHang = {
@@ -157,6 +152,7 @@ const GioHang = (props) => {
                         ghiChuNguoiMua: ghiChuNguoiMua,
                         phuongThucTT: phuongThucTT,
                         noiNhan: noiNhan,
+                        Kho: 'ctv'
                     };
 
                     const newDonHang = {
@@ -164,7 +160,8 @@ const GioHang = (props) => {
                         donHang: donHangQuantity,
                         idShop: idShop,
                         trangThaiDH: 1,
-                       
+                        idCtv: "",
+                        idKhachHang: myDetail?.user || '',
                     };
                     console.log("newDonHang", newDonHang);
                     registerDonHang(newDonHang, dispatch);
@@ -200,6 +197,7 @@ const GioHang = (props) => {
                         ghiChuNguoiMua: ghiChuNguoiMua2,
                         phuongThucTT: phuongThucTT,
                         noiNhan: noiNhan,
+                        Kho: 'ctv'
                     };
 
                     const newDonHang = {
@@ -208,7 +206,7 @@ const GioHang = (props) => {
                         idShop: idShop,
                         trangThaiDH: 1,
                         idCtv: "",
-                        idKhachHang: myDetail?.user,
+                        idKhachHang: myDetail?.user || '',
                     };
                     console.log("newDonHang", newDonHang);
                     registerDonHang(newDonHang, dispatch);
@@ -243,7 +241,7 @@ const GioHang = (props) => {
         let tt = 0;
         if (cart?.length !== 0) {
             cart?.map((sp) => {
-                tt += sp.giaKhuyenMai * sp.quantity;
+                tt += sp.giaCtv * sp.quantity;
             });
         }
 
@@ -263,15 +261,6 @@ const GioHang = (props) => {
         tinhtongtien();
         tinhsoluong();
     });
-    // const handleXoaSanPham = (item) => {
-    //     if (cart?.length !== 0) {
-    //         const ProductExist = cart?.find((item2) => item2._id === item._id);
-    //         if (ProductExist) {
-    //             setcart(cart?.filter((item2) => item2._id !== item._id));
-    //         }
-    //     }
-    // };
-    // Thay doi so luong
     return (
         <>
             <div className="gioHang-container">
@@ -306,22 +295,22 @@ const GioHang = (props) => {
                                         </div>
                                         <div className="giaBan">
                                             <div className="giaBanMoi">
-                                                {VND.format(item?.giaKhuyenMai)}
+                                                {VND.format(item?.giaCtv)}
                                             </div>
 
                                             <div className="giaGiam">
                                                 <div className="giabanCu">
                                                     {VND.format(
-                                                        item?.giaNiemYet
+                                                        item?.giaKhuyenMai
                                                     )}
                                                 </div>
                                                 <div className="phanTram">
                                                     Giảm&nbsp;
                                                     {Math.floor(
                                                         (100 *
-                                                            (item?.giaNiemYet -
-                                                                item?.giaKhuyenMai)) /
-                                                            item?.giaNiemYet
+                                                            (item?.giaKhuyenMai -
+                                                                item?.giaCtv)) /
+                                                            item?.giaKhuyenMai
                                                     )}
                                                     %
                                                 </div>
@@ -352,8 +341,7 @@ const GioHang = (props) => {
                                         </div>
                                         <div className="thanhTien">
                                             {VND.format(
-                                                item.quantity *
-                                                    item.giaKhuyenMai
+                                                item.quantity * item.giaCtv
                                             )}
                                         </div>
                                     </div>
@@ -617,4 +605,4 @@ const GioHang = (props) => {
         </>
     );
 };
-export default GioHang;
+export default GioHangCtv;

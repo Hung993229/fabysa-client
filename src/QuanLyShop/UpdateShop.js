@@ -72,21 +72,20 @@ const UpdateShop = () => {
     const [previewSanPham, setpreviewSanPham] = useState();
     const [AnhSanPham, setAnhSanPham] = useState();
     const [TenSanPham, setTenSanPham] = useState();
+    const [tinhTrang, settinhTrang] = useState("Còn Hàng");
+    const [nhomSanPham, setnhomSanPham] = useState();
     const [giaNiemYet, setgiaNiemYet] = useState(0);
     const [giaKhuyenMai, setgiaKhuyenMai] = useState(0);
-    const [nhomSanPham, setnhomSanPham] = useState();
-    const [sanPhamDan, setsanPhamDan] = useState("Sản Phẩm Khác");
-    const [thongTinSanPham, setthongTinSanPham] = useState();
     const [giaNhap, setgiaNhap] = useState(0);
-    const [hoahongCTV, sethoahongCTV] = useState(0);
+    const [giaCtv, setgiaCtv] = useState(0);
+    const [giaSi, setgiaSi] = useState("Sản Phẩm Khác");
+    const [thongTinSanPham, setthongTinSanPham] = useState();
+
     // San Pham Dan
     const allSanPhamDan = allSanPham?.filter(
-        (item) => item.sanPhamDan === "Sản Phẩm Dẫn"
+        (item) => item.nhomSanPham === "Sản Phẩm Dẫn"
     );
     // San Pham Ban la CTV
-    const allSanPhamCTV = allSanPham?.filter(
-        (item) => item.sanPhamDan === "Sản Phẩm Dẫn"
-    );
     console.log("allSanPhamDan", allSanPhamDan);
     // sua sanPham
     const handleSuaSanPham = (id) => {
@@ -95,28 +94,30 @@ const UpdateShop = () => {
     };
     const [idSpSua, setidSpSua] = useState(0);
     const detailidSpSua = allSanPham?.find((item) => item._id === idSpSua);
-    console.log("detailidSpSua", detailidSpSua?.affiliate.length !== 0);
     const [previewSanPham2, setpreviewSanPham2] = useState();
     const [AnhSanPham2, setAnhSanPham2] = useState();
     const [TenSanPham2, setTenSanPham2] = useState();
+    const [tinhTrang2, settinhTrang2] = useState();
+
+    const [nhomSanPham2, setnhomSanPham2] = useState();
     const [giaNiemYet2, setgiaNiemYet2] = useState(0);
     const [giaKhuyenMai2, setgiaKhuyenMai2] = useState(0);
-    const [nhomSanPham2, setnhomSanPham2] = useState();
-    const [sanPhamDan2, setsanPhamDan2] = useState();
-    const [thongTinSanPham2, setthongTinSanPham2] = useState();
     const [giaNhap2, setgiaNhap2] = useState(0);
-    const [hoahongCTV2, sethoahongCTV2] = useState(0);
+    const [giaCtv2, setgiaCtv2] = useState(0);
+    const [giaSi2, setgiaSi2] = useState();
+    const [thongTinSanPham2, setthongTinSanPham2] = useState();
     useEffect(() => {
         if (idSpSua && idSpSua.length !== 0) {
             setAnhSanPham2(detailidSpSua?.AnhSanPham);
             setTenSanPham2(detailidSpSua?.TenSanPham);
+            settinhTrang2(detailidSpSua?.tinhTrang2);
+            setnhomSanPham2(detailidSpSua?.nhomSanPham);
             setgiaKhuyenMai2(detailidSpSua?.giaKhuyenMai);
             setgiaNiemYet2(detailidSpSua?.giaNiemYet);
-            setnhomSanPham2(detailidSpSua?.nhomSanPham);
-            setsanPhamDan2(detailidSpSua?.sanPhamDan);
-            setthongTinSanPham2(detailidSpSua?.thongTinSanPham);
             setgiaNhap2(detailidSpSua?.giaNhap);
-            sethoahongCTV2(detailidSpSua?.hoahongCTV);
+            setgiaCtv2(detailidSpSua?.giaCtv);
+            setgiaSi2(detailidSpSua?.giaSi);
+            setthongTinSanPham2(detailidSpSua?.thongTinSanPham);
         }
     }, [idSpSua]);
     console.log("giaKhuyenMai2", giaKhuyenMai2);
@@ -144,13 +145,13 @@ const UpdateShop = () => {
         const newSanPham = {
             AnhSanPham: AnhSanPham2,
             TenSanPham: TenSanPham2,
+            nhomSanPham: nhomSanPham2,
             giaNiemYet: giaNiemYet2,
             giaKhuyenMai: giaKhuyenMai2,
-            nhomSanPham: nhomSanPham2,
-            sanPhamDan: sanPhamDan2,
-            thongTinSanPham: thongTinSanPham2,
             giaNhap: giaNhap2,
-            hoahongCTV: hoahongCTV2,
+            giaCtv: giaCtv2,
+            giaSi: giaSi2,
+            thongTinSanPham: thongTinSanPham2,
             TenShop: ttShop?.TenShop,
             xa: ttShop?.xa,
             huyen: ttShop?.huyen,
@@ -183,31 +184,34 @@ const UpdateShop = () => {
             const newSanPham = {
                 AnhSanPham: AnhSanPham,
                 TenSanPham: TenSanPham,
+                tinhTrang: tinhTrang,
+                nhomSanPham: nhomSanPham,
                 giaNiemYet: giaNiemYet,
                 giaKhuyenMai: giaKhuyenMai,
-                nhomSanPham: nhomSanPham,
-                sanPhamDan: sanPhamDan,
-                thongTinSanPham: thongTinSanPham,
                 giaNhap: giaNhap,
-                hoahongCTV: hoahongCTV,
+                giaCtv: giaCtv,
+                giaSi: giaSi,
+                thongTinSanPham: thongTinSanPham,
                 TenShop: ttShop?.TenShop,
                 xa: ttShop?.xa,
                 huyen: ttShop?.huyen,
                 tinh: ttShop?.tinh,
                 vaiTro: ttShop?.vaiTro,
-                user: idShop,
                 idtk: ttShop?.user,
-                affiliate: "",
+                user: idShop,
             };
             console.log("newSanPham", newSanPham);
             registerSanPham(newSanPham, dispatch);
             setsuaThongTinShop(0);
             setAnhSanPham();
             setTenSanPham();
+            settinhTrang();
+            setnhomSanPham();
             setgiaNiemYet();
             setgiaKhuyenMai();
-            setnhomSanPham();
-            setsanPhamDan();
+            setgiaNhap();
+            setgiaCtv();
+            setgiaSi();
             setthongTinSanPham();
             setpreviewSanPham();
             // navigate(`/update-shop/${idShop}`);
@@ -313,7 +317,6 @@ const UpdateShop = () => {
                 vaiTro: vaiTro,
                 user: UserShop,
             };
-            console.log("newShop", newShop);
             updatettShop(newShop, id, dispatch);
             setsuaThongTinShop(0);
             const newPost = {
@@ -470,15 +473,8 @@ const UpdateShop = () => {
                                                                     {item?.tinh}
                                                                 </div>
                                                             </div>
-                                                            {item?.affiliate
-                                                                .length !==
-                                                                0 && (
-                                                                <div className="sanPhamDan">
-                                                                    Sản Phẩm
-                                                                    Liên Kết
-                                                                </div>
-                                                            )}
-                                                            {item?.sanPhamDan ===
+
+                                                            {item?.nhomSanPham ===
                                                                 "Sản Phẩm Dẫn" && (
                                                                 <div className="sanPhamDan">
                                                                     Sản Phẩm Dẫn
@@ -756,7 +752,15 @@ const UpdateShop = () => {
 
                                     <div>
                                         <button
-                                            className="luuThongTin"
+                                            className="huyDon"
+                                            onClick={() =>
+                                                setsuaThongTinShop(0)
+                                            }
+                                        >
+                                            Close
+                                        </button>
+                                        <button
+                                            className="hoanThanh"
                                             onClick={handleLuuThongTinShop}
                                         >
                                             Lưu Thông Tin
@@ -770,15 +774,15 @@ const UpdateShop = () => {
                             {+suaThongTinShop === 2 ? (
                                 <div className="them">
                                     <div className="container-themSanPham">
-                                        <div className="close">
-                                            <button
-                                                onClick={() =>
-                                                    setsuaThongTinShop(0)
-                                                }
-                                            >
-                                                Close
-                                            </button>
-                                        </div>
+                                        <button
+                                            className="close"
+                                            onClick={() =>
+                                                setsuaThongTinShop(0)
+                                            }
+                                        >
+                                            Close
+                                        </button>
+
                                         <div className="sanPham">
                                             <div>
                                                 <input
@@ -802,178 +806,190 @@ const UpdateShop = () => {
                                                     </div>
                                                 </label>
                                             </div>
-                                            <div>
-                                                <div>
-                                                    <label className="tieuDeThemSanPham">
-                                                        Tên Sản Phẩm
-                                                    </label>
-                                                    <div>
-                                                        <input
-                                                            onChange={(e) =>
-                                                                setTenSanPham(
-                                                                    e.target
-                                                                        .value
-                                                                )
-                                                            }
-                                                            className="inputTenSanPham"
-                                                            placeholder="Tên Sản Phẩm"
-                                                        />
-                                                    </div>
-                                                </div>
+
+                                            <div className="tieuDeNoiDung">
+                                                <label className="tieuDe">
+                                                    Tên Sản Phẩm
+                                                </label>
+
+                                                <input
+                                                    onChange={(e) =>
+                                                        setTenSanPham(
+                                                            e.target.value
+                                                        )
+                                                    }
+                                                    className="noiDung"
+                                                    placeholder="Thêm tên sản phẩm"
+                                                />
                                             </div>
-                                            <div className="giaBan">
-                                                <div className="giabanCu">
-                                                    <label className="tenmuc">
-                                                        Giá Niêm Yết
-                                                    </label>
+                                            <div className="tieuDeNoiDung">
+                                                <label className="tieuDe">
+                                                    Tình Trạng
+                                                </label>
 
-                                                    <div>
-                                                        <input
-                                                            onChange={(e) =>
-                                                                setgiaNiemYet(
-                                                                    e.target
-                                                                        .value
-                                                                )
-                                                            }
-                                                            placeholder="Giá niêm yết (VNĐ)"
-                                                            type="Number"
-                                                        />
-                                                    </div>
-                                                </div>
-                                                <div className="giaBanMoi">
-                                                    <label className="tenmuc">
-                                                        Giá Khuyến Mại
-                                                    </label>
-                                                    <div>
-                                                        <input
-                                                            onChange={(e) =>
-                                                                setgiaKhuyenMai(
-                                                                    e.target
-                                                                        .value
-                                                                )
-                                                            }
-                                                            placeholder="Giá khuyến mại (VNĐ)"
-                                                            type="Number"
-                                                        />
-                                                    </div>
-                                                </div>
+                                                <select
+                                                    className="noiDung"
+                                                    onChange={(e) =>
+                                                        settinhTrang(
+                                                            e.target.value
+                                                        )
+                                                    }
+                                                >
+                                                    <option>Còn Hàng</option>
+                                                    <option>Tạm Hết</option>
+                                                </select>
                                             </div>
-
-                                            <div className="giaBan">
-                                                <div className="giabanCu">
-                                                    <div>
-                                                        <label className="tenmuc">
-                                                            Nhóm Sản Phẩm
-                                                        </label>
-                                                    </div>
-
-                                                    <select
-                                                        onChange={(e) =>
-                                                            setnhomSanPham(
-                                                                e.target.value
-                                                            )
-                                                        }
-                                                    >
-                                                        <option value="">
-                                                            ---Mời Chọn---
-                                                        </option>
-                                                        <option>
-                                                            Thời Trang & Phụ
-                                                            Kiện Nam
-                                                        </option>
-                                                        <option>
-                                                            Thời Trang & Phụ
-                                                            Kiện Nữ
-                                                        </option>
-                                                        <option>
-                                                            Thời Trang & Phụ
-                                                            Kiện Trẻ Em
-                                                        </option>
-                                                        <option>
-                                                            Đồng Hồ Nam
-                                                        </option>
-                                                        <option>
-                                                            Đồng Hồ Nữ
-                                                        </option>
-                                                        <option>
-                                                            Điện Thoại & Phụ
-                                                            Kiện
-                                                        </option>
-                                                        <option>
-                                                            Máy Tính & Laptop
-                                                        </option>
-                                                        <option>
-                                                            Máy Ảnh & Máy Quay
-                                                            Phim
-                                                        </option>
-                                                        <option>
-                                                            Thiết Bị Gia Dụng
-                                                        </option>
-                                                        <option>
-                                                            Ô Tô & Xe Máy & Xe
-                                                            Đạp
-                                                        </option>
-                                                        <option>
-                                                            Sức Khỏe & Làm Đẹp
-                                                        </option>
-                                                        <option>
-                                                            Thiết Bị Y Tế
-                                                        </option>
-                                                        <option>
-                                                            Thể Thao & Du Lịch &
-                                                            Sự Kiện
-                                                        </option>
-                                                        <option>
-                                                            Nhà Sách Online
-                                                        </option>
-                                                        <option>
-                                                            Hoa Quả & Thực Phẩm
-                                                        </option>
-                                                        <option>
-                                                            Bách Hóa Online
-                                                        </option>
-                                                        <option>
-                                                            Dịch Vụ KHác
-                                                        </option>
-                                                    </select>
-                                                </div>
-                                                <div className="giaBanMoi">
-                                                    <div>
-                                                        <label className="tenmuc">
-                                                            Sản Phẩm Dẫn
-                                                        </label>
-                                                    </div>
+                                            <div className="tieuDeNoiDung">
+                                                <label className="tieuDe">
+                                                    Nhóm Sản Phẩm
+                                                </label>
+                                                <select
+                                                    className="noiDung"
+                                                    onChange={(e) =>
+                                                        setnhomSanPham(
+                                                            e.target.value
+                                                        )
+                                                    }
+                                                >
+                                                    <option value="">
+                                                        ---Mời Chọn---
+                                                    </option>
                                                     {allSanPhamDan &&
-                                                    allSanPhamDan.length < 2 ? (
-                                                        <select
-                                                            onChange={(e) =>
-                                                                setsanPhamDan(
-                                                                    e.target
-                                                                        .value
-                                                                )
-                                                            }
-                                                        >
-                                                            <option value="">
-                                                                ---Mời Chọn---
-                                                            </option>
+                                                        allSanPhamDan.length <
+                                                            2 && (
                                                             <option>
                                                                 Sản Phẩm Dẫn
                                                             </option>
-                                                            <option>
-                                                                Sản Phẩm Khác
-                                                            </option>
-                                                        </select>
-                                                    ) : (
-                                                        <div>
-                                                            Tối Đa 2 Sản Phẩm
-                                                            Dẫn
-                                                        </div>
-                                                    )}
-                                                </div>
+                                                        )}
+                                                    <option>
+                                                        Thời Trang & Phụ Kiện
+                                                        Nam
+                                                    </option>
+                                                    <option>
+                                                        Thời Trang & Phụ Kiện Nữ
+                                                    </option>
+                                                    <option>
+                                                        Thời Trang & Phụ Kiện
+                                                        Trẻ Em
+                                                    </option>
+                                                    <option>Đồng Hồ Nam</option>
+                                                    <option>Đồng Hồ Nữ</option>
+                                                    <option>
+                                                        Điện Thoại & Phụ Kiện
+                                                    </option>
+                                                    <option>
+                                                        Máy Tính & Laptop
+                                                    </option>
+                                                    <option>
+                                                        Máy Ảnh & Máy Quay Phim
+                                                    </option>
+                                                    <option>
+                                                        Thiết Bị Gia Dụng
+                                                    </option>
+                                                    <option>
+                                                        Ô Tô & Xe Máy & Xe Đạp
+                                                    </option>
+                                                    <option>
+                                                        Sức Khỏe & Làm Đẹp
+                                                    </option>
+                                                    <option>
+                                                        Thiết Bị Y Tế
+                                                    </option>
+                                                    <option>
+                                                        Thể Thao & Du Lịch & Sự
+                                                        Kiện
+                                                    </option>
+                                                    <option>
+                                                        Nhà Sách Online
+                                                    </option>
+                                                    <option>
+                                                        Hoa Quả & Thực Phẩm
+                                                    </option>
+                                                    <option>
+                                                        Bách Hóa Online
+                                                    </option>
+                                                    <option>
+                                                        Dịch Vụ KHác
+                                                    </option>
+                                                </select>
                                             </div>
 
-                                            <div>
-                                                <label className="tenmuc">
+                                            <div className="tieuDeNoiDung">
+                                                <label className="tieuDe">
+                                                    Giá Niêm Yết
+                                                </label>
+
+                                                <input
+                                                    className="noiDung"
+                                                    onChange={(e) =>
+                                                        setgiaNiemYet(
+                                                            e.target.value
+                                                        )
+                                                    }
+                                                    placeholder="Thêm giá niêm yết (VNĐ)"
+                                                    type="Number"
+                                                />
+                                            </div>
+                                            <div className="tieuDeNoiDung">
+                                                <label className="tieuDe">
+                                                    Giá Khuyến Mại
+                                                </label>
+
+                                                <input
+                                                    className="noiDung"
+                                                    onChange={(e) =>
+                                                        setgiaKhuyenMai(
+                                                            e.target.value
+                                                        )
+                                                    }
+                                                    placeholder="Thêm giá khuyến mại (VNĐ)"
+                                                    type="Number"
+                                                />
+                                            </div>
+                                            <div className="tieuDeNoiDung">
+                                                <div className="tieuDe">
+                                                    Giá Nhập
+                                                </div>
+                                                <input
+                                                    placeholder="Thêm giá nhập (VNĐ)"
+                                                    className="noiDung"
+                                                    onChange={(e) =>
+                                                        setgiaNhap(
+                                                            e.target.value
+                                                        )
+                                                    }
+                                                />
+                                            </div>
+                                            <div className="tieuDeNoiDung">
+                                                <div className="tieuDe">
+                                                    Giá Cộng Tác Viên
+                                                </div>
+                                                <input
+                                                    type="Number"
+                                                    placeholder="Thêm giá cộng tác viên (VNĐ)"
+                                                    className="noiDung"
+                                                    onChange={(e) =>
+                                                        setgiaCtv(
+                                                            e.target.value
+                                                        )
+                                                    }
+                                                />
+                                            </div>
+                                            <div className="tieuDeNoiDung">
+                                                <div className="tieuDe">
+                                                    Giá Sỉ
+                                                </div>
+                                                <input
+                                                    type="Number"
+                                                    placeholder="Thêm giá sỉ (VNĐ)"
+                                                    className="noiDung"
+                                                    onChange={(e) =>
+                                                        setgiaSi(e.target.value)
+                                                    }
+                                                />
+                                            </div>
+                                            <div className="thongTinSanPham">
+                                                <label className="tieuDe">
                                                     Thông Tin Sản Phẩm
                                                 </label>
                                                 <div>
@@ -983,60 +999,14 @@ const UpdateShop = () => {
                                                                 e.target.value
                                                             )
                                                         }
-                                                        className="inputthongTinSanPham"
-                                                        placeholder="Thông Tin Chi Tiết Sản Phẩm"
+                                                        className="noiDung"
+                                                        placeholder=" Thêm thông tin sản phẩm"
                                                     />
                                                 </div>
                                             </div>
 
-                                            <div className="ctv">
-                                                <div className="tieudeCTV tenmuc">
-                                                    Hợp Tác Cộng Tác Viên
-                                                </div>
-                                                <div className="noidungCTV">
-                                                    <div>
-                                                        <div className="noidunginputCTV tenmuc">
-                                                            Giá Nhập
-                                                        </div>
-                                                        <input
-                                                            className="noidunginputCTV"
-                                                            onChange={(e) =>
-                                                                setgiaNhap(
-                                                                    e.target
-                                                                        .value
-                                                                )
-                                                            }
-                                                        />
-                                                    </div>
-                                                    <div>
-                                                        <div className="noidunginputCTV tenmuc">
-                                                            Hoa Hồng
-                                                        </div>
-                                                        <input
-                                                            className="noidunginputCTV"
-                                                            onChange={(e) =>
-                                                                sethoahongCTV(
-                                                                    e.target
-                                                                        .value
-                                                                )
-                                                            }
-                                                        />
-                                                    </div>
-                                                    <div>
-                                                        <div className="noidunginputCTV tenmuc">
-                                                            Lợi Nhuận Dự Kiến
-                                                        </div>
-                                                        <div className="noidunginputCTV loinhuan">
-                                                            {giaKhuyenMai -
-                                                                giaNhap -
-                                                                hoahongCTV}
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
                                             <button
-                                                className="luuSanPahm"
+                                                className="hoanThanh"
                                                 onClick={handleThemSanPham}
                                             >
                                                 Lưu Sản Phẩm
@@ -1077,15 +1047,15 @@ const UpdateShop = () => {
                             {+suaThongTinShop === 3 ? (
                                 <div className="them">
                                     <div className="container-themSanPham">
-                                        <div className="close">
-                                            <button
-                                                onClick={() =>
-                                                    setsuaThongTinShop(0)
-                                                }
-                                            >
-                                                Close
-                                            </button>
-                                        </div>
+                                        <button
+                                            className="close"
+                                            onClick={() =>
+                                                setsuaThongTinShop(0)
+                                            }
+                                        >
+                                            Close
+                                        </button>
+
                                         <div className="sanPham">
                                             <div>
                                                 <input
@@ -1116,276 +1086,233 @@ const UpdateShop = () => {
                                                     </div>
                                                 </label>
                                             </div>
-                                            <div>
-                                                <div>
-                                                    <label className="tieuDeThemSanPham">
-                                                        Tên Sản Phẩm
-                                                    </label>
-                                                    <div>
-                                                        <input
-                                                            onChange={(e) =>
-                                                                setTenSanPham2(
-                                                                    e.target
-                                                                        .value
-                                                                )
-                                                            }
-                                                            className="inputTenSanPham"
-                                                            placeholder={
-                                                                detailidSpSua?.TenSanPham
-                                                            }
-                                                        />
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div className="giaBan">
-                                                <div className="giabanCu">
-                                                    <label className="tenmuc">
-                                                        Giá Niêm Yết
-                                                    </label>
-                                                    <div>
-                                                        <input
-                                                            onChange={(e) =>
-                                                                setgiaNiemYet2(
-                                                                    e.target
-                                                                        .value
-                                                                )
-                                                            }
-                                                            placeholder={
-                                                                detailidSpSua?.giaNiemYet
-                                                            }
-                                                            type="Number"
-                                                        />
-                                                    </div>
-                                                </div>
-                                                <div className="giaBanMoi">
-                                                    <label className="tenmuc">
-                                                        Giá Khuyến Mại
-                                                    </label>
-                                                    <div>
-                                                        <input
-                                                            onChange={(e) =>
-                                                                setgiaKhuyenMai2(
-                                                                    e.target
-                                                                        .value
-                                                                )
-                                                            }
-                                                            placeholder={
-                                                                detailidSpSua?.giaKhuyenMai
-                                                            }
-                                                            type="Number"
-                                                        />
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div className="giaBan">
-                                                <div className="giabanCu">
-                                                    <div>
-                                                        <label className="tenmuc">
-                                                            Nhóm Sản Phẩm
-                                                        </label>
-                                                    </div>
 
-                                                    <select
-                                                        className="nhomSanPham"
-                                                        onChange={(e) =>
-                                                            setnhomSanPham2(
-                                                                e.target.value
-                                                            )
-                                                        }
-                                                    >
-                                                        <option>
-                                                            {nhomSanPham2}
-                                                        </option>
-                                                        <option>
-                                                            Thời Trang & Phụ
-                                                            Kiện Nam
-                                                        </option>
-                                                        <option>
-                                                            Thời Trang & Phụ
-                                                            Kiện Nữ
-                                                        </option>
-                                                        <option>
-                                                            Thời Trang & Phụ
-                                                            Kiện Trẻ Em
-                                                        </option>
-                                                        <option>
-                                                            Đồng Hồ Nam
-                                                        </option>
-                                                        <option>
-                                                            Đồng Hồ Nữ
-                                                        </option>
-                                                        <option>
-                                                            Điện Thoại & Phụ
-                                                            Kiện
-                                                        </option>
-                                                        <option>
-                                                            Máy Tính & Laptop
-                                                        </option>
-                                                        <option>
-                                                            Máy Ảnh & Máy Quay
-                                                            Phim
-                                                        </option>
-                                                        <option>
-                                                            Thiết Bị Gia Dụng
-                                                        </option>
-                                                        <option>
-                                                            Ô Tô & Xe Máy & Xe
-                                                            Đạp
-                                                        </option>
-                                                        <option>
-                                                            Sức Khỏe & Làm Đẹp
-                                                        </option>
-                                                        <option>
-                                                            Thiết Bị Y Tế
-                                                        </option>
-                                                        <option>
-                                                            Thể Thao & Du Lịch &
-                                                            Sự Kiện
-                                                        </option>
-                                                        <option>
-                                                            Nhà Sách Online
-                                                        </option>
-                                                        <option>
-                                                            Hoa Quả & Thực Phẩm
-                                                        </option>
-                                                        <option>
-                                                            Bách Hóa Online
-                                                        </option>
-                                                        <option>
-                                                            Dịch Vụ KHác
-                                                        </option>
-                                                    </select>
-                                                </div>
-                                                <div className="giaBanMoi">
-                                                    <div>
-                                                        <label className="  tenmuc">
-                                                            Sản Phẩm Dẫn
-                                                        </label>
-                                                    </div>
-                                                    {(allSanPhamDan?.length ===
-                                                        2 &&
-                                                        detailidSpSua?.sanPhamDan ===
-                                                            "Sản Phẩm Dẫn") ||
-                                                    (allSanPhamDan?.length >
-                                                        2 &&
-                                                        detailidSpSua?.sanPhamDan ===
-                                                            "Sản Phẩm Dẫn") ||
-                                                    allSanPhamDan?.length <
-                                                        2 ? (
-                                                        <select
-                                                            className="spChuLuc"
-                                                            onChange={(e) =>
-                                                                setsanPhamDan2(
-                                                                    e.target
-                                                                        .value
-                                                                )
-                                                            }
-                                                        >
-                                                            <option>
-                                                                {sanPhamDan2}
-                                                            </option>
+                                            <div className="tieuDeNoiDung">
+                                                <label className="tieuDe">
+                                                    Tên Sản Phẩm
+                                                </label>
+
+                                                <input
+                                                    onChange={(e) =>
+                                                        setTenSanPham2(
+                                                            e.target.value
+                                                        )
+                                                    }
+                                                    className="noiDung"
+                                                    placeholder={
+                                                        detailidSpSua?.TenSanPham
+                                                    }
+                                                />
+                                            </div>
+                                            <div className="tieuDeNoiDung">
+                                                <label className="tieuDe">
+                                                    Tình Trạng
+                                                </label>
+
+                                                <select
+                                                    className="noiDung"
+                                                    onChange={(e) =>
+                                                        settinhTrang2(
+                                                            e.target.value
+                                                        )
+                                                    }
+                                                >
+                                                    <option>
+                                                        {tinhTrang2}
+                                                    </option>
+                                                    <option>Còn Hàng</option>
+                                                    <option>Tạm Hết</option>
+                                                </select>
+                                            </div>
+                                            <div className="tieuDeNoiDung">
+                                                <label className="tieuDe">
+                                                    Nhóm Sản Phẩm
+                                                </label>
+
+                                                <select
+                                                    className="noiDung"
+                                                    onChange={(e) =>
+                                                        setnhomSanPham2(
+                                                            e.target.value
+                                                        )
+                                                    }
+                                                >
+                                                    <option>
+                                                        {nhomSanPham2}
+                                                    </option>
+                                                    {allSanPhamDan &&
+                                                        allSanPhamDan.length <
+                                                            2 && (
                                                             <option>
                                                                 Sản Phẩm Dẫn
                                                             </option>
-                                                            <option>
-                                                                Sản Phẩm Khác
-                                                            </option>
-                                                        </select>
-                                                    ) : (
-                                                        <div className="toida2spdan">
-                                                            Tối Đa 2 Sản Phẩm
-                                                            Dẫn
-                                                        </div>
-                                                    )}
-                                                </div>
+                                                        )}
+                                                    <option>
+                                                        Thời Trang & Phụ Kiện
+                                                        Nam
+                                                    </option>
+                                                    <option>
+                                                        Thời Trang & Phụ Kiện Nữ
+                                                    </option>
+                                                    <option>
+                                                        Thời Trang & Phụ Kiện
+                                                        Trẻ Em
+                                                    </option>
+                                                    <option>Đồng Hồ Nam</option>
+                                                    <option>Đồng Hồ Nữ</option>
+                                                    <option>
+                                                        Điện Thoại & Phụ Kiện
+                                                    </option>
+                                                    <option>
+                                                        Máy Tính & Laptop
+                                                    </option>
+                                                    <option>
+                                                        Máy Ảnh & Máy Quay Phim
+                                                    </option>
+                                                    <option>
+                                                        Thiết Bị Gia Dụng
+                                                    </option>
+                                                    <option>
+                                                        Ô Tô & Xe Máy & Xe Đạp
+                                                    </option>
+                                                    <option>
+                                                        Sức Khỏe & Làm Đẹp
+                                                    </option>
+                                                    <option>
+                                                        Thiết Bị Y Tế
+                                                    </option>
+                                                    <option>
+                                                        Thể Thao & Du Lịch & Sự
+                                                        Kiện
+                                                    </option>
+                                                    <option>
+                                                        Nhà Sách Online
+                                                    </option>
+                                                    <option>
+                                                        Hoa Quả & Thực Phẩm
+                                                    </option>
+                                                    <option>
+                                                        Bách Hóa Online
+                                                    </option>
+                                                    <option>
+                                                        Dịch Vụ KHác
+                                                    </option>
+                                                </select>
                                             </div>
-                                            <div>
-                                                <label className="tenmuc">
+
+                                            <div className="tieuDeNoiDung">
+                                                <label className="tieuDe">
+                                                    Giá Niêm Yết
+                                                </label>
+
+                                                <input
+                                                    className="noiDung"
+                                                    onChange={(e) =>
+                                                        setgiaNiemYet2(
+                                                            e.target.value
+                                                        )
+                                                    }
+                                                    placeholder={VND.format(
+                                                        detailidSpSua?.giaNiemYet
+                                                    )}
+                                                    type="Number"
+                                                />
+                                            </div>
+                                            <div className="tieuDeNoiDung">
+                                                <label className="tieuDe">
+                                                    Giá Khuyến Mại
+                                                </label>
+
+                                                <input
+                                                    className="noiDung"
+                                                    onChange={(e) =>
+                                                        setgiaKhuyenMai2(
+                                                            e.target.value
+                                                        )
+                                                    }
+                                                    placeholder={VND.format(
+                                                        detailidSpSua?.giaKhuyenMai
+                                                    )}
+                                                    type="Number"
+                                                />
+                                            </div>
+                                            {detailidSpSua?.idtk ===
+                                                user?._id && (
+                                                <>
+                                                    <div className="tieuDeNoiDung">
+                                                        <div className="tieuDe">
+                                                            Giá Nhập
+                                                        </div>
+                                                        <input
+                                                            className="noiDung"
+                                                            placeholder={VND.format(
+                                                                giaNhap2
+                                                            )}
+                                                            onChange={(e) =>
+                                                                setgiaNhap2(
+                                                                    e.target
+                                                                        .value
+                                                                )
+                                                            }
+                                                        />
+                                                    </div>
+                                                    <div className="tieuDeNoiDung">
+                                                        <div className="tieuDe">
+                                                            Giá Cộng Tác Viên
+                                                        </div>
+                                                        <input
+                                                            className="noiDung"
+                                                            placeholder={VND.format(
+                                                                giaCtv2
+                                                            )}
+                                                            onChange={(e) =>
+                                                                setgiaCtv2(
+                                                                    e.target
+                                                                        .value
+                                                                )
+                                                            }
+                                                        />
+                                                    </div>
+                                                    <div className="tieuDeNoiDung">
+                                                        <div className="tieuDe">
+                                                            Giá Sỉ
+                                                        </div>
+                                                        <input
+                                                            className="noiDung"
+                                                            placeholder={VND.format(
+                                                                giaSi2
+                                                            )}
+                                                            onChange={(e) =>
+                                                                setgiaSi2(
+                                                                    e.target
+                                                                        .value
+                                                                )
+                                                            }
+                                                        />
+                                                    </div>
+                                                </>
+                                            )}
+
+                                            <div className="thongTinSanPham">
+                                                <label className="tieuDe">
                                                     Thông Tin Sản Phẩm
                                                 </label>
-                                                <div>
-                                                    <input
-                                                        className="inputthongTinSanPham"
-                                                        onChange={(e) =>
-                                                            setthongTinSanPham2(
-                                                                e.target.value
-                                                            )
-                                                        }
-                                                        placeholder={
-                                                            detailidSpSua?.thongTinSanPham
-                                                        }
-                                                    />
-                                                </div>
+
+                                                <input
+                                                    className="noiDung"
+                                                    onChange={(e) =>
+                                                        setthongTinSanPham2(
+                                                            e.target.value
+                                                        )
+                                                    }
+                                                    placeholder={
+                                                        detailidSpSua?.thongTinSanPham
+                                                    }
+                                                />
                                             </div>
-                                            {detailidSpSua?.affiliate.length ===
-                                                0 &&
-                                                detailidSpSua?.idtk ===
-                                                    user?._id && (
-                                                    <div className="ctv">
-                                                        <div className="tieudeCTV tenmuc">
-                                                            Hợp Tác Cộng Tác
-                                                            Viên
-                                                        </div>
-                                                        <div className="noidungCTV">
-                                                            <div>
-                                                                <div className="noidunginputCTV tenmuc">
-                                                                    Giá Nhập
-                                                                </div>
-                                                                <input
-                                                                    className="noidunginputCTV"
-                                                                    placeholder={
-                                                                        giaNhap2
-                                                                    }
-                                                                    onChange={(
-                                                                        e
-                                                                    ) =>
-                                                                        setgiaNhap2(
-                                                                            e
-                                                                                .target
-                                                                                .value
-                                                                        )
-                                                                    }
-                                                                />
-                                                            </div>
-                                                            <div>
-                                                                <div className="noidunginputCTV tenmuc">
-                                                                    Hoa Hồng
-                                                                </div>
-                                                                <input
-                                                                    className="noidunginputCTV"
-                                                                    placeholder={
-                                                                        hoahongCTV2
-                                                                    }
-                                                                    onChange={(
-                                                                        e
-                                                                    ) =>
-                                                                        sethoahongCTV2(
-                                                                            e
-                                                                                .target
-                                                                                .value
-                                                                        )
-                                                                    }
-                                                                />
-                                                            </div>
-                                                            <div>
-                                                                <div className="noidunginputCTV tenmuc">
-                                                                    Lợi Nhuận Dự
-                                                                    Kiến
-                                                                </div>
-                                                                <div>
-                                                                    <div className="noidunginputCTV loinhuan">
-                                                                        {giaKhuyenMai2 -
-                                                                            giaNhap2 -
-                                                                            hoahongCTV2}
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                )}
 
                                             <button
-                                                className="luuSanPahm"
+                                                className="hoanThanh"
                                                 onClick={() =>
                                                     handleLuuSanPham(
                                                         detailidSpSua?._id

@@ -33,7 +33,7 @@ const MyDetail = (props) => {
     // yourDetai Chi Tiet
 
     useEffect(() => {
-        getPost(user?._id, dispatch);
+        // getPost(user?._id,setloading, dispatch);
         getAllttShop(user?._id, dispatch);
     }, [user]);
     const handleLogout = () => {
@@ -110,67 +110,56 @@ const MyDetail = (props) => {
                     <div>
                         {allShop && allShop.length !== 0 && (
                             <div className="quanLyShop-container">
-                                <div className="TieuDeQuanLy">
-                                    <div className="quanLyShop">
-                                        Quản Lý Website
-                                    </div>
-                                    <div className="quanLyShop">
-                                        Quản Lý Đơn Hàng
-                                    </div>
-                                    <div className="quanLyShop">
-                                        Review Website
-                                    </div>
+                                <div className="quanLyGianHang">
+                                    Quản Lý Gian Hàng
                                 </div>
-                                <div className="noiDungQuanLy">
-                                    <div>
-                                        {allShop &&
-                                            allShop.length !== 0 &&
-                                            allShop.map((item) => {
-                                                return (
+
+                                {allShop &&
+                                    allShop.length !== 0 &&
+                                    allShop.map((item, index) => {
+                                        return (
+                                            <div
+                                                className="quanLyShop"
+                                                key={item._id}
+                                            >
+                                                <div className="tenShop">
+                                                    {item.TenShop}
+                                                </div>
+                                                <div className="tieuDeNoiDung">
                                                     <a
-                                                        key={item._id}
-                                                        href={`/update-shop/${item._id}`}
-                                                    >
-                                                        <button className="tenShopQuanLy">
-                                                            {item.TenShop}
-                                                        </button>
-                                                    </a>
-                                                );
-                                            })}
-                                    </div>
-                                    <div>
-                                        {allShop &&
-                                            allShop.length !== 0 &&
-                                            allShop.map((item) => {
-                                                return (
-                                                    <a
-                                                        key={item._id}
-                                                        href={`/don-hang/${item._id}`}
-                                                    >
-                                                        <button className="tenShopQuanLy">
-                                                            {item.TenShop}
-                                                        </button>
-                                                    </a>
-                                                );
-                                            })}
-                                    </div>
-                                    <div>
-                                        {allShop &&
-                                            allShop.length !== 0 &&
-                                            allShop.map((item) => {
-                                                return (
-                                                    <a
-                                                        key={item._id}
+                                                        className="khoShop"
                                                         href={`/shop/${item._id}`}
                                                     >
-                                                        <button className="tenShopQuanLy">
-                                                            {item.TenShop}
-                                                        </button>
+                                                        <div className="order">
+                                                            Thêm Order
+                                                        </div>
                                                     </a>
-                                                );
-                                            })}
-                                    </div>
-                                </div>
+                                                    <a
+                                                        href={`/don-hang/${item._id}`}
+                                                    >
+                                                        <div className="khoShop">
+                                                            Đơn Hàng
+                                                        </div>
+                                                    </a>
+
+                                                    <a
+                                                        href={`/update-shop/${item._id}`}
+                                                    >
+                                                        <div className="khoShop">
+                                                            Cập Nhật
+                                                        </div>
+                                                    </a>
+                                                    <a
+                                                        href={`/doi-tac/${item._id}`}
+                                                    >
+                                                        <div className="khoShop">
+                                                            Đối Tác
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        );
+                                    })}
                             </div>
                         )}
                     </div>

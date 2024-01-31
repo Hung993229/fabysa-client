@@ -135,8 +135,10 @@
                 background-color: red;
                 font-size: 5vw;
                 font-weight: 600
-                ;
+                ;     text-transform: uppercase;
                 color: white;
+                padding: 1vw auto;
+
     
             }
             .sanPham-container{
@@ -208,15 +210,17 @@
                     
                 }
                 .muaHang {
-                    font-size: 3.5vw;
+                    font-size: 3.9vw;
                     font-weight: 600;
                     background-color: red;
                     width: 100%;
                     margin: 2vw auto;
                     border-radius: 2vw;
+                    padding: 1.5vw;
                 }
                 .daThem{
-                    font-size: 3.5vw;
+                    font-size: 3.9vw;
+                    padding: 1.5vw;
                     font-weight: 600;
                     background-color: #04aa6d;
                     width: 100%;
@@ -228,6 +232,10 @@
                    font-size: 3vw;
                    font-weight: 500;
                    cursor: pointer;
+                }
+                .viTriSanPham{
+                    font-size: 3vw;
+                    gap: 1.5vw
                 }
                
               

@@ -4,8 +4,8 @@ const ChiTietSanPham2 = (props) => {
     const {
         cart,
         setcart,
-        handleThemGioHangCoUser,
-        handleThemGioHangKhongUser,
+        handleThemGioHang,
+        handleXoaSanPham,
         thongTinSp,
         showChiTietSanPham,
         setshowChiTietSanPham,
@@ -54,60 +54,26 @@ const ChiTietSanPham2 = (props) => {
                         </div>
                     </div>
 
-                    {!user ? (
-                        <>
-                            {cart?.find(
-                                (thongTinSp2) =>
-                                    thongTinSp2._id === thongTinSp._id
-                            ) ? (
-                                <button className="daThem">ĐÃ THÊM</button>
-                            ) : (
-                                <button
-                                    onClick={() =>
-                                        handleThemGioHangKhongUser(thongTinSp)
-                                    }
-                                    className="muaHang"
-                                >
-                                    THÊM GIỎ HÀNG
-                                </button>
-                            )}
-                        </>
-                    ) : (
-                        <>
-                            {!gioHang ? (
-                                <button
-                                    onClick={() =>
-                                        handleThemGioHangCoUser(thongTinSp._id)
-                                    }
-                                    className="muaHang"
-                                >
-                                    THÊM GIỎ HÀNG
-                                </button>
-                            ) : (
-                                <>
-                                    {gioHang?.gioHang.find(
-                                        (thongTinSp2) =>
-                                            thongTinSp2 === thongTinSp._id
-                                    ) ? (
-                                        <button className="daThem">
-                                            ĐÃ THÊM
-                                        </button>
-                                    ) : (
-                                        <button
-                                            onClick={() =>
-                                                handleThemGioHangCoUser(
-                                                    thongTinSp._id
-                                                )
-                                            }
-                                            className="muaHang"
-                                        >
-                                            THÊM GIỎ HÀNG
-                                        </button>
-                                    )}
-                                </>
-                            )}
-                        </>
-                    )}
+                    <>
+                        {cart?.find(
+                            (thongTinSp2) => thongTinSp2._id === thongTinSp._id
+                        ) ? (
+                            <button
+                                onClick={() => handleXoaSanPham(thongTinSp)}
+                                className="daThem"
+                            >
+                                ĐÃ THÊM
+                            </button>
+                        ) : (
+                            <button
+                                onClick={() => handleThemGioHang(thongTinSp)}
+                                className="muaHang"
+                            >
+                                THÊM GIỎ HÀNG
+                            </button>
+                        )}
+                    </>
+
                     <div className="viTriSanPham">
                         <i className="fa-solid fa-location-dot"></i>
                         <div className="diachisanpham">{thongTinSp?.xa}</div>
@@ -116,7 +82,7 @@ const ChiTietSanPham2 = (props) => {
                     </div>
                 </div>
             </div>
-            <div className="tieuDeThongTinSanPham">Thông Tin Sản Phẩm</div>
+            <div className="tieuDeThongTinSanPham">Giới Thiệu Sản Phẩm</div>
             <div className="thongTinSanPham">{thongTinSp?.thongTinSanPham}</div>
         </div>
     );

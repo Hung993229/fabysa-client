@@ -15,16 +15,21 @@ color: #fff;
 
     }
     .anhVaTen{
-      // display: flex;
-     
+      border: solid 0.2vw #04aa6d;
+     margin:  0vw 10vw;
       justify-content: center;
       align-items: center;
+      border-radius: 2vw;
+      padding: 3vw;
+      box-shadow: 13px 11px 27px 0px rgba(4,170,109,0.75);
+      -webkit-box-shadow: 13px 11px 27px 0px rgba(4,170,109,0.75);
+      -moz-box-shadow: 13px 11px 27px 0px rgba(4,170,109,0.75);
       .trai{
          // width: 50%;
          // border: solid 1px red;
         
          .anhSanPham{
-            width: 80%;
+            width: 100%;
             height: 90vw;
             object-fit: cover;
             border-radius: 2vw;
@@ -50,7 +55,7 @@ color: #fff;
         }
         .giaBan {
             // display: flex;
-            margin-top: 1vw;
+            margin: 2vw auto;
             text-align: center;
             justify-content: center;
            
@@ -84,7 +89,7 @@ color: #fff;
             font-size: 5vw;
             font-weight: 600;
             background-color: red;
-            width: 80%;
+            width: 98%;
             margin-top: 2vw;
             border-radius: 2vw;
         }
@@ -92,18 +97,18 @@ color: #fff;
           font-size: 5vw;
           font-weight: 600;
           background-color: #04aa6d;
-          width: 80%;
+          width: 98%;
           margin-top: 2vw;
           border-radius: 2vw;
         }
         .viTriSanPham{
-          padding: 0vw 5vw;
-          margin-top: 2vw;
+
+          margin: 2vw auto 5vw auto;
           justify-content: center;
           align-items: center;
               display: flex;
-              font-size: 3.5vw;
-              gap: 3vw;
+              font-size: 3vw;
+              gap: 1.5vw;
               .diachisanpham{
                   
               }
@@ -113,7 +118,9 @@ color: #fff;
     }
   
     .tieuDeThongTinSanPham{
-      margin-top: 5vw;
+      text-align: left;
+      margin-left: 5vw;
+      margin-top: 8vw;
       font-size: 5vw;
       font-weight: 600;
     }

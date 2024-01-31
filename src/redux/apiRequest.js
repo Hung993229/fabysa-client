@@ -220,11 +220,12 @@ export const updatePost = async (newPost, id, dispatch) => {
     }
 };
 
-export const getPost = async (id, dispatch) => {
+export const getPost = async (id, dispatch, setloading) => {
     dispatch(getPostStart());
     try {
         const res = await axios.get(`/v1/post/${id}`);
         dispatch(getPostSuccess(res.data));
+        setloading(0);
     } catch (err) {
         dispatch(getPostFailed());
     }
@@ -337,11 +338,12 @@ export const registerSanPham = async (newSanPham, dispatch) => {
         dispatch(registerSanPhamFailed());
     }
 };
-export const getSanPham = async (user, dispatch) => {
+export const getSanPham = async (user, dispatch, setloading) => {
     dispatch(getSanPhamStart());
     try {
         const res = await axios.get(`/v1/shop/san-pham/?user=${user}`);
         dispatch(getSanPhamSuccess(res.data));
+        setloading(0);
     } catch (err) {
         dispatch(getSanPhamFailed());
     }
@@ -370,7 +372,6 @@ export const getKhoTongSi = async (huyen, user, dispatch) => {
 
 export const getArrSanPham = async (arrIdSanPham, dispatch) => {
     dispatch(getArrSanPhamStart());
-    console.log("arrIdSanPham", arrIdSanPham);
     try {
         const res = await axios.post(`/v1/shop/arr-san-pham`, arrIdSanPham);
         dispatch(getArrSanPhamSuccess(res.data));

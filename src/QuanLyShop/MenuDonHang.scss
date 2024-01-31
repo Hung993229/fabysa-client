@@ -1,0 +1,50 @@
+/* Mobile & Tablet */
+@media screen and (max-width : 1023px) {
+    .menuDonHang{
+        .donHang-nav{
+            display: grid;
+        grid-template-columns: 1fr 1fr 1fr ;
+        font-size: 2vw;
+        font-weight: 500;
+        margin-top: 2vw;
+        gap: 1.5vw;
+        a{
+            padding: 0.5vw auto;
+            padding: 2.5vw 0vw;
+            border-radius: 1vw;
+            background-color: #04aa6d;
+            color: #fff;
+            text-decoration: none;
+        }
+      
+        
+           
+        }
+        .menu{
+            background-color:red ;
+            color: #fff;
+            padding: 0.5vw;
+            border-radius: 1vw;
+            width: 20vw;
+            margin:2vw 1vw ;
+            font-size: 3vw;
+            font-weight: 500;
+        }
+        .close{
+            background-color:red ;
+            color: #fff;
+            padding: 0.5vw;
+            border-radius: 1vw;
+            width: 20vw;
+            margin:2vw 1vw ;
+            font-size: 3vw;
+            font-weight: 500;
+        }
+    }
+   
+}
+
+/* PC*/
+@media screen and (min-width : 1024px) {
+   
+}

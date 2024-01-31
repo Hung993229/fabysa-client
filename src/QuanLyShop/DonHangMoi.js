@@ -3,8 +3,10 @@ import CommonUtils from "../component/CommonUtils";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
+import { NavLink } from "react-router-dom";
 import { useNavigate, useParams } from "react-router-dom";
 import { getDonHang, updateDonHang, getttShop } from "../redux/apiRequest";
+import MenuDonHang from './MenuDonHang'
 import { useEffect } from "react";
 const DonHangMoi = () => {
     const user = useSelector((state) => state.auth.login.currentUser);
@@ -22,172 +24,163 @@ const DonHangMoi = () => {
     }, []);
     const trangThaiDH = 1;
     useEffect(() => {
-        // const user = idShop;
         getDonHang(idShop, trangThaiDH, dispatch);
     }, [idShop]);
-    const handleGiaoHang = (id) => {
-        const newDonHang = {
-            trangThaiDH: 2,
-        };
-        updateDonHang(newDonHang, id, dispatch);
-    };
-    //    Đơn Hàng Trực Tiếp
-    const allDonHang1 = allDonHang?.filter(
-        (item) => item.affiliate.length === 0
-    );
-    //  Đơn Hàng Từ Cộng Tác Viên
-    const allDonHang3 = allDonHang?.filter(
-        (item) => item.user === ttShop._id && item.affiliate.length !== 0
-    );
 
-    //  Đơn Hàng Bạn Là Cộng Tác Viên
-    const allDonHang2 = allDonHang?.filter(
-        (item) => item.affiliate === ttShop._id && item.affiliate.length !== 0
-    );
     const VND = new Intl.NumberFormat("vi-VN", {
         style: "currency",
         currency: "VND",
     });
+    const gopBanDonHang = allDonHang
+        ?.map((item) => {
+            return item?.khachHang?.soBan ? item?.khachHang?.soBan : null;
+        })
+        .filter((item2) => item2 !== null);
+    console.log("gopBanDonHang", gopBanDonHang);
+    const gopSdtDonHang = allDonHang
+        ?.map((item) => {
+            return item?.khachHang?.sdtNguoiMua
+                ? item?.khachHang?.sdtNguoiMua
+                : null;
+        })
+        .filter((item2) => item2 !== null);
+    console.log("gopSdtDonHang", gopSdtDonHang);
+    const donHangSdt = allDonHang?.map((item) => {
+        return gopSdtDonHang.map((item2) => {
+            return item.khachHang.sdtNguoiMua === item2
+                ? item.donHang.map((item3) => {
+                      return item3;
+                  })
+                : null;
+        });
+    });
 
+    console.log("donHangSdt", donHangSdt);
     return (
         <div className="donHang-container">
-            <div className="donHang-nav">
-                <a href={`/don-hang/${idShop}`}>Đơn Hàng Mới</a>
-                <a href={`/don-hang-dang-giao/${idShop}`}>Đơn Hàng Đang Giao</a>
-                <a href={`/don-hang-hoan-thanh/${idShop}`}>
-                    Đơn Hàng Hoàn Thành
-                </a>
-                <a href={`/don-hang-huy/${idShop}`}>Đơn Hàng Huỷ</a>
-            </div>
-            <div className="tieuDeDonHang">Danh Sách Đơn Hàng Mới</div>
-            <div className="tenbangContainer">
-                <div className="tenbang">Đơn Hàng Từ Website</div>
-                <div className="chiTietDonHang">
-                    <div className="chiTietTungO">Thời Gian</div>
-                    <div className="chiTietTungO">Sản Phẩm</div>
-                    <div className="chiTietTungO">Đơn Giá</div>
-                    <div className="chiTietTungO">Số Lượng</div>
-                    <div className="chiTietTungO">Thành Tiền</div>
+            <MenuDonHang idShop={idShop} />
+            <div className="tieuDeDonHang">Đơn Hàng Mới</div>
+            <div>
+                <div className="ttdonHang">
+                    <div>Thời Gian</div>
+                    <div>Sản Phẩm</div>
 
-                    <div className="chiTietTungO">Xem Chi Tiết</div>
+                    <div>Khách Hàng</div>
+
+                    <div>Xem Chi Tiết</div>
                 </div>
-                {allDonHang1 &&
-                    allDonHang1?.map((item) => {
-                        return (
-                            <a
-                                key={item._id}
-                                href={`/don-hang/${idShop}/${item._id}/${trangThaiDH}`}
-                            >
-                                <div className="chiTietDonHang">
-                                    <div className="chiTietTungO">
-                                        {item.createdAt.slice(0, 10)}
-                                    </div>
-                                    <div className="chiTietTungO">
-                                        {item.tenSp}
-                                    </div>
-                                    <div className="chiTietTungO">
-                                        {VND.format(item.donGia)}
-                                    </div>
-                                    <div className="chiTietTungO">
-                                        {item.slSP}
-                                    </div>
-                                    <div className="chiTietTungO">
-                                        {VND.format(item.thanhTien)}
-                                    </div>
+                {/* nhan tai quay */}
+                {allDonHang?.map((item, index) => {
+                    return (
+                        <div key={index}>
+                            {item?.khachHang?.soBan && (
+                                <a
+                                    href={`/don-hang/${idShop}/${item._id}/${trangThaiDH}`}
+                                >
+                                    <div className="ttdonHang">
+                                        <div className="thoiGian">
+                                            {item?.createdAt.slice(5, 10)}
+                                        </div>
+                                        <div>
+                                            {item?.donHang?.map(
+                                                (item2, index) => {
+                                                    return (
+                                                        <div
+                                                            className="SanPham"
+                                                            key={index}
+                                                        >
+                                                            <div className="tenSanPham">
+                                                                {
+                                                                    item2.TenSanPham
+                                                                }
+                                                            </div>
+                                                            <div className="soLuong">
+                                                                {item2.soLuong}
+                                                            </div>
+                                                        </div>
+                                                    );
+                                                }
+                                            )}
+                                        </div>
 
-                                    <div className="chiTietTungO">
-                                        Xem Chi Tiết
-                                    </div>
-                                </div>
-                            </a>
-                        );
-                    })}
-            </div>
-            <div className="tenbangContainer">
-                <div className="tenbang">Đơn Hàng Từ Cộng Tác Viên</div>
-                <div className="chiTietDonHang">
-                    <div className="chiTietTungO">Thời Gian</div>
-                    <div className="chiTietTungO">Sản Phẩm</div>
-                    <div className="chiTietTungO">Đơn Giá</div>
-                    <div className="chiTietTungO">Số Lượng</div>
-                    <div className="chiTietTungO">Thành Tiền</div>
+                                        <div className="khachHang">
+                                            <div>
+                                                {item?.khachHang?.hoTenNguoiMua}
+                                            </div>
+                                            <div>
+                                                {item?.khachHang?.sdtNguoiMua}
+                                            </div>
+                                            <div>
+                                                {item?.khachHang?.noiNhan}
+                                            </div>
+                                            <div>{item?.khachHang?.soBan}</div>
+                                        </div>
 
-                    <div className="chiTietTungO">Xem Chi Tiết</div>
-                </div>
-                {allDonHang2 &&
-                    allDonHang2?.map((item) => {
-                        return (
-                            <a
-                                key={item._id}
-                                href={`/don-hang/${idShop}/${item._id}/${trangThaiDH}`}
-                            >
-                                <div className="chiTietDonHang">
-                                    <div className="chiTietTungO">
-                                        {item.createdAt.slice(0, 10)}
+                                        <div className="xemChiTiet">
+                                            Xem Chi Tiết
+                                        </div>
                                     </div>
-                                    <div className="chiTietTungO">
-                                        {item.tenSp}
-                                    </div>
-                                    <div className="chiTietTungO">
-                                        {VND.format(item.donGia)}
-                                    </div>
-                                    <div className="chiTietTungO">
-                                        {item.slSP}
-                                    </div>
-                                    <div className="chiTietTungO">
-                                        {VND.format(item.thanhTien)}
-                                    </div>
+                                </a>
+                            )}
+                        </div>
+                    );
+                })}
+                {/* nhan noi khac */}
+                {allDonHang?.map((item, index) => {
+                    return (
+                        <div key={index}>
+                            {!item?.khachHang?.soBan && (
+                                <a
+                                    href={`/don-hang/${idShop}/${item._id}/${trangThaiDH}`}
+                                >
+                                    <div className="ttdonHang">
+                                        <div className="thoiGian">
+                                            {item?.createdAt.slice(5, 10)}
+                                        </div>
+                                        <div>
+                                            {item?.donHang?.map(
+                                                (item2, index) => {
+                                                    return (
+                                                        <div
+                                                            className="SanPham"
+                                                            key={index}
+                                                        >
+                                                            <div className="tenSanPham">
+                                                                {
+                                                                    item2.TenSanPham
+                                                                }
+                                                            </div>
+                                                            <div className="soLuong">
+                                                                {item2.soLuong}
+                                                            </div>
+                                                        </div>
+                                                    );
+                                                }
+                                            )}
+                                        </div>
 
-                                    <div className="chiTietTungO">
-                                        Xem Chi Tiết
-                                    </div>
-                                </div>
-                            </a>
-                        );
-                    })}
-            </div>
-            <div className="tenbangContainer">
-                <div className="tenbang">Đơn Hàng Bạn Là Cộng Tác Viên</div>
-                <div className="chiTietDonHang">
-                    <div className="chiTietTungO">Thời Gian</div>
-                    <div className="chiTietTungO">Sản Phẩm</div>
-                    <div className="chiTietTungO">Đơn Giá</div>
-                    <div className="chiTietTungO">Số Lượng</div>
-                    <div className="chiTietTungO">Thành Tiền</div>
+                                        <div className="khachHang">
+                                            <div>
+                                                {item?.khachHang?.hoTenNguoiMua}
+                                            </div>
+                                            <div>
+                                                {item?.khachHang?.sdtNguoiMua}
+                                            </div>
+                                            <div>
+                                                {item?.khachHang?.noiNhan}
+                                            </div>
+                                            <div>{item?.khachHang?.soBan}</div>
+                                        </div>
 
-                    <div className="chiTietTungO">Xem Chi Tiết</div>
-                </div>
-                {allDonHang3 &&
-                    allDonHang3?.map((item) => {
-                        return (
-                            <a
-                                key={item._id}
-                                href={`/don-hang/${idShop}/${item._id}/${trangThaiDH}`}
-                            >
-                                <div className="chiTietDonHang">
-                                    <div className="chiTietTungO">
-                                        {item.createdAt.slice(0, 10)}
+                                        <div className="xemChiTiet">
+                                            Xem Chi Tiết
+                                        </div>
                                     </div>
-                                    <div className="chiTietTungO">
-                                        {item.tenSp}
-                                    </div>
-                                    <div className="chiTietTungO">
-                                        {VND.format(item.donGia)}
-                                    </div>
-                                    <div className="chiTietTungO">
-                                        {item.slSP}
-                                    </div>
-                                    <div className="chiTietTungO">
-                                        {VND.format(item.thanhTien)}
-                                    </div>
-
-                                    <div className="chiTietTungO">
-                                        Xem Chi Tiết
-                                    </div>
-                                </div>
-                            </a>
-                        );
-                    })}
+                                </a>
+                            )}
+                        </div>
+                    );
+                })}
             </div>
         </div>
     );

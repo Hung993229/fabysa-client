@@ -1,0 +1,38 @@
+/* Mobile & Tablet */
+@media screen and (max-width : 1023px) {
+   .donHangCtv-container{
+      a{text-decoration: none};
+      margin-top: 9vw;
+      margin-bottom: 20vw;
+      padding: 1vw;
+.tieuDeDonHang{
+   font-size: 5vw;
+   font-weight: 600;
+   margin: 3vw auto
+
+}
+      .sanPham{
+         display: grid;
+         grid-template-columns: 1fr 0.5fr 1fr 1fr 1fr ;
+         margin-bottom: 2vw;
+         font-size: 2.5vw;
+         font-weight: 400;
+         border-bottom: solid 1px gray;
+         justify-content: center;
+             align-items: center;
+.nhanHoaHong{
+   background-color: #04aa6d;
+   margin: 1vw;
+   padding: 0.5vw;
+   border-radius: 1vw;
+   color: #fff;
+   cursor: pointer;
+}
+      }
+   }
+}
+
+/* PC*/
+@media screen and (min-width : 1024px) {
+   
+}

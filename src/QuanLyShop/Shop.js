@@ -14,11 +14,13 @@ import {
     registerGioHang,
     updateGioHang,
     getGioHang,
+    getYourStatus,
     getArrSanPham,
 } from "../redux/apiRequest";
 import { useEffect } from "react";
 import GioHang from "./GioHang";
 import ChiTietSanPham2 from "./ChiTietSanPham2";
+import Loading from "../GiaoDienChung/Loading";
 const Shop = (props) => {
     const {
         showcart,
@@ -27,11 +29,10 @@ const Shop = (props) => {
         setTongsoluong,
         Tongtien,
         Tongsoluong,
-        arraySanPhamQuantity,
-        setarraySanPhamQuantity,
     } = props;
     const user = useSelector((state) => state.auth.login.currentUser);
     const myDetail = useSelector((state) => state.post.post?.myDetail);
+    console.log("myDetail", myDetail);
     const gioHang = useSelector(
         (state) => state.gioHang.gioHang.gioHang?.gioHang
     );
@@ -39,109 +40,105 @@ const Shop = (props) => {
         (state) => state.sanPham.sanPham.arrsanPham?.arrSanpham
     );
     const ttShop = useSelector((state) => state.ttShop.ttShop.ttShop?.shop);
-    const allSanPham = useSelector(
+    const allSanPham1 = useSelector(
         (state) => state.sanPham.sanPham.allsanPham?.allSanpham
     );
+    const allshopLienKet = useSelector(
+        (state) => state.yourStatus.yourStatus.allYourStatus?.yourStatus
+    );
     const [cart, setcart] = useState([]);
+    const [allSanPham, setallSanPham] = useState([]);
+    const [arrNhomSanPham, setarrNhomSanPham] = useState([]);
+    console.log("arrNhomSanPham", arrNhomSanPham);
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const { idShop } = useParams();
     const [iddetailSanPham, setiddetailSanPham] = useState("");
     const [showChiTietSanPham, setshowChiTietSanPham] = useState(0);
-    const thongTinSp = allSanPham?.find((item) => item._id === iddetailSanPham);
     const [tuVanVaThongTin, settuVanVaThongTin] = useState(0);
-
+    const [loading, setloading] = useState(1);
+    const khachSi = ttShop?.khachSi;
+    const khachCtv = ttShop?.khachCtv;
     useEffect(() => {
         if (user && user.length !== 0) {
-            getPost(user?._id, dispatch);
+            getPost(user?._id, dispatch, setloading);
             getGioHang(idShop, user?._id, dispatch);
         }
     }, []);
     useEffect(() => {
         getttShop(idShop, dispatch);
+        getYourStatus(idShop, dispatch);
     }, []);
     useEffect(() => {
-        getSanPham(idShop, dispatch);
+        getSanPham(idShop, dispatch, setloading);
     }, []);
-
-    useEffect(() => {
-        if (gioHang?.gioHang) {
-            getArrSanPham(gioHang?.gioHang, dispatch);
-        }
-    }, [gioHang?.gioHang]);
-    useEffect(() => {
-        if (user) {
-            setarraySanPhamQuantity(
-                arraySanPham?.map((item) => {
-                    return { ...item, quantity: 1 };
-                })
-            );
-        }
-    }, [arraySanPham]);
     const VND = new Intl.NumberFormat("vi-VN", {
         style: "currency",
         currency: "VND",
     });
 
+    // San Pham Shop
+    useEffect(() => {
+        if (allSanPham1) {
+            setallSanPham(allSanPham1);
+            const arrNhomSanPham3 = allSanPham1?.map((item) => {
+                return item?.nhomSanPham;
+            });
+            const arrNhomSanPham2 = new Set(arrNhomSanPham3);
+
+            setarrNhomSanPham([...arrNhomSanPham2]);
+        }
+    }, [allSanPham1]);
+    // San Pham Shop
+
+    // san pham lien ket
+    useEffect(() => {
+        if (allshopLienKet) {
+            const arrIdSanPham2 = allshopLienKet[0]?.sanPhamCtv.concat(
+                allshopLienKet[0]?.sanPhamSi
+            );
+            const arrIdSanPham3 = new Set(arrIdSanPham2);
+            const arrIdSanPham = [...arrIdSanPham3];
+            getArrSanPham(arrIdSanPham, dispatch);
+        }
+    }, [allshopLienKet]);
+
+    useEffect(() => {
+        if (arraySanPham) {
+            const allSanPham2 = arraySanPham?.concat(allSanPham1);
+            const allSanPham3 = new Set(allSanPham2);
+            setallSanPham([...allSanPham3]);
+
+            const arrNhomSanPham3 = allSanPham?.map((item) => {
+                return item?.nhomSanPham;
+            });
+            const arrNhomSanPham2 = new Set(arrNhomSanPham3);
+
+            setarrNhomSanPham([...arrNhomSanPham2]);
+        }
+    }, [arraySanPham]);
+    useEffect(() => {
+        if (arraySanPham) {
+            const arrNhomSanPham3 = allSanPham?.map((item) => {
+                return item?.nhomSanPham;
+            });
+            const arrNhomSanPham2 = new Set(arrNhomSanPham3);
+
+            setarrNhomSanPham([...arrNhomSanPham2]);
+        }
+    }, [allSanPham]);
+
+    // san pham lien ket
+    const thongTinSp = allSanPham?.find(
+        (item) => item?._id === iddetailSanPham
+    );
     // phan loai san pham
-    const allSanPhamDan = allSanPham?.filter(
-        (item) => item.sanPhamDan === "Sản Phẩm Dẫn"
-    );
-    const allSanPham1 = allSanPham?.filter(
-        (item) => item.nhomSanPham === "Thời Trang & Phụ Kiện Nam"
-    );
-    const allSanPham2 = allSanPham?.filter(
-        (item) => item.nhomSanPham === "Thời Trang & Phụ Kiện Nữ"
-    );
-    const allSanPham3 = allSanPham?.filter(
-        (item) => item.nhomSanPham === "Thời Trang & Phụ Kiện Trẻ Em"
-    );
-    const allSanPham4 = allSanPham?.filter(
-        (item) => item.nhomSanPham === "Đồng Hồ Nam"
-    );
-    const allSanPham5 = allSanPham?.filter(
-        (item) => item.nhomSanPham === "Đồng Hồ Nữ"
-    );
-    const allSanPham6 = allSanPham?.filter(
-        (item) => item.nhomSanPham === "Điện Thoại & Phụ Kiện"
-    );
-    const allSanPham7 = allSanPham?.filter(
-        (item) => item.nhomSanPham === "Máy Tính & Laptop"
-    );
-    const allSanPham8 = allSanPham?.filter(
-        (item) => item.nhomSanPham === "Máy Ảnh & Máy Quay Phim"
-    );
-    const allSanPham9 = allSanPham?.filter(
-        (item) => item.nhomSanPham === "Thiết Bị Gia Dụng"
-    );
-    const allSanPham10 = allSanPham?.filter(
-        (item) => item.nhomSanPham === "Ô Tô & Xe Máy & Xe Đạp"
-    );
-    const allSanPham11 = allSanPham?.filter(
-        (item) => item.nhomSanPham === "Sức Khỏe & Làm Đẹp"
-    );
-    const allSanPham12 = allSanPham?.filter(
-        (item) => item.nhomSanPham === "Thiết Bị Y Tế"
-    );
-    const allSanPham13 = allSanPham?.filter(
-        (item) => item.nhomSanPham === "Thể Thao & Du Lịch & Sự Kiện"
-    );
-    const allSanPham14 = allSanPham?.filter(
-        (item) => item.nhomSanPham === "Nhà Sách Online"
-    );
-    const allSanPham15 = allSanPham?.filter(
-        (item) => item.nhomSanPham === "Hoa Quả & Thực Phẩm"
-    );
-    const allSanPham16 = allSanPham?.filter(
-        (item) => item.nhomSanPham === "Bách Hóa Online"
-    );
-    const allSanPham17 = allSanPham?.filter(
-        (item) => item.nhomSanPham === "Dịch Vụ KHác"
-    );
+
+    console.log("allSanPham", allSanPham);
     // phan loai san pham
     // Them gio Hang
-    const handleThemGioHangKhongUser = (item) => {
+    const handleThemGioHang = (item) => {
         const ProductExist = cart?.find((item2) => item2?._id === item._id);
         if (ProductExist) {
             const gioHang2 = cart.map((item3) =>
@@ -157,28 +154,35 @@ const Shop = (props) => {
             const gioHang3 = [...cart, { ...item, quantity: 1 }];
             setcart(gioHang3);
         }
-    };
-    const handleThemGioHangCoUser = (id) => {
-        if (!gioHang) {
-            console.log("id", id);
-            const newGioHang = {
-                idShop: idShop,
-                user: user._id,
-                gioHang: id,
-            };
-            registerGioHang(newGioHang, dispatch);
-        } else {
-            console.log("hii");
-            const gioHangUpdate = [...gioHang.gioHang, id];
-            const newGioHang = {
-                idShop: idShop,
-                user: user._id,
-                gioHang: gioHangUpdate,
-            };
-            updateGioHang(newGioHang, gioHang._id, dispatch);
+        if (myDetail && myDetail?.length !== 0) {
+            const id = item?._id;
+            if (!gioHang) {
+                const newGioHang = {
+                    idShop: idShop,
+                    user: user._id,
+                    gioHang: id,
+                };
+                console.log("newGioHang", newGioHang);
+                registerGioHang(newGioHang, dispatch);
+            } else {
+                const idSanPham = gioHang?.gioHang?.find(
+                    (item2) => item2 === item._id
+                );
+                console.log("idSanPham", idSanPham);
+                if (!idSanPham) {
+                    const gioHangUpdate = [...gioHang.gioHang, id];
+                    const newGioHang = {
+                        idShop: idShop,
+                        user: user._id,
+                        gioHang: gioHangUpdate,
+                    };
+                    console.log("updateGioHang", newGioHang);
+                    updateGioHang(newGioHang, gioHang._id, dispatch);
+                }
+            }
         }
     };
-    // Them Gio Hang
+
     // Tinh So Luong - Tong So Tien
     const tinhtongtien = () => {
         let tt = 0;
@@ -187,23 +191,12 @@ const Shop = (props) => {
                 tt += sp.giaKhuyenMai * sp.quantity;
             });
         }
-        if (arraySanPhamQuantity?.length !== 0) {
-            arraySanPhamQuantity?.map((sp) => {
-                tt += sp.giaKhuyenMai * sp.quantity;
-            });
-        }
-
         setTongtien(tt);
     };
     const tinhsoluong = () => {
         let tt = 0;
         if (cart?.length !== 0) {
             cart?.map((sp) => {
-                tt += +sp.quantity;
-            });
-        }
-        if (arraySanPhamQuantity?.length !== 0) {
-            arraySanPhamQuantity?.map((sp) => {
                 tt += +sp.quantity;
             });
         }
@@ -215,7 +208,6 @@ const Shop = (props) => {
         tinhsoluong();
     });
 
-    console.log("arraySanPhamQuantity", arraySanPhamQuantity);
     // Tinh So Luong - Tong So Tien
     // Chi Tiet San Pham
     const handleChiTietSanPham = (id) => {
@@ -223,423 +215,337 @@ const Shop = (props) => {
         setiddetailSanPham(id);
     };
     // Chi Tiet San Pham
+    const handleXoaSanPham = (item) => {
+        if (cart?.length !== 0) {
+            const ProductExist = cart?.find((item2) => item2._id === item._id);
+            if (ProductExist) {
+                setcart(cart?.filter((item2) => item2._id !== item._id));
+            }
+        }
+    };
+    console.log(
+        "ihihii",
+        khachCtv?.find((item) => item === user?.username) ||
+            user?._id === ttShop?.user ||
+            myDetail?.vaiTro === 1 ||
+            user?._id === ttShop?.idNhanVien
+    );
     return (
         <>
-            {showcart === 0 ? (
+            {loading === 0 ? (
                 <>
-                    {showChiTietSanPham === 0 ? (
-                        <div>
-                            {ttShop && ttShop.length !== 0 && (
-                                <div className="shop">
-                                    <div>
-                                        <img
-                                            src={ttShop?.Banner}
-                                            className="banner-container"
-                                        />
-                                    </div>
-                                    <div className="tenCuaHang">
-                                        {ttShop?.TenShop}
-                                    </div>
-                                    <div className="slogan">
-                                        {ttShop?.sloganShop}
-                                    </div>
-
-                                    <div className="tuVan-gioiThieu">
-                                        <button
-                                            className="tuVan"
-                                            onClick={() =>
-                                                settuVanVaThongTin(2)
-                                            }
-                                        >
-                                            Tư Vấn
-                                        </button>
-                                        <button
-                                            className="gioiThieu"
-                                            onClick={() =>
-                                                settuVanVaThongTin(1)
-                                            }
-                                        >
-                                            Giới Thiệu
-                                        </button>
-                                    </div>
-                                    {tuVanVaThongTin === 1 && (
-                                        <div className="gioiThieuChiTiet">
-                                            <a href={`/ca-nhan`}>
-                                                <div className="tenCuaHang2">
-                                                    {ttShop?.TenShop}
-                                                </div>
-                                            </a>
-                                            <div className="dc">
-                                                Địa Chỉ: {ttShop?.dcShop}
+                    {showcart === 0 ? (
+                        <>
+                            {showChiTietSanPham === 0 ? (
+                                <div>
+                                    {ttShop && ttShop.length !== 0 && (
+                                        <div className="shop">
+                                            <div>
+                                                <img
+                                                    src={ttShop?.Banner}
+                                                    className="banner-container"
+                                                />
                                             </div>
-                                            <div className="dc">
-                                                Số Điện Thoại: {ttShop?.sdtShop}
+                                            <div className="tenCuaHang">
+                                                {ttShop?.TenShop}
                                             </div>
-                                            <div className="sdt">
+                                            <div className="slogan">
                                                 {ttShop?.sloganShop}
                                             </div>
-                                            <button
-                                                className="closeGioiThieu"
-                                                onClick={() =>
-                                                    settuVanVaThongTin(0)
-                                                }
-                                            >
-                                                Close
-                                            </button>
-                                        </div>
-                                    )}
-                                    {tuVanVaThongTin === 2 && (
-                                        <div className="tuVanChiTiet">
-                                            <div className="loiNhan">
-                                                Quý Khách có thắc mắc hoặc cần
-                                                tư vấn xin vui lòng <br /> nhắn
-                                                tin qua Zalo, Facebook bên dưới!
+
+                                            <div className="tuVan-gioiThieu">
+                                                <button
+                                                    className="tuVan"
+                                                    onClick={() =>
+                                                        settuVanVaThongTin(2)
+                                                    }
+                                                >
+                                                    QR Code
+                                                </button>
+                                                <button
+                                                    className="gioiThieu"
+                                                    onClick={() =>
+                                                        settuVanVaThongTin(1)
+                                                    }
+                                                >
+                                                    Liên Hệ
+                                                </button>
                                             </div>
-                                            <div className="mxh">
-                                                <div className="zalo">
-                                                    <a
-                                                        href={ttShop?.linkZalo}
-                                                        target="_blank"
-                                                    >
-                                                        <img
-                                                            src={zaloLogo}
-                                                            className="zalo"
-                                                        />
+                                            {tuVanVaThongTin === 1 && (
+                                                <div className="gioiThieuChiTiet">
+                                                    <a href={`/shop/${idShop}`}>
+                                                        <div className="tenCuaHang2">
+                                                            {ttShop?.TenShop}
+                                                        </div>
                                                     </a>
-                                                </div>
-                                                <div className="facebook">
-                                                    <a
-                                                        href={
-                                                            ttShop?.linkFacebook
+                                                    {myDetail?.vaiTro === 1 ||
+                                                    user?._id ===
+                                                        ttShop?.idNhanVien ? (
+                                                        <a href={`/ca-nhan`}>
+                                                            <div className="tenCuaHang2">
+                                                                Admin
+                                                            </div>
+                                                        </a>
+                                                    ) : (
+                                                        <></>
+                                                    )}
+                                                    {khachCtv?.find(
+                                                        (item) =>
+                                                            item ===
+                                                            user?.username
+                                                    ) ||
+                                                    user?._id ===
+                                                        ttShop?.user ||
+                                                    myDetail?.vaiTro === 1 ||
+                                                    user?._id ===
+                                                        ttShop?.idNhanVien ? (
+                                                        <a
+                                                            href={`/shop/kho-ctv/${idShop}`}
+                                                        >
+                                                            <div className="tenCuaHang2">
+                                                                Kho CTV
+                                                            </div>
+                                                        </a>
+                                                    ) : (
+                                                        <></>
+                                                    )}
+                                                    {khachSi?.find(
+                                                        (item) =>
+                                                            item ===
+                                                            user?.username
+                                                    ) ||
+                                                    user?._id ===
+                                                        ttShop?.user ||
+                                                    user?._id ===
+                                                        ttShop?.idNhanVien ? (
+                                                        <a
+                                                            href={`/shop/kho-si/${idShop}`}
+                                                        >
+                                                            <div className="tenCuaHang2">
+                                                                Kho Sỉ
+                                                            </div>
+                                                        </a>
+                                                    ) : (
+                                                        <></>
+                                                    )}
+                                                    <div className="dc">
+                                                        Địa Chỉ:{" "}
+                                                        {ttShop?.dcShop}
+                                                    </div>
+                                                    <div className="dc">
+                                                        Số Điện Thoại:{" "}
+                                                        {ttShop?.sdtShop}
+                                                    </div>
+                                                    <div className="sdt">
+                                                        {ttShop?.sloganShop}
+                                                    </div>
+                                                    <button
+                                                        className="closeGioiThieu"
+                                                        onClick={() =>
+                                                            settuVanVaThongTin(
+                                                                0
+                                                            )
                                                         }
-                                                        target="_blank"
                                                     >
-                                                        <img
-                                                            src={facebookLogo}
-                                                            className="facebook"
-                                                        />
-                                                    </a>
-                                                </div>
-                                            </div>
-                                            <div className="loiNhan">
-                                                Xin trân trọng cảm ơn!
-                                            </div>
-                                            <button
-                                                className="closeGioiThieu"
-                                                onClick={() =>
-                                                    settuVanVaThongTin(0)
-                                                }
-                                            >
-                                                Close
-                                            </button>
-                                        </div>
-                                    )}
-
-                                    <div className="sanPham-shop">
-                                        {/* ssp dan */}
-                                        {allSanPhamDan &&
-                                            allSanPhamDan.length !== 0 && (
-                                                <div className="nhomSanPham-sanPham">
-                                                    <div className="nhomSanPham">
-                                                        Top Sản Phẩm Bán Chạy
-                                                    </div>
-
-                                                    <div className="sanPham-container">
-                                                        {allSanPhamDan &&
-                                                            allSanPhamDan?.map(
-                                                                (item) => {
-                                                                    return (
-                                                                        <div
-                                                                            key={
-                                                                                item._id
-                                                                            }
-                                                                            className="sanPham"
-                                                                        >
-                                                                            <div>
-                                                                                <img
-                                                                                    src={
-                                                                                        item?.AnhSanPham
-                                                                                    }
-                                                                                    className="anhSanPham"
-                                                                                    alt="timtim"
-                                                                                />
-
-                                                                                <div className="tenSanPham">
-                                                                                    {
-                                                                                        item?.TenSanPham
-                                                                                    }
-                                                                                </div>
-                                                                                <div className="giaBan">
-                                                                                    <div className="giaBanMoi">
-                                                                                        {VND.format(
-                                                                                            item?.giaKhuyenMai
-                                                                                        )}
-                                                                                    </div>
-
-                                                                                    <div className="giaGiam">
-                                                                                        <div className="giabanCu">
-                                                                                            {VND.format(
-                                                                                                item?.giaNiemYet
-                                                                                            )}
-                                                                                        </div>
-                                                                                        <div className="phanTram">
-                                                                                            Giảm&nbsp;
-                                                                                            {Math.floor(
-                                                                                                (100 *
-                                                                                                    (item?.giaNiemYet -
-                                                                                                        item?.giaKhuyenMai)) /
-                                                                                                    item?.giaNiemYet
-                                                                                            )}
-
-                                                                                            %
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div>
-                                                                                {!user ? (
-                                                                                    <>
-                                                                                        {cart?.find(
-                                                                                            (
-                                                                                                item2
-                                                                                            ) =>
-                                                                                                item2._id ===
-                                                                                                item._id
-                                                                                        ) ? (
-                                                                                            <button className="daThem">
-                                                                                                ĐÃ
-                                                                                                THÊM
-                                                                                            </button>
-                                                                                        ) : (
-                                                                                            <button
-                                                                                                onClick={() =>
-                                                                                                    handleThemGioHangKhongUser(
-                                                                                                        item
-                                                                                                    )
-                                                                                                }
-                                                                                                className="muaHang"
-                                                                                            >
-                                                                                                THÊM
-                                                                                                GIỎ
-                                                                                                HÀNG
-                                                                                            </button>
-                                                                                        )}
-                                                                                    </>
-                                                                                ) : (
-                                                                                    <>
-                                                                                        {!gioHang ? (
-                                                                                            <button
-                                                                                                onClick={() =>
-                                                                                                    handleThemGioHangCoUser(
-                                                                                                        item._id
-                                                                                                    )
-                                                                                                }
-                                                                                                className="muaHang"
-                                                                                            >
-                                                                                                THÊM
-                                                                                                GIỎ
-                                                                                                HÀNG
-                                                                                            </button>
-                                                                                        ) : (
-                                                                                            <>
-                                                                                                {gioHang?.gioHang.find(
-                                                                                                    (
-                                                                                                        item2
-                                                                                                    ) =>
-                                                                                                        item2 ===
-                                                                                                        item._id
-                                                                                                ) ? (
-                                                                                                    <button className="daThem">
-                                                                                                        ĐÃ
-                                                                                                        THÊM
-                                                                                                    </button>
-                                                                                                ) : (
-                                                                                                    <button
-                                                                                                        onClick={() =>
-                                                                                                            handleThemGioHangCoUser(
-                                                                                                                item._id
-                                                                                                            )
-                                                                                                        }
-                                                                                                        className="muaHang"
-                                                                                                    >
-                                                                                                        THÊM
-                                                                                                        GIỎ
-                                                                                                        HÀNG
-                                                                                                    </button>
-                                                                                                )}
-                                                                                            </>
-                                                                                        )}
-                                                                                    </>
-                                                                                )}
-
-                                                                                <div
-                                                                                    onClick={() =>
-                                                                                        handleChiTietSanPham(
-                                                                                            item._id
-                                                                                        )
-                                                                                    }
-                                                                                    className="xemChiTiet"
-                                                                                >
-                                                                                    Thông
-                                                                                    Tin
-                                                                                    Chi
-                                                                                    Tiết
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                    );
-                                                                }
-                                                            )}
-                                                    </div>
+                                                        Close
+                                                    </button>
                                                 </div>
                                             )}
-                                        {/* 1 */}
-                                        {allSanPham1 &&
-                                        allSanPham1.length !== 0 ? (
-                                            <div className="nhomSanPham-sanPham">
-                                                <div className="nhomSanPham">
-                                                    {allSanPham1 &&
-                                                        allSanPham1[0]
-                                                            ?.nhomSanPham}
+                                            {tuVanVaThongTin === 2 && (
+                                                <div className="tuVanChiTiet">
+                                                    <div className="loiNhan">
+                                                        Quý Khách có thắc mắc
+                                                        hoặc cần tư vấn xin vui
+                                                        lòng <br /> nhắn tin qua
+                                                        Zalo, Facebook bên dưới!
+                                                    </div>
+                                                    <div className="mxh">
+                                                        <div className="zalo">
+                                                            <a
+                                                                href={
+                                                                    ttShop?.linkZalo
+                                                                }
+                                                                target="_blank"
+                                                            >
+                                                                <img
+                                                                    src={
+                                                                        zaloLogo
+                                                                    }
+                                                                    className="zalo"
+                                                                />
+                                                            </a>
+                                                        </div>
+                                                        <div className="facebook">
+                                                            <a
+                                                                href={
+                                                                    ttShop?.linkFacebook
+                                                                }
+                                                                target="_blank"
+                                                            >
+                                                                <img
+                                                                    src={
+                                                                        facebookLogo
+                                                                    }
+                                                                    className="facebook"
+                                                                />
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                    <div className="loiNhan">
+                                                        Xin trân trọng cảm ơn!
+                                                    </div>
+                                                    <button
+                                                        className="closeGioiThieu"
+                                                        onClick={() =>
+                                                            settuVanVaThongTin(
+                                                                0
+                                                            )
+                                                        }
+                                                    >
+                                                        Close
+                                                    </button>
                                                 </div>
+                                            )}
+                                            <div className="sanPham-shop">
+                                                {" "}
                                                 <div className="sanPham-container">
-                                                    {allSanPham1 &&
-                                                        allSanPham1?.map(
-                                                            (item) => {
+                                                    {arrNhomSanPham &&
+                                                        arrNhomSanPham?.map(
+                                                            (item2, index) => {
                                                                 return (
                                                                     <div
                                                                         key={
-                                                                            item._id
+                                                                            index
                                                                         }
-                                                                        className="sanPham"
+                                                                        className="nhomSanPham-sanPham"
                                                                     >
-                                                                        <div>
-                                                                            <img
-                                                                                src={
-                                                                                    item?.AnhSanPham
-                                                                                }
-                                                                                className="anhSanPham"
-                                                                                alt="timtim"
-                                                                            />
+                                                                        <div className="nhomSanPham">
+                                                                            {item2 ===
+                                                                            "Sản Phẩm Dẫn"
+                                                                                ? "Top Sản Phẩm Bán Chạy"
+                                                                                : item2}
+                                                                        </div>
 
-                                                                            <div className="tenSanPham">
-                                                                                {
-                                                                                    item?.TenSanPham
-                                                                                }
-                                                                            </div>
-                                                                            <div className="giaBan">
-                                                                                <div className="giaBanMoi">
-                                                                                    {VND.format(
-                                                                                        item?.giaKhuyenMai
-                                                                                    )}
-                                                                                </div>
-
-                                                                                <div className="giaGiam">
-                                                                                    <div className="giabanCu">
-                                                                                        {VND.format(
-                                                                                            item?.giaNiemYet
-                                                                                        )}
-                                                                                    </div>
-                                                                                    <div className="phanTram">
-                                                                                        Giảm&nbsp;
-                                                                                        {Math.floor(
-                                                                                            (100 *
-                                                                                                (item?.giaNiemYet -
-                                                                                                    item?.giaKhuyenMai)) /
-                                                                                                item?.giaNiemYet
-                                                                                        )}
-
-                                                                                        %
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-
-                                                                            {!user ? (
-                                                                                <>
-                                                                                    {cart?.find(
-                                                                                        (
-                                                                                            item2
-                                                                                        ) =>
-                                                                                            item2._id ===
-                                                                                            item._id
-                                                                                    ) ? (
-                                                                                        <button className="daThem">
-                                                                                            ĐÃ
-                                                                                            THÊM
-                                                                                        </button>
-                                                                                    ) : (
-                                                                                        <button
-                                                                                            onClick={() =>
-                                                                                                handleThemGioHangKhongUser(
-                                                                                                    item
-                                                                                                )
-                                                                                            }
-                                                                                            className="muaHang"
-                                                                                        >
-                                                                                            THÊM
-                                                                                            GIỎ
-                                                                                            HÀNG
-                                                                                        </button>
-                                                                                    )}
-                                                                                </>
-                                                                            ) : (
-                                                                                <>
-                                                                                    {!gioHang ? (
-                                                                                        <button
-                                                                                            onClick={() =>
-                                                                                                handleThemGioHangCoUser(
-                                                                                                    item._id
-                                                                                                )
-                                                                                            }
-                                                                                            className="muaHang"
-                                                                                        >
-                                                                                            THÊM
-                                                                                            GIỎ
-                                                                                            HÀNG
-                                                                                        </button>
-                                                                                    ) : (
-                                                                                        <>
-                                                                                            {gioHang?.gioHang.find(
-                                                                                                (
-                                                                                                    item2
-                                                                                                ) =>
-                                                                                                    item2 ===
-                                                                                                    item._id
-                                                                                            ) ? (
-                                                                                                <button className="daThem">
-                                                                                                    ĐÃ
-                                                                                                    THÊM
-                                                                                                </button>
-                                                                                            ) : (
-                                                                                                <button
-                                                                                                    onClick={() =>
-                                                                                                        handleThemGioHangCoUser(
-                                                                                                            item._id
-                                                                                                        )
+                                                                        <div className="sanPham-container">
+                                                                            {allSanPham &&
+                                                                                allSanPham?.map(
+                                                                                    (
+                                                                                        item,
+                                                                                        index
+                                                                                    ) => {
+                                                                                        return (
+                                                                                            item?.nhomSanPham ===
+                                                                                                item2 && (
+                                                                                                <div
+                                                                                                    key={
+                                                                                                        index
                                                                                                     }
-                                                                                                    className="muaHang"
+                                                                                                    className="sanPham"
                                                                                                 >
-                                                                                                    THÊM
-                                                                                                    GIỎ
-                                                                                                    HÀNG
-                                                                                                </button>
-                                                                                            )}
-                                                                                        </>
-                                                                                    )}
-                                                                                </>
-                                                                            )}
+                                                                                                    <div>
+                                                                                                        <img
+                                                                                                            onClick={() =>
+                                                                                                                handleChiTietSanPham(
+                                                                                                                    item._id
+                                                                                                                )
+                                                                                                            }
+                                                                                                            src={
+                                                                                                                item?.AnhSanPham
+                                                                                                            }
+                                                                                                            className="anhSanPham"
+                                                                                                            alt="timtim"
+                                                                                                        />
 
-                                                                            <div
-                                                                                onClick={() =>
-                                                                                    handleChiTietSanPham(
-                                                                                        item._id
-                                                                                    )
-                                                                                }
-                                                                                className="xemChiTiet"
-                                                                            >
-                                                                                Thông
-                                                                                Tin
-                                                                                Chi
-                                                                                Tiết
-                                                                            </div>
+                                                                                                        <div className="tenSanPham">
+                                                                                                            {
+                                                                                                                item?.TenSanPham
+                                                                                                            }
+                                                                                                        </div>
+                                                                                                        <div className="giaBan">
+                                                                                                            <div className="giaBanMoi">
+                                                                                                                {VND.format(
+                                                                                                                    item?.giaKhuyenMai
+                                                                                                                )}
+                                                                                                            </div>
+
+                                                                                                            <div className="giaGiam">
+                                                                                                                <div className="giabanCu">
+                                                                                                                    {VND.format(
+                                                                                                                        item?.giaNiemYet
+                                                                                                                    )}
+                                                                                                                </div>
+                                                                                                                <div className="phanTram">
+                                                                                                                    Giảm&nbsp;
+                                                                                                                    {Math.floor(
+                                                                                                                        (100 *
+                                                                                                                            (item?.giaNiemYet -
+                                                                                                                                item?.giaKhuyenMai)) /
+                                                                                                                            item?.giaNiemYet
+                                                                                                                    )}
+
+                                                                                                                    %
+                                                                                                                </div>
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                        <>
+                                                                                                            {cart?.find(
+                                                                                                                (
+                                                                                                                    item2
+                                                                                                                ) =>
+                                                                                                                    item2._id ===
+                                                                                                                    item._id
+                                                                                                            ) ? (
+                                                                                                                <button
+                                                                                                                    onClick={() =>
+                                                                                                                        handleXoaSanPham(
+                                                                                                                            item
+                                                                                                                        )
+                                                                                                                    }
+                                                                                                                    className="daThem"
+                                                                                                                >
+                                                                                                                    ĐÃ
+                                                                                                                    THÊM
+                                                                                                                </button>
+                                                                                                            ) : (
+                                                                                                                <button
+                                                                                                                    onClick={() =>
+                                                                                                                        handleThemGioHang(
+                                                                                                                            item
+                                                                                                                        )
+                                                                                                                    }
+                                                                                                                    className="muaHang"
+                                                                                                                >
+                                                                                                                    THÊM
+                                                                                                                    GIỎ
+                                                                                                                    HÀNG
+                                                                                                                </button>
+                                                                                                            )}
+                                                                                                        </>
+
+                                                                                                        <div className="viTriSanPham">
+                                                                                                            <i className="fa-solid fa-location-dot"></i>
+                                                                                                            <div className="diachisanpham">
+                                                                                                                {
+                                                                                                                    item?.xa
+                                                                                                                }
+                                                                                                            </div>
+                                                                                                            <div className="diachisanpham">
+                                                                                                                {
+                                                                                                                    item?.huyen
+                                                                                                                }
+                                                                                                            </div>
+                                                                                                            <div className="diachisanpham">
+                                                                                                                {
+                                                                                                                    item?.tinh
+                                                                                                                }
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            )
+                                                                                        );
+                                                                                    }
+                                                                                )}
                                                                         </div>
                                                                     </div>
                                                                 );
@@ -647,2596 +553,39 @@ const Shop = (props) => {
                                                         )}
                                                 </div>
                                             </div>
-                                        ) : (
-                                            <></>
-                                        )}
-
-                                        {/* 2 */}
-                                        {allSanPham2 &&
-                                        allSanPham2.length !== 0 ? (
-                                            <div className="nhomSanPham-sanPham">
-                                                <div className="nhomSanPham">
-                                                    {allSanPham2 &&
-                                                        allSanPham2[0]
-                                                            ?.nhomSanPham}
-                                                </div>
-                                                <div className="sanPham-container">
-                                                    {allSanPham2 &&
-                                                        allSanPham2?.map(
-                                                            (item) => {
-                                                                return (
-                                                                    <div
-                                                                        key={
-                                                                            item._id
-                                                                        }
-                                                                        className="sanPham"
-                                                                    >
-                                                                        <div>
-                                                                            <img
-                                                                                src={
-                                                                                    item?.AnhSanPham
-                                                                                }
-                                                                                className="anhSanPham"
-                                                                                alt="timtim"
-                                                                            />
-
-                                                                            <div className="tenSanPham">
-                                                                                {
-                                                                                    item?.TenSanPham
-                                                                                }
-                                                                            </div>
-                                                                            <div className="giaBan">
-                                                                                <div className="giaBanMoi">
-                                                                                    {VND.format(
-                                                                                        item?.giaKhuyenMai
-                                                                                    )}
-                                                                                </div>
-
-                                                                                <div className="giaGiam">
-                                                                                    <div className="giabanCu">
-                                                                                        {VND.format(
-                                                                                            item?.giaNiemYet
-                                                                                        )}
-                                                                                    </div>
-                                                                                    <div className="phanTram">
-                                                                                        Giảm&nbsp;
-                                                                                        {Math.floor(
-                                                                                            (100 *
-                                                                                                (item?.giaNiemYet -
-                                                                                                    item?.giaKhuyenMai)) /
-                                                                                                item?.giaNiemYet
-                                                                                        )}
-
-                                                                                        %
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-
-                                                                            {!user ? (
-                                                                                <>
-                                                                                    {cart?.find(
-                                                                                        (
-                                                                                            item2
-                                                                                        ) =>
-                                                                                            item2._id ===
-                                                                                            item._id
-                                                                                    ) ? (
-                                                                                        <button className="daThem">
-                                                                                            ĐÃ
-                                                                                            THÊM
-                                                                                        </button>
-                                                                                    ) : (
-                                                                                        <button
-                                                                                            onClick={() =>
-                                                                                                handleThemGioHangKhongUser(
-                                                                                                    item
-                                                                                                )
-                                                                                            }
-                                                                                            className="muaHang"
-                                                                                        >
-                                                                                            THÊM
-                                                                                            GIỎ
-                                                                                            HÀNG
-                                                                                        </button>
-                                                                                    )}
-                                                                                </>
-                                                                            ) : (
-                                                                                <>
-                                                                                    {!gioHang ? (
-                                                                                        <button
-                                                                                            onClick={() =>
-                                                                                                handleThemGioHangCoUser(
-                                                                                                    item._id
-                                                                                                )
-                                                                                            }
-                                                                                            className="muaHang"
-                                                                                        >
-                                                                                            THÊM
-                                                                                            GIỎ
-                                                                                            HÀNG
-                                                                                        </button>
-                                                                                    ) : (
-                                                                                        <>
-                                                                                            {gioHang?.gioHang.find(
-                                                                                                (
-                                                                                                    item2
-                                                                                                ) =>
-                                                                                                    item2 ===
-                                                                                                    item._id
-                                                                                            ) ? (
-                                                                                                <button className="daThem">
-                                                                                                    ĐÃ
-                                                                                                    THÊM
-                                                                                                </button>
-                                                                                            ) : (
-                                                                                                <button
-                                                                                                    onClick={() =>
-                                                                                                        handleThemGioHangCoUser(
-                                                                                                            item._id
-                                                                                                        )
-                                                                                                    }
-                                                                                                    className="muaHang"
-                                                                                                >
-                                                                                                    THÊM
-                                                                                                    GIỎ
-                                                                                                    HÀNG
-                                                                                                </button>
-                                                                                            )}
-                                                                                        </>
-                                                                                    )}
-                                                                                </>
-                                                                            )}
-
-                                                                            <div
-                                                                                onClick={() =>
-                                                                                    handleChiTietSanPham(
-                                                                                        item._id
-                                                                                    )
-                                                                                }
-                                                                                className="xemChiTiet"
-                                                                            >
-                                                                                Thông
-                                                                                Tin
-                                                                                Chi
-                                                                                Tiết
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                );
-                                                            }
-                                                        )}
-                                                </div>
-                                            </div>
-                                        ) : (
-                                            <></>
-                                        )}
-                                        {/* 3 */}
-                                        {allSanPham3 &&
-                                        allSanPham3.length !== 0 ? (
-                                            <div className="nhomSanPham-sanPham">
-                                                <div className="nhomSanPham">
-                                                    {allSanPham3 &&
-                                                        allSanPham3[0]
-                                                            ?.nhomSanPham}
-                                                </div>
-                                                <div className="sanPham-container">
-                                                    {allSanPham3 &&
-                                                        allSanPham3?.map(
-                                                            (item) => {
-                                                                return (
-                                                                    <div
-                                                                        key={
-                                                                            item._id
-                                                                        }
-                                                                        className="sanPham"
-                                                                    >
-                                                                        <div>
-                                                                            <img
-                                                                                src={
-                                                                                    item?.AnhSanPham
-                                                                                }
-                                                                                className="anhSanPham"
-                                                                                alt="timtim"
-                                                                            />
-
-                                                                            <div className="tenSanPham">
-                                                                                {
-                                                                                    item?.TenSanPham
-                                                                                }
-                                                                            </div>
-                                                                            <div className="giaBan">
-                                                                                <div className="giaBanMoi">
-                                                                                    {VND.format(
-                                                                                        item?.giaKhuyenMai
-                                                                                    )}
-                                                                                </div>
-
-                                                                                <div className="giaGiam">
-                                                                                    <div className="giabanCu">
-                                                                                        {VND.format(
-                                                                                            item?.giaNiemYet
-                                                                                        )}
-                                                                                    </div>
-                                                                                    <div className="phanTram">
-                                                                                        Giảm&nbsp;
-                                                                                        {Math.floor(
-                                                                                            (100 *
-                                                                                                (item?.giaNiemYet -
-                                                                                                    item?.giaKhuyenMai)) /
-                                                                                                item?.giaNiemYet
-                                                                                        )}
-
-                                                                                        %
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-
-                                                                            {!user ? (
-                                                                                <>
-                                                                                    {cart?.find(
-                                                                                        (
-                                                                                            item2
-                                                                                        ) =>
-                                                                                            item2._id ===
-                                                                                            item._id
-                                                                                    ) ? (
-                                                                                        <button className="daThem">
-                                                                                            ĐÃ
-                                                                                            THÊM
-                                                                                        </button>
-                                                                                    ) : (
-                                                                                        <button
-                                                                                            onClick={() =>
-                                                                                                handleThemGioHangKhongUser(
-                                                                                                    item
-                                                                                                )
-                                                                                            }
-                                                                                            className="muaHang"
-                                                                                        >
-                                                                                            THÊM
-                                                                                            GIỎ
-                                                                                            HÀNG
-                                                                                        </button>
-                                                                                    )}
-                                                                                </>
-                                                                            ) : (
-                                                                                <>
-                                                                                    {!gioHang ? (
-                                                                                        <button
-                                                                                            onClick={() =>
-                                                                                                handleThemGioHangCoUser(
-                                                                                                    item._id
-                                                                                                )
-                                                                                            }
-                                                                                            className="muaHang"
-                                                                                        >
-                                                                                            THÊM
-                                                                                            GIỎ
-                                                                                            HÀNG
-                                                                                        </button>
-                                                                                    ) : (
-                                                                                        <>
-                                                                                            {gioHang?.gioHang.find(
-                                                                                                (
-                                                                                                    item2
-                                                                                                ) =>
-                                                                                                    item2 ===
-                                                                                                    item._id
-                                                                                            ) ? (
-                                                                                                <button className="daThem">
-                                                                                                    ĐÃ
-                                                                                                    THÊM
-                                                                                                </button>
-                                                                                            ) : (
-                                                                                                <button
-                                                                                                    onClick={() =>
-                                                                                                        handleThemGioHangCoUser(
-                                                                                                            item._id
-                                                                                                        )
-                                                                                                    }
-                                                                                                    className="muaHang"
-                                                                                                >
-                                                                                                    THÊM
-                                                                                                    GIỎ
-                                                                                                    HÀNG
-                                                                                                </button>
-                                                                                            )}
-                                                                                        </>
-                                                                                    )}
-                                                                                </>
-                                                                            )}
-
-                                                                            <div
-                                                                                onClick={() =>
-                                                                                    handleChiTietSanPham(
-                                                                                        item._id
-                                                                                    )
-                                                                                }
-                                                                                className="xemChiTiet"
-                                                                            >
-                                                                                Thông
-                                                                                Tin
-                                                                                Chi
-                                                                                Tiết
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                );
-                                                            }
-                                                        )}
-                                                </div>
-                                            </div>
-                                        ) : (
-                                            <></>
-                                        )}
-                                        {/* 4 */}
-                                        {allSanPham4 &&
-                                        allSanPham4.length !== 0 ? (
-                                            <div className="nhomSanPham-sanPham">
-                                                <div className="nhomSanPham">
-                                                    {allSanPham4 &&
-                                                        allSanPham4[0]
-                                                            ?.nhomSanPham}
-                                                </div>
-                                                <div className="sanPham-container">
-                                                    {allSanPham4 &&
-                                                        allSanPham4?.map(
-                                                            (item) => {
-                                                                return (
-                                                                    <div
-                                                                        key={
-                                                                            item._id
-                                                                        }
-                                                                        className="sanPham"
-                                                                    >
-                                                                        <div>
-                                                                            <img
-                                                                                src={
-                                                                                    item?.AnhSanPham
-                                                                                }
-                                                                                className="anhSanPham"
-                                                                                alt="timtim"
-                                                                            />
-
-                                                                            <div className="tenSanPham">
-                                                                                {
-                                                                                    item?.TenSanPham
-                                                                                }
-                                                                            </div>
-                                                                            <div className="giaBan">
-                                                                                <div className="giaBanMoi">
-                                                                                    {VND.format(
-                                                                                        item?.giaKhuyenMai
-                                                                                    )}
-                                                                                </div>
-
-                                                                                <div className="giaGiam">
-                                                                                    <div className="giabanCu">
-                                                                                        {VND.format(
-                                                                                            item?.giaNiemYet
-                                                                                        )}
-                                                                                    </div>
-                                                                                    <div className="phanTram">
-                                                                                        Giảm&nbsp;
-                                                                                        {Math.floor(
-                                                                                            (100 *
-                                                                                                (item?.giaNiemYet -
-                                                                                                    item?.giaKhuyenMai)) /
-                                                                                                item?.giaNiemYet
-                                                                                        )}
-
-                                                                                        %
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-
-                                                                            {!user ? (
-                                                                                <>
-                                                                                    {cart?.find(
-                                                                                        (
-                                                                                            item2
-                                                                                        ) =>
-                                                                                            item2._id ===
-                                                                                            item._id
-                                                                                    ) ? (
-                                                                                        <button className="daThem">
-                                                                                            ĐÃ
-                                                                                            THÊM
-                                                                                        </button>
-                                                                                    ) : (
-                                                                                        <button
-                                                                                            onClick={() =>
-                                                                                                handleThemGioHangKhongUser(
-                                                                                                    item
-                                                                                                )
-                                                                                            }
-                                                                                            className="muaHang"
-                                                                                        >
-                                                                                            THÊM
-                                                                                            GIỎ
-                                                                                            HÀNG
-                                                                                        </button>
-                                                                                    )}
-                                                                                </>
-                                                                            ) : (
-                                                                                <>
-                                                                                    {!gioHang ? (
-                                                                                        <button
-                                                                                            onClick={() =>
-                                                                                                handleThemGioHangCoUser(
-                                                                                                    item._id
-                                                                                                )
-                                                                                            }
-                                                                                            className="muaHang"
-                                                                                        >
-                                                                                            THÊM
-                                                                                            GIỎ
-                                                                                            HÀNG
-                                                                                        </button>
-                                                                                    ) : (
-                                                                                        <>
-                                                                                            {gioHang?.gioHang.find(
-                                                                                                (
-                                                                                                    item2
-                                                                                                ) =>
-                                                                                                    item2 ===
-                                                                                                    item._id
-                                                                                            ) ? (
-                                                                                                <button className="daThem">
-                                                                                                    ĐÃ
-                                                                                                    THÊM
-                                                                                                </button>
-                                                                                            ) : (
-                                                                                                <button
-                                                                                                    onClick={() =>
-                                                                                                        handleThemGioHangCoUser(
-                                                                                                            item._id
-                                                                                                        )
-                                                                                                    }
-                                                                                                    className="muaHang"
-                                                                                                >
-                                                                                                    THÊM
-                                                                                                    GIỎ
-                                                                                                    HÀNG
-                                                                                                </button>
-                                                                                            )}
-                                                                                        </>
-                                                                                    )}
-                                                                                </>
-                                                                            )}
-
-                                                                            <div
-                                                                                onClick={() =>
-                                                                                    handleChiTietSanPham(
-                                                                                        item._id
-                                                                                    )
-                                                                                }
-                                                                                className="xemChiTiet"
-                                                                            >
-                                                                                Thông
-                                                                                Tin
-                                                                                Chi
-                                                                                Tiết
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                );
-                                                            }
-                                                        )}
-                                                </div>
-                                            </div>
-                                        ) : (
-                                            <></>
-                                        )}
-                                        {/* 5 */}
-                                        {allSanPham5 &&
-                                        allSanPham5.length !== 0 ? (
-                                            <div className="nhomSanPham-sanPham">
-                                                <div className="nhomSanPham">
-                                                    {allSanPham5 &&
-                                                        allSanPham5[0]
-                                                            ?.nhomSanPham}
-                                                </div>
-                                                <div className="sanPham-container">
-                                                    {allSanPham5 &&
-                                                        allSanPham5?.map(
-                                                            (item) => {
-                                                                return (
-                                                                    <div
-                                                                        key={
-                                                                            item._id
-                                                                        }
-                                                                        className="sanPham"
-                                                                    >
-                                                                        <div>
-                                                                            <img
-                                                                                src={
-                                                                                    item?.AnhSanPham
-                                                                                }
-                                                                                className="anhSanPham"
-                                                                                alt="timtim"
-                                                                            />
-
-                                                                            <div className="tenSanPham">
-                                                                                {
-                                                                                    item?.TenSanPham
-                                                                                }
-                                                                            </div>
-                                                                            <div className="giaBan">
-                                                                                <div className="giaBanMoi">
-                                                                                    {VND.format(
-                                                                                        item?.giaKhuyenMai
-                                                                                    )}
-                                                                                </div>
-
-                                                                                <div className="giaGiam">
-                                                                                    <div className="giabanCu">
-                                                                                        {VND.format(
-                                                                                            item?.giaNiemYet
-                                                                                        )}
-                                                                                    </div>
-                                                                                    <div className="phanTram">
-                                                                                        Giảm&nbsp;
-                                                                                        {Math.floor(
-                                                                                            (100 *
-                                                                                                (item?.giaNiemYet -
-                                                                                                    item?.giaKhuyenMai)) /
-                                                                                                item?.giaNiemYet
-                                                                                        )}
-
-                                                                                        %
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-
-                                                                            {!user ? (
-                                                                                <>
-                                                                                    {cart?.find(
-                                                                                        (
-                                                                                            item2
-                                                                                        ) =>
-                                                                                            item2._id ===
-                                                                                            item._id
-                                                                                    ) ? (
-                                                                                        <button className="daThem">
-                                                                                            ĐÃ
-                                                                                            THÊM
-                                                                                        </button>
-                                                                                    ) : (
-                                                                                        <button
-                                                                                            onClick={() =>
-                                                                                                handleThemGioHangKhongUser(
-                                                                                                    item
-                                                                                                )
-                                                                                            }
-                                                                                            className="muaHang"
-                                                                                        >
-                                                                                            THÊM
-                                                                                            GIỎ
-                                                                                            HÀNG
-                                                                                        </button>
-                                                                                    )}
-                                                                                </>
-                                                                            ) : (
-                                                                                <>
-                                                                                    {!gioHang ? (
-                                                                                        <button
-                                                                                            onClick={() =>
-                                                                                                handleThemGioHangCoUser(
-                                                                                                    item._id
-                                                                                                )
-                                                                                            }
-                                                                                            className="muaHang"
-                                                                                        >
-                                                                                            THÊM
-                                                                                            GIỎ
-                                                                                            HÀNG
-                                                                                        </button>
-                                                                                    ) : (
-                                                                                        <>
-                                                                                            {gioHang?.gioHang.find(
-                                                                                                (
-                                                                                                    item2
-                                                                                                ) =>
-                                                                                                    item2 ===
-                                                                                                    item._id
-                                                                                            ) ? (
-                                                                                                <button className="daThem">
-                                                                                                    ĐÃ
-                                                                                                    THÊM
-                                                                                                </button>
-                                                                                            ) : (
-                                                                                                <button
-                                                                                                    onClick={() =>
-                                                                                                        handleThemGioHangCoUser(
-                                                                                                            item._id
-                                                                                                        )
-                                                                                                    }
-                                                                                                    className="muaHang"
-                                                                                                >
-                                                                                                    THÊM
-                                                                                                    GIỎ
-                                                                                                    HÀNG
-                                                                                                </button>
-                                                                                            )}
-                                                                                        </>
-                                                                                    )}
-                                                                                </>
-                                                                            )}
-
-                                                                            <div
-                                                                                onClick={() =>
-                                                                                    handleChiTietSanPham(
-                                                                                        item._id
-                                                                                    )
-                                                                                }
-                                                                                className="xemChiTiet"
-                                                                            >
-                                                                                Thông
-                                                                                Tin
-                                                                                Chi
-                                                                                Tiết
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                );
-                                                            }
-                                                        )}
-                                                </div>
-                                            </div>
-                                        ) : (
-                                            <></>
-                                        )}
-                                        {/* 6 */}
-                                        {allSanPham6 &&
-                                        allSanPham6.length !== 0 ? (
-                                            <div className="nhomSanPham-sanPham">
-                                                <div className="nhomSanPham">
-                                                    {allSanPham6 &&
-                                                        allSanPham6[0]
-                                                            ?.nhomSanPham}
-                                                </div>
-                                                <div className="sanPham-container">
-                                                    {allSanPham6 &&
-                                                        allSanPham6?.map(
-                                                            (item) => {
-                                                                return (
-                                                                    <div
-                                                                        key={
-                                                                            item._id
-                                                                        }
-                                                                        className="sanPham"
-                                                                    >
-                                                                        <div>
-                                                                            <img
-                                                                                src={
-                                                                                    item?.AnhSanPham
-                                                                                }
-                                                                                className="anhSanPham"
-                                                                                alt="timtim"
-                                                                            />
-
-                                                                            <div className="tenSanPham">
-                                                                                {
-                                                                                    item?.TenSanPham
-                                                                                }
-                                                                            </div>
-                                                                            <div className="giaBan">
-                                                                                <div className="giaBanMoi">
-                                                                                    {VND.format(
-                                                                                        item?.giaKhuyenMai
-                                                                                    )}
-                                                                                </div>
-
-                                                                                <div className="giaGiam">
-                                                                                    <div className="giabanCu">
-                                                                                        {VND.format(
-                                                                                            item?.giaNiemYet
-                                                                                        )}
-                                                                                    </div>
-                                                                                    <div className="phanTram">
-                                                                                        Giảm&nbsp;
-                                                                                        {Math.floor(
-                                                                                            (100 *
-                                                                                                (item?.giaNiemYet -
-                                                                                                    item?.giaKhuyenMai)) /
-                                                                                                item?.giaNiemYet
-                                                                                        )}
-
-                                                                                        %
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-
-                                                                            {!user ? (
-                                                                                <>
-                                                                                    {cart?.find(
-                                                                                        (
-                                                                                            item2
-                                                                                        ) =>
-                                                                                            item2._id ===
-                                                                                            item._id
-                                                                                    ) ? (
-                                                                                        <button className="daThem">
-                                                                                            ĐÃ
-                                                                                            THÊM
-                                                                                        </button>
-                                                                                    ) : (
-                                                                                        <button
-                                                                                            onClick={() =>
-                                                                                                handleThemGioHangKhongUser(
-                                                                                                    item
-                                                                                                )
-                                                                                            }
-                                                                                            className="muaHang"
-                                                                                        >
-                                                                                            THÊM
-                                                                                            GIỎ
-                                                                                            HÀNG
-                                                                                        </button>
-                                                                                    )}
-                                                                                </>
-                                                                            ) : (
-                                                                                <>
-                                                                                    {!gioHang ? (
-                                                                                        <button
-                                                                                            onClick={() =>
-                                                                                                handleThemGioHangCoUser(
-                                                                                                    item._id
-                                                                                                )
-                                                                                            }
-                                                                                            className="muaHang"
-                                                                                        >
-                                                                                            THÊM
-                                                                                            GIỎ
-                                                                                            HÀNG
-                                                                                        </button>
-                                                                                    ) : (
-                                                                                        <>
-                                                                                            {gioHang?.gioHang.find(
-                                                                                                (
-                                                                                                    item2
-                                                                                                ) =>
-                                                                                                    item2 ===
-                                                                                                    item._id
-                                                                                            ) ? (
-                                                                                                <button className="daThem">
-                                                                                                    ĐÃ
-                                                                                                    THÊM
-                                                                                                </button>
-                                                                                            ) : (
-                                                                                                <button
-                                                                                                    onClick={() =>
-                                                                                                        handleThemGioHangCoUser(
-                                                                                                            item._id
-                                                                                                        )
-                                                                                                    }
-                                                                                                    className="muaHang"
-                                                                                                >
-                                                                                                    THÊM
-                                                                                                    GIỎ
-                                                                                                    HÀNG
-                                                                                                </button>
-                                                                                            )}
-                                                                                        </>
-                                                                                    )}
-                                                                                </>
-                                                                            )}
-
-                                                                            <div
-                                                                                onClick={() =>
-                                                                                    handleChiTietSanPham(
-                                                                                        item._id
-                                                                                    )
-                                                                                }
-                                                                                className="xemChiTiet"
-                                                                            >
-                                                                                Thông
-                                                                                Tin
-                                                                                Chi
-                                                                                Tiết
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                );
-                                                            }
-                                                        )}
-                                                </div>
-                                            </div>
-                                        ) : (
-                                            <></>
-                                        )}
-                                        {/* 7 */}
-
-                                        {allSanPham7 &&
-                                        allSanPham7.length !== 0 ? (
-                                            <div className="nhomSanPham-sanPham">
-                                                <div className="nhomSanPham">
-                                                    {allSanPham7 &&
-                                                        allSanPham7[0]
-                                                            ?.nhomSanPham}
-                                                </div>
-                                                <div className="sanPham-container">
-                                                    {allSanPham7 &&
-                                                        allSanPham7?.map(
-                                                            (item) => {
-                                                                return (
-                                                                    <div
-                                                                        key={
-                                                                            item._id
-                                                                        }
-                                                                        className="sanPham"
-                                                                    >
-                                                                        <div>
-                                                                            <img
-                                                                                src={
-                                                                                    item?.AnhSanPham
-                                                                                }
-                                                                                className="anhSanPham"
-                                                                                alt="timtim"
-                                                                            />
-
-                                                                            <div className="tenSanPham">
-                                                                                {
-                                                                                    item?.TenSanPham
-                                                                                }
-                                                                            </div>
-                                                                            <div className="giaBan">
-                                                                                <div className="giaBanMoi">
-                                                                                    {VND.format(
-                                                                                        item?.giaKhuyenMai
-                                                                                    )}
-                                                                                </div>
-
-                                                                                <div className="giaGiam">
-                                                                                    <div className="giabanCu">
-                                                                                        {VND.format(
-                                                                                            item?.giaNiemYet
-                                                                                        )}
-                                                                                    </div>
-                                                                                    <div className="phanTram">
-                                                                                        Giảm&nbsp;
-                                                                                        {Math.floor(
-                                                                                            (100 *
-                                                                                                (item?.giaNiemYet -
-                                                                                                    item?.giaKhuyenMai)) /
-                                                                                                item?.giaNiemYet
-                                                                                        )}
-
-                                                                                        %
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-
-                                                                            {!user ? (
-                                                                                <>
-                                                                                    {cart?.find(
-                                                                                        (
-                                                                                            item2
-                                                                                        ) =>
-                                                                                            item2._id ===
-                                                                                            item._id
-                                                                                    ) ? (
-                                                                                        <button className="daThem">
-                                                                                            ĐÃ
-                                                                                            THÊM
-                                                                                        </button>
-                                                                                    ) : (
-                                                                                        <button
-                                                                                            onClick={() =>
-                                                                                                handleThemGioHangKhongUser(
-                                                                                                    item
-                                                                                                )
-                                                                                            }
-                                                                                            className="muaHang"
-                                                                                        >
-                                                                                            THÊM
-                                                                                            GIỎ
-                                                                                            HÀNG
-                                                                                        </button>
-                                                                                    )}
-                                                                                </>
-                                                                            ) : (
-                                                                                <>
-                                                                                    {!gioHang ? (
-                                                                                        <button
-                                                                                            onClick={() =>
-                                                                                                handleThemGioHangCoUser(
-                                                                                                    item._id
-                                                                                                )
-                                                                                            }
-                                                                                            className="muaHang"
-                                                                                        >
-                                                                                            THÊM
-                                                                                            GIỎ
-                                                                                            HÀNG
-                                                                                        </button>
-                                                                                    ) : (
-                                                                                        <>
-                                                                                            {gioHang?.gioHang.find(
-                                                                                                (
-                                                                                                    item2
-                                                                                                ) =>
-                                                                                                    item2 ===
-                                                                                                    item._id
-                                                                                            ) ? (
-                                                                                                <button className="daThem">
-                                                                                                    ĐÃ
-                                                                                                    THÊM
-                                                                                                </button>
-                                                                                            ) : (
-                                                                                                <button
-                                                                                                    onClick={() =>
-                                                                                                        handleThemGioHangCoUser(
-                                                                                                            item._id
-                                                                                                        )
-                                                                                                    }
-                                                                                                    className="muaHang"
-                                                                                                >
-                                                                                                    THÊM
-                                                                                                    GIỎ
-                                                                                                    HÀNG
-                                                                                                </button>
-                                                                                            )}
-                                                                                        </>
-                                                                                    )}
-                                                                                </>
-                                                                            )}
-
-                                                                            <div
-                                                                                onClick={() =>
-                                                                                    handleChiTietSanPham(
-                                                                                        item._id
-                                                                                    )
-                                                                                }
-                                                                                className="xemChiTiet"
-                                                                            >
-                                                                                Thông
-                                                                                Tin
-                                                                                Chi
-                                                                                Tiết
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                );
-                                                            }
-                                                        )}
-                                                </div>
-                                            </div>
-                                        ) : (
-                                            <></>
-                                        )}
-                                        {/* 8 */}
-
-                                        {allSanPham8 &&
-                                        allSanPham8.length !== 0 ? (
-                                            <div className="nhomSanPham-sanPham">
-                                                <div className="nhomSanPham">
-                                                    {allSanPham8 &&
-                                                        allSanPham8[0]
-                                                            ?.nhomSanPham}
-                                                </div>
-                                                <div className="sanPham-container">
-                                                    {allSanPham8 &&
-                                                        allSanPham8?.map(
-                                                            (item) => {
-                                                                return (
-                                                                    <div
-                                                                        key={
-                                                                            item._id
-                                                                        }
-                                                                        className="sanPham"
-                                                                    >
-                                                                        <div>
-                                                                            <img
-                                                                                src={
-                                                                                    item?.AnhSanPham
-                                                                                }
-                                                                                className="anhSanPham"
-                                                                                alt="timtim"
-                                                                            />
-
-                                                                            <div className="tenSanPham">
-                                                                                {
-                                                                                    item?.TenSanPham
-                                                                                }
-                                                                            </div>
-                                                                            <div className="giaBan">
-                                                                                <div className="giaBanMoi">
-                                                                                    {VND.format(
-                                                                                        item?.giaKhuyenMai
-                                                                                    )}
-                                                                                </div>
-
-                                                                                <div className="giaGiam">
-                                                                                    <div className="giabanCu">
-                                                                                        {VND.format(
-                                                                                            item?.giaNiemYet
-                                                                                        )}
-                                                                                    </div>
-                                                                                    <div className="phanTram">
-                                                                                        Giảm&nbsp;
-                                                                                        {Math.floor(
-                                                                                            (100 *
-                                                                                                (item?.giaNiemYet -
-                                                                                                    item?.giaKhuyenMai)) /
-                                                                                                item?.giaNiemYet
-                                                                                        )}
-
-                                                                                        %
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-
-                                                                            {!user ? (
-                                                                                <>
-                                                                                    {cart?.find(
-                                                                                        (
-                                                                                            item2
-                                                                                        ) =>
-                                                                                            item2._id ===
-                                                                                            item._id
-                                                                                    ) ? (
-                                                                                        <button className="daThem">
-                                                                                            ĐÃ
-                                                                                            THÊM
-                                                                                        </button>
-                                                                                    ) : (
-                                                                                        <button
-                                                                                            onClick={() =>
-                                                                                                handleThemGioHangKhongUser(
-                                                                                                    item
-                                                                                                )
-                                                                                            }
-                                                                                            className="muaHang"
-                                                                                        >
-                                                                                            THÊM
-                                                                                            GIỎ
-                                                                                            HÀNG
-                                                                                        </button>
-                                                                                    )}
-                                                                                </>
-                                                                            ) : (
-                                                                                <>
-                                                                                    {!gioHang ? (
-                                                                                        <button
-                                                                                            onClick={() =>
-                                                                                                handleThemGioHangCoUser(
-                                                                                                    item._id
-                                                                                                )
-                                                                                            }
-                                                                                            className="muaHang"
-                                                                                        >
-                                                                                            THÊM
-                                                                                            GIỎ
-                                                                                            HÀNG
-                                                                                        </button>
-                                                                                    ) : (
-                                                                                        <>
-                                                                                            {gioHang?.gioHang.find(
-                                                                                                (
-                                                                                                    item2
-                                                                                                ) =>
-                                                                                                    item2 ===
-                                                                                                    item._id
-                                                                                            ) ? (
-                                                                                                <button className="daThem">
-                                                                                                    ĐÃ
-                                                                                                    THÊM
-                                                                                                </button>
-                                                                                            ) : (
-                                                                                                <button
-                                                                                                    onClick={() =>
-                                                                                                        handleThemGioHangCoUser(
-                                                                                                            item._id
-                                                                                                        )
-                                                                                                    }
-                                                                                                    className="muaHang"
-                                                                                                >
-                                                                                                    THÊM
-                                                                                                    GIỎ
-                                                                                                    HÀNG
-                                                                                                </button>
-                                                                                            )}
-                                                                                        </>
-                                                                                    )}
-                                                                                </>
-                                                                            )}
-
-                                                                            <div
-                                                                                onClick={() =>
-                                                                                    handleChiTietSanPham(
-                                                                                        item._id
-                                                                                    )
-                                                                                }
-                                                                                className="xemChiTiet"
-                                                                            >
-                                                                                Thông
-                                                                                Tin
-                                                                                Chi
-                                                                                Tiết
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                );
-                                                            }
-                                                        )}
-                                                </div>
-                                            </div>
-                                        ) : (
-                                            <></>
-                                        )}
-                                        {/* 9 */}
-
-                                        {allSanPham9 &&
-                                        allSanPham9.length !== 0 ? (
-                                            <div className="nhomSanPham-sanPham">
-                                                <div className="nhomSanPham">
-                                                    {allSanPham9 &&
-                                                        allSanPham9[0]
-                                                            ?.nhomSanPham}
-                                                </div>
-                                                <div className="sanPham-container">
-                                                    {allSanPham9 &&
-                                                        allSanPham9?.map(
-                                                            (item) => {
-                                                                return (
-                                                                    <div
-                                                                        key={
-                                                                            item._id
-                                                                        }
-                                                                        className="sanPham"
-                                                                    >
-                                                                        <div>
-                                                                            <img
-                                                                                src={
-                                                                                    item?.AnhSanPham
-                                                                                }
-                                                                                className="anhSanPham"
-                                                                                alt="timtim"
-                                                                            />
-
-                                                                            <div className="tenSanPham">
-                                                                                {
-                                                                                    item?.TenSanPham
-                                                                                }
-                                                                            </div>
-                                                                            <div className="giaBan">
-                                                                                <div className="giaBanMoi">
-                                                                                    {VND.format(
-                                                                                        item?.giaKhuyenMai
-                                                                                    )}
-                                                                                </div>
-
-                                                                                <div className="giaGiam">
-                                                                                    <div className="giabanCu">
-                                                                                        {VND.format(
-                                                                                            item?.giaNiemYet
-                                                                                        )}
-                                                                                    </div>
-                                                                                    <div className="phanTram">
-                                                                                        Giảm&nbsp;
-                                                                                        {Math.floor(
-                                                                                            (100 *
-                                                                                                (item?.giaNiemYet -
-                                                                                                    item?.giaKhuyenMai)) /
-                                                                                                item?.giaNiemYet
-                                                                                        )}
-
-                                                                                        %
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-
-                                                                            {!user ? (
-                                                                                <>
-                                                                                    {cart?.find(
-                                                                                        (
-                                                                                            item2
-                                                                                        ) =>
-                                                                                            item2._id ===
-                                                                                            item._id
-                                                                                    ) ? (
-                                                                                        <button className="daThem">
-                                                                                            ĐÃ
-                                                                                            THÊM
-                                                                                        </button>
-                                                                                    ) : (
-                                                                                        <button
-                                                                                            onClick={() =>
-                                                                                                handleThemGioHangKhongUser(
-                                                                                                    item
-                                                                                                )
-                                                                                            }
-                                                                                            className="muaHang"
-                                                                                        >
-                                                                                            THÊM
-                                                                                            GIỎ
-                                                                                            HÀNG
-                                                                                        </button>
-                                                                                    )}
-                                                                                </>
-                                                                            ) : (
-                                                                                <>
-                                                                                    {!gioHang ? (
-                                                                                        <button
-                                                                                            onClick={() =>
-                                                                                                handleThemGioHangCoUser(
-                                                                                                    item._id
-                                                                                                )
-                                                                                            }
-                                                                                            className="muaHang"
-                                                                                        >
-                                                                                            THÊM
-                                                                                            GIỎ
-                                                                                            HÀNG
-                                                                                        </button>
-                                                                                    ) : (
-                                                                                        <>
-                                                                                            {gioHang?.gioHang.find(
-                                                                                                (
-                                                                                                    item2
-                                                                                                ) =>
-                                                                                                    item2 ===
-                                                                                                    item._id
-                                                                                            ) ? (
-                                                                                                <button className="daThem">
-                                                                                                    ĐÃ
-                                                                                                    THÊM
-                                                                                                </button>
-                                                                                            ) : (
-                                                                                                <button
-                                                                                                    onClick={() =>
-                                                                                                        handleThemGioHangCoUser(
-                                                                                                            item._id
-                                                                                                        )
-                                                                                                    }
-                                                                                                    className="muaHang"
-                                                                                                >
-                                                                                                    THÊM
-                                                                                                    GIỎ
-                                                                                                    HÀNG
-                                                                                                </button>
-                                                                                            )}
-                                                                                        </>
-                                                                                    )}
-                                                                                </>
-                                                                            )}
-
-                                                                            <div
-                                                                                onClick={() =>
-                                                                                    handleChiTietSanPham(
-                                                                                        item._id
-                                                                                    )
-                                                                                }
-                                                                                className="xemChiTiet"
-                                                                            >
-                                                                                Thông
-                                                                                Tin
-                                                                                Chi
-                                                                                Tiết
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                );
-                                                            }
-                                                        )}
-                                                </div>
-                                            </div>
-                                        ) : (
-                                            <></>
-                                        )}
-                                        {/* 10 */}
-
-                                        {allSanPham10 &&
-                                        allSanPham10.length !== 0 ? (
-                                            <div className="nhomSanPham-sanPham">
-                                                <div className="nhomSanPham">
-                                                    {allSanPham10 &&
-                                                        allSanPham10[0]
-                                                            ?.nhomSanPham}
-                                                </div>
-                                                <div className="sanPham-container">
-                                                    {allSanPham10 &&
-                                                        allSanPham10?.map(
-                                                            (item) => {
-                                                                return (
-                                                                    <div
-                                                                        key={
-                                                                            item._id
-                                                                        }
-                                                                        className="sanPham"
-                                                                    >
-                                                                        <div>
-                                                                            <img
-                                                                                src={
-                                                                                    item?.AnhSanPham
-                                                                                }
-                                                                                className="anhSanPham"
-                                                                                alt="timtim"
-                                                                            />
-
-                                                                            <div className="tenSanPham">
-                                                                                {
-                                                                                    item?.TenSanPham
-                                                                                }
-                                                                            </div>
-                                                                            <div className="giaBan">
-                                                                                <div className="giaBanMoi">
-                                                                                    {VND.format(
-                                                                                        item?.giaKhuyenMai
-                                                                                    )}
-                                                                                </div>
-
-                                                                                <div className="giaGiam">
-                                                                                    <div className="giabanCu">
-                                                                                        {VND.format(
-                                                                                            item?.giaNiemYet
-                                                                                        )}
-                                                                                    </div>
-                                                                                    <div className="phanTram">
-                                                                                        Giảm&nbsp;
-                                                                                        {Math.floor(
-                                                                                            (100 *
-                                                                                                (item?.giaNiemYet -
-                                                                                                    item?.giaKhuyenMai)) /
-                                                                                                item?.giaNiemYet
-                                                                                        )}
-
-                                                                                        %
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-
-                                                                            {!user ? (
-                                                                                <>
-                                                                                    {cart?.find(
-                                                                                        (
-                                                                                            item2
-                                                                                        ) =>
-                                                                                            item2._id ===
-                                                                                            item._id
-                                                                                    ) ? (
-                                                                                        <button className="daThem">
-                                                                                            ĐÃ
-                                                                                            THÊM
-                                                                                        </button>
-                                                                                    ) : (
-                                                                                        <button
-                                                                                            onClick={() =>
-                                                                                                handleThemGioHangKhongUser(
-                                                                                                    item
-                                                                                                )
-                                                                                            }
-                                                                                            className="muaHang"
-                                                                                        >
-                                                                                            THÊM
-                                                                                            GIỎ
-                                                                                            HÀNG
-                                                                                        </button>
-                                                                                    )}
-                                                                                </>
-                                                                            ) : (
-                                                                                <>
-                                                                                    {!gioHang ? (
-                                                                                        <button
-                                                                                            onClick={() =>
-                                                                                                handleThemGioHangCoUser(
-                                                                                                    item._id
-                                                                                                )
-                                                                                            }
-                                                                                            className="muaHang"
-                                                                                        >
-                                                                                            THÊM
-                                                                                            GIỎ
-                                                                                            HÀNG
-                                                                                        </button>
-                                                                                    ) : (
-                                                                                        <>
-                                                                                            {gioHang?.gioHang.find(
-                                                                                                (
-                                                                                                    item2
-                                                                                                ) =>
-                                                                                                    item2 ===
-                                                                                                    item._id
-                                                                                            ) ? (
-                                                                                                <button className="daThem">
-                                                                                                    ĐÃ
-                                                                                                    THÊM
-                                                                                                </button>
-                                                                                            ) : (
-                                                                                                <button
-                                                                                                    onClick={() =>
-                                                                                                        handleThemGioHangCoUser(
-                                                                                                            item._id
-                                                                                                        )
-                                                                                                    }
-                                                                                                    className="muaHang"
-                                                                                                >
-                                                                                                    THÊM
-                                                                                                    GIỎ
-                                                                                                    HÀNG
-                                                                                                </button>
-                                                                                            )}
-                                                                                        </>
-                                                                                    )}
-                                                                                </>
-                                                                            )}
-
-                                                                            <div
-                                                                                onClick={() =>
-                                                                                    handleChiTietSanPham(
-                                                                                        item._id
-                                                                                    )
-                                                                                }
-                                                                                className="xemChiTiet"
-                                                                            >
-                                                                                Thông
-                                                                                Tin
-                                                                                Chi
-                                                                                Tiết
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                );
-                                                            }
-                                                        )}
-                                                </div>
-                                            </div>
-                                        ) : (
-                                            <></>
-                                        )}
-                                        {/* 11 */}
-
-                                        {allSanPham11 &&
-                                        allSanPham11.length !== 0 ? (
-                                            <div className="nhomSanPham-sanPham">
-                                                <div className="nhomSanPham">
-                                                    {allSanPham11 &&
-                                                        allSanPham11[0]
-                                                            ?.nhomSanPham}
-                                                </div>
-                                                <div className="sanPham-container">
-                                                    {allSanPham11 &&
-                                                        allSanPham11?.map(
-                                                            (item) => {
-                                                                return (
-                                                                    <div
-                                                                        key={
-                                                                            item._id
-                                                                        }
-                                                                        className="sanPham"
-                                                                    >
-                                                                        <div>
-                                                                            <img
-                                                                                src={
-                                                                                    item?.AnhSanPham
-                                                                                }
-                                                                                className="anhSanPham"
-                                                                                alt="timtim"
-                                                                            />
-
-                                                                            <div className="tenSanPham">
-                                                                                {
-                                                                                    item?.TenSanPham
-                                                                                }
-                                                                            </div>
-                                                                            <div className="giaBan">
-                                                                                <div className="giaBanMoi">
-                                                                                    {VND.format(
-                                                                                        item?.giaKhuyenMai
-                                                                                    )}
-                                                                                </div>
-
-                                                                                <div className="giaGiam">
-                                                                                    <div className="giabanCu">
-                                                                                        {VND.format(
-                                                                                            item?.giaNiemYet
-                                                                                        )}
-                                                                                    </div>
-                                                                                    <div className="phanTram">
-                                                                                        Giảm&nbsp;
-                                                                                        {Math.floor(
-                                                                                            (100 *
-                                                                                                (item?.giaNiemYet -
-                                                                                                    item?.giaKhuyenMai)) /
-                                                                                                item?.giaNiemYet
-                                                                                        )}
-
-                                                                                        %
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-
-                                                                            {!user ? (
-                                                                                <>
-                                                                                    {cart?.find(
-                                                                                        (
-                                                                                            item2
-                                                                                        ) =>
-                                                                                            item2._id ===
-                                                                                            item._id
-                                                                                    ) ? (
-                                                                                        <button className="daThem">
-                                                                                            ĐÃ
-                                                                                            THÊM
-                                                                                        </button>
-                                                                                    ) : (
-                                                                                        <button
-                                                                                            onClick={() =>
-                                                                                                handleThemGioHangKhongUser(
-                                                                                                    item
-                                                                                                )
-                                                                                            }
-                                                                                            className="muaHang"
-                                                                                        >
-                                                                                            THÊM
-                                                                                            GIỎ
-                                                                                            HÀNG
-                                                                                        </button>
-                                                                                    )}
-                                                                                </>
-                                                                            ) : (
-                                                                                <>
-                                                                                    {!gioHang ? (
-                                                                                        <button
-                                                                                            onClick={() =>
-                                                                                                handleThemGioHangCoUser(
-                                                                                                    item._id
-                                                                                                )
-                                                                                            }
-                                                                                            className="muaHang"
-                                                                                        >
-                                                                                            THÊM
-                                                                                            GIỎ
-                                                                                            HÀNG
-                                                                                        </button>
-                                                                                    ) : (
-                                                                                        <>
-                                                                                            {gioHang?.gioHang.find(
-                                                                                                (
-                                                                                                    item2
-                                                                                                ) =>
-                                                                                                    item2 ===
-                                                                                                    item._id
-                                                                                            ) ? (
-                                                                                                <button className="daThem">
-                                                                                                    ĐÃ
-                                                                                                    THÊM
-                                                                                                </button>
-                                                                                            ) : (
-                                                                                                <button
-                                                                                                    onClick={() =>
-                                                                                                        handleThemGioHangCoUser(
-                                                                                                            item._id
-                                                                                                        )
-                                                                                                    }
-                                                                                                    className="muaHang"
-                                                                                                >
-                                                                                                    THÊM
-                                                                                                    GIỎ
-                                                                                                    HÀNG
-                                                                                                </button>
-                                                                                            )}
-                                                                                        </>
-                                                                                    )}
-                                                                                </>
-                                                                            )}
-
-                                                                            <div
-                                                                                onClick={() =>
-                                                                                    handleChiTietSanPham(
-                                                                                        item._id
-                                                                                    )
-                                                                                }
-                                                                                className="xemChiTiet"
-                                                                            >
-                                                                                Thông
-                                                                                Tin
-                                                                                Chi
-                                                                                Tiết
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                );
-                                                            }
-                                                        )}
-                                                </div>
-                                            </div>
-                                        ) : (
-                                            <></>
-                                        )}
-                                        {/* 12 */}
-
-                                        {allSanPham12 &&
-                                        allSanPham12.length !== 0 ? (
-                                            <div className="nhomSanPham-sanPham">
-                                                <div className="nhomSanPham">
-                                                    {allSanPham12 &&
-                                                        allSanPham12[0]
-                                                            ?.nhomSanPham}
-                                                </div>
-                                                <div className="sanPham-container">
-                                                    {allSanPham12 &&
-                                                        allSanPham12?.map(
-                                                            (item) => {
-                                                                return (
-                                                                    <div
-                                                                        key={
-                                                                            item._id
-                                                                        }
-                                                                        className="sanPham"
-                                                                    >
-                                                                        <div>
-                                                                            <img
-                                                                                src={
-                                                                                    item?.AnhSanPham
-                                                                                }
-                                                                                className="anhSanPham"
-                                                                                alt="timtim"
-                                                                            />
-
-                                                                            <div className="tenSanPham">
-                                                                                {
-                                                                                    item?.TenSanPham
-                                                                                }
-                                                                            </div>
-                                                                            <div className="giaBan">
-                                                                                <div className="giaBanMoi">
-                                                                                    {VND.format(
-                                                                                        item?.giaKhuyenMai
-                                                                                    )}
-                                                                                </div>
-
-                                                                                <div className="giaGiam">
-                                                                                    <div className="giabanCu">
-                                                                                        {VND.format(
-                                                                                            item?.giaNiemYet
-                                                                                        )}
-                                                                                    </div>
-                                                                                    <div className="phanTram">
-                                                                                        Giảm&nbsp;
-                                                                                        {Math.floor(
-                                                                                            (100 *
-                                                                                                (item?.giaNiemYet -
-                                                                                                    item?.giaKhuyenMai)) /
-                                                                                                item?.giaNiemYet
-                                                                                        )}
-
-                                                                                        %
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-
-                                                                            {!user ? (
-                                                                                <>
-                                                                                    {cart?.find(
-                                                                                        (
-                                                                                            item2
-                                                                                        ) =>
-                                                                                            item2._id ===
-                                                                                            item._id
-                                                                                    ) ? (
-                                                                                        <button className="daThem">
-                                                                                            ĐÃ
-                                                                                            THÊM
-                                                                                        </button>
-                                                                                    ) : (
-                                                                                        <button
-                                                                                            onClick={() =>
-                                                                                                handleThemGioHangKhongUser(
-                                                                                                    item
-                                                                                                )
-                                                                                            }
-                                                                                            className="muaHang"
-                                                                                        >
-                                                                                            THÊM
-                                                                                            GIỎ
-                                                                                            HÀNG
-                                                                                        </button>
-                                                                                    )}
-                                                                                </>
-                                                                            ) : (
-                                                                                <>
-                                                                                    {!gioHang ? (
-                                                                                        <button
-                                                                                            onClick={() =>
-                                                                                                handleThemGioHangCoUser(
-                                                                                                    item._id
-                                                                                                )
-                                                                                            }
-                                                                                            className="muaHang"
-                                                                                        >
-                                                                                            THÊM
-                                                                                            GIỎ
-                                                                                            HÀNG
-                                                                                        </button>
-                                                                                    ) : (
-                                                                                        <>
-                                                                                            {gioHang?.gioHang.find(
-                                                                                                (
-                                                                                                    item2
-                                                                                                ) =>
-                                                                                                    item2 ===
-                                                                                                    item._id
-                                                                                            ) ? (
-                                                                                                <button className="daThem">
-                                                                                                    ĐÃ
-                                                                                                    THÊM
-                                                                                                </button>
-                                                                                            ) : (
-                                                                                                <button
-                                                                                                    onClick={() =>
-                                                                                                        handleThemGioHangCoUser(
-                                                                                                            item._id
-                                                                                                        )
-                                                                                                    }
-                                                                                                    className="muaHang"
-                                                                                                >
-                                                                                                    THÊM
-                                                                                                    GIỎ
-                                                                                                    HÀNG
-                                                                                                </button>
-                                                                                            )}
-                                                                                        </>
-                                                                                    )}
-                                                                                </>
-                                                                            )}
-
-                                                                            <div
-                                                                                onClick={() =>
-                                                                                    handleChiTietSanPham(
-                                                                                        item._id
-                                                                                    )
-                                                                                }
-                                                                                className="xemChiTiet"
-                                                                            >
-                                                                                Thông
-                                                                                Tin
-                                                                                Chi
-                                                                                Tiết
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                );
-                                                            }
-                                                        )}
-                                                </div>
-                                            </div>
-                                        ) : (
-                                            <></>
-                                        )}
-                                        {/* 13 */}
-
-                                        {allSanPham13 &&
-                                        allSanPham13.length !== 0 ? (
-                                            <div className="nhomSanPham-sanPham">
-                                                <div className="nhomSanPham">
-                                                    {allSanPham13 &&
-                                                        allSanPham13[0]
-                                                            ?.nhomSanPham}
-                                                </div>
-                                                <div className="sanPham-container">
-                                                    {allSanPham13 &&
-                                                        allSanPham13?.map(
-                                                            (item) => {
-                                                                return (
-                                                                    <div
-                                                                        key={
-                                                                            item._id
-                                                                        }
-                                                                        className="sanPham"
-                                                                    >
-                                                                        <div>
-                                                                            <img
-                                                                                src={
-                                                                                    item?.AnhSanPham
-                                                                                }
-                                                                                className="anhSanPham"
-                                                                                alt="timtim"
-                                                                            />
-
-                                                                            <div className="tenSanPham">
-                                                                                {
-                                                                                    item?.TenSanPham
-                                                                                }
-                                                                            </div>
-                                                                            <div className="giaBan">
-                                                                                <div className="giaBanMoi">
-                                                                                    {VND.format(
-                                                                                        item?.giaKhuyenMai
-                                                                                    )}
-                                                                                </div>
-
-                                                                                <div className="giaGiam">
-                                                                                    <div className="giabanCu">
-                                                                                        {VND.format(
-                                                                                            item?.giaNiemYet
-                                                                                        )}
-                                                                                    </div>
-                                                                                    <div className="phanTram">
-                                                                                        Giảm&nbsp;
-                                                                                        {Math.floor(
-                                                                                            (100 *
-                                                                                                (item?.giaNiemYet -
-                                                                                                    item?.giaKhuyenMai)) /
-                                                                                                item?.giaNiemYet
-                                                                                        )}
-
-                                                                                        %
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-
-                                                                            {!user ? (
-                                                                                <>
-                                                                                    {cart?.find(
-                                                                                        (
-                                                                                            item2
-                                                                                        ) =>
-                                                                                            item2._id ===
-                                                                                            item._id
-                                                                                    ) ? (
-                                                                                        <button className="daThem">
-                                                                                            ĐÃ
-                                                                                            THÊM
-                                                                                        </button>
-                                                                                    ) : (
-                                                                                        <button
-                                                                                            onClick={() =>
-                                                                                                handleThemGioHangKhongUser(
-                                                                                                    item
-                                                                                                )
-                                                                                            }
-                                                                                            className="muaHang"
-                                                                                        >
-                                                                                            THÊM
-                                                                                            GIỎ
-                                                                                            HÀNG
-                                                                                        </button>
-                                                                                    )}
-                                                                                </>
-                                                                            ) : (
-                                                                                <>
-                                                                                    {!gioHang ? (
-                                                                                        <button
-                                                                                            onClick={() =>
-                                                                                                handleThemGioHangCoUser(
-                                                                                                    item._id
-                                                                                                )
-                                                                                            }
-                                                                                            className="muaHang"
-                                                                                        >
-                                                                                            THÊM
-                                                                                            GIỎ
-                                                                                            HÀNG
-                                                                                        </button>
-                                                                                    ) : (
-                                                                                        <>
-                                                                                            {gioHang?.gioHang.find(
-                                                                                                (
-                                                                                                    item2
-                                                                                                ) =>
-                                                                                                    item2 ===
-                                                                                                    item._id
-                                                                                            ) ? (
-                                                                                                <button className="daThem">
-                                                                                                    ĐÃ
-                                                                                                    THÊM
-                                                                                                </button>
-                                                                                            ) : (
-                                                                                                <button
-                                                                                                    onClick={() =>
-                                                                                                        handleThemGioHangCoUser(
-                                                                                                            item._id
-                                                                                                        )
-                                                                                                    }
-                                                                                                    className="muaHang"
-                                                                                                >
-                                                                                                    THÊM
-                                                                                                    GIỎ
-                                                                                                    HÀNG
-                                                                                                </button>
-                                                                                            )}
-                                                                                        </>
-                                                                                    )}
-                                                                                </>
-                                                                            )}
-
-                                                                            <div
-                                                                                onClick={() =>
-                                                                                    handleChiTietSanPham(
-                                                                                        item._id
-                                                                                    )
-                                                                                }
-                                                                                className="xemChiTiet"
-                                                                            >
-                                                                                Thông
-                                                                                Tin
-                                                                                Chi
-                                                                                Tiết
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                );
-                                                            }
-                                                        )}
-                                                </div>
-                                            </div>
-                                        ) : (
-                                            <></>
-                                        )}
-                                        {/* 14 */}
-
-                                        {allSanPham14 &&
-                                        allSanPham14.length !== 0 ? (
-                                            <div className="nhomSanPham-sanPham">
-                                                <div className="nhomSanPham">
-                                                    {allSanPham14 &&
-                                                        allSanPham14[0]
-                                                            ?.nhomSanPham}
-                                                </div>
-                                                <div className="sanPham-container">
-                                                    {allSanPham14 &&
-                                                        allSanPham14?.map(
-                                                            (item) => {
-                                                                return (
-                                                                    <div
-                                                                        key={
-                                                                            item._id
-                                                                        }
-                                                                        className="sanPham"
-                                                                    >
-                                                                        <div>
-                                                                            <img
-                                                                                src={
-                                                                                    item?.AnhSanPham
-                                                                                }
-                                                                                className="anhSanPham"
-                                                                                alt="timtim"
-                                                                            />
-
-                                                                            <div className="tenSanPham">
-                                                                                {
-                                                                                    item?.TenSanPham
-                                                                                }
-                                                                            </div>
-                                                                            <div className="giaBan">
-                                                                                <div className="giaBanMoi">
-                                                                                    {VND.format(
-                                                                                        item?.giaKhuyenMai
-                                                                                    )}
-                                                                                </div>
-
-                                                                                <div className="giaGiam">
-                                                                                    <div className="giabanCu">
-                                                                                        {VND.format(
-                                                                                            item?.giaNiemYet
-                                                                                        )}
-                                                                                    </div>
-                                                                                    <div className="phanTram">
-                                                                                        Giảm&nbsp;
-                                                                                        {Math.floor(
-                                                                                            (100 *
-                                                                                                (item?.giaNiemYet -
-                                                                                                    item?.giaKhuyenMai)) /
-                                                                                                item?.giaNiemYet
-                                                                                        )}
-
-                                                                                        %
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-
-                                                                            {!user ? (
-                                                                                <>
-                                                                                    {cart?.find(
-                                                                                        (
-                                                                                            item2
-                                                                                        ) =>
-                                                                                            item2._id ===
-                                                                                            item._id
-                                                                                    ) ? (
-                                                                                        <button className="daThem">
-                                                                                            ĐÃ
-                                                                                            THÊM
-                                                                                        </button>
-                                                                                    ) : (
-                                                                                        <button
-                                                                                            onClick={() =>
-                                                                                                handleThemGioHangKhongUser(
-                                                                                                    item
-                                                                                                )
-                                                                                            }
-                                                                                            className="muaHang"
-                                                                                        >
-                                                                                            THÊM
-                                                                                            GIỎ
-                                                                                            HÀNG
-                                                                                        </button>
-                                                                                    )}
-                                                                                </>
-                                                                            ) : (
-                                                                                <>
-                                                                                    {!gioHang ? (
-                                                                                        <button
-                                                                                            onClick={() =>
-                                                                                                handleThemGioHangCoUser(
-                                                                                                    item._id
-                                                                                                )
-                                                                                            }
-                                                                                            className="muaHang"
-                                                                                        >
-                                                                                            THÊM
-                                                                                            GIỎ
-                                                                                            HÀNG
-                                                                                        </button>
-                                                                                    ) : (
-                                                                                        <>
-                                                                                            {gioHang?.gioHang.find(
-                                                                                                (
-                                                                                                    item2
-                                                                                                ) =>
-                                                                                                    item2 ===
-                                                                                                    item._id
-                                                                                            ) ? (
-                                                                                                <button className="daThem">
-                                                                                                    ĐÃ
-                                                                                                    THÊM
-                                                                                                </button>
-                                                                                            ) : (
-                                                                                                <button
-                                                                                                    onClick={() =>
-                                                                                                        handleThemGioHangCoUser(
-                                                                                                            item._id
-                                                                                                        )
-                                                                                                    }
-                                                                                                    className="muaHang"
-                                                                                                >
-                                                                                                    THÊM
-                                                                                                    GIỎ
-                                                                                                    HÀNG
-                                                                                                </button>
-                                                                                            )}
-                                                                                        </>
-                                                                                    )}
-                                                                                </>
-                                                                            )}
-
-                                                                            <div
-                                                                                onClick={() =>
-                                                                                    handleChiTietSanPham(
-                                                                                        item._id
-                                                                                    )
-                                                                                }
-                                                                                className="xemChiTiet"
-                                                                            >
-                                                                                Thông
-                                                                                Tin
-                                                                                Chi
-                                                                                Tiết
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                );
-                                                            }
-                                                        )}
-                                                </div>
-                                            </div>
-                                        ) : (
-                                            <></>
-                                        )}
-                                        {/* 15 */}
-
-                                        {allSanPham15 &&
-                                        allSanPham15.length !== 0 ? (
-                                            <div className="nhomSanPham-sanPham">
-                                                <div className="nhomSanPham">
-                                                    {allSanPham15 &&
-                                                        allSanPham15[0]
-                                                            ?.nhomSanPham}
-                                                </div>
-                                                <div className="sanPham-container">
-                                                    {allSanPham15 &&
-                                                        allSanPham15?.map(
-                                                            (item) => {
-                                                                return (
-                                                                    <div
-                                                                        key={
-                                                                            item._id
-                                                                        }
-                                                                        className="sanPham"
-                                                                    >
-                                                                        <div>
-                                                                            <img
-                                                                                src={
-                                                                                    item?.AnhSanPham
-                                                                                }
-                                                                                className="anhSanPham"
-                                                                                alt="timtim"
-                                                                            />
-
-                                                                            <div className="tenSanPham">
-                                                                                {
-                                                                                    item?.TenSanPham
-                                                                                }
-                                                                            </div>
-                                                                            <div className="giaBan">
-                                                                                <div className="giaBanMoi">
-                                                                                    {VND.format(
-                                                                                        item?.giaKhuyenMai
-                                                                                    )}
-                                                                                </div>
-
-                                                                                <div className="giaGiam">
-                                                                                    <div className="giabanCu">
-                                                                                        {VND.format(
-                                                                                            item?.giaNiemYet
-                                                                                        )}
-                                                                                    </div>
-                                                                                    <div className="phanTram">
-                                                                                        Giảm&nbsp;
-                                                                                        {Math.floor(
-                                                                                            (100 *
-                                                                                                (item?.giaNiemYet -
-                                                                                                    item?.giaKhuyenMai)) /
-                                                                                                item?.giaNiemYet
-                                                                                        )}
-
-                                                                                        %
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-
-                                                                            {!user ? (
-                                                                                <>
-                                                                                    {cart?.find(
-                                                                                        (
-                                                                                            item2
-                                                                                        ) =>
-                                                                                            item2._id ===
-                                                                                            item._id
-                                                                                    ) ? (
-                                                                                        <button className="daThem">
-                                                                                            ĐÃ
-                                                                                            THÊM
-                                                                                        </button>
-                                                                                    ) : (
-                                                                                        <button
-                                                                                            onClick={() =>
-                                                                                                handleThemGioHangKhongUser(
-                                                                                                    item
-                                                                                                )
-                                                                                            }
-                                                                                            className="muaHang"
-                                                                                        >
-                                                                                            THÊM
-                                                                                            GIỎ
-                                                                                            HÀNG
-                                                                                        </button>
-                                                                                    )}
-                                                                                </>
-                                                                            ) : (
-                                                                                <>
-                                                                                    {!gioHang ? (
-                                                                                        <button
-                                                                                            onClick={() =>
-                                                                                                handleThemGioHangCoUser(
-                                                                                                    item._id
-                                                                                                )
-                                                                                            }
-                                                                                            className="muaHang"
-                                                                                        >
-                                                                                            THÊM
-                                                                                            GIỎ
-                                                                                            HÀNG
-                                                                                        </button>
-                                                                                    ) : (
-                                                                                        <>
-                                                                                            {gioHang?.gioHang.find(
-                                                                                                (
-                                                                                                    item2
-                                                                                                ) =>
-                                                                                                    item2 ===
-                                                                                                    item._id
-                                                                                            ) ? (
-                                                                                                <button className="daThem">
-                                                                                                    ĐÃ
-                                                                                                    THÊM
-                                                                                                </button>
-                                                                                            ) : (
-                                                                                                <button
-                                                                                                    onClick={() =>
-                                                                                                        handleThemGioHangCoUser(
-                                                                                                            item._id
-                                                                                                        )
-                                                                                                    }
-                                                                                                    className="muaHang"
-                                                                                                >
-                                                                                                    THÊM
-                                                                                                    GIỎ
-                                                                                                    HÀNG
-                                                                                                </button>
-                                                                                            )}
-                                                                                        </>
-                                                                                    )}
-                                                                                </>
-                                                                            )}
-
-                                                                            <div
-                                                                                onClick={() =>
-                                                                                    handleChiTietSanPham(
-                                                                                        item._id
-                                                                                    )
-                                                                                }
-                                                                                className="xemChiTiet"
-                                                                            >
-                                                                                Thông
-                                                                                Tin
-                                                                                Chi
-                                                                                Tiết
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                );
-                                                            }
-                                                        )}
-                                                </div>
-                                            </div>
-                                        ) : (
-                                            <></>
-                                        )}
-                                        {/* 16 */}
-
-                                        {allSanPham16 &&
-                                        allSanPham16.length !== 0 ? (
-                                            <div className="nhomSanPham-sanPham">
-                                                <div className="nhomSanPham">
-                                                    {allSanPham16 &&
-                                                        allSanPham16[0]
-                                                            ?.nhomSanPham}
-                                                </div>
-                                                <div className="sanPham-container">
-                                                    {allSanPham16 &&
-                                                        allSanPham16?.map(
-                                                            (item) => {
-                                                                return (
-                                                                    <div
-                                                                        key={
-                                                                            item._id
-                                                                        }
-                                                                        className="sanPham"
-                                                                    >
-                                                                        <div>
-                                                                            <img
-                                                                                src={
-                                                                                    item?.AnhSanPham
-                                                                                }
-                                                                                className="anhSanPham"
-                                                                                alt="timtim"
-                                                                            />
-
-                                                                            <div className="tenSanPham">
-                                                                                {
-                                                                                    item?.TenSanPham
-                                                                                }
-                                                                            </div>
-                                                                            <div className="giaBan">
-                                                                                <div className="giaBanMoi">
-                                                                                    {VND.format(
-                                                                                        item?.giaKhuyenMai
-                                                                                    )}
-                                                                                </div>
-
-                                                                                <div className="giaGiam">
-                                                                                    <div className="giabanCu">
-                                                                                        {VND.format(
-                                                                                            item?.giaNiemYet
-                                                                                        )}
-                                                                                    </div>
-                                                                                    <div className="phanTram">
-                                                                                        Giảm&nbsp;
-                                                                                        {Math.floor(
-                                                                                            (100 *
-                                                                                                (item?.giaNiemYet -
-                                                                                                    item?.giaKhuyenMai)) /
-                                                                                                item?.giaNiemYet
-                                                                                        )}
-
-                                                                                        %
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-
-                                                                            {!user ? (
-                                                                                <>
-                                                                                    {cart?.find(
-                                                                                        (
-                                                                                            item2
-                                                                                        ) =>
-                                                                                            item2._id ===
-                                                                                            item._id
-                                                                                    ) ? (
-                                                                                        <button className="daThem">
-                                                                                            ĐÃ
-                                                                                            THÊM
-                                                                                        </button>
-                                                                                    ) : (
-                                                                                        <button
-                                                                                            onClick={() =>
-                                                                                                handleThemGioHangKhongUser(
-                                                                                                    item
-                                                                                                )
-                                                                                            }
-                                                                                            className="muaHang"
-                                                                                        >
-                                                                                            THÊM
-                                                                                            GIỎ
-                                                                                            HÀNG
-                                                                                        </button>
-                                                                                    )}
-                                                                                </>
-                                                                            ) : (
-                                                                                <>
-                                                                                    {!gioHang ? (
-                                                                                        <button
-                                                                                            onClick={() =>
-                                                                                                handleThemGioHangCoUser(
-                                                                                                    item._id
-                                                                                                )
-                                                                                            }
-                                                                                            className="muaHang"
-                                                                                        >
-                                                                                            THÊM
-                                                                                            GIỎ
-                                                                                            HÀNG
-                                                                                        </button>
-                                                                                    ) : (
-                                                                                        <>
-                                                                                            {gioHang?.gioHang.find(
-                                                                                                (
-                                                                                                    item2
-                                                                                                ) =>
-                                                                                                    item2 ===
-                                                                                                    item._id
-                                                                                            ) ? (
-                                                                                                <button className="daThem">
-                                                                                                    ĐÃ
-                                                                                                    THÊM
-                                                                                                </button>
-                                                                                            ) : (
-                                                                                                <button
-                                                                                                    onClick={() =>
-                                                                                                        handleThemGioHangCoUser(
-                                                                                                            item._id
-                                                                                                        )
-                                                                                                    }
-                                                                                                    className="muaHang"
-                                                                                                >
-                                                                                                    THÊM
-                                                                                                    GIỎ
-                                                                                                    HÀNG
-                                                                                                </button>
-                                                                                            )}
-                                                                                        </>
-                                                                                    )}
-                                                                                </>
-                                                                            )}
-
-                                                                            <div
-                                                                                onClick={() =>
-                                                                                    handleChiTietSanPham(
-                                                                                        item._id
-                                                                                    )
-                                                                                }
-                                                                                className="xemChiTiet"
-                                                                            >
-                                                                                Thông
-                                                                                Tin
-                                                                                Chi
-                                                                                Tiết
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                );
-                                                            }
-                                                        )}
-                                                </div>
-                                            </div>
-                                        ) : (
-                                            <></>
-                                        )}
-                                        {/* 17 */}
-
-                                        {allSanPham17 &&
-                                        allSanPham17.length !== 0 ? (
-                                            <div className="nhomSanPham-sanPham">
-                                                <div className="nhomSanPham">
-                                                    {allSanPham17 &&
-                                                        allSanPham17[0]
-                                                            ?.nhomSanPham}
-                                                </div>
-                                                <div className="sanPham-container">
-                                                    {allSanPham17 &&
-                                                        allSanPham17?.map(
-                                                            (item) => {
-                                                                return (
-                                                                    <div
-                                                                        key={
-                                                                            item._id
-                                                                        }
-                                                                        className="sanPham"
-                                                                    >
-                                                                        <div>
-                                                                            <img
-                                                                                src={
-                                                                                    item?.AnhSanPham
-                                                                                }
-                                                                                className="anhSanPham"
-                                                                                alt="timtim"
-                                                                            />
-
-                                                                            <div className="tenSanPham">
-                                                                                {
-                                                                                    item?.TenSanPham
-                                                                                }
-                                                                            </div>
-                                                                            <div className="giaBan">
-                                                                                <div className="giaBanMoi">
-                                                                                    {VND.format(
-                                                                                        item?.giaKhuyenMai
-                                                                                    )}
-                                                                                </div>
-
-                                                                                <div className="giaGiam">
-                                                                                    <div className="giabanCu">
-                                                                                        {VND.format(
-                                                                                            item?.giaNiemYet
-                                                                                        )}
-                                                                                    </div>
-                                                                                    <div className="phanTram">
-                                                                                        Giảm&nbsp;
-                                                                                        {Math.floor(
-                                                                                            (100 *
-                                                                                                (item?.giaNiemYet -
-                                                                                                    item?.giaKhuyenMai)) /
-                                                                                                item?.giaNiemYet
-                                                                                        )}
-
-                                                                                        %
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-
-                                                                            {!user ? (
-                                                                                <>
-                                                                                    {cart?.find(
-                                                                                        (
-                                                                                            item2
-                                                                                        ) =>
-                                                                                            item2._id ===
-                                                                                            item._id
-                                                                                    ) ? (
-                                                                                        <button className="daThem">
-                                                                                            ĐÃ
-                                                                                            THÊM
-                                                                                        </button>
-                                                                                    ) : (
-                                                                                        <button
-                                                                                            onClick={() =>
-                                                                                                handleThemGioHangKhongUser(
-                                                                                                    item
-                                                                                                )
-                                                                                            }
-                                                                                            className="muaHang"
-                                                                                        >
-                                                                                            THÊM
-                                                                                            GIỎ
-                                                                                            HÀNG
-                                                                                        </button>
-                                                                                    )}
-                                                                                </>
-                                                                            ) : (
-                                                                                <>
-                                                                                    {!gioHang ? (
-                                                                                        <button
-                                                                                            onClick={() =>
-                                                                                                handleThemGioHangCoUser(
-                                                                                                    item._id
-                                                                                                )
-                                                                                            }
-                                                                                            className="muaHang"
-                                                                                        >
-                                                                                            THÊM
-                                                                                            GIỎ
-                                                                                            HÀNG
-                                                                                        </button>
-                                                                                    ) : (
-                                                                                        <>
-                                                                                            {gioHang?.gioHang.find(
-                                                                                                (
-                                                                                                    item2
-                                                                                                ) =>
-                                                                                                    item2 ===
-                                                                                                    item._id
-                                                                                            ) ? (
-                                                                                                <button className="daThem">
-                                                                                                    ĐÃ
-                                                                                                    THÊM
-                                                                                                </button>
-                                                                                            ) : (
-                                                                                                <button
-                                                                                                    onClick={() =>
-                                                                                                        handleThemGioHangCoUser(
-                                                                                                            item._id
-                                                                                                        )
-                                                                                                    }
-                                                                                                    className="muaHang"
-                                                                                                >
-                                                                                                    THÊM
-                                                                                                    GIỎ
-                                                                                                    HÀNG
-                                                                                                </button>
-                                                                                            )}
-                                                                                        </>
-                                                                                    )}
-                                                                                </>
-                                                                            )}
-
-                                                                            <div
-                                                                                onClick={() =>
-                                                                                    handleChiTietSanPham(
-                                                                                        item._id
-                                                                                    )
-                                                                                }
-                                                                                className="xemChiTiet"
-                                                                            >
-                                                                                Thông
-                                                                                Tin
-                                                                                Chi
-                                                                                Tiết
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                );
-                                                            }
-                                                        )}
-                                                </div>
-                                            </div>
-                                        ) : (
-                                            <></>
-                                        )}
-                                    </div>
+                                        </div>
+                                    )}
                                 </div>
+                            ) : (
+                                <ChiTietSanPham2
+                                    handleXoaSanPham={handleXoaSanPham}
+                                    cart={cart}
+                                    setcart={setcart}
+                                    handleThemGioHang={handleThemGioHang}
+                                    thongTinSp={thongTinSp}
+                                    showChiTietSanPham={showChiTietSanPham}
+                                    setshowChiTietSanPham={
+                                        setshowChiTietSanPham
+                                    }
+                                />
                             )}
-                        </div>
+                        </>
                     ) : (
-                        <ChiTietSanPham2
+                        <GioHang
+                            handleXoaSanPham={handleXoaSanPham}
                             cart={cart}
                             setcart={setcart}
-                            handleThemGioHangCoUser={handleThemGioHangCoUser}
-                            handleThemGioHangKhongUser={
-                                handleThemGioHangKhongUser
-                            }
-                            thongTinSp={thongTinSp}
-                            showChiTietSanPham={showChiTietSanPham}
-                            setshowChiTietSanPham={setshowChiTietSanPham}
+                            showcart={showcart}
+                            setshowcart={setshowcart}
+                            setTongtien={setTongtien}
+                            setTongsoluong={setTongsoluong}
+                            Tongtien={Tongtien}
+                            Tongsoluong={Tongsoluong}
                         />
                     )}
                 </>
             ) : (
-                <GioHang
-                    cart={cart}
-                    setcart={setcart}
-                    showcart={showcart}
-                    setshowcart={setshowcart}
-                    setTongtien={setTongtien}
-                    setTongsoluong={setTongsoluong}
-                    Tongtien={Tongtien}
-                    Tongsoluong={Tongsoluong}
-                    arraySanPhamQuantity={arraySanPhamQuantity}
-                    setarraySanPhamQuantity={setarraySanPhamQuantity}
-                />
+                <Loading />
             )}
         </>
     );

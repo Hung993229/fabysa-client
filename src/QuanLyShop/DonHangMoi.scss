@@ -6,38 +6,63 @@
         margin-top: 9vw;
         margin-bottom: 20vw;
         padding: 1vw;
-        .donHang-nav{
-            display: flex;
-            gap: 5vw;
-        
-           
-        }
     .tieuDeDonHang{
         font-size: 5vw;
         font-weight: 600;
         margin: 3vw auto;
     
     }
-    .tenbangContainer{
-        margin-top: 5vw;
-        .tenbang{
-            font-size: 3.5vw;
-        font-weight: 600;
-        
+    .ttdonHang{
+        display: grid;
+        grid-template-columns: 1fr 2fr 1fr 1fr ;
+        margin-bottom: 2vw;
+        font-size: 2.5vw;
+        font-weight: 400;
+        border: solid 1px gray;
+        justify-content: center;
+            align-items: center;
+
+        .thoiGian{
+            font-size: 2.5vw;
+
         }
-        .chiTietDonHang{
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
-            .chiTietTungO{
-                border: solid 1px gray;
+        .SanPham{
+            display: flex;
+            gap: 2.5vw;
+            // border-bottom: solid 1px rgb(25, 242, 47);
+            justify-content: center;
+            align-items: center;
+            .tenSanPham{
+                width: 80%;
+                text-align: left;
+                font-size: 2.2vw;
+                font-weight: 500;
+                text-transform: uppercase;
                 word-wrap:break-word;
-                overflow:auto;
-                height: 5vw;
-                justify-content: center;
-                align-items: center;
-    
+            overflow:auto;
+              
+
             }
+            .soLuong{
+                font-size: 2.5vw;
+                font-weight: 500;
+                color: red;
+
             }
+        }
+        .khachHang{
+            font-size: 2.5vw;
+            justify-content: center;
+            align-items: center;
+          
+
+        }
+        .xemChiTiet{
+            
+            font-size: 2.5vw;
+            
+
+        }
     }
     
     
@@ -65,28 +90,8 @@
         margin: 2vw auto;
     
     }
-    .tenbangContainer{
-        margin-top: 2vw;
-        .tenbang{
-            font-size: 2vw;
-        font-weight: 600;
-        color: red;
-        
-        }
-        .chiTietDonHang{
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
-            .chiTietTungO{
-                border: solid 1px gray;
-                word-wrap:break-word;
-                overflow:auto;
-                font-size: 1.5vw;
-                padding: 0.5vw;
-                justify-content: center;
-                align-items: center;
-    
-            }
-            }
+    .ttdonHang{
+        display: flex;
     }
     
     

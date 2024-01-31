@@ -1,7 +1,7 @@
 /* Mobile & Tablet */
 @media screen and (max-width : 1023px) {
    .gioHang-container{
-    padding-top: 10vw;
+    padding: 10vw 2vw;
     a{text-decoration: none;}
     .close{
       background-color: red;
@@ -22,7 +22,7 @@
         font-size: 3.5vw;
         font-weight: 600;
         margin-bottom: 2vw;
-        padding-left: 5vw;
+        // padding-left: 2vw;
         color: #04aa6d;
         
       }
@@ -44,6 +44,7 @@
             height: 10;
             object-fit: cover;
             border-radius: 0.5vw;
+            border: solid 1px gray;
   
           }
           .tenSanPham{
@@ -152,22 +153,23 @@
         text-align: left;
         font-size: 3.5vw;
         font-weight: 600;
-        margin: 5vw 2vw auto;
-        padding-left: 3vw;
+        margin: 5vw auto;
+        // padding-left: 3vw;
         color: #04aa6d;
        
         
       }
       .thongTinChiTiet{
         display: flex;
-        margin-top: 1vw;
-        margin-left: 1vw;
-        margin-right: 1vw;
+        margin: 2vw auto;
         text-align: center;
+        text-align: center;
+        justify-content: center;
+        padding: 0.5vw auto;
         .tieuDe{
           width: 30%;
-          font-size: 2.2vw;
-          padding: auto;
+          font-size: 3vw;
+     
           text-align: center;
           border: solid 0.11vw rgb(143, 140, 140);
   
@@ -175,8 +177,8 @@
         .noiDung{
          
           width: 70%;
-          padding: auto;
-          font-size: 2.2vw;
+        
+          font-size: 3vw;
           border: solid 0.1vw rgb(143, 140, 140);
           text-align: center;
           border-radius: 0.3vw;
@@ -194,14 +196,15 @@
     
     .datHang{
       background-color: red;
-      width: 25vw;
-      font-size: 3.5vw;
-      padding: 0.2vw;
+      width: 35vw;
+      font-size: 5vw;
+      padding: 1vw;
       border-radius: 1vw;
       margin: 3vw auto;
-      font-weight: 500;
+      font-weight: 600;
       color: #fff;
       cursor: pointer;
+      margin-bottom: 10vw;
     }
    }
 }

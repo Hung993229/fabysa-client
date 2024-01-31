@@ -46,12 +46,13 @@ const Header = (props) => {
                 <div className="container-logo">
                     <div onClick={() => setshowcart(1)}>
                         <img src={giohang} alt="he" className="logo" />
+                        {/* <i className="fa-solid fa-cart-plus"></i> */}
                         <span className="tongSoLuong">{Tongsoluong}</span>
                         <div className="my-cash2">{VND.format(Tongtien)}</div>
                     </div>
                     
                 </div>
-                <div className="title2">Kính Chào Quý Khách</div>
+                <div className="title2">Mua Online Nhiều Khuyến Mại</div>
                 <div className="my-detail">
                     {myDetail && myDetail.length !== 0 ? (
                         <img

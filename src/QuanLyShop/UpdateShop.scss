@@ -235,40 +235,49 @@
         }
 
        }
-       .luuThongTin {
+       .hoanThanh{
         cursor: pointer;
         border-radius: 2vw;
-        width: 35vw;
+        width: 25vw;
         font-size: 3.5vw;
         font-weight: 600;
         text-align: center;
         background-color: #04aa6d;
         margin-top: 5vw;
-        margin-bottom: 20vw;
-        height: 12vw;
+        margin-bottom: 8vw;
+        margin-left: 3vw;
+        padding: 1vw;
+    }
+    .huyDon{
+        cursor: pointer;
+        border-radius: 2vw;
+        width: 25vw;
+        font-size: 3.5vw;
+        font-weight: 600;
+        text-align: center;
+        background-color: red;
+        margin-top: 5vw;
+        margin-bottom: 8vw;
+        padding: 1vw;
     }
     }
     .them{
         .container-themSanPham{
-            border: solid 0.1vw gray;
-            border-radius: 2vw;
-            background-color: #9cddc2;
-            margin: 5vw;
-            margin-top: 15vw;
+            margin-top: 10vw;
             .close{
-                button {
-                    background-color: red;
-                    font-weight: 600;
-                    border-radius: 2vw;
-                }
+                
+                background-color: red;
+                width: 15vw;
+                font-size: 3.5vw;
+                padding: 0.5vw;
+                border-radius: 1vw;
+                margin: 3vw auto;
+                font-weight: 500;
+                color: #fff;
+                cursor: pointer;
+                
             }
             .sanPham{
-                input{
-                    text-align: center;
-                    font-size: 3vw;
-                    height: 6vw;
-                    border: solid 0.1vw gray;
-                }
                 .anhsanpham{
                     width: 76vw;
                     height: 90vw;
@@ -279,80 +288,74 @@
                     border-radius: 3vw;
         
                 }
-                .tieuDeThemSanPham{
-                    font-size: 3.5vw;
-                    font-weight: 600;
-                }
-                .inputTenSanPham{
-                    border: solid 0.1vw gray;
-                    width: 90%;
-                    
-                }
-                .giaBan{
+                .tieuDeNoiDung{
                     display: flex;
+                    margin-top: 1vw;
+                    margin-left: 1vw;
+                    margin-right: 1vw;
                     text-align: center;
-                    .giabanCu{
-                        width: 100%;
-                        input, select{
-                            width: 36vw;
-                            height: 6vw;
-                        }
+                    .tieuDe{
+                        width: 30%;
+                        font-size: 2.2vw;
+                        padding: auto;
+                        text-align: center;
+                        border: solid 0.11vw rgb(143, 140, 140);
+
                     }
-                    .giaBanMoi{
-                        width: 100%;
-                        input, select{
-                            width: 36vw;
-                            height: 6vw;
-                        }
-                        .toida2spdan{
-                            border: solid 0.1vw gray;
-                            background-color: #fff; 
-                            width: 40vw;
-                            height: 6vw;
-                        }
+                    .noiDung{
+                        width: 70%;
+                        padding: auto;
+                        font-size: 2.2vw;
+                        border: solid 0.1vw rgb(143, 140, 140);
+                        text-align: center;
+                        border-radius: 0.3vw;
+
                     }
                 }
-                .inputthongTinSanPham{
-                    border: solid 0.1vw gray;
-                    width: 90%;
-                    height: 12vw;
-                    word-wrap:break-word;
-                    overflow:auto;
+                .congThuc{
+                    margin-top: 1vw;
+                    font-size: 2vw;
                 }
-                .ctv{
-                    
-                    .tieudeCTV{
-        
-                    }
-                    .noidungCTV{
-                        display: flex;
-                        gap:1vw;
-                        .noidunginputCTV{
-                            width: 29vw;
-                        }
-                        .loinhuan{
-                            border: solid 0.1vw gray;
-                            background-color: #fff; 
-                            width: 29vw;
-                            height: 6vw;
-                        }
-        
-                    }
-                }
-                .tenmuc{
-                    font-size: 2.5vw;
-                    font-weight: 500;
+                .thongTinSanPham{
                     margin-top: 3vw;
-        
+                    .tieuDe{
+font-size: 2.5vw;
+font-weight: 500;
+margin-bottom: 1vw;
+
+                    }
+                    .noiDung{
+                        width: 98%;
+                        text-align: center;
+            word-wrap:break-word;
+            overflow:auto;
+                    }
                 }
-                .luuSanPahm{
+
+                .hoanThanh{
+                    cursor: pointer;
+                    border-radius: 2vw;
+                    width: 25vw;
                     font-size: 3.5vw;
                     font-weight: 600;
-                    background-color: red;
-                    width: 80%;
+                    text-align: center;
+                    background-color: #04aa6d;
                     margin-top: 5vw;
+                    margin-bottom: 8vw;
+                    margin-left: 3vw;
+                    padding: 1vw;
+                }
+                .huyDon{
+                    cursor: pointer;
                     border-radius: 2vw;
-                    margin-bottom: 3vw;
+                    width: 25vw;
+                    font-size: 3.5vw;
+                    font-weight: 600;
+                    text-align: center;
+                    background-color: red;
+                    margin-top: 5vw;
+                    margin-bottom: 8vw;
+                    padding: 1vw;
                 }
             }
             
@@ -360,6 +363,7 @@
            .luuY{
             text-align: justify;
             padding: 5vw;
+            font-size: 2.5vw;
         }
     }
 

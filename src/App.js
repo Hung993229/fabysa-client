@@ -16,6 +16,9 @@ import ChiTietSanPham from "./QuanLyShop/ChiTietSanPham";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import QuanLyUser from "./QuanLyUser/QuanLyUser";
 import Shop from "./QuanLyShop/Shop";
+import KhoCtv from "./QuanLyShop/KhoCtv";
+import KhoSi from "./QuanLyShop/KhoSi";
+
 import UpdateShop from "./QuanLyShop/UpdateShop";
 import DonHang from "./QuanLyShop/DonHang";
 import DangHoanThien from "./GiaoDienChung/DangHoanThien";
@@ -29,10 +32,14 @@ import FabysaShop from "./QuanLyShop/FabysaShop";
 import FabysaChiTietSp from "./QuanLyShop/FabysaChiTietSp";
 import TongKhoSi from "./QuanLyShop/TongKhoSi";
 import TongKhoSiChiTiet from "./QuanLyShop/TongKhoSiChiTiet";
-
+import DonHangCtv from "./QuanLyShop/DonHangCtv";
+import DonHangLienKet from "./QuanLyShop/DonHangLienKet";
 import HomThu from "./KetBan/HomThu";
 import { useSelector } from "react-redux";
 import GioHang from "./QuanLyShop/GioHang";
+import DoiTac from "./QuanLyShop/DoiTac";
+
+
 import { useState } from "react";
 
 function App() {
@@ -40,7 +47,7 @@ function App() {
     const [showcart, setshowcart] = useState(0);
     const [Tongsoluong, setTongsoluong] = useState(0);
     const [Tongtien, setTongtien] = useState(0);
-    const [arraySanPhamQuantity, setarraySanPhamQuantity] = useState([]);
+    // const [arraySanPhamQuantity, setarraySanPhamQuantity] = useState([]);
 
     return (
         <Router>
@@ -130,10 +137,10 @@ function App() {
                                     setshowcart={setshowcart}
                                     Tongsoluong={Tongsoluong}
                                     Tongtien={Tongtien}
-                                    arraySanPhamQuantity={arraySanPhamQuantity}
-                                    setarraySanPhamQuantity={
-                                        setarraySanPhamQuantity
-                                    }
+                                    // arraySanPhamQuantity={arraySanPhamQuantity}
+                                    // setarraySanPhamQuantity={
+                                    //     setarraySanPhamQuantity
+                                    // }
                                 />
                                 <Shop
                                     showcart={showcart}
@@ -142,10 +149,10 @@ function App() {
                                     setTongsoluong={setTongsoluong}
                                     Tongtien={Tongtien}
                                     Tongsoluong={Tongsoluong}
-                                    arraySanPhamQuantity={arraySanPhamQuantity}
-                                    setarraySanPhamQuantity={
-                                        setarraySanPhamQuantity
-                                    }
+                                    // arraySanPhamQuantity={arraySanPhamQuantity}
+                                    // setarraySanPhamQuantity={
+                                    //     setarraySanPhamQuantity
+                                    // }
                                 />
                             </>
                         }
@@ -165,6 +172,66 @@ function App() {
                                 {/* <Header className="header" /> */}
                                 <DangNhap2 />
                                 {/* <Nav /> */}
+                            </>
+                        }
+                    />
+                    <Route
+                        path="/shop/kho-ctv/:idShop"
+                        element={
+                            <>
+                                <Header2
+                                    showcart={showcart}
+                                    setshowcart={setshowcart}
+                                    Tongsoluong={Tongsoluong}
+                                    Tongtien={Tongtien}
+                                    // arraySanPhamQuantity={arraySanPhamQuantity}
+                                    // setarraySanPhamQuantity={
+                                    //     setarraySanPhamQuantity
+                                    // }
+                                />
+                                <KhoCtv
+                                    showcart={showcart}
+                                    setshowcart={setshowcart}
+                                    setTongtien={setTongtien}
+                                    setTongsoluong={setTongsoluong}
+                                    Tongtien={Tongtien}
+                                    Tongsoluong={Tongsoluong}
+                                    // arraySanPhamQuantity={arraySanPhamQuantity}
+                                    // setarraySanPhamQuantity={
+                                    //     setarraySanPhamQuantity
+                                    // }
+                                />
+                                {/* <Nav /> */}
+                            </>
+                        }
+                    />
+                    <Route
+                        path="/shop/kho-si/:idShop"
+                        element={
+                            <>
+                                <Header2
+                                    showcart={showcart}
+                                    setshowcart={setshowcart}
+                                    Tongsoluong={Tongsoluong}
+                                    Tongtien={Tongtien}
+                                    // arraySanPhamQuantity={arraySanPhamQuantity}
+                                    // setarraySanPhamQuantity={
+                                    //     setarraySanPhamQuantity
+                                    // }
+                                />
+                                <KhoSi
+                                    showcart={showcart}
+                                    setshowcart={setshowcart}
+                                    setTongtien={setTongtien}
+                                    setTongsoluong={setTongsoluong}
+                                    Tongtien={Tongtien}
+                                    Tongsoluong={Tongsoluong}
+                                    // arraySanPhamQuantity={arraySanPhamQuantity}
+                                    // setarraySanPhamQuantity={
+                                    //     setarraySanPhamQuantity
+                                    // }
+                                />
+                                <Nav />
                             </>
                         }
                     />
@@ -252,8 +319,38 @@ function App() {
                         path="/don-hang-huy/:idShop"
                         element={
                             <>
-                                <Header className="header" />
+                                <Header />
                                 <DonHangHuy />
+                                <Nav />
+                            </>
+                        }
+                    />
+                    <Route
+                        path="/don-hang-ctv/:idShop"
+                        element={
+                            <>
+                                <Header />
+                                <DonHangCtv />
+                                <Nav />
+                            </>
+                        }
+                    />
+                    <Route
+                        path="/don-hang-lien-ket/:idShop"
+                        element={
+                            <>
+                                <Header />
+                                <DonHangLienKet />
+                                <Nav />
+                            </>
+                        }
+                    />
+                      <Route
+                        path="/doi-tac/:idShop"
+                        element={
+                            <>
+                                <Header />
+                                <DoiTac />
                                 <Nav />
                             </>
                         }
@@ -332,7 +429,7 @@ function App() {
                         path="/mua-hang-affiliate"
                         element={
                             <>
-                                <Header className="header" />
+                                <Header />
                                 <HomThu /> <Nav />
                             </>
                         }
@@ -341,8 +438,8 @@ function App() {
                         path="/"
                         element={
                             <>
-                                <Header className="header" />
-                                <Instruct />
+                                <Header />
+                                <ThongTinCaNhan />
                                 <Nav />
                             </>
                         }

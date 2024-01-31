@@ -10,21 +10,21 @@ import { useEffect } from "react";
 import { NavLink, useNavigate, useParams } from "react-router-dom";
 
 import DangNhap from "../DangNhap/DangNhap";
-import MoiDangKi from "../GiaoDienChung/MoiDangKi";
+import Loading from "../GiaoDienChung/Loading";
 const ThongTinCaNhan = () => {
     const [suaPost, setsuaPost] = useState(0);
     const myDetailId = useSelector((state) => state.post.post.myDetail?._id);
     const user = useSelector((state) => state.auth.login?.currentUser);
     const dispatch = useDispatch();
     const { idShop } = useParams();
-    console.log("idShop", idShop);
+    const [loading, setloading] = useState(1);
     useEffect(() => {
         const getPostMydetail = () => {
             if (!user) {
                 console.log("chua co userId");
             }
             if (user) {
-                getPost(user?._id, dispatch);
+                getPost(user?._id, dispatch, setloading);
             }
         };
         getPostMydetail();
@@ -32,39 +32,45 @@ const ThongTinCaNhan = () => {
     return !user ? (
         <DangNhap />
     ) : (
-        <div className="container-thongTinCanhan">
-            <div>
-                {myDetailId ? (
+        <>
+            {loading === 0 ? (
+                <div className="container-thongTinCanhan">
                     <div>
-                        {suaPost === 0 ? (
+                        {myDetailId ? (
                             <div>
-                                <MyDetail
-                                    suaPost={suaPost}
-                                        setsuaPost={setsuaPost}
-                                        idShop={idShop}
-                                />
+                                {suaPost === 0 ? (
+                                    <div>
+                                        <MyDetail
+                                            suaPost={suaPost}
+                                            setsuaPost={setsuaPost}
+                                            idShop={idShop}
+                                        />
+                                    </div>
+                                ) : (
+                                    <div>
+                                        <UpdateDetail
+                                            suaPost={suaPost}
+                                            setsuaPost={setsuaPost}
+                                            idShop={idShop}
+                                        />
+                                    </div>
+                                )}
                             </div>
                         ) : (
                             <div>
-                                <UpdateDetail
+                                <FormRegister
                                     suaPost={suaPost}
-                                            setsuaPost={setsuaPost}
-                                            idShop={idShop}
+                                    setsuaPost={setsuaPost}
+                                    idShop={idShop}
                                 />
                             </div>
                         )}
                     </div>
-                ) : (
-                    <div>
-                        <FormRegister
-                            suaPost={suaPost}
-                                    setsuaPost={setsuaPost}
-                                    idShop={idShop}
-                        />
-                    </div>
-                )}
-            </div>
-        </div>
+                </div>
+            ) : (
+                <Loading />
+            )}
+        </>
     );
 };
 export default ThongTinCaNhan;

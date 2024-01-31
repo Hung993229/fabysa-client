@@ -69,32 +69,51 @@
                 a{text-decoration: none;}
                 margin-top: 5vw;
                 margin-bottom: 10vw;
-                .TieuDeQuanLy{
-                    display: grid;
-                    margin-bottom: 3vw;
-            grid-template-columns: 1fr 1fr 1fr;
-            .quanLyShop{
-                // font-size: 3vw;
+               .quanLyGianHang{
+                font-size: 3.5vw;
                 font-weight: 600;
-                
-    
-            }
-    
+               }
+               .quanLyShop{
+                border: solid 1px gray;
+                margin: 5vw 2vw 3vw 2vw;
+                border-radius: 1vw;
+                .tenShop{
+                    font-size: 5vw;
+                    font-weight: 600;
+                    border-radius: 1vw;
+                    color: red;
+                    word-wrap:break-word;
+                overflow:auto;
+                padding-top: 2vw;
+
+                    
                 }
-                .noiDungQuanLy{
+                .tieuDeNoiDung{
+                    max-width: 98vw;
+                 
                     display: grid;
-                    grid-template-columns: 1fr 1fr 1fr;
-                    .tenShopQuanLy{
-                        // // margin-top: 2vw;
-                        border-radius: 3vw;
-                        // font-size: 3vw;
-                        font-weight: 600;
-                        cursor: pointer;
-                        background-color: #04aa6d;
-        
-                    }
+                grid-template-columns: 1fr 1fr 1fr 1fr;
+                margin: 2vw 2vw;
+        gap: 2vw;
+                justify-content: center;
+                align-items: center;
+                .khoShop{
+                    font-size: 2.5vw;
+                    font-weight: 500;
+                    background-color: #04aa6d;
+                    border: solid 10px #04aa6d;
+                    color: #fff;
+                    // margin: 2vw 1vw;
+                    border-radius: 1vw;
+                    cursor: pointer;
                 }
                 
+                }  
+
+               }
+                  
+               
+              
                 
             }
             
@@ -190,40 +209,18 @@
                 a{text-decoration: none;}
                 margin-top: 1vw;
                 margin-bottom: 1vw;
-                .TieuDeQuanLy{
-                    display: grid;
-                    margin-bottom: 1vw;
-            grid-template-columns: 1fr 1fr 1fr;
-            .quanLyShop{
-                // font-size: 3vw;
-                font-weight: 600;
+              .tieuDeNoiDung{
+                border: solid 1px red;
+                display: grid;
+            grid-template-columns:1fr 1fr 1fr 1fr 1fr;
+               
+              }
                 
     
-            }
+          
     
-                }
-                .noiDungQuanLy{
-                    display: grid;
-                    grid-template-columns: 1fr 1fr 1fr;
-                    a{
-                        display: block;
-                        .tenShopQuanLy{
-                            // // margin-top: 2vw;
-                            border-radius: 1vw;
-                            font-size: 1.5vw;
-                            font-weight: 600;
-                            padding: 0.5vw;
-                            cursor: pointer;
-                            background-color: #04aa6d;
-                           
-            
-            
-    
-            
-                        }
-                    }
-                   
-                }
+               
+               
                 
                 
             }
