@@ -33,7 +33,7 @@
         }
         .themSanPham-suaThongTinShop{
             display: flex;
-            gap: 30%;
+            gap: 20%;
             justify-content: center;
             align-items: center;
             margin-bottom: 2vw;
@@ -41,26 +41,38 @@
     display: block;
     border-radius: 1vw;
     background-color: #04aa6d;
-    width: 30vw;
+    width: 35vw;
     text-align: center;
     font-size: 3vw;
 }
 .suaThongTinShop{
     display: block;
-
     border-radius: 1vw;
     background-color: #04aa6d;
-    width: 30vw;
+    width: 35vw;
     text-align: center;
     font-size: 3vw;
 }
         }
+      .nhomSanPham-sanPham{
+        margin-top: 2vw;
+        .nhomSanPham{
+            margin-top: 2vw;
+            background-color: red;
+            font-size: 5vw;
+            font-weight: 600;     
+            text-transform: uppercase;
+            padding: 1vw;
+            color: white;
+            text-align: center;
+        }
         .sanPham-container{
             display: grid;
             grid-template-columns: 1fr 1fr;
-            margin-top: 2vw;
+           
             background-color: #88d3b4;
             padding: 1vw 0vw 3vw 0vw;
+           
 .sanPham{
     justify-content: center;
     align-items: center;
@@ -168,6 +180,8 @@
 }
         }
         
+      }
+       
         
       
     }
@@ -290,52 +304,53 @@
                 }
                 .tieuDeNoiDung{
                     display: flex;
-                    margin-top: 1vw;
-                    margin-left: 1vw;
-                    margin-right: 1vw;
-                    text-align: center;
+                    margin-top: 2vw;
+                    margin-left: 2vw;
+                    margin-right: 2vw;
+                   
+                  
                     .tieuDe{
                         width: 30%;
-                        font-size: 2.2vw;
-                        padding: auto;
+                        font-size: 3vw;
                         text-align: center;
                         border: solid 0.11vw rgb(143, 140, 140);
+                        padding: 1vw;
 
                     }
                     .noiDung{
                         width: 70%;
-                        padding: auto;
-                        font-size: 2.2vw;
+                        justify-content: center;
+                        align-items: center;
+                        font-size: 3vw;
                         border: solid 0.1vw rgb(143, 140, 140);
                         text-align: center;
                         border-radius: 0.3vw;
+                        padding: 1vw;
 
                     }
                 }
-                .congThuc{
-                    margin-top: 1vw;
-                    font-size: 2vw;
-                }
+              
                 .thongTinSanPham{
                     margin-top: 3vw;
                     .tieuDe{
-font-size: 2.5vw;
-font-weight: 500;
-margin-bottom: 1vw;
+                        font-size: 3.5vw;
+                        font-weight: 500;
+                        margin-bottom: 1vw;
 
                     }
                     .noiDung{
-                        width: 98%;
+                        font-size: 3vw;
+                        width: 96%;
                         text-align: center;
-            word-wrap:break-word;
-            overflow:auto;
+                         word-wrap:break-word;
+                         overflow:auto;
                     }
                 }
 
                 .hoanThanh{
                     cursor: pointer;
                     border-radius: 2vw;
-                    width: 25vw;
+                    width: 35vw;
                     font-size: 3.5vw;
                     font-weight: 600;
                     text-align: center;
@@ -364,6 +379,7 @@ margin-bottom: 1vw;
             text-align: justify;
             padding: 5vw;
             font-size: 2.5vw;
+            line-height: 4vw;
         }
     }
 

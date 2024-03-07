@@ -5,6 +5,7 @@ import UpdateDetail from "../Tao Thong Tin/UpdateDetail";
 import FormRegister from "../Tao Thong Tin/FormRegister";
 import { getPost } from "../redux/apiRequest";
 import MyDetail from "./MyDetail";
+import Header from '../GiaoDienChung/Header'
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { NavLink, useNavigate, useParams } from "react-router-dom";
@@ -32,7 +33,8 @@ const ThongTinCaNhan = () => {
     return !user ? (
         <DangNhap />
     ) : (
-        <>
+            <>
+                <Header />
             {loading === 0 ? (
                 <div className="container-thongTinCanhan">
                     <div>

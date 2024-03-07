@@ -23,6 +23,7 @@ const MyDetail = (props) => {
     const navigate = useNavigate();
     let axiosJWT = createAxios(user, dispatch, logOutSuccess);
     const [loading, setloading] = useState(1);
+    const [likeShop, setlikeShop] = useState(false);
     // Mydetail Chi tiet
     const banner = myDetail?.banner;
     const avatar = myDetail?.avatar;
@@ -100,12 +101,36 @@ const MyDetail = (props) => {
                         <div className="myNoiDung">{user?._id}</div>
                     </div>
                 </div>
-                {idShop && idShop.length !== 0 ? (
-                    <a href={`/shop/${idShop}`}>
-                        <button className="tiepTucMuaHang">
-                            Tiếp Tục Mua Hàng
+                <div>
+                    <a href={`/fabysa`}>
+                        <button className="fabysa">
+                            Trung Tâm Thương Mại 24/7 - Fabysa
                         </button>
                     </a>
+                </div>
+                {idShop && idShop.length !== 0 ? (
+                    <div>
+                        <a href={`/shop/${idShop}`}>
+                            <button className="tiepTucMuaHang">
+                                Quay Lại Shop
+                            </button>
+                        </a>
+                        <a href={`/shop/shop-yeu-thich/${idShop}`}>
+                            <button className="tiepTucMuaHang">
+                                Shop Yêu Thích
+                            </button>
+                        </a>
+                        <a href={`/shop/don-mua/${idShop}`}>
+                            <button className="tiepTucMuaHang">
+                                Đơn Hàng Đang Giao
+                            </button>
+                        </a>
+                        <a href={`/shop/lich-su-mua-hang/${idShop}`}>
+                            <button className="tiepTucMuaHang">
+                                Đơn Hàng Thành Công
+                            </button>
+                        </a>
+                    </div>
                 ) : (
                     <div>
                         {allShop && allShop.length !== 0 && (

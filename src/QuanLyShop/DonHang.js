@@ -27,7 +27,14 @@ const DonHang = () => {
     const allshopLienKet = useSelector(
         (state) => state.yourStatus.yourStatus.allYourStatus?.yourStatus
     );
-    const sanPhamCtv = allshopLienKet[0]?.sanPhamCtv;
+    console.log("allshopLienKet", allshopLienKet);
+    const [sanPhamCtv, setsanPhamCtv] = useState([]);
+    useEffect(() => {
+        if (allshopLienKet && allshopLienKet.length !== 0) {
+            setsanPhamCtv(allshopLienKet[0]?.sanPhamCtv);
+        }
+    }, [allshopLienKet]);
+
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const { idShop, idDonHang, trangThai } = useParams();
@@ -442,7 +449,7 @@ const DonHang = () => {
             {/* kho ctv */}
 
             {/* San Pham Lien Ket */}
-            {sanPhamCtv && (
+            {sanPhamCtv && sanPhamCtv.length !== 0 && (
                 <div>
                     <div className="tieuDeDonHang">Sản Phẩm Liên Kết</div>
                     <div className="sanPhamLienKet">

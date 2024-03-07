@@ -9,14 +9,14 @@ import MenuDonHang from './MenuDonHang'
 import { useEffect } from "react";
 const DonHangMoi = () => {
     const user = useSelector((state) => state.auth.login.currentUser);
-    const allDonHang = useSelector(
+    const allDonHang1 = useSelector(
         (state) => state.donHang.donHang.alldonHang?.allDonHang
     );
-    const ttShop = useSelector((state) => state.ttShop.ttShop.ttShop?.shop);
-    console.log("allDonHang", allDonHang);
+    const ttShop = useSelector((state) => state.ttShop.ttShop.ttShop?.shop)
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const { idShop } = useParams();
+    const allDonHang = allDonHang1?.filter((item) => item?.idShop === idShop);
     console.log("idShop", idShop);
     useEffect(() => {
         getttShop(idShop, dispatch);
@@ -39,14 +39,18 @@ const DonHangMoi = () => {
             <MenuDonHang idShop={idShop} />
             <div className="tieuDeDonHang">Đơn Hàng Đang Giao</div>
             <div>
-                <div className="ttdonHang">
-                    <div>Thời Gian</div>
-                    <div>Sản Phẩm</div>
+            {allDonHang && allDonHang.length !== 0 ? (
+                    <div className="ttdonHang">
+                        <div>Thời Gian</div>
+                        <div>Sản Phẩm</div>
 
-                    <div>Khách Hàng</div>
+                        <div>Khách Hàng</div>
 
-                    <div>Xem Chi Tiết</div>
-                </div>
+                        <div>Xem Chi Tiết</div>
+                    </div>
+                ) : (
+                    <div>Đơn hàng trống!</div>
+                )}
 
                 {allDonHang?.map((item, index) => {
                     return (
@@ -66,7 +70,7 @@ const DonHangMoi = () => {
                                                 key={index}
                                             >
                                                 <div className="tenSanPham">
-                                                    {item2.TenSanPham}
+                                                    - {item2.TenSanPham}
                                                 </div>
                                                 <div className="soLuong">
                                                     {item2.soLuong}

@@ -54,21 +54,34 @@
                     display: flex;
                 }
             }
+            .fabysa{
+                padding: 2vw;
+                color: #fff;
+                border-radius: 1vw;
+                background-color: #04aa6d;
+                width: 90vw;
+                text-align: center;
+                font-size: 3.5vw;
+                border: none;
+                margin: 5vw 0vw;
+                font-weight: 600;
+            }
             .tiepTucMuaHang{
                 text-decoration: none;
                 border-radius: 1vw;
                 color: #fff;
-                        font-size: 5vw;
+                        font-size: 3vw;
                         font-weight: 600;
                         cursor: pointer;
                         background-color: #04aa6d;
                         padding: 1vw;
                         margin: 5vw;
+                        width: 40vw;
             }
             .quanLyShop-container{
                 a{text-decoration: none;}
-                margin-top: 5vw;
                 margin-bottom: 10vw;
+               
                .quanLyGianHang{
                 font-size: 3.5vw;
                 font-weight: 600;

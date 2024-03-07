@@ -13,6 +13,9 @@ import {
     getPost,
     deleteSanPham,
     updatePost,
+    getArrSanPham,
+    updateYourStatusUser,
+    getYourStatus,
 } from "../redux/apiRequest";
 import { useEffect } from "react";
 import {
@@ -21,22 +24,52 @@ import {
     apiGetPublicWard,
 } from "../redux/ApiProvince";
 import DangNhap from "../DangNhap/DangNhap";
+import { CKEditor } from "@ckeditor/ckeditor5-react";
+import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+import ReactHtmlParser, {
+    processNodes,
+    convertNodeToElement,
+    htmlparser2,
+} from "react-html-parser";
 const UpdateShop = () => {
     const { idShop } = useParams();
     const user = useSelector((state) => state.auth.login?.currentUser);
     const myDetail = useSelector((state) => state.post.post?.myDetail);
     const ttShop = useSelector((state) => state.ttShop.ttShop.ttShop?.shop);
-    const allSanPham = useSelector(
+    const allSanPhamx = useSelector(
         (state) => state.sanPham.sanPham.allsanPham?.allSanpham
     );
+    const allshopLienKet = useSelector(
+        (state) => state.yourStatus.yourStatus.allYourStatus?.yourStatus
+    );
+    const arraySanPham = useSelector(
+        (state) => state.sanPham.sanPham.arrsanPham?.arrSanpham
+    );
+    const [allSanPham, setallSanPham] = useState([]);
+    const [arrNhomSanPham, setarrNhomSanPham] = useState([]);
+    const [loading, setloading] = useState(1);
     const dispatch = useDispatch();
     const navigate = useNavigate();
     useEffect(() => {
         getSanPham(idShop, dispatch);
     }, []);
     useEffect(() => {
-        getPost(user?._id, dispatch);
+        getPost(user?._id, dispatch, setloading);
     }, [user]);
+    useEffect(() => {
+        getYourStatus(idShop, dispatch);
+    }, []);
+    console.log("allshopLienKet", allshopLienKet);
+    useEffect(() => {
+        if (allshopLienKet) {
+            const arrIdSanPham2 = allshopLienKet[0]?.sanPhamCtv.concat(
+                allshopLienKet[0]?.sanPhamSi
+            );
+            const arrIdSanPham3 = new Set(arrIdSanPham2);
+            const arrIdSanPham = [...arrIdSanPham3];
+            getArrSanPham(arrIdSanPham, dispatch);
+        }
+    }, [allshopLienKet]);
     // san pham
     // shop
     const [suaThongTinShop, setsuaThongTinShop] = useState(0);
@@ -47,6 +80,7 @@ const UpdateShop = () => {
     const [previewBanner, setpreviewBanner] = useState();
     const [Banner, setBanner] = useState(ttShop?.Banner);
     const [TenShop, setTenShop] = useState(ttShop?.TenShop);
+    const [website, setwebsite] = useState(ttShop?.website);
     const [linkFacebook, setlinkFacebook] = useState(ttShop?.linkFacebook);
     const [linkZalo, setlinkZalo] = useState(ttShop?.linkZalo);
     const [idNhanVien, setidNhanVien] = useState(ttShop?.idNhanVien);
@@ -56,6 +90,7 @@ const UpdateShop = () => {
     const [SloganShop, setSloganShop] = useState(ttShop?.sloganShop);
     const [UserShop, setUserShop] = useState(ttShop?.user);
     const [vaiTro, setvaiTro] = useState(ttShop?.vaiTro);
+    console.log("vaiTro", vaiTro);
 
     // Provinces
     const [provinces, setProvinces] = useState([]);
@@ -84,6 +119,18 @@ const UpdateShop = () => {
     const allSanPhamDan = allSanPham?.filter(
         (item) => item.nhomSanPham === "Sản Phẩm Dẫn"
     );
+
+    useEffect(() => {
+        if (allSanPhamx) {
+            setallSanPham(allSanPhamx);
+            const arrNhomSanPham3 = allSanPhamx?.map((item) => {
+                return item?.nhomSanPham;
+            });
+            const arrNhomSanPham2 = new Set(arrNhomSanPham3);
+
+            setarrNhomSanPham([...arrNhomSanPham2]);
+        }
+    }, [allSanPhamx]);
     // sua sanPham
     const handleSuaSanPham = (id) => {
         setsuaThongTinShop(3);
@@ -107,7 +154,7 @@ const UpdateShop = () => {
         if (idSpSua && idSpSua.length !== 0) {
             setAnhSanPham2(detailidSpSua?.AnhSanPham);
             setTenSanPham2(detailidSpSua?.TenSanPham);
-            settinhTrang2(detailidSpSua?.tinhTrang2);
+            settinhTrang2(detailidSpSua?.tinhTrang);
             setnhomSanPham2(detailidSpSua?.nhomSanPham);
             setgiaKhuyenMai2(detailidSpSua?.giaKhuyenMai);
             setgiaNiemYet2(detailidSpSua?.giaNiemYet);
@@ -151,7 +198,6 @@ const UpdateShop = () => {
         console.log("id", id);
         console.log("newSanPham", newSanPham);
         updateSanPham(newSanPham, id, dispatch);
-        // navigate(`/update-shop/${idShop}`);
         setsuaThongTinShop(0);
     };
     const handleXoaSanPham = (id) => {
@@ -178,7 +224,6 @@ const UpdateShop = () => {
                 giaNhap: giaNhap,
                 giaCtv: giaCtv,
                 giaSi: giaSi,
-                tinhTrang: tinhTrang,
                 thongTinSanPham: thongTinSanPham,
                 TenShop: ttShop?.TenShop,
                 xa: ttShop?.xa,
@@ -285,6 +330,7 @@ const UpdateShop = () => {
             const newShop = {
                 Banner: Banner,
                 TenShop: TenShop,
+                website: website,
                 dcShop: DcShop,
                 sdtShop: SdtShop,
                 sloganShop: SloganShop,
@@ -298,9 +344,10 @@ const UpdateShop = () => {
                 user: UserShop,
             };
             updatettShop(newShop, id, dispatch);
+            console.log("newShop", newShop);
             setsuaThongTinShop(0);
             const newPost = {
-                vaiTro: 1,
+                vaiTro: vaiTro,
             };
             const idpost = myDetail?._id;
             console.log("newPost", newPost);
@@ -313,7 +360,22 @@ const UpdateShop = () => {
         style: "currency",
         currency: "VND",
     });
-
+    const handleXoaSanPhamlienket = (id) => {
+        const sanPhamSi = allshopLienKet[0]?.sanPhamSi.filter(
+            (item) => item !== id
+        );
+        const sanPhamCtv = allshopLienKet[0]?.sanPhamCtv.filter(
+            (item) => item !== id
+        );
+        const newshopLienKet = {
+            idShop: idShop,
+            user: user._id,
+            sanPhamSi: sanPhamSi,
+            sanPhamCtv: sanPhamCtv,
+        };
+        updateYourStatusUser(newshopLienKet, allshopLienKet[0]?._id, dispatch);
+    };
+    console.log("all", allSanPham);
     return (
         <>
             {!user ? (
@@ -359,110 +421,249 @@ const UpdateShop = () => {
                                             Sửa Thông Tin Shop
                                         </button>
                                     </div>
-                                    <div className="sanPham-container">
-                                        {allSanPham &&
-                                            allSanPham?.map((item) => {
-                                                return (
-                                                    <div
-                                                        key={item._id}
-                                                        className="sanPham"
-                                                    >
-                                                        <div className="suaxoa">
-                                                            <button
-                                                                className="sua"
-                                                                onClick={() =>
-                                                                    handleSuaSanPham(
-                                                                        item._id
-                                                                    )
-                                                                }
-                                                            >
-                                                                Sửa Sản Phẩm
-                                                            </button>
-
-                                                            <button
-                                                                className="xoa"
-                                                                onClick={() =>
-                                                                    handleXoaSanPham(
-                                                                        item._id
-                                                                    )
-                                                                }
-                                                            >
-                                                                {" "}
-                                                                <a
-                                                                    href={`/update-shop/${idShop}`}
-                                                                >
-                                                                    Xoá Sản Phẩm{" "}
-                                                                </a>
-                                                            </button>
-                                                        </div>
-                                                        <div>
-                                                            <img
-                                                                src={
-                                                                    item?.AnhSanPham
-                                                                }
-                                                                className="anhSanPham"
-                                                                alt="timtim"
-                                                            />
-
-                                                            <div className="tenSanPham">
-                                                                {
-                                                                    item?.TenSanPham
-                                                                }
-                                                            </div>
-                                                            <div className="giaBan">
-                                                                <div className="giaBanMoi">
-                                                                    {VND.format(
-                                                                        item?.giaKhuyenMai
-                                                                    )}
+                                    <div className="nhomSanPham-sanPham">
+                                        {arrNhomSanPham &&
+                                            arrNhomSanPham?.map(
+                                                (item2, index) => {
+                                                    return (
+                                                        <div key={index}>
+                                                            {item2 ===
+                                                            "Sản Phẩm Dẫn" ? (
+                                                                <div className="nhomSanPham">
+                                                                    Top Sản Phẩm
+                                                                    Bán Chạy
                                                                 </div>
-
-                                                                <div className="giaGiam">
-                                                                    <div className="giabanCu">
-                                                                        {VND.format(
-                                                                            item?.giaNiemYet
-                                                                        )}
-                                                                    </div>
-                                                                    <div className="phanTram">
-                                                                        Giảm&nbsp;
-                                                                        {Math.floor(
-                                                                            (100 *
-                                                                                (item?.giaNiemYet -
-                                                                                    item?.giaKhuyenMai)) /
-                                                                                item?.giaNiemYet
-                                                                        )}
-                                                                        %
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-
-                                                            <button className="muaHang">
-                                                                MUA HÀNG
-                                                            </button>
-                                                            <div className="viTriSanPham">
-                                                                <i className="fa-solid fa-location-dot"></i>
-                                                                <div className="diachisanpham">
-                                                                    {item?.xa}
-                                                                </div>
-                                                                <div className="diachisanpham">
-                                                                    {
-                                                                        item?.huyen
-                                                                    }
-                                                                </div>
-                                                                <div className="diachisanpham">
-                                                                    {item?.tinh}
-                                                                </div>
-                                                            </div>
-
-                                                            {item?.nhomSanPham ===
-                                                                "Sản Phẩm Dẫn" && (
-                                                                <div className="sanPhamDan">
-                                                                    Sản Phẩm Dẫn
+                                                            ) : (
+                                                                <div className="nhomSanPham">
+                                                                    {item2}
                                                                 </div>
                                                             )}
+
+                                                            <div className="sanPham-container">
+                                                                {allSanPham &&
+                                                                    allSanPham?.map(
+                                                                        (
+                                                                            item,
+                                                                            index
+                                                                        ) => {
+                                                                            return (
+                                                                                item?.nhomSanPham ===
+                                                                                    item2 && (
+                                                                                    <div
+                                                                                        key={
+                                                                                            item._id
+                                                                                        }
+                                                                                        className="sanPham"
+                                                                                    >
+                                                                                        <div className="suaxoa">
+                                                                                            <button
+                                                                                                className="sua"
+                                                                                                onClick={() =>
+                                                                                                    handleSuaSanPham(
+                                                                                                        item._id
+                                                                                                    )
+                                                                                                }
+                                                                                            >
+                                                                                                Sửa
+                                                                                                Sản
+                                                                                                Phẩm
+                                                                                            </button>
+
+                                                                                            <button
+                                                                                                className="xoa"
+                                                                                                onClick={() =>
+                                                                                                    handleXoaSanPham(
+                                                                                                        item._id
+                                                                                                    )
+                                                                                                }
+                                                                                            >
+                                                                                                {" "}
+                                                                                                <a
+                                                                                                    href={`/update-shop/${idShop}`}
+                                                                                                >
+                                                                                                    Xoá
+                                                                                                    Sản
+                                                                                                    Phẩm{" "}
+                                                                                                </a>
+                                                                                            </button>
+                                                                                        </div>
+                                                                                        <div>
+                                                                                            <img
+                                                                                                src={
+                                                                                                    item?.AnhSanPham
+                                                                                                }
+                                                                                                className="anhSanPham"
+                                                                                                alt="timtim"
+                                                                                            />
+
+                                                                                            <div className="tenSanPham">
+                                                                                                {
+                                                                                                    item?.TenSanPham
+                                                                                                }
+                                                                                            </div>
+                                                                                            <div className="giaBan">
+                                                                                                <div className="giaBanMoi">
+                                                                                                    {VND.format(
+                                                                                                        item?.giaKhuyenMai
+                                                                                                    )}
+                                                                                                </div>
+
+                                                                                                <div className="giaGiam">
+                                                                                                    <div className="giabanCu">
+                                                                                                        {VND.format(
+                                                                                                            item?.giaNiemYet
+                                                                                                        )}
+                                                                                                    </div>
+                                                                                                    <div className="phanTram">
+                                                                                                        Giảm&nbsp;
+                                                                                                        {Math.floor(
+                                                                                                            (100 *
+                                                                                                                (item?.giaNiemYet -
+                                                                                                                    item?.giaKhuyenMai)) /
+                                                                                                                item?.giaNiemYet
+                                                                                                        )}
+
+                                                                                                        %
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </div>
+
+                                                                                            <button className="muaHang">
+                                                                                                MUA
+                                                                                                HÀNG
+                                                                                            </button>
+                                                                                            <div className="viTriSanPham">
+                                                                                                <i className="fa-solid fa-location-dot"></i>
+                                                                                                <div className="diachisanpham">
+                                                                                                    {
+                                                                                                        item?.xa
+                                                                                                    }
+                                                                                                </div>
+                                                                                                <div className="diachisanpham">
+                                                                                                    {
+                                                                                                        item?.huyen
+                                                                                                    }
+                                                                                                </div>
+                                                                                                <div className="diachisanpham">
+                                                                                                    {
+                                                                                                        item?.tinh
+                                                                                                    }
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                )
+                                                                            );
+                                                                        }
+                                                                    )}
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                );
-                                            })}
+                                                    );
+                                                }
+                                            )}
+                                        {arraySanPham &&
+                                            arraySanPham.length !== 0 && (
+                                                <div className="nhomSanPham">
+                                                    Sản Phẩm Liên Kết
+                                                </div>
+                                            )}
+                                        {arraySanPham &&
+                                            arraySanPham.length !== 0 && (
+                                                <div className="sanPham-container">
+                                                    {arraySanPham &&
+                                                        arraySanPham?.map(
+                                                            (item) => {
+                                                                return (
+                                                                    <div
+                                                                        key={
+                                                                            item._id
+                                                                        }
+                                                                        className="sanPham"
+                                                                    >
+                                                                        <div className="suaxoa">
+                                                                            <button
+                                                                                className="xoa"
+                                                                                onClick={() =>
+                                                                                    handleXoaSanPhamlienket(
+                                                                                        item._id
+                                                                                    )
+                                                                                }
+                                                                            >
+                                                                                Xoá
+                                                                                Sản
+                                                                                Phẩm
+                                                                            </button>
+                                                                        </div>
+                                                                        <div>
+                                                                            <img
+                                                                                src={
+                                                                                    item?.AnhSanPham
+                                                                                }
+                                                                                className="anhSanPham"
+                                                                                alt="timtim"
+                                                                            />
+
+                                                                            <div className="tenSanPham">
+                                                                                {
+                                                                                    item?.TenSanPham
+                                                                                }
+                                                                            </div>
+                                                                            <div className="giaBan">
+                                                                                <div className="giaBanMoi">
+                                                                                    {VND.format(
+                                                                                        item?.giaKhuyenMai
+                                                                                    )}
+                                                                                </div>
+
+                                                                                <div className="giaGiam">
+                                                                                    <div className="giabanCu">
+                                                                                        {VND.format(
+                                                                                            item?.giaNiemYet
+                                                                                        )}
+                                                                                    </div>
+                                                                                    <div className="phanTram">
+                                                                                        Giảm&nbsp;
+                                                                                        {Math.floor(
+                                                                                            (100 *
+                                                                                                (item?.giaNiemYet -
+                                                                                                    item?.giaKhuyenMai)) /
+                                                                                                item?.giaNiemYet
+                                                                                        )}
+
+                                                                                        %
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <button className="muaHang">
+                                                                                MUA
+                                                                                HÀNG
+                                                                            </button>
+                                                                            <div className="viTriSanPham">
+                                                                                <i className="fa-solid fa-location-dot"></i>
+                                                                                <div className="diachisanpham">
+                                                                                    {
+                                                                                        item?.xa
+                                                                                    }
+                                                                                </div>
+                                                                                <div className="diachisanpham">
+                                                                                    {
+                                                                                        item?.huyen
+                                                                                    }
+                                                                                </div>
+                                                                                <div className="diachisanpham">
+                                                                                    {
+                                                                                        item?.tinh
+                                                                                    }
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                );
+                                                            }
+                                                        )}
+                                                </div>
+                                            )}
                                     </div>
                                 </div>
                             ) : (
@@ -515,6 +716,20 @@ const UpdateShop = () => {
                                             type="text"
                                             onChange={(e) =>
                                                 setTenShop(e.target.value)
+                                            }
+                                        />
+                                    </div>
+
+                                    <div className="containerTieuChiFormregis">
+                                        <div className="tieuChiFormregis">
+                                            Website
+                                        </div>
+                                        <input
+                                            className="noiDungFormregis3"
+                                            placeholder={ttShop?.website}
+                                            type="text"
+                                            onChange={(e) =>
+                                                setwebsite(e.target.value)
                                             }
                                         />
                                     </div>
@@ -988,7 +1203,42 @@ const UpdateShop = () => {
                                                 <label className="tieuDe">
                                                     Thông Tin Sản Phẩm
                                                 </label>
-                                                <div>
+                                                <CKEditor
+                                                    editor={ClassicEditor}
+                                                    data="<p>Thêm thông tin sản phẩm</p>"
+                                                    onReady={(editor) => {
+                                                        // You can store the "editor" and use when it is needed.
+                                                        console.log(
+                                                            "Editor is ready to use!",
+                                                            editor
+                                                        );
+                                                    }}
+                                                    onChange={(
+                                                        event,
+                                                        editor
+                                                    ) => {
+                                                        console.log(event);
+                                                        setthongTinSanPham(
+                                                            editor.getData()
+                                                        );
+                                                    }}
+                                                    onBlur={(event, editor) => {
+                                                        console.log(
+                                                            "Blur.",
+                                                            editor
+                                                        );
+                                                    }}
+                                                    onFocus={(
+                                                        event,
+                                                        editor
+                                                    ) => {
+                                                        console.log(
+                                                            "Focus.",
+                                                            editor
+                                                        );
+                                                    }}
+                                                />
+                                                {/* <div>
                                                     <input
                                                         onChange={(e) =>
                                                             setthongTinSanPham(
@@ -998,7 +1248,7 @@ const UpdateShop = () => {
                                                         className="noiDung"
                                                         placeholder=" Thêm thông tin sản phẩm"
                                                     />
-                                                </div>
+                                                </div> */}
                                             </div>
 
                                             <button
@@ -1010,30 +1260,17 @@ const UpdateShop = () => {
                                         </div>
                                     </div>
                                     <div className="luuY">
-                                        Lưu ý: <br /> - Sản Phẩm dẫn là sản phẩm
+                                        Lưu ý: <br /> - Sản Phẩm Dẫn là sản phẩm
                                         xuất hiện trên cùng Website. <br />- Mỗi
-                                        Shop chỉ chọn ra 2 sản phẩm dẫn đáng chú
-                                        ý nhất, không giảm giá tràn lan, tránh
-                                        ảnh hưởng lợi nhuận và thị trường chung.{" "}
-                                        <br />
-                                        - Sản phẩm dẫn là sản phẩm có nhu cầu sử
-                                        dụng cao, giá bán tốt hơn so với thị
-                                        trường.
-                                        <br />- Hoa hồng cộng tác viên là không
-                                        bắt buộc. <br />- Tuy nhiên, khi tham
-                                        gia bán hàng online cùng Fabysa có nghĩa
-                                        bạn cũng đã tham gia cộng đồng người bán
-                                        Fabysa. <br />- Sản phẩm của bạn sẽ được
-                                        niêm yết trong tổng kho sỉ của Fabysa,
-                                        từ đó ngoài khách lẻ bạn sẽ có thêm
-                                        lượng khách sỉ, là những chủ shop online
-                                        giống như bạn, bạn cũng có thể làm Cộng
-                                        Tác Viên bán sản phẩm từ những Shop
-                                        khác. <br />
-                                        - Chi tiết liên hệ Admin để được giải
-                                        đáp rõ hơn! <br />
-                                        Cảm ơn bạn đã tham gia bán hàng cùng
-                                        Fabysa!
+                                        Shop chọn ra 2 Sản Phẩm Dẫn đáng chú ý
+                                        nhất!
+                                        <br />- Sản phẩm của Shop sẽ được niêm
+                                        yết trong tổng kho của Fabysa, từ đó
+                                        ngoài khách lẻ Shop sẽ có thêm lượng
+                                        khách Cộng Tác Viên là những chủ Shop
+                                        khác. <br /> - Shop cũng có thể đăng kí
+                                        Cộng Tác Viên bán sản phẩm từ những Shop
+                                        khác.{" "}
                                     </div>
                                 </div>
                             ) : (
@@ -1313,8 +1550,37 @@ const UpdateShop = () => {
                                                 <label className="tieuDe">
                                                     Thông Tin Sản Phẩm
                                                 </label>
+                                                <CKEditor
+                                                    editor={ClassicEditor}
+                                                    data={thongTinSanPham2}
+                                                    onReady={(editor) => {}}
+                                                    onChange={(
+                                                        event,
+                                                        editor
+                                                    ) => {
+                                                        console.log(event);
+                                                        setthongTinSanPham2(
+                                                            editor.getData()
+                                                        );
+                                                    }}
+                                                    onBlur={(event, editor) => {
+                                                        console.log(
+                                                            "Blur.",
+                                                            editor
+                                                        );
+                                                    }}
+                                                    onFocus={(
+                                                        event,
+                                                        editor
+                                                    ) => {
+                                                        console.log(
+                                                            "Focus.",
+                                                            editor
+                                                        );
+                                                    }}
+                                                />
 
-                                                <input
+                                                {/* <input
                                                     className="noiDung"
                                                     onChange={(e) =>
                                                         setthongTinSanPham2(
@@ -1324,7 +1590,7 @@ const UpdateShop = () => {
                                                     placeholder={
                                                         detailidSpSua?.thongTinSanPham
                                                     }
-                                                />
+                                                /> */}
                                             </div>
 
                                             <button

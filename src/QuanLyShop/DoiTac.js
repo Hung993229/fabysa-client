@@ -18,8 +18,8 @@ const DoiTac = () => {
     const khachCtv = ttShop?.khachCtv;
 
     useEffect(() => {
-        const kiemtraSdtkhachSi = khachSi.find((item) => item === sodienThoai);
-        const kiemtraSdtkhachCtv = khachCtv.find(
+        const kiemtraSdtkhachSi = khachSi?.find((item) => item === sodienThoai);
+        const kiemtraSdtkhachCtv = khachCtv?.find(
             (item) => item === sodienThoai
         );
         if (kiemtraSdtkhachSi) {
@@ -31,7 +31,7 @@ const DoiTac = () => {
     }, [sodienThoai]);
     const handleThemKhachSi = () => {
         console.log("hhii");
-        const kiemtraSdt = khachSi.find((item) => item === sodienThoai);
+        const kiemtraSdt = khachSi?.find((item) => item === sodienThoai);
         console.log("hhii");
         if (kiemtraSdt || !sodienThoai) {
             alert("Số điện thoại đã thêm");
@@ -89,7 +89,7 @@ const DoiTac = () => {
                 <div className="danhSachTong">
                     <div className="chiaDoi">
                         <div className="khachSi">Khách Sỉ</div>
-                        <div className="danhSach">
+                        <div className="themSdt">
                             <input
                                 onChange={(e) => setsodienThoai(e.target.value)}
                                 placeholder="Nhập số điện thoại"
@@ -121,7 +121,7 @@ const DoiTac = () => {
                     </div>
                     <div className="chiaDoi">
                         <div className="khachSi">Cộng Tác Viên</div>
-                        <div className="danhSach">
+                        <div className="themSdt">
                             <input
                                 onChange={(e) => setsodienThoai(e.target.value)}
                                 placeholder="Nhập số điện thoại"

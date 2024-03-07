@@ -1,7 +1,7 @@
 /* Mobile & Tablet */
 @media screen and (max-width : 1023px) {
    .DoiTac{
-    margin-top: 10vw;
+    margin-top: 12vw;
     .tieuDe{
       font-size: 5vw;
       font-weight: 600;
@@ -23,29 +23,38 @@
          text-align: center;
          align-items: center;
          .khachSi{
+          margin: 2vw auto;
           font-size: 3.5vw;
           font-weight: 600;
+         }
+         .themSdt{
+          border-bottom: solid 1px gray;
+          input{
+            text-align: center;
+align-items: center;
+width: 90%;
+font-size: 3vw;
+
+          }
+          .them{
+font-size: 3vw;
+color: #fff;
+background-color: #04aa6d;
+border-radius: 1vw;
+margin: 2vw auto;
+padding: 1vw;
+width: 50%;
+text-align: center;
+cursor: pointer;
+          }
+
          }
          .danhSach{
             display: grid;
             grid-template-columns: 3fr 1fr;
             padding: 1vw;
             border-bottom: solid 1px gray;
-            input{
-              text-align: center;
-align-items: center;
-            }
-            .them{
-font-size: 3vw;
-color: #fff;
-background-color: #04aa6d;
-border-radius: 1vw;
-margin: 1vw;
-width: 10vw;
-text-align: center;
-align-items: center;
-cursor: pointer;
-            }
+           font-size: 3vw;
             .xoa{
               font-size: 2vw;
 color: #fff;

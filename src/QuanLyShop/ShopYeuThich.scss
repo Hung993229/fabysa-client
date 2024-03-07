@@ -1,0 +1,54 @@
+/* Mobile & Tablet */
+@media screen and (max-width : 1023px) {
+    .ShopYeuThich{
+        margin-top: 15vw;
+        .CloseShop{
+            margin-bottom: 2vw;
+            border-radius: 3vw;
+            background-color: red;
+            padding: 1vw;
+            width: 15vw;
+            font-size: 3vw;
+            border: none;
+            color: #fff;
+            text-decoration: none;
+
+        }
+        .tenDanhSach{
+            color: red;
+            font-weight: 600;
+            font-size: 5vw;
+            text-align: center;
+            text-transform: uppercase;
+            margin: 3vw 0vw;
+        }
+        .allShoplike{
+            display: flex;
+            border-bottom: solid 1px gray;
+            margin: 2vw;
+            .stt{
+            width: 20%;
+            font-size: 3.5vw;
+            font-weight: 600;
+            padding: 2vw;
+            }
+            .tenShop{
+               width: 80%;
+               text-decoration: none;
+               color: #04aa6d;
+               font-size: 3.5vw;
+               font-weight: 600;
+               text-align: left;
+               padding: 2vw;
+              
+               
+            }
+        }
+    }
+   
+}
+
+/* PC*/
+@media screen and (min-width : 1024px) {
+   
+}

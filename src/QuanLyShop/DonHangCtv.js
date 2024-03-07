@@ -38,6 +38,17 @@ const DonHangCtv = () => {
         <div className="donHangCtv-container">
             <MenuDonHang idShop={idShop} />
             <div className="tieuDeDonHang">Đơn Hàng Cộng Tác Viên</div>
+            {donHangCongTacVien && donHangCongTacVien.length !== 0 ? (
+                <div className="sanPham">
+                    <div>Tên Sản Phẩm</div>
+                    <div>Số Lượng</div>
+                    <div>Hoa Hồng</div>
+                    <div>Link Shop</div>
+                    <div>Trạng Thái</div>
+                </div>
+            ) : (
+                <div>Đơn hàng trống!</div>
+            )}
             {donHangCtvChuaThanhToan?.map((item, index) => {
                 return (
                     <div key={index} className="sanPham">

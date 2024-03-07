@@ -421,12 +421,15 @@ const UpdateDetail = (props) => {
                             );
                         })}
                     </select>
-                    <input
-                        type="text"
-                        onChange={(e) => setthonXom(e.target.value)}
-                        placeholder={myDetail?.thonXom}
-                    />
                 </div>
+            </div>
+            <div>
+                
+                <input className="thonXom"
+                    type="text"
+                    onChange={(e) => setthonXom(e.target.value)}
+                    placeholder={myDetail?.thonXom}
+                />
             </div>
             <button className="luuThongTin" onClick={handleUpdatePost}>
                 Lưu Thông Tin

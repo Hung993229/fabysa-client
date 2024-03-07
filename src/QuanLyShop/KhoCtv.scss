@@ -251,7 +251,7 @@
                 .themVaoShop{
                     width: 30%;
                     font-size: 2vw;
-                    padding: 0.5vw;
+                    padding: 1vw;
                     background-color: #04aa6d;
                     font-weight: 500;
                   
@@ -268,8 +268,11 @@
                   cursor: pointer;
                }
                .viTriSanPham{
-                   font-size: 3vw;
-                   gap: 1.5vw
+                display: flex;
+                font-size: 2vw;
+                gap: 1vw;
+                align-items: center;
+                justify-content: center;
                }
               
              

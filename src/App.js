@@ -38,7 +38,9 @@ import HomThu from "./KetBan/HomThu";
 import { useSelector } from "react-redux";
 import GioHang from "./QuanLyShop/GioHang";
 import DoiTac from "./QuanLyShop/DoiTac";
-
+import LichSuDonMua from "./QuanLyShop/LichSuDonMua";
+import DonMua from "./QuanLyShop/DonMua";
+import ShopYeuThich from "./QuanLyShop/ShopYeuThich";
 
 import { useState } from "react";
 
@@ -93,7 +95,7 @@ function App() {
                                     Tongtien={Tongtien}
                                 />
                                 <ThongTinCaNhan />
-                                <Nav />
+                                {/* <Nav /> */}
                             </>
                         }
                     />
@@ -137,10 +139,6 @@ function App() {
                                     setshowcart={setshowcart}
                                     Tongsoluong={Tongsoluong}
                                     Tongtien={Tongtien}
-                                    // arraySanPhamQuantity={arraySanPhamQuantity}
-                                    // setarraySanPhamQuantity={
-                                    //     setarraySanPhamQuantity
-                                    // }
                                 />
                                 <Shop
                                     showcart={showcart}
@@ -149,11 +147,34 @@ function App() {
                                     setTongsoluong={setTongsoluong}
                                     Tongtien={Tongtien}
                                     Tongsoluong={Tongsoluong}
-                                    // arraySanPhamQuantity={arraySanPhamQuantity}
-                                    // setarraySanPhamQuantity={
-                                    //     setarraySanPhamQuantity
-                                    // }
                                 />
+                            </>
+                        }
+                    />
+                    <Route
+                        path="/shop/don-mua/:idShop"
+                        element={
+                            <>
+                                <Header2 />
+                                <DonMua />
+                            </>
+                        }
+                    />
+                    <Route
+                        path="/shop/lich-su-mua-hang/:idShop"
+                        element={
+                            <>
+                                <Header2 />
+                                <LichSuDonMua />
+                            </>
+                        }
+                    />
+                    <Route
+                        path="/shop/shop-yeu-thich/:idShop"
+                        element={
+                            <>
+                                <Header2 />
+                                <ShopYeuThich />
                             </>
                         }
                     />
@@ -165,6 +186,7 @@ function App() {
                             </>
                         }
                     />
+
                     <Route
                         path="/shop/dang-nhap/:idShop"
                         element={
@@ -311,7 +333,8 @@ function App() {
                         element={
                             <>
                                 <Header className="header" />
-                                <DonHangHoanThanh /> <Nav />
+                                <DonHangHoanThanh />
+                                {/* <Nav /> */}
                             </>
                         }
                     />
@@ -345,7 +368,7 @@ function App() {
                             </>
                         }
                     />
-                      <Route
+                    <Route
                         path="/doi-tac/:idShop"
                         element={
                             <>
@@ -368,10 +391,10 @@ function App() {
                         path="/fabysa"
                         element={
                             <>
-                                <Header className="header" />
-                                <DangHoanThien />
-                                {/* <Fabysa /> */}
-                                <Nav />
+                                <Header />
+                                {/* <DangHoanThien /> */}
+                                <Fabysa />
+                                {/* <Nav /> */}
                             </>
                         }
                     />
@@ -379,7 +402,7 @@ function App() {
                         path="/fabysa/:idShop/"
                         element={
                             <>
-                                <Header className="header" />
+                                <Header />
                                 <FabysaShop />
                                 <Nav />
                             </>
@@ -402,7 +425,7 @@ function App() {
                                 <Header className="header" />
                                 <DangHoanThien />
                                 {/* <TongKhoSi /> */}
-                                <Nav />
+                                {/* <Nav /> */}
                             </>
                         }
                     />
@@ -438,9 +461,7 @@ function App() {
                         path="/"
                         element={
                             <>
-                                <Header />
                                 <ThongTinCaNhan />
-                                <Nav />
                             </>
                         }
                     />

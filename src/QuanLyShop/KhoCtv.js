@@ -53,8 +53,6 @@ const KhoCtv = (props) => {
     const allshopLienKet = useSelector(
         (state) => state.yourStatus.yourStatus.allYourStatus?.yourStatus
     );
-    console.log("allshopLienKet", allshopLienKet);
-    console.log("shopLienKet", shopLienKet);
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const { idShop } = useParams();
@@ -196,7 +194,7 @@ const KhoCtv = (props) => {
                 );
 
                 if (!idSanPham) {
-                    const gioHangUpdate = [...xetIdShopLienKet?.sanPhamCtv, id];
+                    const gioHangUpdate = [ ...xetIdShopLienKet?.sanPhamCtv, id ];
                     const newshopLienKet = {
                         idShop: idShopLienKet,
                         user: user._id,
@@ -215,14 +213,12 @@ const KhoCtv = (props) => {
         }
     };
     // Them vao Shop
-    console.log("allSanPham", allSanPham);
     // phan loai san pham
     const arrNhomSanPham3 = allSanPham?.map((item) => {
         return item.nhomSanPham !== "Sản Phẩm Dẫn" && item.nhomSanPham;
     });
     const arrNhomSanPham2 = new Set(arrNhomSanPham3);
     const arrNhomSanPham = [...arrNhomSanPham2];
-    console.log("arrNhomSanPham", arrNhomSanPham);
     // phan loai san pham
 
     return (

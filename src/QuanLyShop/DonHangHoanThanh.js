@@ -5,18 +5,18 @@ import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { getDonHang, updateDonHang, getttShop } from "../redux/apiRequest";
-import MenuDonHang from './MenuDonHang'
+import MenuDonHang from "./MenuDonHang";
 import { useEffect } from "react";
 const DonHangMoi = () => {
     const user = useSelector((state) => state.auth.login.currentUser);
-    const allDonHang = useSelector(
+    const allDonHang1 = useSelector(
         (state) => state.donHang.donHang.alldonHang?.allDonHang
     );
     const ttShop = useSelector((state) => state.ttShop.ttShop.ttShop?.shop);
-    console.log("allDonHang", allDonHang);
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const { idShop } = useParams();
+    const allDonHang = allDonHang1?.filter((item) => item?.idShop === idShop);
     console.log("idShop", idShop);
     useEffect(() => {
         getttShop(idShop, dispatch);
@@ -36,17 +36,21 @@ const DonHangMoi = () => {
 
     return (
         <div className="donHang-container">
-           <MenuDonHang idShop={idShop} />
+            <MenuDonHang idShop={idShop} />
             <div className="tieuDeDonHang">Đơn Hàng Hoàn Thành</div>
             <div>
-                <div className="ttdonHang">
-                    <div>Thời Gian</div>
-                    <div>Sản Phẩm</div>
+                {allDonHang && allDonHang.length !== 0 ? (
+                    <div className="ttdonHang">
+                        <div>Thời Gian</div>
+                        <div>Sản Phẩm</div>
 
-                    <div>Khách Hàng</div>
+                        <div>Khách Hàng</div>
 
-                    <div>Xem Chi Tiết</div>
-                </div>
+                        <div>Xem Chi Tiết</div>
+                    </div>
+                ) : (
+                    <div>Đơn hàng trống!</div>
+                )}
 
                 {allDonHang?.map((item, index) => {
                     return (
@@ -66,7 +70,7 @@ const DonHangMoi = () => {
                                                 key={index}
                                             >
                                                 <div className="tenSanPham">
-                                                    {item2.TenSanPham}
+                                                    - {item2.TenSanPham}
                                                 </div>
                                                 <div className="soLuong">
                                                     {item2.soLuong}
@@ -77,17 +81,11 @@ const DonHangMoi = () => {
                                 </div>
 
                                 <div className="khachHang">
-                                            <div>
-                                                {item?.khachHang?.hoTenNguoiMua}
-                                            </div>
-                                            <div>
-                                                {item?.khachHang?.sdtNguoiMua}
-                                            </div>
-                                            <div>
-                                                {item?.khachHang?.noiNhan}
-                                            </div>
-                                            <div>{item?.khachHang?.soBan}</div>
-                                        </div>
+                                    <div>{item?.khachHang?.hoTenNguoiMua}</div>
+                                    <div>{item?.khachHang?.sdtNguoiMua}</div>
+                                    <div>{item?.khachHang?.noiNhan}</div>
+                                    <div>{item?.khachHang?.soBan}</div>
+                                </div>
 
                                 <div className="xemChiTiet">Xem Chi Tiết</div>
                             </div>

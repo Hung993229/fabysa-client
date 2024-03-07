@@ -12,19 +12,27 @@
             height: 50vw;
             object-fit: cover;
         }
-        .tenCuaHang{
-            color: red;
-            font-weight: 600;
-            font-size: 5vw;
-            text-align: center;
-            text-shadow: 0.2vw 0.2vw 0.4vw #c4c726;
-            }
-            .slogan{
-              font-size: 3vw;
-            text-align: center;
-            margin-top: 1vw;
-              
-            }
+        // .tenShop-like{
+        //     display: flex;
+        //     font-size: 3.5vw;
+        //     font-weight: 600;
+        //     justify-content: center;
+        //     align-items: center;
+           
+            .tenCuaHang{
+                // width: 80%;
+                // background-color: red;
+            //    border: solid 1px gray;
+                color: red;
+                text-transform: uppercase;
+                padding: 2.5vw 0vw;
+                      font-size: 5vw;
+                    font-weight: 600;
+                }
+             
+        // }
+       
+           
         
             .tuVan-gioiThieu{
                 display: flex;
@@ -59,7 +67,7 @@
             }
             .gioiThieuChiTiet{
                 .closeGioiThieu{
-                    margin-top: 2vw;
+                    margin-bottom: 2vw;
                     border-radius: 3vw;
                     background-color: red;
                     padding: 1vw;
@@ -73,20 +81,30 @@
                     font-weight: 600;
                     font-size: 5vw;
                     text-align: center;
-                    margin-bottom: 2vw;
+                    margin-bottom: 1vw;
+                    text-transform: uppercase;
     
+
                 }
+                .slogan{
+                    font-size: 3.5vw;
+                  text-align: center;
+                  margin-bottom: 5vw;
+                  font-weight: 600;
+                //   text-transform: uppercase;
+                    
+                  }
                 .khoContainer{
                     display: grid;
                     grid-template-columns: 1fr 1fr 1fr;
                     gap: 5vw;
-                    margin: 2vw 15vw;
+                    margin: 5vw 15vw;
                     .kho{
                         // border: solid 1px red;
                         border-radius: 1vw;
                         background-color: #04aa6d;
                         color: #fff;
-                        padding: 0.5vw;
+                        padding: 1vw;
                         font-size: 3vw;
                         font-weight: 500;
                         cursor: pointer;
@@ -95,15 +113,17 @@
                 .dc{
                     font-size: 3vw;
                     text-align: left;
-                    margin-left: 5vw;
+                    margin: 1vw auto 1vw 5vw;
+                    line-height: 5vw;
     
                 }
-                .sdt{
-                    font-size: 3.5vw;
+                .camOn{
+                    font-size: 5vw;
                     font-weight: 600;
-                    margin-top: 1vw;
-    
+                    text-align: center;
+                    margin: 2vw auto;
                 }
+                
                 .mxh{
                     margin-top: 2vw;
                     display: flex;
@@ -126,41 +146,76 @@
                         border-radius: 50%;
                     }
                 }
+                .daLike{
+                    background-color:  #04aa6d;
+                    width: 30vw;
+                    font-size: 3.5vw;
+                    font-weight: 600;
+                    color: white;
+                    border: solid 1px gray;
+                    cursor: pointer;
+                    text-transform: uppercase;
+                    padding: 2vw 0vw;
+                    border-radius: 2vw;
+                    margin-top: 5vw;
+               
+    
+                }
+                .like{
+                    background-color:  red;
+                    width: 30vw;
+                    font-size: 3.5vw;
+                    font-weight: 600;
+                    color: white;
+                    border: solid 1px gray;
+                    cursor: pointer;
+                    text-transform: uppercase;
+                    padding: 2vw 0vw;
+                    border-radius: 2vw;
+                    margin-top: 5vw;
+    
+                }
             }
             .tuVanChiTiet{
-                .closeGioiThieu{
-                    margin-top: 2vw;
-            border-radius: 3vw;
-            background-color: red;
-            padding: 1vw;
-            width: 15vw;
-            font-size: 3vw;
-            border: none;
-            color: #fff;
-                }
-                .mxh{
-                    margin-top: 2vw;
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                    gap: 5vw;
-                    .zalo{
-                        background-color: #04aa6d;
-                        width: 16.8vw;
-                    height: 16.8vw;
-                    border-radius: 50%;
-    
-    
-    
-                    }
-                    .facebook{
-                        background-color: #04aa6d;
-                        width: 16.8vw;
-                        height: 16.8vw;
-                        border-radius: 50%;
-                    }
-                }
-              
+                
+             .closeGioiThieu{
+                margin-bottom: 2vw;
+                border-radius: 3vw;
+                background-color: red;
+                padding: 1vw;
+                width: 15vw;
+                font-size: 3vw;
+                border: none;
+                color: #fff;
+            }
+            .fabysa{
+                color: #04aa6d;
+                font-weight: 600;
+                font-size: 5vw;
+                text-align: center;
+                margin-bottom: 2vw;
+                text-transform: uppercase;
+            }
+            .gioiThieuFabysa{
+                font-size: 3vw;
+                text-align: left;
+                margin: 1vw auto 1vw 5vw;
+                line-height: 5vw;
+            }
+            .sanSale{
+                padding: 2vw;
+                // display: block;
+                color: #fff;
+                border-radius: 1vw;
+                background-color: #04aa6d;
+                width: 55vw;
+                text-align: center;
+                font-size: 5vw;
+                border: none;
+                margin-top: 5vw;
+                font-weight: 600;
+
+            }
             }
        
        
@@ -169,24 +224,22 @@
         a{text-decoration: none};
         .nhomSanPham-sanPham{
             margin: 5vw auto;
+            justify-content: center;
+            align-items: center;
             .nhomSanPham{
                 background-color: red;
                 font-size: 5vw;
-                font-weight: 600
-                ;     text-transform: uppercase;
+                font-weight: 600;     
+                text-transform: uppercase;
+                padding: 1vw;
                 color: white;
-                padding: 1vw auto;
-
-    
+                text-align: center;
             }
             .sanPham-container{
-           
-                display: grid;
-            grid-template-columns: 1fr 1fr;
-            
+            display: grid;
+            grid-template-columns: 1fr 1fr; 
             background-color: #88d3b4;
             padding: 1vw 0vw 3vw 0vw;
-        
             .sanPham {
                 justify-content: center;
                 align-items: center;
@@ -272,8 +325,11 @@
                    cursor: pointer;
                 }
                 .viTriSanPham{
-                    font-size: 3vw;
-                    gap: 1.5vw
+                    display: flex;
+                    font-size: 2vw;
+                    gap: 1vw;
+                    align-items: center;
+                    justify-content: center;
                 }
                
               

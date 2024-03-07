@@ -54,14 +54,19 @@ const DonHangLienKet = () => {
     return (
         <div className="donHangCtv-container">
             <MenuDonHang idShop={idShop} />
-            <div className="tieuDeDonHang">Đơn Hàng Cộng Tác Viên</div>
-            <div className="sanPham">
-                <div>Tên Sản Phẩm</div>
-                <div>Số Lượng</div>
-                <div>Hoa Hồng</div>
-                <div>Link Shop</div>
-                <div>Trạng Thái</div>
-            </div>
+            <div className="tieuDeDonHang">Đơn Hàng Liên Kết</div>
+            {donHangLienKet && donHangLienKet.length !== 0 ? (
+                <div className="sanPham">
+                    <div>Tên Sản Phẩm</div>
+                    <div>Số Lượng</div>
+                    <div>Hoa Hồng</div>
+                    <div>Link Shop</div>
+                    <div>Trạng Thái</div>
+                </div>
+            ) : (
+                <div>Đơn hàng trống!</div>
+            )}
+
             {donHangCtvChuaThanhToan?.map((item, index) => {
                 return (
                     <div key={index} className="sanPham">

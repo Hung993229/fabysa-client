@@ -6,18 +6,20 @@ import { useDispatch } from "react-redux";
 import { NavLink } from "react-router-dom";
 import { useNavigate, useParams } from "react-router-dom";
 import { getDonHang, updateDonHang, getttShop } from "../redux/apiRequest";
-import MenuDonHang from './MenuDonHang'
+import MenuDonHang from "./MenuDonHang";
 import { useEffect } from "react";
 const DonHangMoi = () => {
     const user = useSelector((state) => state.auth.login.currentUser);
-    const allDonHang = useSelector(
+    const allDonHang1 = useSelector(
         (state) => state.donHang.donHang.alldonHang?.allDonHang
     );
     const ttShop = useSelector((state) => state.ttShop.ttShop.ttShop?.shop);
+    const { idShop } = useParams();
+    const allDonHang = allDonHang1?.filter((item) => item?.idShop === idShop);
     console.log("allDonHang", allDonHang);
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const { idShop } = useParams();
+
     console.log("idShop", idShop);
     useEffect(() => {
         getttShop(idShop, dispatch);
@@ -61,14 +63,18 @@ const DonHangMoi = () => {
             <MenuDonHang idShop={idShop} />
             <div className="tieuDeDonHang">Đơn Hàng Mới</div>
             <div>
-                <div className="ttdonHang">
-                    <div>Thời Gian</div>
-                    <div>Sản Phẩm</div>
+                {allDonHang && allDonHang.length !== 0 ? (
+                    <div className="ttdonHang">
+                        <div>Thời Gian</div>
+                        <div>Sản Phẩm</div>
 
-                    <div>Khách Hàng</div>
+                        <div>Khách Hàng</div>
 
-                    <div>Xem Chi Tiết</div>
-                </div>
+                        <div>Xem Chi Tiết</div>
+                    </div>
+                ) : (
+                    <div>Đơn hàng trống!</div>
+                )}
                 {/* nhan tai quay */}
                 {allDonHang?.map((item, index) => {
                     return (
@@ -90,6 +96,7 @@ const DonHangMoi = () => {
                                                             key={index}
                                                         >
                                                             <div className="tenSanPham">
+                                                                -{" "}
                                                                 {
                                                                     item2.TenSanPham
                                                                 }
@@ -146,6 +153,7 @@ const DonHangMoi = () => {
                                                             key={index}
                                                         >
                                                             <div className="tenSanPham">
+                                                                -{" "}
                                                                 {
                                                                     item2.TenSanPham
                                                                 }

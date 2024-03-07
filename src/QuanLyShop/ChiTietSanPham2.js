@@ -1,5 +1,10 @@
 import "./ChiTietSanPham2.scss";
 import { useSelector } from "react-redux";
+import ReactHtmlParser, {
+    processNodes,
+    convertNodeToElement,
+    htmlparser2,
+} from "react-html-parser";
 const ChiTietSanPham2 = (props) => {
     const {
         cart,
@@ -13,6 +18,7 @@ const ChiTietSanPham2 = (props) => {
     const gioHang = useSelector(
         (state) => state.gioHang.gioHang.gioHang?.gioHang
     );
+    const ttShop = useSelector((state) => state.ttShop.ttShop.ttShop?.shop);
     const user = useSelector((state) => state.auth.login.currentUser);
     const VND = new Intl.NumberFormat("vi-VN", {
         style: "currency",
@@ -76,14 +82,17 @@ const ChiTietSanPham2 = (props) => {
 
                     <div className="viTriSanPham">
                         <i className="fa-solid fa-location-dot"></i>
-                        <div className="diachisanpham">{thongTinSp?.xa}</div>
-                        <div className="diachisanpham">{thongTinSp?.huyen}</div>
-                        <div className="diachisanpham">{thongTinSp?.tinh}</div>
+                        <div className="diachisanpham">{ttShop?.xa}</div>
+                        <div className="diachisanpham">{ttShop?.huyen}</div>
+                        <div className="diachisanpham">{ttShop?.tinh}</div>
                     </div>
                 </div>
             </div>
             <div className="tieuDeThongTinSanPham">Giới Thiệu Sản Phẩm</div>
-            <div className="thongTinSanPham">{thongTinSp?.thongTinSanPham}</div>
+
+            <div className="thongTinSanPham">
+                {ReactHtmlParser(thongTinSp?.thongTinSanPham)}
+            </div>
         </div>
     );
 };

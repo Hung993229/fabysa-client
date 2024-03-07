@@ -1,0 +1,66 @@
+/* Mobile & Tablet */
+@media screen and (max-width : 1023px) {
+   .DonMua{
+    margin-top: 15vw;
+    .CloseShop{
+        margin-bottom: 2vw;
+        border-radius: 3vw;
+        background-color: red;
+        padding: 1vw;
+        width: 15vw;
+        font-size: 3vw;
+        border: none;
+        color: #fff;
+    }
+    .tieuDeDonHang{
+      font-size: 5vw;
+      font-weight: 600;
+      margin: 3vw auto;
+  
+  }
+  .ttdonHang{
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      margin-bottom: 2vw;
+      font-size: 2.5vw;
+      font-weight: 400;
+      border: solid 1px gray;
+      justify-content: center;
+          align-items: center;
+          padding: 1vw;
+      
+
+      .thoiGian{
+          font-size: 2.5vw;
+
+      }
+      .SanPham{
+          display: flex;
+          gap: 2.5vw;
+          justify-content: center;
+          align-items: center;
+          
+          .tenSanPham{
+              width: 60%;
+              font-size: 2.2vw;
+              font-weight: 500;
+              text-transform: uppercase;
+              word-wrap:break-word;
+          overflow:auto;
+          }
+          .soLuong{
+            width: 40%;
+              font-size: 2.5vw;
+              font-weight: 500;
+
+          }
+      }
+     
+  }
+   }
+}
+
+/* PC*/
+@media screen and (min-width : 1024px) {
+   
+}

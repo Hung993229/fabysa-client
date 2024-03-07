@@ -126,7 +126,7 @@ const GioHang = (props) => {
                     idShop: idShop,
                     trangThaiDH: 1,
                     idCtv: "",
-                    idKhachHang: myDetail?.user || '',
+                    idKhachHang: myDetail?.user || "",
                 };
                 console.log("newDonHang", newDonHang);
                 registerDonHang(newDonHang, dispatch);
@@ -164,7 +164,6 @@ const GioHang = (props) => {
                         donHang: donHangQuantity,
                         idShop: idShop,
                         trangThaiDH: 1,
-                       
                     };
                     console.log("newDonHang", newDonHang);
                     registerDonHang(newDonHang, dispatch);
@@ -184,7 +183,7 @@ const GioHang = (props) => {
     );
     const [ghiChuNguoiMua2, setghiChuNguoiMua2] =
         useState("Giao sớm nhé Shop!");
-
+    console.log("myDetail", myDetail?.user);
     const handleDonHangUser = () => {
         if (!noiNhan) {
             alert("Vui lòng chọn nơi nhận!");
@@ -201,14 +200,14 @@ const GioHang = (props) => {
                         phuongThucTT: phuongThucTT,
                         noiNhan: noiNhan,
                     };
-
+                    const idKhachHang = myDetail?.user
                     const newDonHang = {
                         khachHang: khachHangArr,
                         donHang: donHangQuantity,
                         idShop: idShop,
                         trangThaiDH: 1,
                         idCtv: "",
-                        idKhachHang: myDetail?.user,
+                        idKhachHang: idKhachHang,
                     };
                     console.log("newDonHang", newDonHang);
                     registerDonHang(newDonHang, dispatch);
@@ -263,14 +262,6 @@ const GioHang = (props) => {
         tinhtongtien();
         tinhsoluong();
     });
-    // const handleXoaSanPham = (item) => {
-    //     if (cart?.length !== 0) {
-    //         const ProductExist = cart?.find((item2) => item2._id === item._id);
-    //         if (ProductExist) {
-    //             setcart(cart?.filter((item2) => item2._id !== item._id));
-    //         }
-    //     }
-    // };
     // Thay doi so luong
     return (
         <>

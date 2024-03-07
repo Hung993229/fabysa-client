@@ -53,8 +53,6 @@ const KhoSi = (props) => {
     const allshopLienKet = useSelector(
         (state) => state.yourStatus.yourStatus.allYourStatus?.yourStatus
     );
-    console.log("allshopLienKet", allshopLienKet);
-    console.log("shopLienKet", shopLienKet);
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const { idShop } = useParams();
@@ -205,6 +203,7 @@ const KhoSi = (props) => {
                         user: user._id,
                         sanPhamSi: gioHangUpdate,
                     };
+                    console.log("newshopLienKet", newshopLienKet);
                     updateYourStatusUser(
                         newshopLienKet,
                         xetIdShopLienKet._id,
@@ -224,7 +223,6 @@ const KhoSi = (props) => {
     const arrNhomSanPham2 = new Set(arrNhomSanPham3);
     const arrNhomSanPham = [...arrNhomSanPham2];
     // phan loai san pham
-    console.log("allSanPham", allSanPham);
     return (
         <>
             {loading === 0 ? (
