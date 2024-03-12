@@ -12,28 +12,13 @@
             height: 50vw;
             object-fit: cover;
         }
-        // .tenShop-like{
-        //     display: flex;
-        //     font-size: 3.5vw;
-        //     font-weight: 600;
-        //     justify-content: center;
-        //     align-items: center;
-           
             .tenCuaHang{
-                // width: 80%;
-                // background-color: red;
-            //    border: solid 1px gray;
                 color: red;
                 text-transform: uppercase;
                 padding: 2.5vw 0vw;
                       font-size: 5vw;
                     font-weight: 600;
                 }
-             
-        // }
-       
-           
-        
             .tuVan-gioiThieu{
                 display: flex;
                 gap: 30%;
@@ -152,7 +137,6 @@
                     font-size: 3.5vw;
                     font-weight: 600;
                     color: white;
-                    border: solid 1px gray;
                     cursor: pointer;
                     text-transform: uppercase;
                     padding: 2vw 0vw;
@@ -167,7 +151,6 @@
                     font-size: 3.5vw;
                     font-weight: 600;
                     color: white;
-                    border: solid 1px gray;
                     cursor: pointer;
                     text-transform: uppercase;
                     padding: 2vw 0vw;
@@ -338,6 +321,16 @@
         
             }
         }
+        .xemThem{
+            color: #fff;
+             margin: 5vw;
+             padding: 1vw;
+              background-color: #04aa6d;
+              width: 30vw;
+            font-weight: 600;
+              font-size: 3vw;
+              border-radius: 1vw;
+             }
     }
         
     }

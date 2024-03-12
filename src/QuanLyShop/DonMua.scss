@@ -32,6 +32,7 @@
 
       .thoiGian{
           font-size: 2.5vw;
+          text-transform: uppercase;
 
       }
       .SanPham{
@@ -52,11 +53,22 @@
             width: 40%;
               font-size: 2.5vw;
               font-weight: 500;
+              text-transform: uppercase;
 
           }
       }
      
   }
+  .xemThem{
+    color: #fff;
+     margin: 5vw;
+     padding: 1vw;
+      background-color: #04aa6d;
+      width: 30vw;
+    font-weight: 600;
+      font-size: 3vw;
+      border-radius: 1vw;
+     }
    }
 }
 

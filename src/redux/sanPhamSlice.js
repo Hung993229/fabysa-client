@@ -8,7 +8,7 @@ const sanPhamSlice = createSlice({
             error: false,
             success: false,
             allsanPham: null,
-            arrsanPham:null
+            arrsanPham: null,
         },
     },
     reducers: {
@@ -70,6 +70,7 @@ const sanPhamSlice = createSlice({
         getArrSanPhamFailed: (state) => {
             state.sanPham.isFetching = false;
             state.sanPham.error = true;
+            state.sanPham.arrsanPham = null;
         },
         deleteSanPhamStart: (state) => {
             state.sanPham.isFetching = true;

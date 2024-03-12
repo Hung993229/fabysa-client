@@ -2,54 +2,15 @@
 /* Mobile & Tablet */
 @media screen and (max-width : 1023px) {
     .home-container{
-        position: relative;
-        top: 30vw;
-        // width: 100vw;
-        border: #04aa6d solid 0.3vw;
-        padding: 5vw;
-        border-radius: 5vw;
-        margin: 6vw;
-        font-size: 3.5vw;
-        font-weight: 500;
-        .home-userlist{
-           text-align: center;
-           width: 50%;
-           margin: auto;
-           
-           
-            .home-user{
-                background-color: #04aa6d;
-                color: #fff;
-                border-radius: 2vw;
-                margin: 2vw;
-                border: solid 0.2vw #04aa6d;
-                cursor: pointer;
-            }
-        }
-        .QuanLYVaiTro{ 
-            // border: solid 0.2vw red;
-        }
-        .vaiTro{
-            margin: 5vw;
-            justify-content: center;
-            align-items: center;
-            gap: 5vw;
-            display: flex;
-            text-align: center;
-            border-radius: 2vw;
-            height: 10vw;
-            border: solid 0.2vw #04aa6d;
-        }
-        .buttonQuanly{
-            margin: 2vw;
-            width: 20vw;
-           
-                cursor: pointer;
-                border-radius: 1vw;
-                background-color: #04aa6d;
-                color: #fff;
-           
-        }
+       margin-top: 15vw;
+       font-size: 5vw;
+       font-weight: 600;
+       line-height: 8vw;
+       a{
+        text-decoration: none;
+       }
+      
+       
     }
 }
 

@@ -16,18 +16,16 @@ const DonHangMoi = () => {
     const ttShop = useSelector((state) => state.ttShop.ttShop.ttShop?.shop);
     const { idShop } = useParams();
     const allDonHang = allDonHang1?.filter((item) => item?.idShop === idShop);
-    console.log("allDonHang", allDonHang);
     const dispatch = useDispatch();
     const navigate = useNavigate();
-
-    console.log("idShop", idShop);
+    const [skip, setskip] = useState(0);
     useEffect(() => {
         getttShop(idShop, dispatch);
     }, []);
     const trangThaiDH = 1;
     useEffect(() => {
-        getDonHang(idShop, trangThaiDH, dispatch);
-    }, [idShop]);
+        getDonHang(idShop, skip, trangThaiDH, dispatch);
+    }, [idShop, skip]);
 
     const VND = new Intl.NumberFormat("vi-VN", {
         style: "currency",
@@ -38,7 +36,7 @@ const DonHangMoi = () => {
             return item?.khachHang?.soBan ? item?.khachHang?.soBan : null;
         })
         .filter((item2) => item2 !== null);
-    console.log("gopBanDonHang", gopBanDonHang);
+
     const gopSdtDonHang = allDonHang
         ?.map((item) => {
             return item?.khachHang?.sdtNguoiMua
@@ -46,7 +44,6 @@ const DonHangMoi = () => {
                 : null;
         })
         .filter((item2) => item2 !== null);
-    console.log("gopSdtDonHang", gopSdtDonHang);
     const donHangSdt = allDonHang?.map((item) => {
         return gopSdtDonHang.map((item2) => {
             return item.khachHang.sdtNguoiMua === item2
@@ -57,7 +54,6 @@ const DonHangMoi = () => {
         });
     });
 
-    console.log("donHangSdt", donHangSdt);
     return (
         <div className="donHang-container">
             <MenuDonHang idShop={idShop} />
@@ -81,7 +77,7 @@ const DonHangMoi = () => {
                         <div key={index}>
                             {item?.khachHang?.soBan && (
                                 <a
-                                    href={`/don-hang/${idShop}/${item._id}/${trangThaiDH}`}
+                                href={`/don-hang/${idShop}/${skip}/${item._id}/${trangThaiDH}`}
                                 >
                                     <div className="ttdonHang">
                                         <div className="thoiGian">
@@ -138,7 +134,7 @@ const DonHangMoi = () => {
                         <div key={index}>
                             {!item?.khachHang?.soBan && (
                                 <a
-                                    href={`/don-hang/${idShop}/${item._id}/${trangThaiDH}`}
+                                    href={`/don-hang/${idShop}/${skip}/${item._id}/${trangThaiDH}`}
                                 >
                                     <div className="ttdonHang">
                                         <div className="thoiGian">
@@ -189,6 +185,22 @@ const DonHangMoi = () => {
                         </div>
                     );
                 })}
+                {(skip > 20 || skip === 20) && (
+                    <button
+                        onClick={() => setskip(+skip - 20)}
+                        className="xemThem"
+                    >
+                        Quay Lại
+                    </button>
+                )}
+                {allDonHang?.length === 20 && (
+                    <button
+                        onClick={() => setskip(+skip + 20)}
+                        className="xemThem"
+                    >
+                        Xem Thêm
+                    </button>
+                )}
             </div>
         </div>
     );

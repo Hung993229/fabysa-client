@@ -27,7 +27,6 @@ const DonHang = () => {
     const allshopLienKet = useSelector(
         (state) => state.yourStatus.yourStatus.allYourStatus?.yourStatus
     );
-    console.log("allshopLienKet", allshopLienKet);
     const [sanPhamCtv, setsanPhamCtv] = useState([]);
     useEffect(() => {
         if (allshopLienKet && allshopLienKet.length !== 0) {
@@ -37,12 +36,11 @@ const DonHang = () => {
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const { idShop, idDonHang, trangThai } = useParams();
+    const { idShop, skip, idDonHang, trangThai } = useParams();
     const [Tongtien, setTongtien] = useState();
     const thongTindh = allDonHang?.find(
         (thongTindh) => thongTindh?._id === idDonHang
     );
-    console.log("thongTindh", thongTindh);
     const [arrayIdSanPham, setarrayIdSanPham] = useState(
         thongTindh?.donHang?.map((item) => {
             return item.idSanPham;
@@ -80,8 +78,8 @@ const DonHang = () => {
         getYourStatus(idShop, dispatch);
     }, []);
     useEffect(() => {
-        getDonHang(idShop, trangThai, dispatch);
-    }, [idShop]);
+        getDonHang(idShop, skip, trangThai, dispatch);
+    }, [idShop, skip]);
     const handleGiaoHang = () => {
         try {
             const newDonHang = {

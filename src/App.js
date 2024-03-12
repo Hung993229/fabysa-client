@@ -41,7 +41,6 @@ import DoiTac from "./QuanLyShop/DoiTac";
 import LichSuDonMua from "./QuanLyShop/LichSuDonMua";
 import DonMua from "./QuanLyShop/DonMua";
 import ShopYeuThich from "./QuanLyShop/ShopYeuThich";
-
 import { useState } from "react";
 
 function App() {
@@ -102,12 +101,19 @@ function App() {
                     <Route path="/tao-thong-tin" element={<FormRegister />} />
                     <Route path="/dang-ki" element={<DangKi />} />
                     <Route path="/dang-nhap" element={<DangNhap />} />
-                    <Route path="/quan-ly-user" element={<QuanLyUser />} />
+                    <Route
+                        path="/quan-ly-user"
+                        element={
+                            <>
+                                <Header className="header" />
+                                <QuanLyUser />
+                            </>
+                        }
+                    />
                     <Route
                         path="/hom-thu"
                         element={
                             <>
-                                <Header className="header" />
                                 <HomThu /> <Nav />
                             </>
                         }
@@ -116,6 +122,7 @@ function App() {
                         path="/add-shop"
                         element={
                             <>
+                                <Header />
                                 <AddShop />
                             </>
                         }
@@ -236,10 +243,6 @@ function App() {
                                     setshowcart={setshowcart}
                                     Tongsoluong={Tongsoluong}
                                     Tongtien={Tongtien}
-                                    // arraySanPhamQuantity={arraySanPhamQuantity}
-                                    // setarraySanPhamQuantity={
-                                    //     setarraySanPhamQuantity
-                                    // }
                                 />
                                 <KhoSi
                                     showcart={showcart}
@@ -248,10 +251,6 @@ function App() {
                                     setTongsoluong={setTongsoluong}
                                     Tongtien={Tongtien}
                                     Tongsoluong={Tongsoluong}
-                                    // arraySanPhamQuantity={arraySanPhamQuantity}
-                                    // setarraySanPhamQuantity={
-                                    //     setarraySanPhamQuantity
-                                    // }
                                 />
                                 {/* <Nav /> */}
                             </>
@@ -309,7 +308,7 @@ function App() {
                         }
                     />
                     <Route
-                        path="/don-hang/:idShop/:idDonHang/:trangThai"
+                        path="/don-hang/:idShop/:skip/:idDonHang/:trangThai"
                         element={
                             <>
                                 <Header className="header" />
@@ -395,6 +394,15 @@ function App() {
                                 {/* <DangHoanThien /> */}
                                 <Fabysa />
                                 {/* <Nav /> */}
+                            </>
+                        }
+                    />
+                    <Route
+                        path="/fabysa/:spa/:spb"
+                        element={
+                            <>
+                                <Header />
+                                <Fabysa />
                             </>
                         }
                     />

@@ -17,6 +17,7 @@ import {
     registerYourStatus,
     updateYourStatusUser,
     getYourStatus,
+    getAllttShop,
 } from "../redux/apiRequest";
 import { useEffect } from "react";
 import GioHangSi from "./GioHangSi";
@@ -62,6 +63,7 @@ const KhoSi = (props) => {
     const [tuVanVaThongTin, settuVanVaThongTin] = useState(0);
     const [loading, setloading] = useState(1);
     const [idShopLienKet, setidShopLienKet] = useState();
+    const [skip, setskip] = useState(0);
 
     useEffect(() => {
         if (user && user.length !== 0) {
@@ -78,17 +80,17 @@ const KhoSi = (props) => {
         getttShop(idShop, dispatch);
     }, []);
     useEffect(() => {
-        getSanPham(idShop, dispatch, setloading);
+        if (user) {
+            getAllttShop(user?._id, dispatch);
+        }
     }, []);
+    useEffect(() => {
+        getSanPham(idShop, skip, dispatch, setloading);
+    }, [idShop, skip]);
     const VND = new Intl.NumberFormat("vi-VN", {
         style: "currency",
         currency: "VND",
     });
-
-    // phan loai san pham
-    const allSanPhamDan = allSanPham?.filter(
-        (item) => item.nhomSanPham === "Sản Phẩm Dẫn"
-    );
     // Them gio Hang
     const handleThemGioHang = (item) => {
         const ProductExist = cart?.find((item2) => item2?._id === item._id);
@@ -207,6 +209,7 @@ const KhoSi = (props) => {
                     updateYourStatusUser(
                         newshopLienKet,
                         xetIdShopLienKet._id,
+                        setloading,
                         dispatch
                     );
                 } else {
@@ -217,8 +220,11 @@ const KhoSi = (props) => {
     };
     // Them vao Shop
     // phan loai san pham
-    const arrNhomSanPham3 = allSanPham?.map((item) => {
-        return item.nhomSanPham !== "Sản Phẩm Dẫn" && item.nhomSanPham;
+    const allSanPhamx = allSanPham?.filter(
+        (item) => item.nhomSanPham !== "Sản Phẩm Dẫn"
+    );
+    const arrNhomSanPham3 = allSanPhamx?.map((item) => {
+        return item.nhomSanPham;
     });
     const arrNhomSanPham2 = new Set(arrNhomSanPham3);
     const arrNhomSanPham = [...arrNhomSanPham2];
@@ -240,12 +246,11 @@ const KhoSi = (props) => {
                                                         className="banner-container"
                                                     />
                                                 </div>
-                                                <div className="tenCuaHang">
-                                                    {ttShop?.TenShop}
-                                                </div>
-                                                <div className="slogan">
-                                                    {ttShop?.sloganShop}
-                                                </div>
+                                                <a href={`/shop/${idShop}`}>
+                                                    <div className="tenCuaHang">
+                                                        {ttShop?.TenShop}
+                                                    </div>
+                                                </a>
 
                                                 <div className="tuVan-gioiThieu">
                                                     <button
@@ -256,7 +261,7 @@ const KhoSi = (props) => {
                                                             )
                                                         }
                                                     >
-                                                        QR Code
+                                                        Fabysa
                                                     </button>
                                                     <button
                                                         className="gioiThieu"
@@ -271,73 +276,27 @@ const KhoSi = (props) => {
                                                 </div>
                                                 {tuVanVaThongTin === 1 && (
                                                     <div className="gioiThieuChiTiet">
+                                                        <button
+                                                            className="closeGioiThieu"
+                                                            onClick={() =>
+                                                                settuVanVaThongTin(
+                                                                    0
+                                                                )
+                                                            }
+                                                        >
+                                                            Close
+                                                        </button>
                                                         <a
                                                             href={`/shop/${idShop}`}
                                                         >
                                                             <div className="tenCuaHang2">
-                                                                {
-                                                                    ttShop?.TenShop
-                                                                }
+                                                                Trang Chủ
                                                             </div>
                                                         </a>
-
-                                                        <button
-                                                            className="closeGioiThieu"
-                                                            onClick={() =>
-                                                                settuVanVaThongTin(
-                                                                    0
-                                                                )
-                                                            }
-                                                        >
-                                                            Close
-                                                        </button>
                                                     </div>
                                                 )}
                                                 {tuVanVaThongTin === 2 && (
                                                     <div className="tuVanChiTiet">
-                                                        <div className="loiNhan">
-                                                            Quý Khách có thắc
-                                                            mắc hoặc cần tư vấn
-                                                            xin vui lòng <br />{" "}
-                                                            nhắn tin qua Zalo,
-                                                            Facebook bên dưới!
-                                                        </div>
-                                                        <div className="mxh">
-                                                            <div className="zalo">
-                                                                <a
-                                                                    href={
-                                                                        ttShop?.linkZalo
-                                                                    }
-                                                                    target="_blank"
-                                                                >
-                                                                    <img
-                                                                        src={
-                                                                            zaloLogo
-                                                                        }
-                                                                        className="zalo"
-                                                                    />
-                                                                </a>
-                                                            </div>
-                                                            <div className="facebook">
-                                                                <a
-                                                                    href={
-                                                                        ttShop?.linkFacebook
-                                                                    }
-                                                                    target="_blank"
-                                                                >
-                                                                    <img
-                                                                        src={
-                                                                            facebookLogo
-                                                                        }
-                                                                        className="facebook"
-                                                                    />
-                                                                </a>
-                                                            </div>
-                                                        </div>
-                                                        <div className="loiNhan">
-                                                            Xin trân trọng cảm
-                                                            ơn!
-                                                        </div>
                                                         <button
                                                             className="closeGioiThieu"
                                                             onClick={() =>
@@ -348,6 +307,24 @@ const KhoSi = (props) => {
                                                         >
                                                             Close
                                                         </button>
+
+                                                        <div className="fabysa">
+                                                            Trung Tâm Thương Mại
+                                                            24/7
+                                                        </div>
+                                                        <div className="gioiThieuFabysa">
+                                                            - Đây là nơi giới
+                                                            thiệu danh sách Shop
+                                                            Online Uy Tín!{" "}
+                                                            <br /> - Thuộc đa
+                                                            dạng ngành hàng, giá
+                                                            cả ưu đãi!
+                                                        </div>
+                                                        <a href={`/fabysa`}>
+                                                            <button className="sanSale">
+                                                                Săn Sale Ngay
+                                                            </button>
+                                                        </a>
                                                     </div>
                                                 )}
                                             </div>
@@ -362,10 +339,9 @@ const KhoSi = (props) => {
                                                                     className="nhomSanPham-sanPham"
                                                                 >
                                                                     <div className="nhomSanPham">
-                                                                        {item2 ===
-                                                                        "Sản Phẩm Dẫn"
-                                                                            ? "Khuyến Mại Đặc Biệt"
-                                                                            : item2}
+                                                                        {item2 !==
+                                                                            "Sản Phẩm Dẫn" &&
+                                                                            item2}
                                                                     </div>
 
                                                                     <div className="sanPham-container">
@@ -550,6 +526,26 @@ const KhoSi = (props) => {
                                                             );
                                                         }
                                                     )}
+                                                {(skip > 20 || skip === 20) && (
+                                                    <button
+                                                        onClick={() =>
+                                                            setskip(+skip - 20)
+                                                        }
+                                                        className="xemThem"
+                                                    >
+                                                        Quay Lại
+                                                    </button>
+                                                )}
+                                                {allSanPham?.length === 20 && (
+                                                    <button
+                                                        onClick={() =>
+                                                            setskip(+skip + 20)
+                                                        }
+                                                        className="xemThem"
+                                                    >
+                                                        Xem Thêm
+                                                    </button>
+                                                )}
                                             </div>
                                         </div>
                                     )}

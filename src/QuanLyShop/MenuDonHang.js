@@ -2,11 +2,12 @@ import "./MenuDonHang.scss";
 import { useState } from "react";
 const MenuDonHang = (props) => {
     const { idShop } = props;
-    console.log("idShop", idShop);
     const [showMenu, setshowMenu] = useState(0);
     return (
         <div className="menuDonHang">
-            <div className="menu" onClick={() => setshowMenu(1)}>Menu</div>
+            <div className="menu" onClick={() => setshowMenu(1)}>
+                Menu
+            </div>
             {showMenu === 1 && (
                 <>
                     <div className="donHang-nav">
@@ -26,7 +27,9 @@ const MenuDonHang = (props) => {
                         </a>
                     </div>
 
-                    <button className="close" onClick={() => setshowMenu(0)}>Close</button>
+                    <button className="close" onClick={() => setshowMenu(0)}>
+                        Close
+                    </button>
                 </>
             )}
         </div>

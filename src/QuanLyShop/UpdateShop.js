@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
+import Loading from "../GiaoDienChung/Loading";
 import {
     getttShop,
     updatettShop,
@@ -48,18 +49,19 @@ const UpdateShop = () => {
     const [allSanPham, setallSanPham] = useState([]);
     const [arrNhomSanPham, setarrNhomSanPham] = useState([]);
     const [loading, setloading] = useState(1);
+    const [skip, setskip] = useState(0);
+    const [suaThongTinShop, setsuaThongTinShop] = useState(0);
     const dispatch = useDispatch();
     const navigate = useNavigate();
     useEffect(() => {
-        getSanPham(idShop, dispatch);
-    }, []);
+        getSanPham(idShop, skip, dispatch, setloading);
+    }, [suaThongTinShop]);
     useEffect(() => {
         getPost(user?._id, dispatch, setloading);
     }, [user]);
     useEffect(() => {
         getYourStatus(idShop, dispatch);
-    }, []);
-    console.log("allshopLienKet", allshopLienKet);
+    }, [suaThongTinShop]);
     useEffect(() => {
         if (allshopLienKet) {
             const arrIdSanPham2 = allshopLienKet[0]?.sanPhamCtv.concat(
@@ -69,28 +71,71 @@ const UpdateShop = () => {
             const arrIdSanPham = [...arrIdSanPham3];
             getArrSanPham(arrIdSanPham, dispatch);
         }
-    }, [allshopLienKet]);
+    }, [allshopLienKet, suaThongTinShop]);
     // san pham
     // shop
-    const [suaThongTinShop, setsuaThongTinShop] = useState(0);
+
     useEffect(() => {
         getttShop(idShop, dispatch);
-    }, [suaThongTinShop]);
+    }, [suaThongTinShop, idShop]);
     const [previewAvatar, setpreviewAvatar] = useState();
     const [previewBanner, setpreviewBanner] = useState();
-    const [Banner, setBanner] = useState(ttShop?.Banner);
-    const [TenShop, setTenShop] = useState(ttShop?.TenShop);
-    const [website, setwebsite] = useState(ttShop?.website);
-    const [linkFacebook, setlinkFacebook] = useState(ttShop?.linkFacebook);
-    const [linkZalo, setlinkZalo] = useState(ttShop?.linkZalo);
-    const [idNhanVien, setidNhanVien] = useState(ttShop?.idNhanVien);
-    const [DcShop, setDcShop] = useState(ttShop?.dcShop);
+    const [Banner, setBanner] = useState();
+    const [TenShop, setTenShop] = useState();
+    const [website, setwebsite] = useState();
+    const [linkFacebook, setlinkFacebook] = useState();
+    const [linkZalo, setlinkZalo] = useState();
+    const [idNhanVien, setidNhanVien] = useState();
+    const [DcShop, setDcShop] = useState();
+    const [SdtShop, setSdtShop] = useState();
+    const [SloganShop, setSloganShop] = useState();
+    const [UserShop, setUserShop] = useState();
+    const [nguoiHoTro, setnguoiHoTro] = useState();
+    const [vaiTro, setvaiTro] = useState();
+    const [loaiSanPham, setloaiSanPham] = useState();
+    const [resetNhomSanPham, setresetNhomSanPham] = useState(1);
+    const [nhomSanPhamReSet, setnhomSanPhamReSet] = useState([]);
+    useEffect(() => {
+        if (+resetNhomSanPham === 2) {
+            setnhomSanPhamReSet([
+                "Điện Thoại",
+                "Máy Tính",
+                "Camera Giám Sát",
+                "Quần Áo Nam",
+                "Quần Áo Nữ",
+                "Giày Nam",
+                "Giày Nữ",
+                "Đồng Hồ Nam",
+                "Đồng Hồ Nữ",
+                "Thiết Bị Gia Dụng",
+                "Thiết Bị Y Tế",
+                "Hoa Quả",
+                "Thực Phẩm Thịt",
+                "Rau, Củ, Quả",
+            ]);
+        }
+        if (+resetNhomSanPham === 1) {
+            setnhomSanPhamReSet(loaiSanPham);
+        }
+    }, [resetNhomSanPham]);
 
-    const [SdtShop, setSdtShop] = useState(ttShop?.sdtShop);
-    const [SloganShop, setSloganShop] = useState(ttShop?.sloganShop);
-    const [UserShop, setUserShop] = useState(ttShop?.user);
-    const [vaiTro, setvaiTro] = useState(ttShop?.vaiTro);
-    console.log("vaiTro", vaiTro);
+    useEffect(() => {
+        if (ttShop) {
+            setvaiTro(ttShop?.vaiTro);
+            setnguoiHoTro(ttShop?.nguoiHoTro);
+            setUserShop(ttShop?.user);
+            setSloganShop(ttShop?.sloganShop);
+            setSdtShop(ttShop?.sdtShop);
+            setDcShop(ttShop?.dcShop);
+            setidNhanVien(ttShop?.idNhanVien);
+            setlinkZalo(ttShop?.linkZalo);
+            setlinkFacebook(ttShop?.linkFacebook);
+            setwebsite(ttShop?.website);
+            setTenShop(ttShop?.TenShop);
+            setBanner(ttShop?.Banner);
+            setloaiSanPham(ttShop?.nhomSanPham);
+        }
+    }, [ttShop]);
 
     // Provinces
     const [provinces, setProvinces] = useState([]);
@@ -130,7 +175,7 @@ const UpdateShop = () => {
 
             setarrNhomSanPham([...arrNhomSanPham2]);
         }
-    }, [allSanPhamx]);
+    }, [allSanPhamx, setloading, setsuaThongTinShop]);
     // sua sanPham
     const handleSuaSanPham = (id) => {
         setsuaThongTinShop(3);
@@ -195,13 +240,21 @@ const UpdateShop = () => {
             idtk: ttShop?.user,
             user: idShop,
         };
-        console.log("id", id);
-        console.log("newSanPham", newSanPham);
-        updateSanPham(newSanPham, id, dispatch);
-        setsuaThongTinShop(0);
+        updateSanPham(newSanPham, id, setsuaThongTinShop, setloading, dispatch);
+        setloading(1);
+        if (nhomSanPhamMoi2 && nhomSanPhamMoi2.length !== 0) {
+            const nhomSanPham = [...loaiSanPham, nhomSanPhamMoi2];
+            const id = ttShop._id;
+            const newShop = {
+                nhomSanPham: nhomSanPham,
+            };
+            updatettShop(newShop, id, dispatch, setloading, setsuaThongTinShop);
+            setnhomSanPhamMoi2();
+        }
     };
     const handleXoaSanPham = (id) => {
-        deleteSanPham(id, dispatch);
+        deleteSanPham(id, setloading, dispatch);
+        setloading(1);
     };
     const handleThemSanPham = () => {
         if (
@@ -234,8 +287,29 @@ const UpdateShop = () => {
                 user: idShop,
             };
             console.log("newSanPham", newSanPham);
-            registerSanPham(newSanPham, dispatch);
-            setsuaThongTinShop(0);
+            registerSanPham(
+                newSanPham,
+                dispatch,
+                setloading,
+                setsuaThongTinShop
+            );
+
+            if (nhomSanPhamMoi && nhomSanPhamMoi.length !== 0) {
+                const nhomSanPham = [...loaiSanPham, nhomSanPhamMoi];
+                const id = ttShop._id;
+                const newShop = {
+                    nhomSanPham: nhomSanPham,
+                };
+                updatettShop(
+                    newShop,
+                    id,
+                    dispatch,
+                    setloading,
+                    setsuaThongTinShop
+                );
+                setnhomSanPhamMoi();
+            }
+
             setAnhSanPham();
             setTenSanPham();
             settinhTrang();
@@ -248,7 +322,7 @@ const UpdateShop = () => {
             setthongTinSanPham();
             setpreviewSanPham();
             setnhomSanPhamMoi();
-            // navigate(`/update-shop/${idShop}`);
+            setloading(1);
         }
     };
     const handleOnchangeImageSanPham = async (e) => {
@@ -325,6 +399,7 @@ const UpdateShop = () => {
             (item) => item.district_id === districtID
         );
         const tenXa = wards?.find((item) => item.ward_id === wardID);
+
         try {
             const id = ttShop._id;
             const newShop = {
@@ -340,17 +415,18 @@ const UpdateShop = () => {
                 linkFacebook: linkFacebook,
                 linkZalo: linkZalo,
                 idNhanVien: idNhanVien,
+                nguoiHoTro: nguoiHoTro,
                 vaiTro: vaiTro,
+                nhomSanPham: nhomSanPhamReSet,
                 user: UserShop,
             };
-            updatettShop(newShop, id, dispatch);
             console.log("newShop", newShop);
-            setsuaThongTinShop(0);
+            updatettShop(newShop, id, dispatch, setloading, setsuaThongTinShop);
+            setloading(1);
             const newPost = {
                 vaiTro: vaiTro,
             };
             const idpost = myDetail?._id;
-            console.log("newPost", newPost);
             updatePost(newPost, idpost, dispatch);
         } catch (err) {
             console.log(err);
@@ -373,1136 +449,878 @@ const UpdateShop = () => {
             sanPhamSi: sanPhamSi,
             sanPhamCtv: sanPhamCtv,
         };
-        updateYourStatusUser(newshopLienKet, allshopLienKet[0]?._id, dispatch);
+        updateYourStatusUser(
+            newshopLienKet,
+            allshopLienKet[0]?._id,
+            setloading,
+            dispatch
+        );
+        setloading(1);
     };
-    console.log("all", allSanPham);
     return (
         <>
             {!user ? (
                 <DangNhap />
             ) : (
                 <>
-                    {user?._id === ttShop?.user ||
-                    user?._id === ttShop?.idNhanVien ? (
-                        <div className="updateShop-container">
-                            {/* ban dau */}
-                            {+suaThongTinShop === 0 ? (
-                                <div className="thongTinShop">
-                                    <div className="headerShop">
-                                        <div>
-                                            <img
-                                                src={ttShop?.Banner}
-                                                className="bannerShop"
-                                            />
-                                        </div>
-                                        <div className="tenCuaHang">
-                                            {ttShop?.TenShop}
-                                        </div>
-                                        <div className="sloganShop">
-                                            {ttShop?.sloganShop}
-                                        </div>
-                                    </div>
-
-                                    <div className="themSanPham-suaThongTinShop">
-                                        <button
-                                            className="themSanPham"
-                                            onClick={() =>
-                                                setsuaThongTinShop(2)
-                                            }
-                                        >
-                                            Thêm Sản Phẩm
-                                        </button>
-                                        <button
-                                            className="suaThongTinShop"
-                                            onClick={() =>
-                                                setsuaThongTinShop(1)
-                                            }
-                                        >
-                                            Sửa Thông Tin Shop
-                                        </button>
-                                    </div>
-                                    <div className="nhomSanPham-sanPham">
-                                        {arrNhomSanPham &&
-                                            arrNhomSanPham?.map(
-                                                (item2, index) => {
-                                                    return (
-                                                        <div key={index}>
-                                                            {item2 ===
-                                                            "Sản Phẩm Dẫn" ? (
-                                                                <div className="nhomSanPham">
-                                                                    Top Sản Phẩm
-                                                                    Bán Chạy
-                                                                </div>
-                                                            ) : (
-                                                                <div className="nhomSanPham">
-                                                                    {item2}
-                                                                </div>
-                                                            )}
-
-                                                            <div className="sanPham-container">
-                                                                {allSanPham &&
-                                                                    allSanPham?.map(
-                                                                        (
-                                                                            item,
-                                                                            index
-                                                                        ) => {
-                                                                            return (
-                                                                                item?.nhomSanPham ===
-                                                                                    item2 && (
-                                                                                    <div
-                                                                                        key={
-                                                                                            item._id
-                                                                                        }
-                                                                                        className="sanPham"
-                                                                                    >
-                                                                                        <div className="suaxoa">
-                                                                                            <button
-                                                                                                className="sua"
-                                                                                                onClick={() =>
-                                                                                                    handleSuaSanPham(
-                                                                                                        item._id
-                                                                                                    )
-                                                                                                }
-                                                                                            >
-                                                                                                Sửa
-                                                                                                Sản
-                                                                                                Phẩm
-                                                                                            </button>
-
-                                                                                            <button
-                                                                                                className="xoa"
-                                                                                                onClick={() =>
-                                                                                                    handleXoaSanPham(
-                                                                                                        item._id
-                                                                                                    )
-                                                                                                }
-                                                                                            >
-                                                                                                {" "}
-                                                                                                <a
-                                                                                                    href={`/update-shop/${idShop}`}
-                                                                                                >
-                                                                                                    Xoá
-                                                                                                    Sản
-                                                                                                    Phẩm{" "}
-                                                                                                </a>
-                                                                                            </button>
-                                                                                        </div>
-                                                                                        <div>
-                                                                                            <img
-                                                                                                src={
-                                                                                                    item?.AnhSanPham
-                                                                                                }
-                                                                                                className="anhSanPham"
-                                                                                                alt="timtim"
-                                                                                            />
-
-                                                                                            <div className="tenSanPham">
-                                                                                                {
-                                                                                                    item?.TenSanPham
-                                                                                                }
-                                                                                            </div>
-                                                                                            <div className="giaBan">
-                                                                                                <div className="giaBanMoi">
-                                                                                                    {VND.format(
-                                                                                                        item?.giaKhuyenMai
-                                                                                                    )}
-                                                                                                </div>
-
-                                                                                                <div className="giaGiam">
-                                                                                                    <div className="giabanCu">
-                                                                                                        {VND.format(
-                                                                                                            item?.giaNiemYet
-                                                                                                        )}
-                                                                                                    </div>
-                                                                                                    <div className="phanTram">
-                                                                                                        Giảm&nbsp;
-                                                                                                        {Math.floor(
-                                                                                                            (100 *
-                                                                                                                (item?.giaNiemYet -
-                                                                                                                    item?.giaKhuyenMai)) /
-                                                                                                                item?.giaNiemYet
-                                                                                                        )}
-
-                                                                                                        %
-                                                                                                    </div>
-                                                                                                </div>
-                                                                                            </div>
-
-                                                                                            <button className="muaHang">
-                                                                                                MUA
-                                                                                                HÀNG
-                                                                                            </button>
-                                                                                            <div className="viTriSanPham">
-                                                                                                <i className="fa-solid fa-location-dot"></i>
-                                                                                                <div className="diachisanpham">
-                                                                                                    {
-                                                                                                        item?.xa
-                                                                                                    }
-                                                                                                </div>
-                                                                                                <div className="diachisanpham">
-                                                                                                    {
-                                                                                                        item?.huyen
-                                                                                                    }
-                                                                                                </div>
-                                                                                                <div className="diachisanpham">
-                                                                                                    {
-                                                                                                        item?.tinh
-                                                                                                    }
-                                                                                                </div>
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                )
-                                                                            );
-                                                                        }
-                                                                    )}
-                                                            </div>
-                                                        </div>
-                                                    );
-                                                }
-                                            )}
-                                        {arraySanPham &&
-                                            arraySanPham.length !== 0 && (
-                                                <div className="nhomSanPham">
-                                                    Sản Phẩm Liên Kết
-                                                </div>
-                                            )}
-                                        {arraySanPham &&
-                                            arraySanPham.length !== 0 && (
-                                                <div className="sanPham-container">
-                                                    {arraySanPham &&
-                                                        arraySanPham?.map(
-                                                            (item) => {
-                                                                return (
-                                                                    <div
-                                                                        key={
-                                                                            item._id
-                                                                        }
-                                                                        className="sanPham"
-                                                                    >
-                                                                        <div className="suaxoa">
-                                                                            <button
-                                                                                className="xoa"
-                                                                                onClick={() =>
-                                                                                    handleXoaSanPhamlienket(
-                                                                                        item._id
-                                                                                    )
-                                                                                }
-                                                                            >
-                                                                                Xoá
-                                                                                Sản
-                                                                                Phẩm
-                                                                            </button>
-                                                                        </div>
-                                                                        <div>
-                                                                            <img
-                                                                                src={
-                                                                                    item?.AnhSanPham
-                                                                                }
-                                                                                className="anhSanPham"
-                                                                                alt="timtim"
-                                                                            />
-
-                                                                            <div className="tenSanPham">
-                                                                                {
-                                                                                    item?.TenSanPham
-                                                                                }
-                                                                            </div>
-                                                                            <div className="giaBan">
-                                                                                <div className="giaBanMoi">
-                                                                                    {VND.format(
-                                                                                        item?.giaKhuyenMai
-                                                                                    )}
-                                                                                </div>
-
-                                                                                <div className="giaGiam">
-                                                                                    <div className="giabanCu">
-                                                                                        {VND.format(
-                                                                                            item?.giaNiemYet
-                                                                                        )}
-                                                                                    </div>
-                                                                                    <div className="phanTram">
-                                                                                        Giảm&nbsp;
-                                                                                        {Math.floor(
-                                                                                            (100 *
-                                                                                                (item?.giaNiemYet -
-                                                                                                    item?.giaKhuyenMai)) /
-                                                                                                item?.giaNiemYet
-                                                                                        )}
-
-                                                                                        %
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-
-                                                                            <button className="muaHang">
-                                                                                MUA
-                                                                                HÀNG
-                                                                            </button>
-                                                                            <div className="viTriSanPham">
-                                                                                <i className="fa-solid fa-location-dot"></i>
-                                                                                <div className="diachisanpham">
-                                                                                    {
-                                                                                        item?.xa
-                                                                                    }
-                                                                                </div>
-                                                                                <div className="diachisanpham">
-                                                                                    {
-                                                                                        item?.huyen
-                                                                                    }
-                                                                                </div>
-                                                                                <div className="diachisanpham">
-                                                                                    {
-                                                                                        item?.tinh
-                                                                                    }
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                );
-                                                            }
-                                                        )}
-                                                </div>
-                                            )}
-                                    </div>
-                                </div>
-                            ) : (
-                                <div> </div>
-                            )}
-                            {/* sua shop */}
-                            {+suaThongTinShop === 1 ? (
-                                <div className="UpdateShop">
-                                    <div className="banner-container">
-                                        <label hidden>Banner</label>
-                                        <div>
-                                            <input
-                                                id="banner"
-                                                type="file"
-                                                hidden
-                                                onChange={
-                                                    handleOnchangeImageBanner
-                                                }
-                                                className="bannerShop"
-                                            />
-                                            <label
-                                                htmlFor="banner"
-                                                className="bannerShop"
-                                            >
+                    {loading === 0 ? (
+                        <>
+                            {user?._id === ttShop?.user ||
+                            user?.admin === true ||
+                            user?._id === ttShop?.idNhanVien ? (
+                                <div className="updateShop-container">
+                                    {/* ban dau */}
+                                    {+suaThongTinShop === 0 ? (
+                                        <div className="thongTinShop">
+                                            <div className="headerShop">
                                                 <div>
-                                                    {previewBanner ? (
-                                                        <img
-                                                            src={
-                                                                previewBanner.preview
-                                                            }
-                                                            className="bannerShop"
-                                                        />
-                                                    ) : (
-                                                        <img
-                                                            src={Banner}
-                                                            className="bannerShop"
-                                                        />
-                                                    )}
+                                                    <img
+                                                        src={ttShop?.Banner}
+                                                        className="bannerShop"
+                                                    />
                                                 </div>
-                                            </label>
-                                        </div>
-                                    </div>
-                                    <div className="containerTieuChiFormregis">
-                                        <div className="tieuChiFormregis">
-                                            Tên Shop
-                                        </div>
-                                        <input
-                                            className="noiDungFormregis3"
-                                            placeholder={ttShop?.TenShop}
-                                            type="text"
-                                            onChange={(e) =>
-                                                setTenShop(e.target.value)
-                                            }
-                                        />
-                                    </div>
-
-                                    <div className="containerTieuChiFormregis">
-                                        <div className="tieuChiFormregis">
-                                            Website
-                                        </div>
-                                        <input
-                                            className="noiDungFormregis3"
-                                            placeholder={ttShop?.website}
-                                            type="text"
-                                            onChange={(e) =>
-                                                setwebsite(e.target.value)
-                                            }
-                                        />
-                                    </div>
-
-                                    <div className="containerTieuChiFormregis">
-                                        <div className="tieuChiFormregis">
-                                            Số Điện Thoại
-                                        </div>
-                                        <input
-                                            className="noiDungFormregis3"
-                                            placeholder={ttShop.sdtShop}
-                                            type="text"
-                                            onChange={(e) =>
-                                                setSdtShop(e.target.value)
-                                            }
-                                        />
-                                    </div>
-
-                                    <div className="containerTieuChiFormregis">
-                                        <div className="tieuChiFormregis">
-                                            Khẩu Hiệu
-                                        </div>
-                                        <input
-                                            className="noiDungFormregis3"
-                                            placeholder={ttShop?.sloganShop}
-                                            type="text"
-                                            onChange={(e) =>
-                                                setSloganShop(e.target.value)
-                                            }
-                                        />
-                                    </div>
-                                    <div className="containerTieuChiFormregis">
-                                        <div className="tieuChiFormregis">
-                                            Địa Chỉ
-                                        </div>
-                                        <input
-                                            className="noiDungFormregis3"
-                                            placeholder={ttShop?.dcShop}
-                                            type="text"
-                                            onChange={(e) =>
-                                                setDcShop(e.target.value)
-                                            }
-                                        />
-                                    </div>
-                                    <div className="containerTieuChiFormregis">
-                                        <div className="tieuChiFormregis">
-                                            Chọn Địa Chỉ Shop
-                                        </div>
-
-                                        <div className="noiDungFormregis">
-                                            <label hidden>Tỉnh</label>
-                                            <select
-                                                id="provinces"
-                                                onChange={(e) =>
-                                                    setprovincesID(
-                                                        e.target.value
-                                                    )
-                                                }
-                                                // onChange={(e) => console.log("e", e)}
-                                            >
-                                                <option value="">
-                                                    ---Chọn Tỉnh/TP---
-                                                </option>
-                                                {provinces?.map((item) => {
-                                                    return (
-                                                        <option
-                                                            key={
-                                                                item.province_id
-                                                            }
-                                                            value={
-                                                                item.province_id
-                                                            }
-                                                        >
-                                                            {item.province_name}
-                                                        </option>
-                                                    );
-                                                })}
-                                            </select>
-                                            <select
-                                                onChange={(e) =>
-                                                    setDistrictID(
-                                                        e.target.value
-                                                    )
-                                                }
-                                            >
-                                                <option value="">
-                                                    ---Chọn Quận/Huyện---
-                                                </option>
-                                                {districts?.map((item) => {
-                                                    return (
-                                                        <option
-                                                            value={
-                                                                item.district_id
-                                                            }
-                                                            key={
-                                                                item.district_id
-                                                            }
-                                                        >
-                                                            {item.district_name}
-                                                        </option>
-                                                    );
-                                                })}
-                                            </select>
-                                            <select
-                                                onChange={(e) =>
-                                                    setWardID(e.target.value)
-                                                }
-                                            >
-                                                <option value="">
-                                                    ---Chọn Xã/Phường---
-                                                </option>
-                                                {wards?.map((item) => {
-                                                    return (
-                                                        <option
-                                                            value={item.ward_id}
-                                                            key={item.ward_id}
-                                                        >
-                                                            {item.ward_name}
-                                                        </option>
-                                                    );
-                                                })}
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div className="containerTieuChiFormregis">
-                                        <div className="tieuChiFormregis">
-                                            Link Facebook
-                                        </div>
-                                        <input
-                                            className="noiDungFormregis3"
-                                            placeholder={ttShop?.linkFacebook}
-                                            type="text"
-                                            onChange={(e) =>
-                                                setlinkFacebook(e.target.value)
-                                            }
-                                        />
-                                    </div>
-                                    <div className="containerTieuChiFormregis">
-                                        <div className="tieuChiFormregis">
-                                            Link Zalo
-                                        </div>
-                                        <input
-                                            className="noiDungFormregis3"
-                                            placeholder={ttShop?.linkZalo}
-                                            type="text"
-                                            onChange={(e) =>
-                                                setlinkZalo(e.target.value)
-                                            }
-                                        />
-                                    </div>
-                                    {user._id === ttShop?.user ||
-                                    user?.admin === true ? (
-                                        <div className="containerTieuChiFormregis">
-                                            <div className="tieuChiFormregis">
-                                                Nhập ID Nhân Viên
+                                                <a
+                                                    href={`/update-shop/${idShop}`}
+                                                >
+                                                    <div className="tenCuaHang">
+                                                        {ttShop?.TenShop}
+                                                    </div>
+                                                </a>
                                             </div>
-                                            <input
-                                                className="noiDungFormregis3"
-                                                placeholder={ttShop?.idNhanVien}
-                                                type="text"
-                                                onChange={(e) =>
-                                                    setidNhanVien(
-                                                        e.target.value
-                                                    )
-                                                }
-                                            />
+
+                                            <div className="themSanPham-suaThongTinShop">
+                                                <button
+                                                    className="themSanPham"
+                                                    onClick={() =>
+                                                        setsuaThongTinShop(2)
+                                                    }
+                                                >
+                                                    Thêm Sản Phẩm
+                                                </button>
+                                                <button
+                                                    className="suaThongTinShop"
+                                                    onClick={() =>
+                                                        setsuaThongTinShop(1)
+                                                    }
+                                                >
+                                                    Sửa Thông Tin Shop
+                                                </button>
+                                            </div>
+                                            <div className="nhomSanPham-sanPham">
+                                                {arrNhomSanPham &&
+                                                    arrNhomSanPham?.map(
+                                                        (item2, index) => {
+                                                            return (
+                                                                <div
+                                                                    key={index}
+                                                                >
+                                                                    {item2 ===
+                                                                    "Sản Phẩm Dẫn" ? (
+                                                                        <div className="nhomSanPham">
+                                                                            Top
+                                                                            Sản
+                                                                            Phẩm
+                                                                            Bán
+                                                                            Chạy
+                                                                        </div>
+                                                                    ) : (
+                                                                        <div className="nhomSanPham">
+                                                                            {
+                                                                                item2
+                                                                            }
+                                                                        </div>
+                                                                    )}
+
+                                                                    <div className="sanPham-container">
+                                                                        {allSanPham &&
+                                                                            allSanPham?.map(
+                                                                                (
+                                                                                    item,
+                                                                                    index
+                                                                                ) => {
+                                                                                    return (
+                                                                                        item?.nhomSanPham ===
+                                                                                            item2 && (
+                                                                                            <div
+                                                                                                key={
+                                                                                                    item._id
+                                                                                                }
+                                                                                                className="sanPham"
+                                                                                            >
+                                                                                                <div className="suaxoa">
+                                                                                                    <button
+                                                                                                        className="sua"
+                                                                                                        onClick={() =>
+                                                                                                            handleSuaSanPham(
+                                                                                                                item._id
+                                                                                                            )
+                                                                                                        }
+                                                                                                    >
+                                                                                                        Sửa
+                                                                                                        Sản
+                                                                                                        Phẩm
+                                                                                                    </button>
+
+                                                                                                    <button
+                                                                                                        className="xoa"
+                                                                                                        onClick={() =>
+                                                                                                            handleXoaSanPham(
+                                                                                                                item._id
+                                                                                                            )
+                                                                                                        }
+                                                                                                    >
+                                                                                                        {" "}
+                                                                                                        <a
+                                                                                                            href={`/update-shop/${idShop}`}
+                                                                                                        >
+                                                                                                            Xoá
+                                                                                                            Sản
+                                                                                                            Phẩm{" "}
+                                                                                                        </a>
+                                                                                                    </button>
+                                                                                                </div>
+                                                                                                <div>
+                                                                                                    <img
+                                                                                                        src={
+                                                                                                            item?.AnhSanPham
+                                                                                                        }
+                                                                                                        className="anhSanPham"
+                                                                                                        alt="timtim"
+                                                                                                    />
+
+                                                                                                    <div className="tenSanPham">
+                                                                                                        {
+                                                                                                            item?.TenSanPham
+                                                                                                        }
+                                                                                                    </div>
+                                                                                                    <div className="giaBan">
+                                                                                                        <div className="giaBanMoi">
+                                                                                                            {VND.format(
+                                                                                                                item?.giaKhuyenMai
+                                                                                                            )}
+                                                                                                        </div>
+
+                                                                                                        <div className="giaGiam">
+                                                                                                            <div className="giabanCu">
+                                                                                                                {VND.format(
+                                                                                                                    item?.giaNiemYet
+                                                                                                                )}
+                                                                                                            </div>
+                                                                                                            <div className="phanTram">
+                                                                                                                Giảm&nbsp;
+                                                                                                                {Math.floor(
+                                                                                                                    (100 *
+                                                                                                                        (item?.giaNiemYet -
+                                                                                                                            item?.giaKhuyenMai)) /
+                                                                                                                        item?.giaNiemYet
+                                                                                                                )}
+
+                                                                                                                %
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                    </div>
+
+                                                                                                    <button className="muaHang">
+                                                                                                        MUA
+                                                                                                        HÀNG
+                                                                                                    </button>
+                                                                                                    <div className="viTriSanPham">
+                                                                                                        <i className="fa-solid fa-location-dot"></i>
+                                                                                                        <div className="diachisanpham">
+                                                                                                            {
+                                                                                                                item?.xa
+                                                                                                            }
+                                                                                                        </div>
+                                                                                                        <div className="diachisanpham">
+                                                                                                            {
+                                                                                                                item?.huyen
+                                                                                                            }
+                                                                                                        </div>
+                                                                                                        <div className="diachisanpham">
+                                                                                                            {
+                                                                                                                item?.tinh
+                                                                                                            }
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        )
+                                                                                    );
+                                                                                }
+                                                                            )}
+                                                                    </div>
+                                                                </div>
+                                                            );
+                                                        }
+                                                    )}
+                                                {arraySanPham &&
+                                                    arraySanPham.length !==
+                                                        0 && (
+                                                        <div className="nhomSanPham">
+                                                            Sản Phẩm Liên Kết
+                                                        </div>
+                                                    )}
+                                                {arraySanPham &&
+                                                    arraySanPham.length !==
+                                                        0 && (
+                                                        <div className="sanPham-container">
+                                                            {arraySanPham &&
+                                                                arraySanPham?.map(
+                                                                    (item) => {
+                                                                        return (
+                                                                            <div
+                                                                                key={
+                                                                                    item._id
+                                                                                }
+                                                                                className="sanPham"
+                                                                            >
+                                                                                <div className="suaxoa">
+                                                                                    <button
+                                                                                        className="xoa"
+                                                                                        onClick={() =>
+                                                                                            handleXoaSanPhamlienket(
+                                                                                                item._id
+                                                                                            )
+                                                                                        }
+                                                                                    >
+                                                                                        Xoá
+                                                                                        Sản
+                                                                                        Phẩm
+                                                                                    </button>
+                                                                                </div>
+                                                                                <div>
+                                                                                    <img
+                                                                                        src={
+                                                                                            item?.AnhSanPham
+                                                                                        }
+                                                                                        className="anhSanPham"
+                                                                                        alt="timtim"
+                                                                                    />
+
+                                                                                    <div className="tenSanPham">
+                                                                                        {
+                                                                                            item?.TenSanPham
+                                                                                        }
+                                                                                    </div>
+                                                                                    <div className="giaBan">
+                                                                                        <div className="giaBanMoi">
+                                                                                            {VND.format(
+                                                                                                item?.giaKhuyenMai
+                                                                                            )}
+                                                                                        </div>
+
+                                                                                        <div className="giaGiam">
+                                                                                            <div className="giabanCu">
+                                                                                                {VND.format(
+                                                                                                    item?.giaNiemYet
+                                                                                                )}
+                                                                                            </div>
+                                                                                            <div className="phanTram">
+                                                                                                Giảm&nbsp;
+                                                                                                {Math.floor(
+                                                                                                    (100 *
+                                                                                                        (item?.giaNiemYet -
+                                                                                                            item?.giaKhuyenMai)) /
+                                                                                                        item?.giaNiemYet
+                                                                                                )}
+
+                                                                                                %
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+
+                                                                                    <button className="muaHang">
+                                                                                        MUA
+                                                                                        HÀNG
+                                                                                    </button>
+                                                                                    <div className="viTriSanPham">
+                                                                                        <i className="fa-solid fa-location-dot"></i>
+                                                                                        <div className="diachisanpham">
+                                                                                            {
+                                                                                                item?.xa
+                                                                                            }
+                                                                                        </div>
+                                                                                        <div className="diachisanpham">
+                                                                                            {
+                                                                                                item?.huyen
+                                                                                            }
+                                                                                        </div>
+                                                                                        <div className="diachisanpham">
+                                                                                            {
+                                                                                                item?.tinh
+                                                                                            }
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        );
+                                                                    }
+                                                                )}
+                                                        </div>
+                                                    )}
+                                            </div>
                                         </div>
                                     ) : (
-                                        <></>
+                                        <div> </div>
                                     )}
-                                    {user?.admin === true && (
-                                        <div>
+                                    {/* sua shop */}
+                                    {+suaThongTinShop === 1 ? (
+                                        <div className="UpdateShop">
+                                            <div className="banner-container">
+                                                <label hidden>Banner</label>
+                                                <div>
+                                                    <input
+                                                        id="banner"
+                                                        type="file"
+                                                        hidden
+                                                        onChange={
+                                                            handleOnchangeImageBanner
+                                                        }
+                                                        className="bannerShop"
+                                                    />
+                                                    <label
+                                                        htmlFor="banner"
+                                                        className="bannerShop"
+                                                    >
+                                                        <div>
+                                                            {previewBanner ? (
+                                                                <img
+                                                                    src={
+                                                                        previewBanner.preview
+                                                                    }
+                                                                    className="bannerShop"
+                                                                />
+                                                            ) : (
+                                                                <img
+                                                                    src={Banner}
+                                                                    className="bannerShop"
+                                                                />
+                                                            )}
+                                                        </div>
+                                                    </label>
+                                                </div>
+                                            </div>
                                             <div className="containerTieuChiFormregis">
                                                 <div className="tieuChiFormregis">
-                                                    Nhập ID Chủ Shop
+                                                    Tên Shop
                                                 </div>
                                                 <input
                                                     className="noiDungFormregis3"
-                                                    placeholder={ttShop?.user}
+                                                    placeholder={TenShop}
                                                     type="text"
                                                     onChange={(e) =>
-                                                        setUserShop(
+                                                        setTenShop(
+                                                            e.target.value
+                                                        )
+                                                    }
+                                                />
+                                            </div>
+
+                                            <div className="containerTieuChiFormregis">
+                                                <div className="tieuChiFormregis">
+                                                    Website
+                                                </div>
+                                                <input
+                                                    className="noiDungFormregis3"
+                                                    placeholder={website}
+                                                    type="text"
+                                                    onChange={(e) =>
+                                                        setwebsite(
+                                                            e.target.value
+                                                        )
+                                                    }
+                                                />
+                                            </div>
+
+                                            <div className="containerTieuChiFormregis">
+                                                <div className="tieuChiFormregis">
+                                                    Số Điện Thoại
+                                                </div>
+                                                <input
+                                                    className="noiDungFormregis3"
+                                                    placeholder={SdtShop}
+                                                    type="text"
+                                                    onChange={(e) =>
+                                                        setSdtShop(
+                                                            e.target.value
+                                                        )
+                                                    }
+                                                />
+                                            </div>
+
+                                            <div className="containerTieuChiFormregis">
+                                                <div className="tieuChiFormregis">
+                                                    Khẩu Hiệu
+                                                </div>
+                                                <input
+                                                    className="noiDungFormregis3"
+                                                    placeholder={SloganShop}
+                                                    type="text"
+                                                    onChange={(e) =>
+                                                        setSloganShop(
                                                             e.target.value
                                                         )
                                                     }
                                                 />
                                             </div>
                                             <div className="containerTieuChiFormregis">
-                                                <label className="tieuChiFormregis">
-                                                    Nhóm Shop
-                                                </label>
-
-                                                <select
-                                                    className="noiDungFormregis"
+                                                <div className="tieuChiFormregis">
+                                                    Địa Chỉ
+                                                </div>
+                                                <input
+                                                    className="noiDungFormregis3"
+                                                    placeholder={ttShop?.dcShop}
+                                                    type="text"
                                                     onChange={(e) =>
-                                                        setvaiTro(
+                                                        setDcShop(
                                                             e.target.value
                                                         )
                                                     }
+                                                />
+                                            </div>
+                                            <div className="containerTieuChiFormregis">
+                                                <div className="tieuChiFormregis">
+                                                    Chọn Địa Chỉ Shop
+                                                </div>
+
+                                                <div className="noiDungFormregis">
+                                                    <label hidden>Tỉnh</label>
+                                                    <select
+                                                        id="provinces"
+                                                        onChange={(e) =>
+                                                            setprovincesID(
+                                                                e.target.value
+                                                            )
+                                                        }
+                                                    >
+                                                        <option value="">
+                                                            {ttShop?.tinh}
+                                                        </option>
+                                                        {provinces?.map(
+                                                            (item) => {
+                                                                return (
+                                                                    <option
+                                                                        key={
+                                                                            item.province_id
+                                                                        }
+                                                                        value={
+                                                                            item.province_id
+                                                                        }
+                                                                    >
+                                                                        {
+                                                                            item.province_name
+                                                                        }
+                                                                    </option>
+                                                                );
+                                                            }
+                                                        )}
+                                                    </select>
+                                                    <select
+                                                        onChange={(e) =>
+                                                            setDistrictID(
+                                                                e.target.value
+                                                            )
+                                                        }
+                                                    >
+                                                        <option value="">
+                                                            {ttShop?.huyen}
+                                                        </option>
+                                                        {districts?.map(
+                                                            (item) => {
+                                                                return (
+                                                                    <option
+                                                                        value={
+                                                                            item.district_id
+                                                                        }
+                                                                        key={
+                                                                            item.district_id
+                                                                        }
+                                                                    >
+                                                                        {
+                                                                            item.district_name
+                                                                        }
+                                                                    </option>
+                                                                );
+                                                            }
+                                                        )}
+                                                    </select>
+                                                    <select
+                                                        onChange={(e) =>
+                                                            setWardID(
+                                                                e.target.value
+                                                            )
+                                                        }
+                                                    >
+                                                        <option value="">
+                                                            {ttShop?.xa}
+                                                        </option>
+                                                        {wards?.map((item) => {
+                                                            return (
+                                                                <option
+                                                                    value={
+                                                                        item.ward_id
+                                                                    }
+                                                                    key={
+                                                                        item.ward_id
+                                                                    }
+                                                                >
+                                                                    {
+                                                                        item.ward_name
+                                                                    }
+                                                                </option>
+                                                            );
+                                                        })}
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div className="containerTieuChiFormregis">
+                                                <div className="tieuChiFormregis">
+                                                    Link Facebook
+                                                </div>
+                                                <input
+                                                    className="noiDungFormregis3"
+                                                    placeholder={linkFacebook}
+                                                    type="text"
+                                                    onChange={(e) =>
+                                                        setlinkFacebook(
+                                                            e.target.value
+                                                        )
+                                                    }
+                                                />
+                                            </div>
+                                            <div className="containerTieuChiFormregis">
+                                                <div className="tieuChiFormregis">
+                                                    Link Zalo
+                                                </div>
+                                                <input
+                                                    className="noiDungFormregis3"
+                                                    placeholder={linkZalo}
+                                                    type="text"
+                                                    onChange={(e) =>
+                                                        setlinkZalo(
+                                                            e.target.value
+                                                        )
+                                                    }
+                                                />
+                                            </div>
+                                            {user._id === ttShop?.user ||
+                                            user?.admin === true ? (
+                                                <div className="containerTieuChiFormregis">
+                                                    <div className="tieuChiFormregis">
+                                                        Nhập ID Nhân Viên
+                                                    </div>
+                                                    <input
+                                                        className="noiDungFormregis3"
+                                                        placeholder={idNhanVien}
+                                                        type="text"
+                                                        onChange={(e) =>
+                                                            setidNhanVien(
+                                                                e.target.value
+                                                            )
+                                                        }
+                                                    />
+                                                </div>
+                                            ) : (
+                                                <></>
+                                            )}
+                                            {user?.admin === true && (
+                                                <div>
+                                                    <div className="containerTieuChiFormregis">
+                                                        <div className="tieuChiFormregis">
+                                                            Người Hỗ Trợ
+                                                        </div>
+                                                        <input
+                                                            className="noiDungFormregis3"
+                                                            placeholder={
+                                                                nguoiHoTro
+                                                            }
+                                                            type="text"
+                                                            onChange={(e) =>
+                                                                setnguoiHoTro(
+                                                                    e.target
+                                                                        .value
+                                                                )
+                                                            }
+                                                        />
+                                                    </div>
+                                                    <div className="containerTieuChiFormregis">
+                                                        <div className="tieuChiFormregis">
+                                                            Nhập ID Chủ Shop
+                                                        </div>
+                                                        <input
+                                                            className="noiDungFormregis3"
+                                                            placeholder={
+                                                                UserShop
+                                                            }
+                                                            type="text"
+                                                            onChange={(e) =>
+                                                                setUserShop(
+                                                                    e.target
+                                                                        .value
+                                                                )
+                                                            }
+                                                        />
+                                                    </div>
+                                                    <div className="containerTieuChiFormregis">
+                                                        <label className="tieuChiFormregis">
+                                                            Reset nhomSanPham
+                                                        </label>
+
+                                                        <select
+                                                            className="noiDungFormregis"
+                                                            onChange={(e) =>
+                                                                setresetNhomSanPham(
+                                                                    e.target
+                                                                        .value
+                                                                )
+                                                            }
+                                                        >
+                                                            <option value="1">
+                                                                Không Reset Nhóm
+                                                            </option>
+                                                            <option value="2">
+                                                                Reset Nhóm
+                                                            </option>
+                                                        </select>
+                                                    </div>
+                                                    <div className="containerTieuChiFormregis">
+                                                        <label className="tieuChiFormregis">
+                                                            Nhóm Shop
+                                                        </label>
+
+                                                        <select
+                                                            className="noiDungFormregis"
+                                                            onChange={(e) =>
+                                                                setvaiTro(
+                                                                    e.target
+                                                                        .value
+                                                                )
+                                                            }
+                                                        >
+                                                            <option value="">
+                                                                ---Mời Chọn---
+                                                            </option>
+                                                            <option value="1">
+                                                                Shop Thường
+                                                            </option>
+                                                            <option value="2">
+                                                                Shop VIP
+                                                            </option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            )}
+
+                                            <div>
+                                                <button
+                                                    className="huyDon"
+                                                    onClick={() =>
+                                                        setsuaThongTinShop(0)
+                                                    }
                                                 >
-                                                    <option value="">
-                                                        ---Mời Chọn---
-                                                    </option>
-                                                    <option value="1">
-                                                        Shop Thường
-                                                    </option>
-                                                    <option value="2">
-                                                        Shop VIP
-                                                    </option>
-                                                </select>
+                                                    Close
+                                                </button>
+                                                <button
+                                                    className="hoanThanh"
+                                                    onClick={
+                                                        handleLuuThongTinShop
+                                                    }
+                                                >
+                                                    Lưu Thông Tin
+                                                </button>
                                             </div>
                                         </div>
+                                    ) : (
+                                        <div></div>
                                     )}
-
-                                    <div>
-                                        <button
-                                            className="huyDon"
-                                            onClick={() =>
-                                                setsuaThongTinShop(0)
-                                            }
-                                        >
-                                            Close
-                                        </button>
-                                        <button
-                                            className="hoanThanh"
-                                            onClick={handleLuuThongTinShop}
-                                        >
-                                            Lưu Thông Tin
-                                        </button>
-                                    </div>
-                                </div>
-                            ) : (
-                                <div></div>
-                            )}
-                            {/* them sp */}
-                            {+suaThongTinShop === 2 ? (
-                                <div className="them">
-                                    <div className="container-themSanPham">
-                                        <button
-                                            className="close"
-                                            onClick={() =>
-                                                setsuaThongTinShop(0)
-                                            }
-                                        >
-                                            Close
-                                        </button>
-
-                                        <div className="sanPham">
-                                            <div>
-                                                <input
-                                                    id="anhsanpham"
-                                                    type="file"
-                                                    hidden
-                                                    onChange={
-                                                        handleOnchangeImageSanPham
+                                    {/* them sp */}
+                                    {+suaThongTinShop === 2 ? (
+                                        <div className="them">
+                                            <div className="container-themSanPham">
+                                                <button
+                                                    className="close"
+                                                    onClick={() =>
+                                                        setsuaThongTinShop(0)
                                                     }
-                                                />
-                                                <label htmlFor="anhsanpham">
-                                                    <div className="anhsanpham">
-                                                        {previewSanPham && (
-                                                            <img
-                                                                src={
-                                                                    previewSanPham.preview
-                                                                }
-                                                                className="anhsanpham"
-                                                            />
-                                                        )}
+                                                >
+                                                    Close
+                                                </button>
+
+                                                <div className="sanPham">
+                                                    <div>
+                                                        <input
+                                                            id="anhsanpham"
+                                                            type="file"
+                                                            hidden
+                                                            onChange={
+                                                                handleOnchangeImageSanPham
+                                                            }
+                                                        />
+                                                        <label htmlFor="anhsanpham">
+                                                            <div className="anhsanpham">
+                                                                {previewSanPham && (
+                                                                    <img
+                                                                        src={
+                                                                            previewSanPham.preview
+                                                                        }
+                                                                        className="anhsanpham"
+                                                                    />
+                                                                )}
+                                                            </div>
+                                                        </label>
                                                     </div>
-                                                </label>
-                                            </div>
 
-                                            <div className="tieuDeNoiDung">
-                                                <label className="tieuDe">
-                                                    Tên Sản Phẩm
-                                                </label>
+                                                    <div className="tieuDeNoiDung">
+                                                        <label className="tieuDe">
+                                                            Tên Sản Phẩm
+                                                        </label>
 
-                                                <input
-                                                    onChange={(e) =>
-                                                        setTenSanPham(
-                                                            e.target.value
-                                                        )
-                                                    }
-                                                    className="noiDung"
-                                                    placeholder="Thêm tên sản phẩm"
-                                                />
-                                            </div>
-                                            <div className="tieuDeNoiDung">
-                                                <label className="tieuDe">
-                                                    Tình Trạng
-                                                </label>
-
-                                                <select
-                                                    className="noiDung"
-                                                    onChange={(e) =>
-                                                        settinhTrang(
-                                                            e.target.value
-                                                        )
-                                                    }
-                                                >
-                                                    <option>Còn Hàng</option>
-                                                    <option>Tạm Hết</option>
-                                                </select>
-                                            </div>
-                                            <div className="tieuDeNoiDung">
-                                                <label className="tieuDe">
-                                                    Nhóm Sản Phẩm
-                                                </label>
-                                                <select
-                                                    className="noiDung"
-                                                    onChange={(e) =>
-                                                        setnhomSanPham(
-                                                            e.target.value
-                                                        )
-                                                    }
-                                                >
-                                                    <option value="">
-                                                        ---Mời Chọn---
-                                                    </option>
-                                                    {allSanPhamDan &&
-                                                        allSanPhamDan.length <
-                                                            2 && (
-                                                            <option>
-                                                                Sản Phẩm Dẫn
-                                                            </option>
-                                                        )}
-                                                    <option value="1">
-                                                        Thêm Nhóm Mới
-                                                    </option>
-                                                    <option>
-                                                        Thời Trang & Phụ Kiện
-                                                        Nam
-                                                    </option>
-                                                    <option>
-                                                        Thời Trang & Phụ Kiện Nữ
-                                                    </option>
-                                                    <option>
-                                                        Thời Trang & Phụ Kiện
-                                                        Trẻ Em
-                                                    </option>
-                                                    <option>Đồng Hồ Nam</option>
-                                                    <option>Đồng Hồ Nữ</option>
-                                                    <option>
-                                                        Điện Thoại & Phụ Kiện
-                                                    </option>
-                                                    <option>
-                                                        Máy Tính & Laptop
-                                                    </option>
-                                                    <option>
-                                                        Máy Ảnh & Máy Quay Phim
-                                                    </option>
-                                                    <option>
-                                                        Thiết Bị Gia Dụng
-                                                    </option>
-                                                    <option>
-                                                        Ô Tô & Xe Máy & Xe Đạp
-                                                    </option>
-                                                    <option>
-                                                        Sức Khỏe & Làm Đẹp
-                                                    </option>
-                                                    <option>
-                                                        Thiết Bị Y Tế
-                                                    </option>
-                                                    <option>
-                                                        Thể Thao & Du Lịch & Sự
-                                                        Kiện
-                                                    </option>
-                                                    <option>
-                                                        Nhà Sách Online
-                                                    </option>
-                                                    <option>
-                                                        Hoa Quả & Thực Phẩm
-                                                    </option>
-                                                    <option>
-                                                        Bách Hóa Online
-                                                    </option>
-                                                </select>
-                                            </div>
-                                            {nhomSanPham === "1" && (
-                                                <div className="tieuDeNoiDung">
-                                                    <label className="tieuDe">
-                                                        Thêm Nhóm Mới
-                                                    </label>
-
-                                                    <input
-                                                        className="noiDung"
-                                                        onChange={(e) =>
-                                                            setnhomSanPhamMoi(
-                                                                e.target.value
-                                                            )
-                                                        }
-                                                        placeholder="Thêm nhóm mới"
-                                                    />
-                                                </div>
-                                            )}
-
-                                            <div className="tieuDeNoiDung">
-                                                <label className="tieuDe">
-                                                    Giá Niêm Yết
-                                                </label>
-
-                                                <input
-                                                    className="noiDung"
-                                                    onChange={(e) =>
-                                                        setgiaNiemYet(
-                                                            e.target.value
-                                                        )
-                                                    }
-                                                    placeholder="Thêm giá niêm yết (VNĐ)"
-                                                    type="Number"
-                                                />
-                                            </div>
-                                            <div className="tieuDeNoiDung">
-                                                <label className="tieuDe">
-                                                    Giá Khuyến Mại
-                                                </label>
-
-                                                <input
-                                                    className="noiDung"
-                                                    onChange={(e) =>
-                                                        setgiaKhuyenMai(
-                                                            e.target.value
-                                                        )
-                                                    }
-                                                    placeholder="Thêm giá khuyến mại (VNĐ)"
-                                                    type="Number"
-                                                />
-                                            </div>
-                                            <div className="tieuDeNoiDung">
-                                                <div className="tieuDe">
-                                                    Giá Nhập
-                                                </div>
-                                                <input
-                                                    placeholder="Thêm giá nhập (VNĐ)"
-                                                    className="noiDung"
-                                                    onChange={(e) =>
-                                                        setgiaNhap(
-                                                            e.target.value
-                                                        )
-                                                    }
-                                                />
-                                            </div>
-                                            <div className="tieuDeNoiDung">
-                                                <div className="tieuDe">
-                                                    Giá Cộng Tác Viên
-                                                </div>
-                                                <input
-                                                    type="Number"
-                                                    placeholder="Thêm giá cộng tác viên (VNĐ)"
-                                                    className="noiDung"
-                                                    onChange={(e) =>
-                                                        setgiaCtv(
-                                                            e.target.value
-                                                        )
-                                                    }
-                                                />
-                                            </div>
-                                            <div className="tieuDeNoiDung">
-                                                <div className="tieuDe">
-                                                    Giá Sỉ
-                                                </div>
-                                                <input
-                                                    type="Number"
-                                                    placeholder="Thêm giá sỉ (VNĐ)"
-                                                    className="noiDung"
-                                                    onChange={(e) =>
-                                                        setgiaSi(e.target.value)
-                                                    }
-                                                />
-                                            </div>
-                                            <div className="thongTinSanPham">
-                                                <label className="tieuDe">
-                                                    Thông Tin Sản Phẩm
-                                                </label>
-                                                <CKEditor
-                                                    editor={ClassicEditor}
-                                                    data="<p>Thêm thông tin sản phẩm</p>"
-                                                    onReady={(editor) => {
-                                                        // You can store the "editor" and use when it is needed.
-                                                        console.log(
-                                                            "Editor is ready to use!",
-                                                            editor
-                                                        );
-                                                    }}
-                                                    onChange={(
-                                                        event,
-                                                        editor
-                                                    ) => {
-                                                        console.log(event);
-                                                        setthongTinSanPham(
-                                                            editor.getData()
-                                                        );
-                                                    }}
-                                                    onBlur={(event, editor) => {
-                                                        console.log(
-                                                            "Blur.",
-                                                            editor
-                                                        );
-                                                    }}
-                                                    onFocus={(
-                                                        event,
-                                                        editor
-                                                    ) => {
-                                                        console.log(
-                                                            "Focus.",
-                                                            editor
-                                                        );
-                                                    }}
-                                                />
-                                                {/* <div>
-                                                    <input
-                                                        onChange={(e) =>
-                                                            setthongTinSanPham(
-                                                                e.target.value
-                                                            )
-                                                        }
-                                                        className="noiDung"
-                                                        placeholder=" Thêm thông tin sản phẩm"
-                                                    />
-                                                </div> */}
-                                            </div>
-
-                                            <button
-                                                className="hoanThanh"
-                                                onClick={handleThemSanPham}
-                                            >
-                                                Lưu Sản Phẩm
-                                            </button>
-                                        </div>
-                                    </div>
-                                    <div className="luuY">
-                                        Lưu ý: <br /> - Sản Phẩm Dẫn là sản phẩm
-                                        xuất hiện trên cùng Website. <br />- Mỗi
-                                        Shop chọn ra 2 Sản Phẩm Dẫn đáng chú ý
-                                        nhất!
-                                        <br />- Sản phẩm của Shop sẽ được niêm
-                                        yết trong tổng kho của Fabysa, từ đó
-                                        ngoài khách lẻ Shop sẽ có thêm lượng
-                                        khách Cộng Tác Viên là những chủ Shop
-                                        khác. <br /> - Shop cũng có thể đăng kí
-                                        Cộng Tác Viên bán sản phẩm từ những Shop
-                                        khác.{" "}
-                                    </div>
-                                </div>
-                            ) : (
-                                <div></div>
-                            )}
-                            {/* sua sp */}
-                            {+suaThongTinShop === 3 ? (
-                                <div className="them">
-                                    <div className="container-themSanPham">
-                                        <button
-                                            className="close"
-                                            onClick={() =>
-                                                setsuaThongTinShop(0)
-                                            }
-                                        >
-                                            Close
-                                        </button>
-
-                                        <div className="sanPham">
-                                            <div>
-                                                <input
-                                                    id="anhsuasanpham"
-                                                    type="file"
-                                                    hidden
-                                                    onChange={
-                                                        handleOnchangeImagesuaSanPham
-                                                    }
-                                                />
-                                                <label htmlFor="anhsuasanpham">
-                                                    <div className="anhsanpham">
-                                                        {previewSanPham2 ? (
-                                                            <img
-                                                                src={
-                                                                    previewSanPham2.preview
-                                                                }
-                                                                className="anhsanpham"
-                                                            />
-                                                        ) : (
-                                                            <img
-                                                                src={
-                                                                    detailidSpSua?.AnhSanPham
-                                                                }
-                                                                className="anhsanpham"
-                                                            />
-                                                        )}
+                                                        <input
+                                                            onChange={(e) =>
+                                                                setTenSanPham(
+                                                                    e.target
+                                                                        .value
+                                                                )
+                                                            }
+                                                            className="noiDung"
+                                                            placeholder="Thêm tên sản phẩm"
+                                                        />
                                                     </div>
-                                                </label>
-                                            </div>
+                                                    <div className="tieuDeNoiDung">
+                                                        <label className="tieuDe">
+                                                            Tình Trạng
+                                                        </label>
 
-                                            <div className="tieuDeNoiDung">
-                                                <label className="tieuDe">
-                                                    Tên Sản Phẩm
-                                                </label>
-
-                                                <input
-                                                    onChange={(e) =>
-                                                        setTenSanPham2(
-                                                            e.target.value
-                                                        )
-                                                    }
-                                                    className="noiDung"
-                                                    placeholder={
-                                                        detailidSpSua?.TenSanPham
-                                                    }
-                                                />
-                                            </div>
-                                            <div className="tieuDeNoiDung">
-                                                <label className="tieuDe">
-                                                    Tình Trạng
-                                                </label>
-
-                                                <select
-                                                    className="noiDung"
-                                                    onChange={(e) =>
-                                                        settinhTrang2(
-                                                            e.target.value
-                                                        )
-                                                    }
-                                                >
-                                                    <option>
-                                                        {tinhTrang2}
-                                                    </option>
-                                                    <option>Còn Hàng</option>
-                                                    <option>Tạm Hết</option>
-                                                </select>
-                                            </div>
-                                            <div className="tieuDeNoiDung">
-                                                <label className="tieuDe">
-                                                    Nhóm Sản Phẩm
-                                                </label>
-
-                                                <select
-                                                    className="noiDung"
-                                                    onChange={(e) =>
-                                                        setnhomSanPham2(
-                                                            e.target.value
-                                                        )
-                                                    }
-                                                >
-                                                    <option>
-                                                        {nhomSanPham2}
-                                                    </option>
-                                                    {allSanPhamDan &&
-                                                        allSanPhamDan.length <
-                                                            2 && (
+                                                        <select
+                                                            className="noiDung"
+                                                            onChange={(e) =>
+                                                                settinhTrang(
+                                                                    e.target
+                                                                        .value
+                                                                )
+                                                            }
+                                                        >
                                                             <option>
-                                                                Sản Phẩm Dẫn
+                                                                Còn Hàng
                                                             </option>
-                                                        )}
-                                                    <option value="1">
-                                                        Thêm Nhóm Mới
-                                                    </option>
-                                                    <option>
-                                                        Thời Trang & Phụ Kiện
-                                                        Nam
-                                                    </option>
-                                                    <option>
-                                                        Thời Trang & Phụ Kiện Nữ
-                                                    </option>
-                                                    <option>
-                                                        Thời Trang & Phụ Kiện
-                                                        Trẻ Em
-                                                    </option>
-                                                    <option>Đồng Hồ Nam</option>
-                                                    <option>Đồng Hồ Nữ</option>
-                                                    <option>
-                                                        Điện Thoại & Phụ Kiện
-                                                    </option>
-                                                    <option>
-                                                        Máy Tính & Laptop
-                                                    </option>
-                                                    <option>
-                                                        Máy Ảnh & Máy Quay Phim
-                                                    </option>
-                                                    <option>
-                                                        Thiết Bị Gia Dụng
-                                                    </option>
-                                                    <option>
-                                                        Ô Tô & Xe Máy & Xe Đạp
-                                                    </option>
-                                                    <option>
-                                                        Sức Khỏe & Làm Đẹp
-                                                    </option>
-                                                    <option>
-                                                        Thiết Bị Y Tế
-                                                    </option>
-                                                    <option>
-                                                        Thể Thao & Du Lịch & Sự
-                                                        Kiện
-                                                    </option>
-                                                    <option>
-                                                        Nhà Sách Online
-                                                    </option>
-                                                    <option>
-                                                        Hoa Quả & Thực Phẩm
-                                                    </option>
-                                                    <option>
-                                                        Bách Hóa Online
-                                                    </option>
-                                                    <option>
-                                                        Dịch Vụ KHác
-                                                    </option>
-                                                </select>
-                                            </div>
-                                            {nhomSanPham2 === "1" && (
-                                                <div className="tieuDeNoiDung">
-                                                    <label className="tieuDe">
-                                                        Thêm Nhóm Mới
-                                                    </label>
+                                                            <option>
+                                                                Tạm Hết
+                                                            </option>
+                                                        </select>
+                                                    </div>
+                                                    <div className="tieuDeNoiDung">
+                                                        <label className="tieuDe">
+                                                            Nhóm Sản Phẩm
+                                                        </label>
+                                                        <select
+                                                            className="noiDung"
+                                                            onChange={(e) =>
+                                                                setnhomSanPham(
+                                                                    e.target
+                                                                        .value
+                                                                )
+                                                            }
+                                                        >
+                                                            <option value="">
+                                                                ---Mời Chọn---
+                                                            </option>
+                                                            {allSanPhamDan &&
+                                                                allSanPhamDan.length <
+                                                                    2 && (
+                                                                    <option>
+                                                                        Sản Phẩm
+                                                                        Dẫn
+                                                                    </option>
+                                                                )}
+                                                            <option value="1">
+                                                                Thêm Nhóm Mới
+                                                            </option>
+                                                            {loaiSanPham &&
+                                                                loaiSanPham?.length !==
+                                                                    0 &&
+                                                                loaiSanPham?.map(
+                                                                    (
+                                                                        item,
+                                                                        index
+                                                                    ) => {
+                                                                        return (
+                                                                            <option
+                                                                                key={
+                                                                                    index
+                                                                                }
+                                                                            >
+                                                                                {
+                                                                                    item
+                                                                                }
+                                                                            </option>
+                                                                        );
+                                                                    }
+                                                                )}
+                                                        </select>
+                                                    </div>
+                                                    {nhomSanPham === "1" && (
+                                                        <div className="tieuDeNoiDung">
+                                                            <label className="tieuDe">
+                                                                Thêm Nhóm Mới
+                                                            </label>
 
-                                                    <input
-                                                        className="noiDung"
-                                                        onChange={(e) =>
-                                                            setnhomSanPhamMoi2(
-                                                                e.target.value
-                                                            )
-                                                        }
-                                                        placeholder="Thêm nhóm mới"
-                                                    />
-                                                </div>
-                                            )}
-
-                                            <div className="tieuDeNoiDung">
-                                                <label className="tieuDe">
-                                                    Giá Niêm Yết
-                                                </label>
-
-                                                <input
-                                                    className="noiDung"
-                                                    onChange={(e) =>
-                                                        setgiaNiemYet2(
-                                                            e.target.value
-                                                        )
-                                                    }
-                                                    placeholder={VND.format(
-                                                        detailidSpSua?.giaNiemYet
+                                                            <input
+                                                                className="noiDung"
+                                                                onChange={(e) =>
+                                                                    setnhomSanPhamMoi(
+                                                                        e.target
+                                                                            .value
+                                                                    )
+                                                                }
+                                                                placeholder="Thêm nhóm mới"
+                                                            />
+                                                        </div>
                                                     )}
-                                                    type="Number"
-                                                />
-                                            </div>
-                                            <div className="tieuDeNoiDung">
-                                                <label className="tieuDe">
-                                                    Giá Khuyến Mại
-                                                </label>
 
-                                                <input
-                                                    className="noiDung"
-                                                    onChange={(e) =>
-                                                        setgiaKhuyenMai2(
-                                                            e.target.value
-                                                        )
-                                                    }
-                                                    placeholder={VND.format(
-                                                        detailidSpSua?.giaKhuyenMai
-                                                    )}
-                                                    type="Number"
-                                                />
-                                            </div>
-                                            {detailidSpSua?.idtk ===
-                                                user?._id && (
-                                                <>
+                                                    <div className="tieuDeNoiDung">
+                                                        <label className="tieuDe">
+                                                            Giá Niêm Yết
+                                                        </label>
+
+                                                        <input
+                                                            type="number"
+                                                            className="noiDung"
+                                                            onChange={(e) =>
+                                                                setgiaNiemYet(
+                                                                    e.target
+                                                                        .value
+                                                                )
+                                                            }
+                                                            placeholder="Thêm giá niêm yết (VNĐ)"
+                                                        />
+                                                    </div>
+                                                    <div className="tieuDeNoiDung">
+                                                        <label className="tieuDe">
+                                                            Giá Khuyến Mại
+                                                        </label>
+
+                                                        <input
+                                                            type="number"
+                                                            className="noiDung"
+                                                            onChange={(e) =>
+                                                                setgiaKhuyenMai(
+                                                                    e.target
+                                                                        .value
+                                                                )
+                                                            }
+                                                            placeholder="Thêm giá khuyến mại (VNĐ)"
+                                                        />
+                                                    </div>
                                                     <div className="tieuDeNoiDung">
                                                         <div className="tieuDe">
                                                             Giá Nhập
                                                         </div>
                                                         <input
+                                                            type="number"
+                                                            placeholder="Thêm giá nhập (VNĐ)"
                                                             className="noiDung"
-                                                            placeholder={VND.format(
-                                                                giaNhap2
-                                                            )}
                                                             onChange={(e) =>
-                                                                setgiaNhap2(
+                                                                setgiaNhap(
                                                                     e.target
                                                                         .value
                                                                 )
@@ -1514,12 +1332,11 @@ const UpdateShop = () => {
                                                             Giá Cộng Tác Viên
                                                         </div>
                                                         <input
+                                                            type="Number"
+                                                            placeholder="Thêm giá cộng tác viên (VNĐ)"
                                                             className="noiDung"
-                                                            placeholder={VND.format(
-                                                                giaCtv2
-                                                            )}
                                                             onChange={(e) =>
-                                                                setgiaCtv2(
+                                                                setgiaCtv(
                                                                     e.target
                                                                         .value
                                                                 )
@@ -1531,87 +1348,424 @@ const UpdateShop = () => {
                                                             Giá Sỉ
                                                         </div>
                                                         <input
+                                                            type="Number"
+                                                            placeholder="Thêm giá sỉ (VNĐ)"
                                                             className="noiDung"
-                                                            placeholder={VND.format(
-                                                                giaSi2
-                                                            )}
                                                             onChange={(e) =>
-                                                                setgiaSi2(
+                                                                setgiaSi(
                                                                     e.target
                                                                         .value
                                                                 )
                                                             }
                                                         />
                                                     </div>
-                                                </>
-                                            )}
+                                                    <div className="thongTinSanPham">
+                                                        <label className="tieuDe">
+                                                            Thông Tin Sản Phẩm
+                                                        </label>
+                                                        <CKEditor
+                                                            editor={
+                                                                ClassicEditor
+                                                            }
+                                                            data="<p>Thêm thông tin sản phẩm</p>"
+                                                            onReady={(
+                                                                editor
+                                                            ) => {
+                                                                // You can store the "editor" and use when it is needed.
+                                                                console.log(
+                                                                    "Editor is ready to use!",
+                                                                    editor
+                                                                );
+                                                            }}
+                                                            onChange={(
+                                                                event,
+                                                                editor
+                                                            ) => {
+                                                                console.log(
+                                                                    event
+                                                                );
+                                                                setthongTinSanPham(
+                                                                    editor.getData()
+                                                                );
+                                                            }}
+                                                            onBlur={(
+                                                                event,
+                                                                editor
+                                                            ) => {
+                                                                console.log(
+                                                                    "Blur.",
+                                                                    editor
+                                                                );
+                                                            }}
+                                                            onFocus={(
+                                                                event,
+                                                                editor
+                                                            ) => {
+                                                                console.log(
+                                                                    "Focus.",
+                                                                    editor
+                                                                );
+                                                            }}
+                                                        />
+                                                    </div>
 
-                                            <div className="thongTinSanPham">
-                                                <label className="tieuDe">
-                                                    Thông Tin Sản Phẩm
-                                                </label>
-                                                <CKEditor
-                                                    editor={ClassicEditor}
-                                                    data={thongTinSanPham2}
-                                                    onReady={(editor) => {}}
-                                                    onChange={(
-                                                        event,
-                                                        editor
-                                                    ) => {
-                                                        console.log(event);
-                                                        setthongTinSanPham2(
-                                                            editor.getData()
-                                                        );
-                                                    }}
-                                                    onBlur={(event, editor) => {
-                                                        console.log(
-                                                            "Blur.",
-                                                            editor
-                                                        );
-                                                    }}
-                                                    onFocus={(
-                                                        event,
-                                                        editor
-                                                    ) => {
-                                                        console.log(
-                                                            "Focus.",
-                                                            editor
-                                                        );
-                                                    }}
-                                                />
-
-                                                {/* <input
-                                                    className="noiDung"
-                                                    onChange={(e) =>
-                                                        setthongTinSanPham2(
-                                                            e.target.value
-                                                        )
-                                                    }
-                                                    placeholder={
-                                                        detailidSpSua?.thongTinSanPham
-                                                    }
-                                                /> */}
+                                                    <button
+                                                        className="hoanThanh"
+                                                        onClick={
+                                                            handleThemSanPham
+                                                        }
+                                                    >
+                                                        Lưu Sản Phẩm
+                                                    </button>
+                                                </div>
                                             </div>
-
-                                            <button
-                                                className="hoanThanh"
-                                                onClick={() =>
-                                                    handleLuuSanPham(
-                                                        detailidSpSua?._id
-                                                    )
-                                                }
-                                            >
-                                                Lưu Sản Phẩm
-                                            </button>
+                                            <div className="luuY">
+                                                Lưu ý: <br /> - Sản Phẩm Dẫn là
+                                                sản phẩm xuất hiện trên cùng
+                                                Website. <br />- Mỗi Shop nên
+                                                chọn ra 2 Sản Phẩm Dẫn đáng chú
+                                                ý nhất! <br /> - Sản Phẩm Dẫn sẽ
+                                                hiển thị trên trang chủ Website
+                                                Fabysa.
+                                            </div>
                                         </div>
-                                    </div>
+                                    ) : (
+                                        <div></div>
+                                    )}
+                                    {/* sua sp */}
+                                    {+suaThongTinShop === 3 ? (
+                                        <div className="them">
+                                            <div className="container-themSanPham">
+                                                <button
+                                                    className="close"
+                                                    onClick={() =>
+                                                        setsuaThongTinShop(0)
+                                                    }
+                                                >
+                                                    Close
+                                                </button>
+
+                                                <div className="sanPham">
+                                                    <div>
+                                                        <input
+                                                            id="anhsuasanpham"
+                                                            type="file"
+                                                            hidden
+                                                            onChange={
+                                                                handleOnchangeImagesuaSanPham
+                                                            }
+                                                        />
+                                                        <label htmlFor="anhsuasanpham">
+                                                            <div className="anhsanpham">
+                                                                {previewSanPham2 ? (
+                                                                    <img
+                                                                        src={
+                                                                            previewSanPham2.preview
+                                                                        }
+                                                                        className="anhsanpham"
+                                                                    />
+                                                                ) : (
+                                                                    <img
+                                                                        src={
+                                                                            detailidSpSua?.AnhSanPham
+                                                                        }
+                                                                        className="anhsanpham"
+                                                                    />
+                                                                )}
+                                                            </div>
+                                                        </label>
+                                                    </div>
+
+                                                    <div className="tieuDeNoiDung">
+                                                        <label className="tieuDe">
+                                                            Tên Sản Phẩm
+                                                        </label>
+
+                                                        <input
+                                                            onChange={(e) =>
+                                                                setTenSanPham2(
+                                                                    e.target
+                                                                        .value
+                                                                )
+                                                            }
+                                                            className="noiDung"
+                                                            placeholder={
+                                                                detailidSpSua?.TenSanPham
+                                                            }
+                                                        />
+                                                    </div>
+                                                    <div className="tieuDeNoiDung">
+                                                        <label className="tieuDe">
+                                                            Tình Trạng
+                                                        </label>
+
+                                                        <select
+                                                            className="noiDung"
+                                                            onChange={(e) =>
+                                                                settinhTrang2(
+                                                                    e.target
+                                                                        .value
+                                                                )
+                                                            }
+                                                        >
+                                                            <option>
+                                                                {tinhTrang2}
+                                                            </option>
+                                                            <option>
+                                                                Còn Hàng
+                                                            </option>
+                                                            <option>
+                                                                Tạm Hết
+                                                            </option>
+                                                        </select>
+                                                    </div>
+                                                    <div className="tieuDeNoiDung">
+                                                        <label className="tieuDe">
+                                                            Nhóm Sản Phẩm
+                                                        </label>
+
+                                                        <select
+                                                            className="noiDung"
+                                                            onChange={(e) =>
+                                                                setnhomSanPham2(
+                                                                    e.target
+                                                                        .value
+                                                                )
+                                                            }
+                                                        >
+                                                            <option>
+                                                                {nhomSanPham2}
+                                                            </option>
+                                                            {allSanPhamDan &&
+                                                                allSanPhamDan.length <
+                                                                    2 && (
+                                                                    <option>
+                                                                        Sản Phẩm
+                                                                        Dẫn
+                                                                    </option>
+                                                                )}
+                                                            <option value="1">
+                                                                Thêm Nhóm Mới
+                                                            </option>
+                                                            {loaiSanPham &&
+                                                                loaiSanPham?.length !==
+                                                                    0 &&
+                                                                loaiSanPham?.map(
+                                                                    (
+                                                                        item,
+                                                                        index
+                                                                    ) => {
+                                                                        return (
+                                                                            <option
+                                                                                key={
+                                                                                    index
+                                                                                }
+                                                                            >
+                                                                                {
+                                                                                    item
+                                                                                }
+                                                                            </option>
+                                                                        );
+                                                                    }
+                                                                )}
+                                                        </select>
+                                                    </div>
+                                                    {nhomSanPham2 === "1" && (
+                                                        <div className="tieuDeNoiDung">
+                                                            <label className="tieuDe">
+                                                                Thêm Nhóm Mới
+                                                            </label>
+
+                                                            <input
+                                                                className="noiDung"
+                                                                onChange={(e) =>
+                                                                    setnhomSanPhamMoi2(
+                                                                        e.target
+                                                                            .value
+                                                                    )
+                                                                }
+                                                                placeholder="Thêm nhóm mới"
+                                                            />
+                                                        </div>
+                                                    )}
+
+                                                    <div className="tieuDeNoiDung">
+                                                        <label className="tieuDe">
+                                                            Giá Niêm Yết
+                                                        </label>
+
+                                                        <input
+                                                            type="number"
+                                                            className="noiDung"
+                                                            onChange={(e) =>
+                                                                setgiaNiemYet2(
+                                                                    e.target
+                                                                        .value
+                                                                )
+                                                            }
+                                                            placeholder={VND.format(
+                                                                detailidSpSua?.giaNiemYet
+                                                            )}
+                                                        />
+                                                    </div>
+                                                    <div className="tieuDeNoiDung">
+                                                        <label className="tieuDe">
+                                                            Giá Khuyến Mại
+                                                        </label>
+
+                                                        <input
+                                                            type="number"
+                                                            className="noiDung"
+                                                            onChange={(e) =>
+                                                                setgiaKhuyenMai2(
+                                                                    e.target
+                                                                        .value
+                                                                )
+                                                            }
+                                                            placeholder={VND.format(
+                                                                detailidSpSua?.giaKhuyenMai
+                                                            )}
+                                                        />
+                                                    </div>
+                                                    {detailidSpSua?.idtk ===
+                                                        user?._id && (
+                                                        <>
+                                                            <div className="tieuDeNoiDung">
+                                                                <div className="tieuDe">
+                                                                    Giá Nhập
+                                                                </div>
+                                                                <input
+                                                                    type="number"
+                                                                    className="noiDung"
+                                                                    placeholder={VND.format(
+                                                                        giaNhap2
+                                                                    )}
+                                                                    onChange={(
+                                                                        e
+                                                                    ) =>
+                                                                        setgiaNhap2(
+                                                                            e
+                                                                                .target
+                                                                                .value
+                                                                        )
+                                                                    }
+                                                                />
+                                                            </div>
+                                                            <div className="tieuDeNoiDung">
+                                                                <div className="tieuDe">
+                                                                    Giá Cộng Tác
+                                                                    Viên
+                                                                </div>
+                                                                <input
+                                                                    type="number"
+                                                                    className="noiDung"
+                                                                    placeholder={VND.format(
+                                                                        giaCtv2
+                                                                    )}
+                                                                    onChange={(
+                                                                        e
+                                                                    ) =>
+                                                                        setgiaCtv2(
+                                                                            e
+                                                                                .target
+                                                                                .value
+                                                                        )
+                                                                    }
+                                                                />
+                                                            </div>
+                                                            <div className="tieuDeNoiDung">
+                                                                <div className="tieuDe">
+                                                                    Giá Sỉ
+                                                                </div>
+                                                                <input
+                                                                    type="number"
+                                                                    className="noiDung"
+                                                                    placeholder={VND.format(
+                                                                        giaSi2
+                                                                    )}
+                                                                    onChange={(
+                                                                        e
+                                                                    ) =>
+                                                                        setgiaSi2(
+                                                                            e
+                                                                                .target
+                                                                                .value
+                                                                        )
+                                                                    }
+                                                                />
+                                                            </div>
+                                                        </>
+                                                    )}
+
+                                                    <div className="thongTinSanPham">
+                                                        <label className="tieuDe">
+                                                            Thông Tin Sản Phẩm
+                                                        </label>
+                                                        <CKEditor
+                                                            editor={
+                                                                ClassicEditor
+                                                            }
+                                                            data={
+                                                                thongTinSanPham2
+                                                            }
+                                                            onReady={(
+                                                                editor
+                                                            ) => {}}
+                                                            onChange={(
+                                                                event,
+                                                                editor
+                                                            ) => {
+                                                                console.log(
+                                                                    event
+                                                                );
+                                                                setthongTinSanPham2(
+                                                                    editor.getData()
+                                                                );
+                                                            }}
+                                                            onBlur={(
+                                                                event,
+                                                                editor
+                                                            ) => {
+                                                                console.log(
+                                                                    "Blur.",
+                                                                    editor
+                                                                );
+                                                            }}
+                                                            onFocus={(
+                                                                event,
+                                                                editor
+                                                            ) => {
+                                                                console.log(
+                                                                    "Focus.",
+                                                                    editor
+                                                                );
+                                                            }}
+                                                        />
+                                                    </div>
+
+                                                    <button
+                                                        className="hoanThanh"
+                                                        onClick={() =>
+                                                            handleLuuSanPham(
+                                                                detailidSpSua?._id
+                                                            )
+                                                        }
+                                                    >
+                                                        Lưu Sản Phẩm
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    ) : (
+                                        <div></div>
+                                    )}
                                 </div>
                             ) : (
-                                <div></div>
+                                <></>
                             )}
-                        </div>
+                        </>
                     ) : (
-                        <></>
+                        <Loading />
                     )}
                 </>
             )}

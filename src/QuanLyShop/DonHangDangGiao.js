@@ -16,15 +16,15 @@ const DonHangMoi = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const { idShop } = useParams();
+    const [skip, setskip] = useState(0);
     const allDonHang = allDonHang1?.filter((item) => item?.idShop === idShop);
-    console.log("idShop", idShop);
     useEffect(() => {
         getttShop(idShop, dispatch);
     }, []);
     const trangThaiDH = 2;
     useEffect(() => {
-        getDonHang(idShop, trangThaiDH, dispatch);
-    }, [idShop]);
+        getDonHang(idShop,skip, trangThaiDH, dispatch);
+    }, [idShop,skip]);
 
     const VND = new Intl.NumberFormat("vi-VN", {
         style: "currency",
@@ -56,7 +56,7 @@ const DonHangMoi = () => {
                     return (
                         <a
                             key={index}
-                            href={`/don-hang/${idShop}/${item._id}/${trangThaiDH}`}
+                            href={`/don-hang/${idShop}/${skip}/${item._id}/${trangThaiDH}`}
                         >
                             <div className="ttdonHang">
                                 <div className="thoiGian">
@@ -92,6 +92,16 @@ const DonHangMoi = () => {
                         </a>
                     );
                 })}
+                 {(skip > 20 || skip === 20) && (
+                <button onClick={() => setskip(+skip - 20)} className="xemThem">
+                    Quay Lại
+                </button>
+                )}
+                {allDonHang?.length === 20 && (
+                <button onClick={() => setskip(+skip + 20)} className="xemThem">
+                    Xem Thêm
+                </button>
+                )}
             </div>
         </div>
     );

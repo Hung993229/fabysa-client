@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getDonHang } from "../redux/apiRequest";
 import { useEffect } from "react";
+import { useState } from "react";
 const DonMua = () => {
     const { idShop } = useParams();
     const user = useSelector((state) => state.auth.login.currentUser);
@@ -11,11 +12,11 @@ const DonMua = () => {
     const allDonHang = useSelector(
         (state) => state.donHang.donHang.alldonHang?.allDonHang
     );
-    console.log("allDonHang", allDonHang);
+    const [skip, setskip] = useState(0);
     const trangThaiDH = 1;
     useEffect(() => {
-        getDonHang(user?._id, trangThaiDH, dispatch);
-    }, []);
+        getDonHang(user?._id, skip, trangThaiDH, dispatch);
+    }, [skip]);
     return (
         <div className="DonMua">
             <a href={`/shop/ca-nhan/${idShop}`}>
@@ -59,6 +60,16 @@ const DonMua = () => {
                     </div>
                 );
             })}
+            {(skip > 20 || skip === 20) && (
+                <button onClick={() => setskip(+skip - 20)} className="xemThem">
+                    Quay Lại
+                </button>
+            )}
+            {allDonHang?.length === 20 && (
+                <button onClick={() => setskip(+skip + 20)} className="xemThem">
+                    Xem Thêm
+                </button>
+            )}
         </div>
     );
 };

@@ -5,31 +5,30 @@ import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { getDonHang, updateDonHang, getttShop } from "../redux/apiRequest";
 import { useDispatch } from "react-redux";
+import { useState } from "react";
 const DonHangCtv = () => {
     const allDonHang = useSelector(
         (state) => state.donHang.donHang.alldonHang?.allDonHang
     );
-    console.log("allDonHang", allDonHang);
     const dispatch = useDispatch();
     const { idShop } = useParams();
+    const [skip, setskip] = useState(0);
     useEffect(() => {
         getttShop(idShop, dispatch);
     }, []);
     const trangThaiDH = 5;
     useEffect(() => {
-        getDonHang(idShop, trangThaiDH, dispatch);
-    }, [idShop]);
+        getDonHang(idShop, skip, trangThaiDH, dispatch);
+    }, [idShop, skip]);
     const donHangCongTacVien = allDonHang?.filter(
         (item) => item.idShop === idShop
     );
     const donHangCtvChuaThanhToan = donHangCongTacVien.filter(
         (item) => item?.donHang[0]?.thanhToanHoaHong === "Chưa Thanh Toán"
     );
-    console.log("donHangCtvChuaThanhToan", donHangCtvChuaThanhToan);
     const donHangCtvDaThanhToan = donHangCongTacVien.filter(
         (item) => item?.donHang[0]?.thanhToanHoaHong === "Đã Thanh Toán"
     );
-    console.log("donHangCtvDaThanhToan", donHangCtvDaThanhToan);
     const VND = new Intl.NumberFormat("vi-VN", {
         style: "currency",
         currency: "VND",
@@ -71,6 +70,22 @@ const DonHangCtv = () => {
                     </div>
                 );
             })}
+              {(skip > 20 || skip === 20) && (
+                    <button
+                        onClick={() => setskip(+skip - 20)}
+                        className="xemThem"
+                    >
+                        Quay Lại
+                    </button>
+                )}
+                {allDonHang?.length === 20 && (
+                    <button
+                        onClick={() => setskip(+skip + 20)}
+                        className="xemThem"
+                    >
+                        Xem Thêm
+                    </button>
+                )}
         </div>
     );
 };

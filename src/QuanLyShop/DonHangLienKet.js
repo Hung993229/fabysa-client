@@ -5,31 +5,28 @@ import { useEffect } from "react";
 import { getDonHang, updateDonHang, getttShop } from "../redux/apiRequest";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-
+import { useState } from "react";
 const DonHangLienKet = () => {
     const allDonHang = useSelector(
         (state) => state.donHang.donHang.alldonHang?.allDonHang
     );
-    console.log("allDonHang", allDonHang);
     const dispatch = useDispatch();
     const { idShop } = useParams();
+    const [skip, setskip] = useState(0);
     useEffect(() => {
         getttShop(idShop, dispatch);
     }, []);
     const trangThaiDH = 5;
     useEffect(() => {
-        getDonHang(idShop, trangThaiDH, dispatch);
-    }, [idShop]);
+        getDonHang(idShop, skip, trangThaiDH, dispatch);
+    }, [idShop, skip]);
     const donHangLienKet = allDonHang?.filter((item) => item.idCtv === idShop);
-    console.log("donHangLienKet", donHangLienKet);
     const donHangCtvChuaThanhToan = donHangLienKet.filter(
         (item) => item?.donHang[0]?.thanhToanHoaHong === "Chưa Thanh Toán"
     );
-    console.log("donHangCtvChuaThanhToan", donHangCtvChuaThanhToan);
     const donHangCtvDaThanhToan = donHangLienKet.filter(
         (item) => item?.donHang[0]?.thanhToanHoaHong === "Đã Thanh Toán"
     );
-    console.log("donHangCtvDaThanhToan", donHangCtvDaThanhToan);
     const VND = new Intl.NumberFormat("vi-VN", {
         style: "currency",
         currency: "VND",
@@ -94,6 +91,22 @@ const DonHangLienKet = () => {
                     </div>
                 );
             })}
+              {(skip > 20 || skip === 20) && (
+                    <button
+                        onClick={() => setskip(+skip - 20)}
+                        className="xemThem"
+                    >
+                        Quay Lại
+                    </button>
+                )}
+                {allDonHang?.length === 20 && (
+                    <button
+                        onClick={() => setskip(+skip + 20)}
+                        className="xemThem"
+                    >
+                        Xem Thêm
+                    </button>
+                )}
         </div>
     );
 };

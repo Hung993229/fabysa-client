@@ -21,6 +21,7 @@ const ShopYeuThich = (props) => {
             )}
 
             <div className="tenDanhSach">Danh Sách Shop Yêu Thích</div>
+            {allLikeShop?.length === 0 && <div>Bạn Chưa Thích Shop Nào!</div>}
             {allLikeShop &&
                 allLikeShop?.map((item, index) => {
                     return (

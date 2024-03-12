@@ -34,7 +34,6 @@ const MyDetail = (props) => {
     // yourDetai Chi Tiet
 
     useEffect(() => {
-        // getPost(user?._id,setloading, dispatch);
         getAllttShop(user?._id, dispatch);
     }, [user]);
     const handleLogout = () => {
