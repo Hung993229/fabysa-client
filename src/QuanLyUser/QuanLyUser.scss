@@ -6,10 +6,35 @@
        font-size: 5vw;
        font-weight: 600;
        line-height: 8vw;
+       .inputDangNhap{
+        margin: 3vw;
+        text-align: center;
+       }
        a{
         text-decoration: none;
        }
-      
+      .sdt{
+        margin: 5vw 5vw 2vw auto;
+        padding: 1vw;
+        cursor: pointer;
+        border-radius: 1vw;
+        width: 30vw;
+        background-color: #04aa6d;
+        color: #fff;
+        font-size: 3.5vw;
+        font-weight: 600;
+
+      }
+      .repass{
+        padding: 1vw;
+        cursor: pointer;
+        border-radius: 1vw;
+        width: 20vw;
+        background-color: red;
+        color: #fff;
+        font-size: 3.5vw;
+        font-weight: 600;
+      }
        
     }
 }

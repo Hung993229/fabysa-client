@@ -18,7 +18,8 @@ const DonHangLienKet = () => {
     }, []);
     const trangThaiDH = 5;
     useEffect(() => {
-        getDonHang(idShop, skip, trangThaiDH, dispatch);
+        const limit = 20
+        getDonHang(idShop, skip,limit, trangThaiDH, dispatch);
     }, [idShop, skip]);
     const donHangLienKet = allDonHang?.filter((item) => item.idCtv === idShop);
     const donHangCtvChuaThanhToan = donHangLienKet.filter(

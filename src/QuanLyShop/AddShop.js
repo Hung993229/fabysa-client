@@ -17,15 +17,11 @@ const AddShop = () => {
     const myDetail = useSelector((state) => state.post.post?.myDetail);
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const [previewAvatar, setpreviewAvatar] = useState();
-    const [previewBanner, setpreviewBanner] = useState();
     const [Banner, setBanner] = useState();
     const [TenShop, setTenShop] = useState();
-    const [DcShop, setDcShop] = useState();
+    const [thonXom, setthonXom] = useState();
     const [SdtShop, setSdtShop] = useState();
-    const [nguoiHoTro, setnguoiHoTro] = useState();
     const [UserShop, setUserShop] = useState(user?._id);
-    console.log("UserShop", UserShop);
     // Provinces
     const [provinces, setProvinces] = useState([]);
     const [provincesID, setprovincesID] = useState();
@@ -35,39 +31,17 @@ const AddShop = () => {
 
     const [wards, setWards] = useState([]);
     const [wardID, setWardID] = useState();
-
-    // banner
-    useEffect(() => {
-        return () => {
-            previewBanner && URL.revokeObjectURL(previewBanner.preview);
-        };
-    }, [previewBanner]);
-
-    const handleOnchangeImageBanner = async (e) => {
-        const fileBanner = e.target.files[0];
-        let bannerBase64 = await CommonUtils.getBase64(fileBanner);
-
-        fileBanner.preview = URL.createObjectURL(fileBanner);
-
-        setBanner(bannerBase64);
-        setpreviewBanner(fileBanner);
-    };
-
-    // banner
     //  Que Quan
     // Tinh
     useEffect(() => {
         const fetchPublicProvince = async () => {
             const response = await apiGetPublicProvinces();
-            if (response.status === 200) {
+            if (response?.status === 200) {
                 setProvinces(response?.data.results);
             }
         };
         fetchPublicProvince();
     }, []);
-    // console.log("provincesID", provincesID);
-    // console.log("provinces", provinces);
-    // Huyen
     useEffect(() => {
         const fetchPublicDictrict = async () => {
             const response = await apiGetPublicDistrict(provincesID);
@@ -79,9 +53,6 @@ const AddShop = () => {
 
         !provincesID && setDistricts([]);
     }, [provincesID]);
-    // console.log("districtID", districtID);
-    // console.log("districts", districts);
-    // Xa
     useEffect(() => {
         const fetchPublicWard = async () => {
             const response = await apiGetPublicWard(districtID);
@@ -105,10 +76,10 @@ const AddShop = () => {
             (item) => item.district_id === districtID
         );
         const tenXa = wards?.find((item) => item.ward_id === wardID);
-        const nhomSanPham = [
+        const menuShop = [
+            "Khuyến Mại Đặc Biệt",
             "Điện Thoại",
             "Máy Tính",
-            "Camera Giám Sát",
             "Quần Áo Nam",
             "Quần Áo Nữ",
             "Giày Nam",
@@ -121,26 +92,25 @@ const AddShop = () => {
             "Thực Phẩm Thịt",
             "Rau, Củ, Quả",
         ];
-        if (!Banner || !TenShop || !DcShop || !SdtShop) {
+        if (!TenShop || !SdtShop) {
             alert("Vui lòng nhập đủ thông tin");
         } else {
             try {
                 const newShop = {
-                    Banner: Banner,
                     TenShop: TenShop,
-                    dcShop: DcShop,
                     sdtShop: SdtShop,
-                    nguoiHoTro: nguoiHoTro,
+
                     tinh: tenTinh?.province_name,
                     huyen: tenHuyen?.district_name,
-                    xa: tenXa?.ward_name || "Xã ...",
-                    nhomSanPham: nhomSanPham,
-                    cash: 0,
-                    taikhoan: 0,
-                    vaiTro: 1,
+                    xa: tenXa?.ward_name || "... Trống ...",
+                    thonXom: thonXom || "... Trống ...",
 
+                    cash: 0,
+                    capBac: 1,
+                    ttShopThem: { Banner, menuShop },
                     user: UserShop || user._id,
                 };
+                console.log("newShop", newShop);
                 registerttShop(newShop, dispatch);
                 navigate(`/ca-nhan`);
             } catch (err) {
@@ -152,128 +122,85 @@ const AddShop = () => {
         <div className="addShop-container">
             {myDetail && myDetail.length !== 0 ? (
                 <div className="addShop">
-                    <div className="banner-container">
-                        <label hidden>Banner</label>
-                        <div>
-                            <input
-                                id="banner"
-                                type="file"
-                                hidden
-                                onChange={handleOnchangeImageBanner}
-                                className="bannerFormregis2"
-                            />
-                            <label
-                                htmlFor="banner"
-                                className="bannerFormregis2"
-                            >
-                                <div>
-                                    {previewBanner && (
-                                        <img
-                                            src={previewBanner.preview}
-                                            className="banner"
-                                        />
-                                    )}
-                                </div>
-                            </label>
-                        </div>
-                    </div>
-                    <div className="containerTieuChiFormregis">
-                        <div className="tieuChiFormregis">Tên Shop</div>
+                    <div className="taoShopMoi">Mở Shop Mới</div>
+                    <div className="tenShop-TS">
+                        <div className="tenShop">Tên Shop</div>
                         <input
-                            className="noiDungFormregis3"
+                            className="TS"
                             placeholder="Nhập Tên Shop"
                             type="text"
                             onChange={(e) => setTenShop(e.target.value)}
                         />
                     </div>
 
-                    <div className="containerTieuChiFormregis">
-                        <div className="tieuChiFormregis">Số Điện Thoại</div>
+                    <div className="tenShop-TS">
+                        <div className="tenShop">Số Điện Thoại</div>
                         <input
-                            className="noiDungFormregis3"
+                            className="TS"
                             placeholder="Nhập Số Điện Thoại"
                             type="text"
                             onChange={(e) => setSdtShop(e.target.value)}
                         />
                     </div>
 
-                    <div className="containerTieuChiFormregis">
-                        <div className="tieuChiFormregis">Địa Chỉ</div>
-                        <input
-                            className="noiDungFormregis3"
-                            placeholder="Địa Chỉ Shop"
-                            type="text"
-                            onChange={(e) => setDcShop(e.target.value)}
-                        />
-                    </div>
-                    <div className="khuVuc-container">
-                        <label hidden>Tỉnh</label>
-                        <select
-                            id="provinces"
-                            onChange={(e) => setprovincesID(e.target.value)}
-                            // onChange={(e) => console.log("e", e)}
-                        >
-                            <option value="">---Chọn Tỉnh/TP---</option>
-                            {provinces?.map((item) => {
-                                return (
-                                    <option
-                                        key={item.province_id}
-                                        value={item.province_id}
-                                    >
-                                        {item.province_name}
-                                    </option>
-                                );
-                            })}
-                        </select>
-                        <select onChange={(e) => setDistrictID(e.target.value)}>
-                            <option value="">---Chọn Quận/Huyện---</option>
-                            {districts?.map((item) => {
-                                return (
-                                    <option
-                                        value={item.district_id}
-                                        key={item.district_id}
-                                    >
-                                        {item.district_name}
-                                    </option>
-                                );
-                            })}
-                        </select>
-                        <select onChange={(e) => setWardID(e.target.value)}>
-                            <option value="">---Chọn Xã/Phường---</option>
-                            {wards?.map((item) => {
-                                return (
-                                    <option
-                                        value={item.ward_id}
-                                        key={item.ward_id}
-                                    >
-                                        {item.ward_name}
-                                    </option>
-                                );
-                            })}
-                        </select>
-                    </div>
-                    <div className="containerTieuChiFormregis">
-                        <div className="tieuChiFormregis">Người Hướng Dẫn</div>
-                        <input
-                            className="noiDungFormregis3"
-                            placeholder="Nhập Số Điện Thoại Người Hướng Dẫn (Nếu Có)"
-                            type="text"
-                            onChange={(e) => setnguoiHoTro(e.target.value)}
-                        />
-                    </div>
-                    {user?.admin === true && (
-                        <div className="containerTieuChiFormregis">
-                            <div className="tieuChiFormregis">Quản Lý Shop</div>
-                            <input
-                                className="noiDungFormregis3"
-                                placeholder="idUser Quan Ly"
-                                type="text"
-                                onChange={(e) => setUserShop(e.target.value)}
-                            />
+                    <div className="diaChi-container">
+                        <div className="diaChi">Địa Chỉ</div>
+
+                        <div className="tinh-huyen-xa">
+                            <select
+                                id="provinces"
+                                onChange={(e) => setprovincesID(e.target.value)}
+                            >
+                                <option value="">--- Tỉnh/Thành Phố ---</option>
+                                {provinces?.map((item) => {
+                                    return (
+                                        <option
+                                            key={item.province_id}
+                                            value={item.province_id}
+                                        >
+                                            {item.province_name}
+                                        </option>
+                                    );
+                                })}
+                            </select>
+                            <select
+                                onChange={(e) => setDistrictID(e.target.value)}
+                            >
+                                <option value="">--- Quận/Huyện ---</option>
+                                {districts?.map((item) => {
+                                    return (
+                                        <option
+                                            value={item.district_id}
+                                            key={item.district_id}
+                                        >
+                                            {item.district_name}
+                                        </option>
+                                    );
+                                })}
+                            </select>
+                            <select onChange={(e) => setWardID(e.target.value)}>
+                                <option value="">--- Xã/Phường ---</option>
+                                {wards?.map((item) => {
+                                    return (
+                                        <option
+                                            value={item.ward_id}
+                                            key={item.ward_id}
+                                        >
+                                            {item.ward_name}
+                                        </option>
+                                    );
+                                })}
+                            </select>
                         </div>
-                    )}
+                        <input
+                            className="soNha"
+                            placeholder="Số nhà/Thôn/Xóm/..."
+                            type="text"
+                            onChange={(e) => setthonXom(e.target.value)}
+                        />
+                    </div>
                     <div className="huyBo-luuShop">
-                        <a href="/fabysa">
+                        <a href="/ca-nhan">
                             <button className="huyBo">Huỷ Bỏ</button>
                         </a>
                         <button

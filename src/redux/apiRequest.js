@@ -9,6 +9,9 @@ import {
     logOutFailed,
     logOutStart,
     logOutSuccess,
+    changePasswordSuccess,
+    changePasswordFailed,
+    changePasswordStart,
 } from "./authSlice";
 import {
     deleteUserFailed,
@@ -79,6 +82,9 @@ import {
     getArrSanPhamStart,
     getArrSanPhamSuccess,
     getArrSanPhamFailed,
+    getSanPhamDanStart,
+    getSanPhamDanSuccess,
+    getSanPhamDanFailed,
     deleteSanPhamStart,
     deleteSanPhamSuccess,
     deleteSanPhamFailed,
@@ -113,6 +119,9 @@ import {
     getdonHangStart,
     getdonHangSuccess,
     getdonHangFailed,
+    getOnedonHangStart,
+    getOnedonHangSuccess,
+    getOnedonHangFailed,
     deletedonHangStart,
     deletedonHangSuccess,
     deletedonHangFailed,
@@ -137,21 +146,34 @@ import {
     deletegioHangFailed,
     logOutSuccessgioHang,
 } from "./gioHangSlice";
-export const loginUser = async (user, dispatch) => {
+export const loginUser = async (user, setdangNhapOk, dispatch) => {
     dispatch(loginStart());
     try {
         const res = await axios.post("/v1/auth/login", user);
         dispatch(loginSuccess(res.data));
+        setdangNhapOk(1);
     } catch (err) {
         dispatch(loginFailed());
     }
 };
 
-export const registerUser = async (user, dispatch) => {
+export const changePassword = async (userNew, setdoiThanhCong, dispatch) => {
+    dispatch(changePasswordStart());
+    try {
+        const res = await axios.post("/v1/auth/change-password", userNew);
+        dispatch(changePasswordSuccess(res.data));
+        setdoiThanhCong(true);
+    } catch (err) {
+        dispatch(changePasswordFailed());
+    }
+};
+
+export const registerUser = async (user, setthanhCong, dispatch) => {
     dispatch(registerStart());
     try {
         await axios.post("/v1/auth/register", user);
         dispatch(registerSuccess());
+        setthanhCong(1);
     } catch (err) {
         dispatch(registerFailed());
     }
@@ -220,12 +242,11 @@ export const updatePost = async (newPost, id, dispatch) => {
     }
 };
 
-export const getPost = async (id, dispatch, setloading) => {
+export const getPost = async (id, dispatch) => {
     dispatch(getPostStart());
     try {
         const res = await axios.get(`/v1/post/${id}`);
         dispatch(getPostSuccess(res.data));
-        setloading(0);
     } catch (err) {
         dispatch(getPostFailed());
     }
@@ -335,55 +356,60 @@ export const deleteAllYourStatus = async (id, dispatch) => {
     }
 };
 // sanPham
-export const registerSanPham = async (
-    newSanPham,
-    dispatch,
-    setloading,
-    setsuaThongTinShop
-) => {
+export const registerSanPham = async (newSanPham, dispatch, setloading) => {
     dispatch(registerSanPhamStart());
     try {
         const res = await axios.post("/v1/shop/san-pham", newSanPham);
         dispatch(registerSanPhamSuccess(res.data));
-        setloading(0);
-        setsuaThongTinShop(0);
+        setloading(2);
     } catch (err) {
         dispatch(registerSanPhamFailed());
+        setloading(0);
     }
 };
-export const getSanPham = async (user, skip, dispatch, setloading) => {
+export const getSanPham = async (idShop, nhomSP, skip, limit, dispatch) => {
     dispatch(getSanPhamStart());
     try {
         const res = await axios.get(
-            `/v1/shop/san-pham/?user=${user}&skip=${skip}`
+            `/v1/shop/san-pham/?idShop=${idShop}&nhomSP=${nhomSP}&skip=${skip}&limit=${limit}`
         );
         dispatch(getSanPhamSuccess(res.data));
-        setloading(0);
     } catch (err) {
         dispatch(getSanPhamFailed());
     }
 };
 
-export const getSanPhamDan = async (huyen, skip, dispatch) => {
-    dispatch(getSanPhamStart());
+export const getSanPhamDan = async (skip, limit, dispatch) => {
+    dispatch(getSanPhamDanStart());
     try {
         const res = await axios.get(
-            `/v1/shop/san-pham-dan/?huyen=${huyen}&skip=${skip}`
+            `/v1/shop/san-pham-dan/?skip=${skip}&limit=${limit}`
         );
-        dispatch(getSanPhamSuccess(res.data));
+        dispatch(getSanPhamDanSuccess(res.data));
     } catch (err) {
-        dispatch(getSanPhamFailed());
+        dispatch(getSanPhamDanFailed());
     }
 };
-export const getSanPhamDanHuyen = async (huyen, skip, dispatch) => {
-    dispatch(getSanPhamStart());
+export const getSanPhamDanHuyen = async (huyen, skip, limit, dispatch) => {
+    dispatch(getSanPhamDanStart());
     try {
         const res = await axios.get(
-            `/v1/shop/san-pham-dan-huyen/?huyen=${huyen}&skip=${skip}`
+            `/v1/shop/san-pham-dan-huyen/?huyen=${huyen}&skip=${skip}&limit=${limit}`
         );
-        dispatch(getSanPhamSuccess(res.data));
+        dispatch(getSanPhamDanSuccess(res.data));
     } catch (err) {
-        dispatch(getSanPhamFailed());
+        dispatch(getSanPhamDanFailed());
+    }
+};
+export const getSanPhamDanHuyen2 = async (huyen, skip, limit, dispatch) => {
+    dispatch(getSanPhamDanStart());
+    try {
+        const res = await axios.get(
+            `/v1/shop/san-pham-dan-huyen2/?huyen=${huyen}&skip=${skip}&limit=${limit}`
+        );
+        dispatch(getSanPhamDanSuccess(res.data));
+    } catch (err) {
+        dispatch(getSanPhamDanFailed());
     }
 };
 export const getKhoTongSi = async (huyen, user, dispatch) => {
@@ -421,16 +447,16 @@ export const deleteSanPham = async (id, setloading, dispatch) => {
 export const updateSanPham = async (
     newSanPham,
     id,
-    setsuaThongTinShop,
     setloading,
+    setthongTinSp,
     dispatch
 ) => {
     dispatch(updateSanPhamStart());
     try {
         const res = await axios.put(`/v1/shop/san-pham/${id}`, newSanPham);
         dispatch(updateSanPhamSuccess(res.data));
-        setsuaThongTinShop(0);
-        setloading(0);
+        setloading(4);
+        setthongTinSp(newSanPham);
     } catch (err) {
         dispatch(updateSanPhamFailed(err.response.data));
     }
@@ -466,19 +492,12 @@ export const getAllttShop = async (idShop, dispatch) => {
         dispatch(getAllttShopFailed());
     }
 };
-export const updatettShop = async (
-    newShop,
-    id,
-    dispatch,
-    setloading,
-    setsuaThongTinShop
-) => {
+export const updatettShop = async (newShop, id, dispatch, setloading) => {
     dispatch(updatettShopStart());
     try {
         const res = await axios.put(`/v1/shop/thong-tin-shop/${id}`, newShop);
         dispatch(updatettShopSuccess(res.data));
         setloading(0);
-        setsuaThongTinShop(0);
     } catch (err) {
         dispatch(updatettShopFailed(err.response.data));
     }
@@ -503,15 +522,32 @@ export const updateDonHang = async (newDonHang, id, dispatch) => {
         dispatch(updatedonHangFailed(err.response.data));
     }
 };
-export const getDonHang = async (idShop, skip, trangThaiDH, dispatch) => {
+export const getDonHang = async (
+    idShop,
+    skip,
+    limit,
+    trangThaiDH,
+    dispatch
+) => {
     dispatch(getdonHangStart());
     try {
         const res = await axios.get(
-            `/v1/shop/don-hang/?idShop=${idShop}&skip=${skip}&trangThaiDH=${trangThaiDH}`
+            `/v1/shop/don-hang/?idShop=${idShop}&skip=${skip}&limit=${limit}&trangThaiDH=${trangThaiDH}`
         );
         dispatch(getdonHangSuccess(res.data));
     } catch (err) {
         dispatch(getdonHangFailed());
+    }
+};
+export const getOneDonHang = async (idShop, soBan, dispatch) => {
+    dispatch(getOnedonHangStart());
+    try {
+        const res = await axios.get(
+            `/v1/shop/one-don-hang/?idShop=${idShop}&soBan=${soBan}`
+        );
+        dispatch(getOnedonHangSuccess(res.data));
+    } catch (err) {
+        dispatch(getOnedonHangFailed());
     }
 };
 // Don Hang

@@ -3,7 +3,7 @@ import "./QuanLyUser.scss";
 import {
     getAllUsers,
     deleteUser,
-    updatePost,
+    changePassword,
     getAllttShop,
 } from "../redux/apiRequest";
 import { useSelector } from "react-redux";
@@ -27,6 +27,7 @@ const QuanLyUser = () => {
     );
     const [idShop, setidShop] = useState();
     const [sodienThoai, setsodienThoai] = useState();
+    const [doiThanhCong, setdoiThanhCong] = useState(false);
     const handleDelete = (id) => {
         deleteUser(user?.accessToken, dispatch, id, axiosJWT);
     };
@@ -52,15 +53,29 @@ const QuanLyUser = () => {
             setidShop(iduser?._id);
         }
     }, [sodienThoai]);
-
+    const handleResetPassword = (item) => {
+        const userNew = {
+            username: item.username,
+            id: item._id,
+            password: "admisdsddsdsdszswsn",
+            passwordNew: "123456789",
+            passwordNew2: "123456789",
+        };
+        changePassword(userNew, setdoiThanhCong, dispatch);
+    };
+    useEffect(() => {
+        if (doiThanhCong === true) {
+            alert("Đổi Mật Khẩu Thành Công");
+            setdoiThanhCong(false);
+        }
+    }, [doiThanhCong]);
     return (
         <div className="home-container">
             <a href={"/ca-nhan"}>Quay Lại</a>
             {user?.admin === true && (
                 <div>
-                    <div>
+                    <div className="inputDangNhap">
                         <input
-                            className="inputDangNhap"
                             type="text"
                             placeholder="Nhập số điện thoại"
                             onChange={(e) => setsodienThoai(e.target.value)}
@@ -69,9 +84,18 @@ const QuanLyUser = () => {
                     {userList?.map((item) => {
                         return (
                             <div key={item._id}>
-                                <div onClick={() => setidShop(item._id)}>
+                                <button
+                                    className="sdt"
+                                    onClick={() => setidShop(item._id)}
+                                >
                                     {item.username}
-                                </div>
+                                </button>
+                                <button
+                                    className="repass"
+                                    onClick={() => handleResetPassword(item)}
+                                >
+                                    RePass
+                                </button>
                                 <div> {item._id}</div>
                                 {allShop?.map((item2) => {
                                     return (

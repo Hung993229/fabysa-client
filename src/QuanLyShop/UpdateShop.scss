@@ -2,813 +2,246 @@
 /* Mobile & Tablet */
 @media screen and (max-width : 1023px) {
    
-.updateShop-container{
-    margin-top: 9vw;
-    margin-bottom: 20vw;
-    .thongTinShop{
-        .headerShop{
-            .bannerShop{
-                width:  100%;
-                height: 40vw;
-                margin: auto;
-                justify-content: center;
-                align-items: center;
-                object-fit: cover;
-            }
-            a{
-                text-decoration: none;
-            }
-            .tenCuaHang{
-                color: red;
-                text-transform: uppercase;
-                padding: 2.5vw 0vw;
-                      font-size: 5vw;
-                    font-weight: 600;
-                    
-
-            }
-            .sloganShop{
-                font-size: 2.5vw;
-                text-align: center;
-                margin: 0.5vw auto 3vw auto;
-            }
-           
-           
-        }
-        .themSanPham-suaThongTinShop{
-            display: flex;
-            gap: 20%;
-            justify-content: center;
-            align-items: center;
-            margin-bottom: 2vw;
-.themSanPham{
-    display: block;
-    border-radius: 1vw;
-    background-color: #04aa6d;
-    width: 35vw;
-    text-align: center;
-    font-size: 3vw;
-}
-.suaThongTinShop{
-    display: block;
-    border-radius: 1vw;
-    background-color: #04aa6d;
-    width: 35vw;
-    text-align: center;
-    font-size: 3vw;
-}
-        }
-      .nhomSanPham-sanPham{
-        margin-top: 2vw;
-        .nhomSanPham{
-            margin-top: 2vw;
-            background-color: red;
-            font-size: 5vw;
-            font-weight: 600;     
-            text-transform: uppercase;
-            padding: 1vw;
-            color: white;
-            text-align: center;
-        }
-        .sanPham-container{
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-           
-            background-color: #88d3b4;
-            padding: 1vw 0vw 3vw 0vw;
-           
-.sanPham{
-    justify-content: center;
-    align-items: center;
-    padding: 2vw;
-    margin: 1vw;
-    
-    border-radius: 2vw;
-    background-color: #fff;
-    box-shadow: 12px 14px 12px -1px rgba(0,0,0,0.75);
--webkit-box-shadow: 12px 14px 12px -1px rgba(0,0,0,0.75);
--moz-box-shadow: 12px 14px 12px -1px rgba(0,0,0,0.75);
-
-    .suaxoa{
-        display: flex;
-                justify-content: center;
-                align-items: center;
-                margin: 3.5vw auto;
-                gap: 2vw;
-
-        .sua{
-            min-width: 12vw;
-            border-radius: 1vw;
-            background-color: #04aa6d;
-
-        }
-        .xoa{
-            min-width: 12vw;
-                    border-radius: 1vw;
-                    background-color: red;
-                    a{
-                        text-decoration: none;
-                        color: #fff;
-                    }
-
-        }
-    }
-    .anhSanPham{
-        width: 43vw;
-        height: 50vw;
-        object-fit: cover;
-        border: solid 0.1vw gray;
-        background-color: #fff;
-        cursor: pointer;
-        border-radius: 2vw;
-    }
-    .tenSanPham{
-        font-size: 3vw;
-        font-weight: 600;
-        margin: 2vw auto;
-        text-transform: uppercase;
-        word-wrap:break-word;
-                overflow:auto;
-                height: 5vw;
-                width: 43vw;
-    }
-    .giaBan{
-        text-align: center;
-        justify-content: center;
-        margin: 2vw auto;
-
-        .giaBanMoi{
-            color: red;
-            font-size: 5vw;
-        font-weight: 600;
-        margin-bottom: 1vw;
-
-        }
-        .giaGiam{
-            display: flex;
-            gap: 2vw;
-            align-items: center;
-            justify-content: center;
-            .giabanCu {
-                text-decoration: line-through;
-                font-size: 3.5vw;
-                font-weight: 300;
-
-            }
-            .phanTram{
-                font-size: 3.5vw;
-                font-weight: 300;
-            }
-        
-    }
-    }
-    .muaHang{
-        font-size: 3.5vw;
-        font-weight: 600;
-        background-color: gray;
-        width: 100%;
-        margin-top: 2vw;
-        border-radius: 3vw;
-
-    }
-    .viTriSanPham{
-        display: flex;
-            gap: 1vw;
-            text-align: center;
-            justify-content: center;
-            margin-top: 2vw;
-        .diachisanpham{
-            font-size: 1.6vw;
-        }
-    }
-}
-        }
-        
-      }
-       
-        
-      
-    }
-    .UpdateShop{
-       .banner-container{
-        
-        .bannerShop{
+    .pc-updateShop{
+    .updateShop-container{
+        margin-top: 10vw;
+        margin-bottom: 20vw;
+        .banner-container{
+         
+         .bannerShop{
             width:  100%;
-                height: 40vw;
-                margin: auto;
-                justify-content: center;
-                align-items: center;
-                object-fit: cover;
-
+            height: 68vw;
+            object-fit: cover;
+            border: solid 1px gray;
+         }
         }
-       }
-       .containerTieuChiFormregis{
-        display: flex;
-        margin-top: 2vw;
-        margin-left: 2vw;
-        margin-right: 2vw;
-        text-align: center;
-
-        .tieuChiFormregis{
-            width: 30%;
-            font-size: 2vw;
-            padding: 1.2vw 0vw;
-            height: 6vw;
-            text-align: center;
-            border: solid 0.11vw rgb(143, 140, 140);
-
-        }
-        .noiDungFormregis{
-            height: 6vw;
-            width: 70%;
-            border: solid 0.1vw rgb(143, 140, 140);
-            text-align: center;
-            border-radius: 1vw;
-            select{
-                height: 5vw;
-                width: 30%;
-                margin: 0.5vw;
-                border: solid 0.1vw rgb(143, 140, 140);
-                border-radius: 1vw;
-                option {
-                    // text-align: center;
-                    
-                }
-            }
-
-        }
-        .noiDungFormregis3{
-            width: 70%;
-            border: solid 0.1vw rgb(143, 140, 140);
-            text-align: center;
-            font-size: 2.5vw;
-            height: 6vw;
-            .inputFormregis3 {
-                text-align: center;
-                width: 98%;
-                border: none;
-                height: 5vw;
-                margin: 0.5vw auto;
-            }
-        }
-
-       }
-       .hoanThanh{
-        cursor: pointer;
-        border-radius: 2vw;
-        width: 30vw;
-        font-size: 3.5vw;
-        font-weight: 600;
-        text-align: center;
-        background-color: #04aa6d;
-        margin-top: 5vw;
-        margin-bottom: 8vw;
-        margin-left: 3vw;
-        padding: 1vw;
-    }
-    .huyDon{
-        cursor: pointer;
-        border-radius: 2vw;
-        width: 30vw;
-        font-size: 3.5vw;
-        font-weight: 600;
-        text-align: center;
-        background-color: red;
-        margin-top: 5vw;
-        margin-bottom: 8vw;
-        padding: 1vw;
-    }
-    }
-    .them{
-        .container-themSanPham{
-            margin-top: 10vw;
-            .close{
-                
-                background-color: red;
-                width: 15vw;
+        .tenShop-TS{
+            margin: 5vw 2vw;
+            .tenShop{
+                text-align: left;
+                margin: 2vw auto;
                 font-size: 3.5vw;
-                padding: 0.5vw;
-                border-radius: 1vw;
-                margin: 3vw auto;
                 font-weight: 500;
-                color: #fff;
-                cursor: pointer;
-                
             }
-            .sanPham{
-                .anhsanpham{
-                    width: 76vw;
-                    height: 90vw;
-                    object-fit: cover;
-                    border: solid 0.1vw gray;
-                    background-color: #fff;
-                    margin: auto;
-                    border-radius: 3vw;
-        
-                }
-                .tieuDeNoiDung{
-                    display: flex;
-                    margin-top: 2vw;
-                    margin-left: 2vw;
-                    margin-right: 2vw;
-                   
-                  
-                    .tieuDe{
-                        width: 30%;
-                        font-size: 3vw;
-                        text-align: center;
-                        border: solid 0.11vw rgb(143, 140, 140);
-                        padding: 1vw;
-
-                    }
-                    .noiDung{
-                        width: 70%;
-                        justify-content: center;
-                        align-items: center;
-                        font-size: 3vw;
-                        border: solid 0.1vw rgb(143, 140, 140);
-                        text-align: center;
-                        border-radius: 0.3vw;
-                        padding: 1vw;
-
-                    }
-                }
-              
-                .thongTinSanPham{
-                    margin-top: 3vw;
-                    .tieuDe{
-                        font-size: 3.5vw;
-                        font-weight: 500;
-                        margin-bottom: 1vw;
-
-                    }
-                    .noiDung{
-                        font-size: 3vw;
-                        width: 96%;
-                        text-align: center;
-                         word-wrap:break-word;
-                         overflow:auto;
-                    }
-                }
-
-                .hoanThanh{
-                    cursor: pointer;
-                    border-radius: 2vw;
-                    width: 35vw;
-                    font-size: 3.5vw;
-                    font-weight: 600;
-                    text-align: center;
-                    background-color: #04aa6d;
-                    margin-top: 5vw;
-                    margin-bottom: 8vw;
-                    margin-left: 3vw;
-                    padding: 1vw;
-                }
-                .huyDon{
-                    cursor: pointer;
-                    border-radius: 2vw;
-                    width: 25vw;
-                    font-size: 3.5vw;
-                    font-weight: 600;
-                    text-align: center;
-                    background-color: red;
-                    margin-top: 5vw;
-                    margin-bottom: 8vw;
-                    padding: 1vw;
+            .TS{
+                width: 100%;
+                text-align: center;
+                line-height: 8vw;
+                border-radius: 1vw;
+                font-size: 3vw;
+                border: solid 1px gray;
+            }
+         }
+         .diaChi-container{
+            margin: 5vw 2vw;
+            .diaChi{
+                text-align: left;
+                margin: 2vw auto;
+                font-size: 3.5vw;
+                font-weight: 500;
+            }
+            .tinh-huyen-xa{
+                gap:3vw;
+                display: flex;
+                margin: 2vw auto;
+                select, option{
+                width: 30vw;
+                text-align: center;
+                height: 8vw;
+                border-radius: 1vw;
+                font-size: 2.5vw;
+                border: solid 1px gray;
                 }
             }
-            
-           }
-           .luuY{
-            text-align: justify;
-            padding: 5vw;
-            font-size: 2.5vw;
-            line-height: 4vw;
+            .soNha{
+                width: 96vw;
+                text-align: center;
+                line-height: 8vw;
+                border-radius: 1vw;
+                font-size: 3vw;
+                border: solid 1px gray;
+            }
+         }
+         .nganHang{
+            margin: 5vw 2vw;
+            font-size: 3vw;
+            .chonNganHang{
+                text-align: left;
+                margin: 2vw auto;
+                font-size: 3.5vw;
+                font-weight: 500;
+
+            }
+            select, option{
+                text-align: center;
+                height: 8vw;
+                width: 53.5vw;
+                margin: 2vw 43.5vw 2vw auto;
+                border-radius: 1vw;
+                border: solid 1px gray;
+            }
+            .stk-chuTk{
+               
+          
+                .stk{
+                    display: block;
+                    text-align: center;
+                    height: 8vw;
+                    width: 53.5vw;
+                    border-radius: 1vw;
+                    margin-bottom: 2vw;
+                }
+                .chuTk{
+                    display: block;
+                    text-align: center;
+                    height: 8vw;
+                    width: 53.5vw;
+                    border-radius: 1vw;
+                }
+            }
+         }
+         .soBan-container{
+            margin: 5vw 2vw;
+            .nhanVien{
+                text-align: left;
+                margin: 2vw auto;
+                font-size: 3.5vw;
+                font-weight: 500;
+
+            }
+           
+            .sdt-them{
+                display: flex;
+                margin: 5vw auto;
+                gap: 2vw;
+                font-size: 3vw;
+                .sdt{
+                    width: 40.5vw;
+                    height: 8vw;
+                    border-radius: 1vw;
+                    border: solid 1px gray;
+                    text-align: center;
+
+                }
+                .them{
+                    width: 10vw;
+            line-height: 8vw;
+            color: #fff;
+            background-color: #04aa6d;
+            border-radius: 2vw;
+            font-size: 6vw;
+            font-weight: 600;
+
+                }
+            }
+            .danhSach-xoa{
+                display: flex;
+                // margin: 2vw auto;
+                border: solid 1px #d0d4dd ;
+                font-size: 3vw;
+                border-radius: 2vw;
+                margin: 2vw 43.5vw auto auto;
+                .danhSach{
+                    width: 42.5vw;
+                    line-height: 8vw;
+                    text-align: center;
+                    
+
+                }
+                .xoa{   
+                    width: 10vw;
+                    line-height: 8vw;
+                    border-radius: 2vw;
+                    
+
+                }
+
+            }
+         }
+         .nhanVien-container{
+            margin: 5vw 2vw;
+            .nhanVien{
+                text-align: left;
+                margin: 2vw auto;
+                font-size: 3.5vw;
+                font-weight: 500;
+
+            }
+           
+            .sdt-them{
+                display: flex;
+                margin: 5vw auto;
+                gap: 2vw;
+                font-size: 3vw;
+                .sdt{
+                    width: 40.5vw;
+                    height: 8vw;
+                    border-radius: 1vw;
+                    border: solid 1px gray;
+                    text-align: center;
+
+                }
+                .them{
+                    width: 10vw;
+            line-height: 8vw;
+            color: #fff;
+            background-color: #04aa6d;
+            border-radius: 2vw;
+            font-size: 6vw;
+            font-weight: 600;
+
+                }
+            }
+            .danhSach-xoa{
+                display: flex;
+                margin: 2vw auto;
+                border: solid 1px #d0d4dd ;
+                font-size: 3vw;
+                border-radius: 2vw;
+                .danhSach{
+                    width: 42.5vw;
+                    line-height: 8vw;
+                    text-align: center;
+                    
+
+                }
+                .xoa{   
+                    width: 10vw;
+                    line-height: 8vw;
+                    border-radius: 2vw;
+                    
+
+                }
+
+            }
+         }
+      .close-luu{
+        display: flex;
+        gap: 20vw;
+        font-size: 3.5vw;
+        font-weight: 600;
+        color: #fff;
+        margin: 10vw 5vw;
+        .close{
+            text-decoration: none;
+            width: 35vw;
+            background-color: red;
+            color: #fff;
+            line-height: 8vw;
+            border-radius: 2vw;
+
         }
-    }
-
-    .container-suaSanPham{
-
-    }
+        .luu{
+            width: 35vw;
+            background-color: #04aa6d;
+            line-height: 8vw;
+            border-radius: 2vw;
+        }
+      }
+     }
 }
 }
 
 /* PC*/
 @media screen and (min-width : 1024px) {
-    .updateShop-container{
-        margin-top: 5vw;
-        margin-bottom: 20vw;
-        .thongTinShop{
-            .headerShop{
-                .bannerShop{
-                    width:  100%;
-                    height: 25vw;
-                    margin: auto;
-                    justify-content: center;
-                    align-items: center;
-                    object-fit: cover;
-                }
-                .tenCuaHang{
-                    color: red;
-                    font-weight: 600;
-                    font-size: 3vw;
-                    text-align: center;
-                    text-shadow: 0.2vw 0.2vw 0.4vw #c4c726;
-    
-                }
-                .sloganShop{
-                    font-size: 2vw;
-                    text-align: center;
-                    margin-top: 1vw;
-                }
-               
-               
-            }
-            .themSanPham-suaThongTinShop{
-                display: flex;
-                gap: 30%;
-                justify-content: center;
-                align-items: center;
-                margin: 1vw auto;
-    .themSanPham{
-        display: block;
-        padding: 0.2vw;
-        color: #fff;
-        border-radius: 1vw;
-        background-color: #04aa6d;
-        width: 25vw;
-        text-align: center;
-        font-size: 2vw;
-        border: none;
-        font-weight: 600;
-    }
-    .suaThongTinShop{
-        padding: 0.2vw;
-        font-weight: 600;
-display: block;
-color: #fff;
-border-radius: 1vw;
-background-color: #04aa6d;
-width: 25vw;
-text-align: center;
-font-size: 2vw;
-border: none;
-    }
-            }
-            .sanPham-container{
-                display: grid;
-                grid-template-columns:1fr 1fr 1fr 1fr;
-                
-                background-color: #88d3b4;
-    .sanPham{
-        width: 22vw;
-                justify-content: center;
-                align-items: center;
-                padding: 0.5vw;
-                margin: 1vw;
-                border-radius: 1vw;
-                background-color: #fff;
-                box-shadow: 12px 14px 12px -1px rgba(0,0,0,0.75);
-        -webkit-box-shadow: 12px 14px 12px -1px rgba(0,0,0,0.75);
-        -moz-box-shadow: 12px 14px 12px -1px rgba(0,0,0,0.75);
-    
-        .suaxoa{
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin: 0.5vw auto;
-            gap: 1vw;
-            
-    
-            .sua{
-                width: 7.5vw;
-                border-radius: 1vw;
-                background-color: #04aa6d;
-                font-size: 1vw;
-                font-weight: 600;
-                padding: 0.5vw;
-    
-            }
-            .xoa{
-               
-                width: 7.5vw;
-                border-radius: 1vw;
-                background-color: red;
-                font-size: 1vw;
-                font-weight: 600;
-                padding: 0.5vw;
-                a{
-                    text-decoration: none;
-                    color: #fff;
-                }
-    
-            }
-        }
-        .anhSanPham{
-            width: 13vw;
-            height: 15vw;
-            object-fit: cover;
-            border: solid 0.1vw gray;
-            background-color: #fff;
-            cursor: pointer;
-            border-radius: 1vw;
-        }
-        .tenSanPham{
-            width: 13vw;
-            // height: 12vw;
-            font-size: 1.5vw;
-            font-weight: 600;
-            margin: 0.5vw auto;
-            text-transform: uppercase;
-            word-wrap:break-word;
-            overflow:auto;
-        }
-        .giaBan{
-            text-align: center;
-            justify-content: center;
-    
-            .giaBanMoi{
-                color: red;
-                        font-size: 2vw;
-                    font-weight: 600;
-    
-            }
-            .giaGiam{
-                display: flex;
-                gap: 1vw;
-                align-items: center;
-                justify-content: center;
-                .giabanCu {
-                    text-decoration: line-through;
-                    font-size: 1vw;
-                    font-weight: 300;
-    
-                }
-                .phanTram{
-                    font-size: 1vw;
-                                font-weight: 300;
-                }
-            
-        }
-        }
-        .muaHang{
-            
-            background-color: gray;
-            font-size: 1.5vw;
-            font-weight: 600;
-        
-            width: 90%;
-            margin: 0.5vw auto;
-            border-radius: 1vw;
-            padding: 0.5vw;
-    
-        }
-        .viTriSanPham{
-            justify-content: center;
-            align-items: center;
-                display: flex;
-                font-size: 0.8vw;
-                gap: 0.4vw;
-            .diachisanpham{
-                // font-size: 1vw;
-            }
-        }
-        .sanPhamDan{
-            font-size: 1.5vw;
-        }
-    }
-            }
-            
-            
-          
-        }
-        .UpdateShop{
-           .banner-container{
-            
-            .bannerShop{
-                width:  100%;
-                    height: 25vw;
-                    margin: auto;
-                    justify-content: center;
-                    align-items: center;
-                    object-fit: cover;
-    
-            }
-           }
-           .containerTieuChiFormregis{
-            display: flex;
-            margin-top: 1vw;
-            margin-left: 1vw;
-            margin-right: 1vw;
-            text-align: center;
-    
-            .tieuChiFormregis{
-                width: 30%;
-                font-size: 1.5vw;
-                // padding: 1.2vw 0vw;
-                // height: 6vw;
-                text-align: center;
-                border: solid 0.11vw rgb(143, 140, 140);
-    
-            }
-            .noiDungFormregis{
-                // height: 6vw;
-                width: 70%;
-                border: solid 0.1vw rgb(143, 140, 140);
-                text-align: center;
-                border-radius: 1vw;
-                font-size: 1.5vw;
-                select{
-                    // height: 5vw;
-                    width: 30%;
-                    margin: 0.5vw;
-                    border: solid 0.1vw rgb(143, 140, 140);
-                    border-radius: 1vw;
-                    font-size: 1.5vw;
-                    option {
-                        // text-align: center;
-                        
-                    }
-                }
-    
-            }
-            .noiDungFormregis3{
-                width: 70%;
-                border: solid 0.1vw rgb(143, 140, 140);
-                text-align: center;
-                font-size: 1.5vw;
-                // height: 6vw;
-                .inputFormregis3 {
-                    text-align: center;
-                    width: 98%;
-                    border: none;
-                    // height: 5vw;
-                    margin: 0.5vw auto;
-                    font-size: 1.5vw;
-                }
-            }
-    
-           }
-           .luuThongTin {
-            cursor: pointer;
-            border-radius: 1vw;
-            width: 25vw;
-            font-size: 2vw;
-            font-weight: 600;
-            text-align: center;
-            background-color: #04aa6d;
-            margin-top: 2vw;
-            margin-bottom: 20vw;
-            padding: 0.5vw;
-          
-        }
-        }
-        .them{
-           
-            .container-themSanPham{
-                border: solid 0.1vw gray;
-                border-radius: 2vw;
-                background-color: #9cddc2;
-                width: 25vw;
-                margin: 8vw auto;
-           
-                
-                .close{
-                    button {
-                        font-size: 0.8vw;
-                        background-color: red;
-                        font-weight: 600;
-                        padding: 0.5vw;
-                        border-radius: 1vw;
-                    }
-                }
-                .sanPham{
-                    input{
-                        text-align: center;
-                        font-size: 1.5vw;
-                        padding: 0.5vw;
-                        border: solid 0.1vw gray;
-                    }
-                    .anhsanpham{
-                        width: 23vw;
-                        height: 25vw;
-                        object-fit: cover;
-                        border: solid 0.1vw gray;
-                        background-color: #fff;
-                        border-radius: 2vw;
-                margin: 0vw auto;
-            
-                    }
-                    .tieuDeThemSanPham{
-                        font-size: 1.5vw;
-                        padding: 0.5vw;
-                        font-weight: 600;
-                    }
-                    .inputTenSanPham{
-                        border: solid 0.1vw gray;
-                        width: 95%;
-                                margin: auto;
-                        font-size: 1.5vw;
-                        padding: 0.5vw;
-                        
-                    }
-                    .giaBan{
-                        text-align: center;
-                        font-size: 1.5vw;
-                                padding: 0.5vw;
-                        .giabanCu{
-                            width: 100%;
-                            input, select{
-                                font-size: 1.5vw;
-                                padding: 0.5vw;
-                                width: 95%;
-                                margin: auto;
-                            }
-                        }
-                        .giaBanMoi{
-                            width: 100%;
-                            input, select{
-                                width: 95%;
-                                margin: auto;
-                                font-size: 1.5vw;
-                                padding: 0.5vw;
-                            }
-                            .toida2spdan{
-                                border: solid 0.1vw gray;
-                                background-color: #fff; 
-                                font-size: 1.5vw;
-                                padding: 0.5vw;
-                                width: 95%;
-                                margin: auto;
-                            }
-                        }
-                    }
-                    .inputthongTinSanPham{
-                        border: solid 0.1vw gray;
-                        width: 90%;
-                        height: 12vw;
-                        word-wrap:break-word;
-                        overflow:auto;
-                        font-size: 1.5vw;
-                        padding: 0.5vw;
-                        width: 95%;
-                        margin: auto;
-                    }
-                    .ctv{
-                        
-                        .tieudeCTV{
-                            margin: auto 0.5vw;
-                            font-size: 1.5vw;
-                            padding: 0.5vw;
-            
-                        }
-                        .noidungCTV{
-                            
-                           
-                            .noidunginputCTV{
-                                font-size: 1.5vw;
-                                
-                        padding: 0.5vw;
-                        width: 95%;
-                        margin: auto;
-                            }
-                            .loinhuan{
-                                border: solid 0.1vw gray;
-                                background-color: #fff; 
-                                font-size: 1.5vw;
-                                padding: 0.5vw;
-                                margin: auto 0.5vw;
-                            }
-            
-                        }
-                    }
-                    .tenmuc{
-                        font-size: 1.5vw;
-                        padding: 0.5vw;
-            
-                    }
-                    .luuSanPahm{
-                        font-size: 2vw;
-                        font-weight: 600;
-                        background-color: red;
-                        width: 80%;
-                        margin-top: 2vw;
-                        border-radius: 1vw;
-                        margin-bottom: 3vw;
-                        padding: 0.5vw;
-                    }
-                }
-                
-               }
-               .luuY{
-                text-align: justify;
-                padding: 5vw;
-                font-size: 2vw;
-            }
-        }
-    
-        .container-suaSanPham{
-    
-        }
-    }
 }

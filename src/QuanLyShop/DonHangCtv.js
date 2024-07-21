@@ -18,7 +18,8 @@ const DonHangCtv = () => {
     }, []);
     const trangThaiDH = 5;
     useEffect(() => {
-        getDonHang(idShop, skip, trangThaiDH, dispatch);
+        const limit = 20
+        getDonHang(idShop, skip,limit, trangThaiDH, dispatch);
     }, [idShop, skip]);
     const donHangCongTacVien = allDonHang?.filter(
         (item) => item.idShop === idShop

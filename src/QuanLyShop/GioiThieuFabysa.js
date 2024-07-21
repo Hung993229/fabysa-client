@@ -22,12 +22,10 @@ const GioiThieuFabysa = (props) => {
                 Close
             </button>
 
-            <div className="wecomeShop">Trung Tâm Thương Mại 24/7 - Fabysa</div>
+            <div className="wecomeShop">Trung Tâm Thương Mại Fabysa</div>
             {allShop && allShop?.length !== 0 ? (
                 <a href="/ca-nhan">
-                    <button className="dangKiMoShop">
-                        Quản Lý Shop Online
-                    </button>
+                    <button className="dangKiMoShop">Quản Lý Shop</button>
                 </a>
             ) : (
                 <a href="/add-shop">
@@ -36,10 +34,11 @@ const GioiThieuFabysa = (props) => {
             )}
             <div className="yNghiaFabysa">
                 - Đối với người mua: Fabysa là nơi hội tụ những nhà bán hàng
-                Online uy tín với giá thành tốt! <br /> - Đối với người bán:
-                Fabysa là đơn vị đồng hành tin cậy. Với mục tiêu giúp những nhà
-                bán hàng truyền thống dễ dàng kết hợp bán hàng Online, đồng thời
-                giúp những nhà bán hàng Online phát triển bền vững!
+                Online uy tín, sản phẩm tốt, giá cạnh tranh! <br /> - Đối với
+                người bán: Fabysa là đơn vị đồng hành tin cậy!
+                <br />- Mục tiêu phát triển: Fabysa hỗ trợ những nhà bán hàng
+                truyền thống dễ dàng kết hợp bán hàng Online, đồng thời giúp
+                những nhà bán hàng Online phát triển bền vững!
             </div>
         </div>
     );

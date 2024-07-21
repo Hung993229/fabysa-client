@@ -1,6 +1,6 @@
 import "./Header.scss";
 import logo from "../assets/images/logo.jpg";
-import giohang from "../assets/images/giohang.jpg";
+import giohang from "../assets/images/giohang2.jpg";
 import logo2 from "../assets/images/logo2.jpeg";
 import gold from "../assets/images/Gold.png";
 import { useEffect } from "react";
@@ -48,121 +48,10 @@ const Header = () => {
                     </div>
                 </div>
 
-                <div className="title">Mua Online Nhiều Khuyến Mại</div>
-                <div className="my-detail">
-                    {/* {myDetail && myDetail.length !== 0 ? (
-                        <img
-                            src={myDetail?.avatar}
-                            alt="Avatar"
-                            className="my-avatar"
-                        />
-                    ) : (
-                        <img src={logo2} alt="Avatar" className="my-avatar" />
-                    )} */}
-                    {myDetail && myDetail.length !== 0 ? (
-                        <a href="/ca-nhan">
-                            <img
-                                src={myDetail?.avatar}
-                                alt="Avatar"
-                                className="my-avatar"
-                            />
-                            <div className="my-cash">
-                                <div className="my-cash-title">{cash} </div>
-
-                                <img src={gold} className="gold" alt="timtim" />
-                            </div>
-                        </a>
-                    ) : (
-                        <a href="/dang-nhap">
-                            <img
-                                src={logo2}
-                                alt="Avatar"
-                                className="my-avatar"
-                            />
-                            <div className="my-cash">
-                                <div className="dangNhap">Đăng Nhập</div>
-                            </div>
-                        </a>
-                    )}
-                </div>
-            </div>
-            <div className="container-header2">
-                <div className="title">Chợ Của Người Việt</div>
-                <div className="container-nav2">
-                    <NavLink
-                        className={({ isActive }) =>
-                            isActive ? "active1" : ""
-                        }
-                        to="/fabysa"
-                    >
-                        <div className="nav-detail">
-                            <i className="fa-solid fa-bag-shopping"></i>
-                            <div>Săn Sale</div>
-                        </div>
-                    </NavLink>
-                    <NavLink
-                        className={({ isActive }) =>
-                            isActive ? "active1" : ""
-                        }
-                        to="/mini-game"
-                    >
-                        <div className="nav-detail">
-                            <i className="fa-solid fa-dice"></i>
-                            <div> Mini Game</div>
-                        </div>
-                    </NavLink>
-
-                    <NavLink
-                        className={({ isActive }) =>
-                            isActive ? "active1" : ""
-                        }
-                        to="/tongkhosi"
-                    >
-                        <div className="nav-detail">
-                            <i className="fa-solid fa-mosque"></i>
-                            <div>Tổng Kho Sỉ</div>
-                        </div>
-                    </NavLink>
-
-                    <NavLink
-                        className={({ isActive }) =>
-                            isActive ? "active1" : ""
-                        }
-                        to="/huong-dan"
-                    >
-                        <div className="nav-detail">
-                            <i className="fa-solid fa-book-open-reader"></i>
-                            <div>Hướng Dẫn</div>
-                        </div>
-                    </NavLink>
-
-                    <NavLink
-                        className={({ isActive }) =>
-                            isActive ? "active1" : ""
-                        }
-                        to="/ket-ban"
-                    >
-                        <div className="nav-detail">
-                            <i className="fa-solid fa-people-group"></i>
-                            <div>Hội FA</div>
-                        </div>
-                    </NavLink>
-
-                    <NavLink
-                        className={({ isActive }) =>
-                            isActive ? "active1" : ""
-                        }
-                        to="/ca-nhan"
-                    >
-                        <div className="nav-detail">
-                            <i className="fa-solid fa-user"></i>
-                            <div> Cá Nhân</div>
-                        </div>
-                    </NavLink>
-                </div>
+                <div className="title">Xin Kính Chào Quý Khách !</div>
                 <div className="my-detail">
                     {myDetail && myDetail.length !== 0 ? (
-                        <a href="/ca-nhan">
+                        <a href="/ca-nhan2">
                             <img
                                 src={myDetail?.avatar}
                                 alt="Avatar"

@@ -3,6 +3,7 @@ import CommonUtils from "../component/CommonUtils";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
+import InHoaDon from "./InHoaDon";
 import { useNavigate, useParams } from "react-router-dom";
 import {
     getDonHang,
@@ -14,113 +15,182 @@ import {
     registerDonHang,
 } from "../redux/apiRequest";
 import { useEffect } from "react";
-const DonHang = () => {
+const DonHang = (props) => {
+    const {
+        loading,
+        setloading,
+        thongTinDh,
+        setthongTinDh,
+        settrangThaiDH,
+        trangThaiDH,
+        setallDonHang,
+        allDonHang,
+        setskip,
+        skip,
+    } = props;
     const user = useSelector((state) => state.auth.login.currentUser);
-    const allDonHang = useSelector(
-        (state) => state.donHang.donHang.alldonHang?.allDonHang
-    );
     const myDetail = useSelector((state) => state.post.post?.myDetail);
     const ttShop = useSelector((state) => state.ttShop.ttShop.ttShop?.shop);
-    const arraySanPham = useSelector(
-        (state) => state.sanPham.sanPham.arrsanPham?.arrSanpham
-    );
-    const allshopLienKet = useSelector(
-        (state) => state.yourStatus.yourStatus.allYourStatus?.yourStatus
-    );
-    const [sanPhamCtv, setsanPhamCtv] = useState([]);
-    useEffect(() => {
-        if (allshopLienKet && allshopLienKet.length !== 0) {
-            setsanPhamCtv(allshopLienKet[0]?.sanPhamCtv);
-        }
-    }, [allshopLienKet]);
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const { idShop, skip, idDonHang, trangThai } = useParams();
+    const { idShop } = useParams();
     const [Tongtien, setTongtien] = useState();
-    const thongTindh = allDonHang?.find(
-        (thongTindh) => thongTindh?._id === idDonHang
-    );
-    const [arrayIdSanPham, setarrayIdSanPham] = useState(
-        thongTindh?.donHang?.map((item) => {
-            return item.idSanPham;
-        })
-    );
-    const [loading, setloading] = useState(1);
-    const [chuyenDon, setchuyenDon] = useState(["a"]);
-    const [nhapHang, setnhapHang] = useState(["b"]);
+    const [trangThaiDH2, settrangThaiDH2] = useState("");
 
+    const [giamTru, setgiamTru] = useState(
+        thongTinDh?.khachHang.giamTru || "0"
+    );
+    const [donHang, setdonHang] = useState(thongTinDh?.donHang);
+    const khachHang = thongTinDh?.khachHang;
     useEffect(() => {
-        if (user && user.length !== 0) {
-            getPost(user?._id, dispatch, setloading);
+        const xetTrangThaiDH = donHang.find((item) =>
+            item?.allDacDiemSP?.find(
+                (item2) => item2?.daXong === 0 || !item2?.daXong
+            )
+        );
+        if (xetTrangThaiDH) {
+            settrangThaiDH2("Đơn Hàng Mới");
+        } else {
+            settrangThaiDH2("Đơn Hàng Đang Giao");
         }
-    }, []);
-    useEffect(() => {
-        if (arrayIdSanPham) {
-            getArrSanPham(arrayIdSanPham, dispatch);
-        }
-    }, [arrayIdSanPham]);
-    const donHangQuantity = thongTindh?.donHang;
-    // Phan Kho
-    // Phan Kho
-    const kho = thongTindh?.khachHang.Kho;
-    const arraySanPhamQuantity = arraySanPham?.map((item) => {
-        return donHangQuantity?.map((item2) => {
-            return item._id === item2.idSanPham
-                ? { ...item, quantity: item2.soLuong }
-                : "hihi";
-        });
-    });
-    const a = [];
-    const khachHang = thongTindh?.khachHang;
-    useEffect(() => {
-        getttShop(idShop, dispatch);
-        getYourStatus(idShop, dispatch);
-    }, []);
-    useEffect(() => {
-        getDonHang(idShop, skip, trangThai, dispatch);
-    }, [idShop, skip]);
-    const handleGiaoHang = () => {
+    }, [donHang]);
+    const handleGiaoHang = (id) => {
         try {
+            const giamTru2 = { giamTru: giamTru };
+
             const newDonHang = {
-                trangThaiDH: 2,
+                trangThaiDH: trangThaiDH2,
+                khachHang: { ...thongTinDh?.khachHang, ...giamTru2 },
+                donHang: donHang,
             };
-            updateDonHang(newDonHang, idDonHang, dispatch);
-            navigate(`/don-hang/${idShop}`);
+            console.log("newDonHang", newDonHang);
+            updateDonHang(newDonHang, id, dispatch);
+            setdonHang([]);
+            setallDonHang([]);
+            settrangThaiDH(thongTinDh?.trangThaiDH);
+            setloading(0);
+            setskip(0);
         } catch (err) {
             console.log(err);
         }
     };
     const handleHoanThanh = (id) => {
-        if (kho !== "lienket") {
+        try {
+            const giamTru2 = { giamTru: giamTru };
             const newDonHang = {
-                trangThaiDH: 3,
+                trangThaiDH: "Đơn Hàng Hoàn Thành",
+                khachHang: { ...thongTinDh?.khachHang, ...giamTru2 },
             };
-            navigate(`/don-hang-dang-giao/${idShop}`);
+
             updateDonHang(newDonHang, id, dispatch);
-        } else {
-            const newDonHang = {
-                trangThaiDH: 5,
-            };
-            navigate(`/don-hang-dang-giao/${idShop}`);
-            updateDonHang(newDonHang, id, dispatch);
+            setallDonHang([]);
+            settrangThaiDH(thongTinDh?.trangThaiDH);
+            setloading(0);
+            setskip(0);
+        } catch (err) {
+            console.log(err);
         }
     };
+    console.log("trangThaiDH2", trangThaiDH2);
     const handleHuyDon = (id) => {
-        const newDonHang = {
-            trangThaiDH: 4,
-        };
-        navigate(`/don-hang-dang-giao/${idShop}`);
-        updateDonHang(newDonHang, id, dispatch);
-        console.log("newDonHang", newDonHang);
+        try {
+            const giamTru2 = { giamTru: giamTru };
+            const newDonHang = {
+                trangThaiDH: "Đơn Hàng Huỷ",
+                khachHang: { ...thongTinDh?.khachHang, ...giamTru2 },
+            };
+            updateDonHang(newDonHang, id, dispatch);
+            setallDonHang([]);
+            settrangThaiDH(thongTinDh?.trangThaiDH);
+            setloading(0);
+            setskip(0);
+        } catch (err) {
+            console.log(err);
+        }
     };
-    const handleTraLai = (id) => {
-        const newDonHang = {
-            trangThaiDH: 4,
+    const handleDaXong = (item, item2) => {
+        const daXong2 = { daXong: 0 };
+        const donHangXong = { ...item, ...daXong2 };
+        console.log("donHangXong", donHangXong);
+
+        const allDacDiemSP5 = item2?.allDacDiemSP?.map((item4) =>
+            item4 !== item ? item4 : donHangXong
+        );
+        console.log("allDacDiemSP5", allDacDiemSP5);
+        const sanPham = {
+            _id: item2?._id,
+            tenSanPham: item2?.tenSanPham,
+            allDacDiemSP: allDacDiemSP5,
         };
-        navigate(`/don-hang-hoan-thanh/${idShop}`);
-        updateDonHang(newDonHang, id, dispatch);
+
+        const donHangSua = donHang?.map((item3) =>
+            item3 === item2 ? sanPham : item3
+        );
+        // console.log("donHangSua", donHangSua);
+        setdonHang(donHangSua);
+    };
+    const handleChuaXong = (item, item2) => {
+        const daXong2 = { daXong: 1 };
+        const donHangXong = { ...item, ...daXong2 };
+        console.log("donHangXong", donHangXong);
+
+        const allDacDiemSP5 = item2?.allDacDiemSP?.map((item4) =>
+            item4 !== item ? item4 : donHangXong
+        );
+        console.log("allDacDiemSP5", allDacDiemSP5);
+        const sanPham = {
+            _id: item2?._id,
+            tenSanPham: item2?.tenSanPham,
+            allDacDiemSP: allDacDiemSP5,
+        };
+
+        const donHangSua = donHang?.map((item3) =>
+            item3 === item2 ? sanPham : item3
+        );
+        // console.log("donHangSua", donHangSua);
+        setdonHang(donHangSua);
+    };
+    const suaDonHang = (sl, item, item2) => {
+        const suaSoLuong = {
+            giaCtv: item?.giaCtv,
+            giaKhuyenMai: item?.giaKhuyenMai,
+            giaNiemYet: item?.giaNiemYet,
+            giaSi: item?.giaSi,
+            giaVon: item?.giaVon,
+            gioPhut: item?.gioPhut,
+            slMua: sl,
+            soLuong: item?.soLuong,
+            tenDacDiem: item?.tenDacDiem,
+            daXong: item?.daXong,
+        };
+
+        const allDacDiemSP5 = item2?.allDacDiemSP?.map((item4) =>
+            item4 !== item ? item4 : suaSoLuong
+        );
+        const sanPham = {
+            _id: item2?._id,
+            tenSanPham: item2?.tenSanPham,
+            allDacDiemSP: allDacDiemSP5,
+        };
+
+        const donHangSua = donHang?.map((item3) =>
+            item3 === item2 ? sanPham : item3
+        );
+        setdonHang(donHangSua);
+        const id = thongTinDh?._id;
+        const newDonHang = {
+            donHang: donHangSua,
+        };
         console.log("newDonHang", newDonHang);
+        updateDonHang(newDonHang, id, dispatch);
+    };
+    console.log("donhang", donHang);
+    const handleClose = () => {
+        settrangThaiDH(thongTinDh?.trangThaiDH);
+        setallDonHang([]);
+        setloading(0);
+        setskip(0);
     };
     const VND = new Intl.NumberFormat("vi-VN", {
         style: "currency",
@@ -128,39 +198,10 @@ const DonHang = () => {
     });
     const tinhtongtien = () => {
         let tt = 0;
-        if (arraySanPhamQuantity?.length !== 0 && !kho) {
-            arraySanPhamQuantity?.map((item) => {
-                item?.map((item2) => {
-                    if (item2 !== "hihi") {
-                        tt += item2?.giaKhuyenMai * item2?.quantity;
-                    }
-                });
-            });
-        }
-        if (arraySanPhamQuantity?.length !== 0 && kho === "lienket") {
-            arraySanPhamQuantity?.map((item) => {
-                item?.map((item2) => {
-                    if (item2 !== "hihi") {
-                        tt += item2?.giaKhuyenMai * item2?.quantity;
-                    }
-                });
-            });
-        }
-        if (arraySanPhamQuantity?.length !== 0 && kho === "ctv") {
-            arraySanPhamQuantity?.map((item) => {
-                item?.map((item2) => {
-                    if (item2 !== "hihi") {
-                        tt += item2?.giaCtv * item2?.quantity;
-                    }
-                });
-            });
-        }
-        if (arraySanPhamQuantity?.length !== 0 && kho === "si") {
-            arraySanPhamQuantity?.map((item) => {
-                item?.map((item2) => {
-                    if (item2 !== "hihi") {
-                        tt += item2?.giaSi * item2?.quantity;
-                    }
+        if (donHang?.length !== 0) {
+            donHang?.map((sp) => {
+                sp?.allDacDiemSP?.map((item) => {
+                    tt += +item?.slMua * item?.giaKhuyenMai;
                 });
             });
         }
@@ -170,513 +211,268 @@ const DonHang = () => {
     useEffect(() => {
         tinhtongtien();
     });
-    const handleNhapHang = (item) => {
-        console.log("item", item);
-
-        const khachHangArr = {
-            hoTenNguoiMua: myDetail?.hoTen,
-            sdtNguoiMua: myDetail?.soDienThoai,
-            dcNguoiNMua: `${myDetail?.thonXom} - ${myDetail?.xa} - ${myDetail?.huyen} - ${myDetail?.tinh}`,
-            ghiChuNguoiMua: "Giao sớm nhé Shop!",
-            phuongThucTT: "Thanh Toán Khi Nhận Hàng",
-            noiNhan: "Ship Tận Nơi",
-            Kho: "ctv",
-        };
-        const idShopLienKet = arraySanPham.find(
-            (item3) => item3._id === item.idSanPham
-        );
-        const newDonHang = {
-            khachHang: khachHangArr,
-            donHang: item,
-            idShop: idShopLienKet?.user,
-            trangThaiDH: 1,
-            idCtv: "",
-            idKhachHang: myDetail?.user,
-        };
-        console.log("newDonHang", newDonHang);
-        registerDonHang(newDonHang, dispatch);
-        setnhapHang([...nhapHang, item?.idSanPham]);
+    const handlePrint = () => {
+        window.print();
     };
-    const handleChuyenDon = (item) => {
-        console.log("item", item);
-        const newDonHang = {
-            trangThaiDH: 1,
-            donHang: thongTindh?.donHang.filter((item2) => item2 !== item),
-        };
-        updateDonHang(newDonHang, thongTindh?._id, dispatch);
-        console.log("newDonHang", newDonHang);
-
-        const khachHangArr = {
-            hoTenNguoiMua: thongTindh?.khachHang?.hoTenNguoiMua,
-            sdtNguoiMua: thongTindh?.khachHang?.sdtNguoiMua,
-            dcNguoiNMua: thongTindh?.khachHang?.dcNguoiNMua,
-            ghiChuNguoiMua: "Giao sớm nhé Shop!",
-            phuongThucTT: "Thanh Toán Khi Nhận Hàng",
-            noiNhan: "Ship Tận Nơi",
-            Kho: "lienket",
-        };
-        const idShopLienKet = arraySanPham.find(
-            (item3) => item3._id === item.idSanPham
-        );
-        const donHangChuyen = {
-            TenSanPham: item?.TenSanPham,
-            idSanPham: item?.idSanPham,
-            soLuong: item?.soLuong,
-            hoaHong: idShopLienKet?.giaKhuyenMai - idShopLienKet?.giaCtv,
-            thanhToanHoaHong: "Chưa Thanh Toán",
-        };
-        const newDonHang2 = {
-            khachHang: khachHangArr,
-            donHang: donHangChuyen,
-            idShop: idShopLienKet?.user,
-            trangThaiDH: 1,
-            idCtv: idShop,
-            idKhachHang: thongTindh.idKhachHang,
-        };
-        console.log("newDonHang2", newDonHang2);
-        registerDonHang(newDonHang2, dispatch);
-        setchuyenDon([...chuyenDon, item?.idSanPham]);
-    };
+    //  Viet QR
+    const nganHang = ttShop?.ttShopThem?.nganHang;
+    console.log("nganHang", nganHang);
+    const BANK_ID = nganHang.maSo;
+    const ACCOUNT_NO = nganHang.taiKhoanNganHang;
+    const TEMPLATE = "print";
+    const AMOUNT = Tongtien - giamTru;
+    const DESCRIPTION = `Hoá Đơn ${thongTinDh.soBan}`;
+    const ACCOUNT_NAME = nganHang.chuTaiKhoanNganhang;
+    const qr = `https://img.vietqr.io/image/${BANK_ID}-${ACCOUNT_NO}-${TEMPLATE}.png?amount=${AMOUNT}&addInfo=${DESCRIPTION}&accountName=${ACCOUNT_NAME}`;
+    // Viet QR
 
     return (
         <div className="chiTietDonHang-Container">
-            <div>
-                {+trangThai === 1 && (
-                    <a href={`/don-hang/${idShop}`}>
-                        <button className="close">Close</button>
-                    </a>
-                )}
-                {+trangThai === 2 && (
-                    <a href={`/don-hang-dang-giao/${idShop}`}>
-                        <button className="close">Close</button>
-                    </a>
-                )}
-                {+trangThai === 3 && (
-                    <a href={`/don-hang-hoan-thanh/${idShop}`}>
-                        <button className="close">Close</button>
-                    </a>
-                )}
-                {+trangThai === 4 && (
-                    <a href={`/don-hang-huy/${idShop}`}>
-                        <button className="close">Close</button>
-                    </a>
-                )}
-            </div>
-            <div className="tieuDeDonHang">Chi Tiết Đơn Hàng</div>
-
-            <div className="sanPham">
-                <div>Sản Phẩm</div>
-                <div>Đơn Giá</div>
-                <div>Số Lượng</div>
-                <div>Thành Tiền</div>
-            </div>
-            {/* Don Truc Tiep */}
-            {!kho && (
-                <>
-                    <div>
-                        {arraySanPhamQuantity?.map((item2, index2) => {
-                            return (
-                                <div key={index2}>
-                                    {item2?.map((item, index) => {
-                                        return (
-                                            <div key={index}>
-                                                {item !== "hihi" && (
-                                                    <div>
-                                                        <div className="sanPham">
-                                                            <div className="anhVaTen">
-                                                                <img
-                                                                    src={
-                                                                        item?.AnhSanPham
-                                                                    }
-                                                                    className="anhSanPham"
-                                                                    alt="timtim"
-                                                                />
-                                                                <div className="tenSanPham">
-                                                                    {
-                                                                        item?.TenSanPham
-                                                                    }
-                                                                </div>
-                                                            </div>
-                                                            <div className="giaBan">
-                                                                {VND.format(
-                                                                    item?.giaKhuyenMai
-                                                                )}
-                                                            </div>
-                                                            <div className="soLuong">
-                                                                {item.quantity}
-                                                            </div>
-                                                            <div className="thanhTien">
-                                                                {VND.format(
-                                                                    item.quantity *
-                                                                        item.giaKhuyenMai
-                                                                )}
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                )}
-                                            </div>
-                                        );
-                                    })}
-                                </div>
-                            );
-                        })}
-                    </div>
-                    <div className="tongTien">
-                        <div className="tieude">Tổng Tiền Cần Thanh Toán</div>
-                        <div className="sotien">{VND.format(Tongtien)}</div>
-                    </div>
-                </>
-            )}
-            {/* Don Truc Tiep */}
-
-            {/* khosi */}
-            {kho && kho === "si" && (
-                <>
-                    <div>
-                        {arraySanPhamQuantity?.map((item2, index2) => {
-                            return (
-                                <div key={index2}>
-                                    {item2?.map((item, index) => {
-                                        return (
-                                            <div key={index}>
-                                                {item !== "hihi" && (
-                                                    <div>
-                                                        <div className="sanPham">
-                                                            <div className="anhVaTen">
-                                                                <img
-                                                                    src={
-                                                                        item?.AnhSanPham
-                                                                    }
-                                                                    className="anhSanPham"
-                                                                    alt="timtim"
-                                                                />
-                                                                <div className="tenSanPham">
-                                                                    {
-                                                                        item?.TenSanPham
-                                                                    }
-                                                                </div>
-                                                            </div>
-                                                            <div className="giaBan">
-                                                                {VND.format(
-                                                                    item?.giaSi
-                                                                )}
-                                                            </div>
-                                                            <div className="soLuong">
-                                                                {item.quantity}
-                                                            </div>
-                                                            <div className="thanhTien">
-                                                                {VND.format(
-                                                                    item.quantity *
-                                                                        item.giaSi
-                                                                )}
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                )}
-                                            </div>
-                                        );
-                                    })}
-                                </div>
-                            );
-                        })}
-                    </div>
-                    <div className="tongTien">
-                        <div className="tieude">Tổng Tiền Cần Thanh Toán</div>
-                        <div className="sotien">{VND.format(Tongtien)}</div>
-                    </div>
-                </>
-            )}
-            {/* kho si */}
-            {/* kho ctv */}
-            {kho && kho === "ctv" && (
-                <>
-                    <div>
-                        {arraySanPhamQuantity?.map((item2, index2) => {
-                            return (
-                                <div key={index2}>
-                                    {item2?.map((item, index) => {
-                                        return (
-                                            <div key={index}>
-                                                {item !== "hihi" && (
-                                                    <div>
-                                                        <div className="sanPham">
-                                                            <div className="anhVaTen">
-                                                                <img
-                                                                    src={
-                                                                        item?.AnhSanPham
-                                                                    }
-                                                                    className="anhSanPham"
-                                                                    alt="timtim"
-                                                                />
-                                                                <div className="tenSanPham">
-                                                                    {
-                                                                        item?.TenSanPham
-                                                                    }
-                                                                </div>
-                                                            </div>
-                                                            <div className="giaBan">
-                                                                {VND.format(
-                                                                    item?.giaCtv
-                                                                )}
-                                                            </div>
-                                                            <div className="soLuong">
-                                                                {item.quantity}
-                                                            </div>
-                                                            <div className="thanhTien">
-                                                                {VND.format(
-                                                                    item.quantity *
-                                                                        item.giaCtv
-                                                                )}
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                )}
-                                            </div>
-                                        );
-                                    })}
-                                </div>
-                            );
-                        })}
-                    </div>
-                    <div className="tongTien">
-                        <div className="tieude">Tổng Tiền Cần Thanh Toán</div>
-                        <div className="sotien">{VND.format(Tongtien)}</div>
-                    </div>
-                </>
-            )}
-            {/* kho ctv */}
-
-            {/* San Pham Lien Ket */}
-            {sanPhamCtv && sanPhamCtv.length !== 0 && (
-                <div>
-                    <div className="tieuDeDonHang">Sản Phẩm Liên Kết</div>
-                    <div className="sanPhamLienKet">
-                        <div>Tên Sản Phẩm</div>
-                        <div>Số Lượng</div>
-                        <div>Nhập Hàng Tự Ship</div>
-                        <div>Chuyển Đơn Kho Ship</div>
-                    </div>
+            <div className="quayLai-tieuDe">
+                <div className="quayLai" onClick={() => handleClose()}>
+                    Quay Lại
                 </div>
-            )}
-            {thongTindh?.donHang?.map((item, index) => {
+                <div className="tieuDe">Chi Tiết Đơn Hàng</div>
+            </div>
+            {donHang?.map((item2, index) => {
                 return (
-                    <div key={index}>
-                        {sanPhamCtv?.map((item2, index2) => {
-                            return (
-                                <div key={index2}>
-                                    {item?.idSanPham === item2 && (
-                                        <div className="sanPhamLienKet">
-                                            <div className="tenSanPham">
-                                                {item.TenSanPham}
+                    <div key={index} className="sanPham">
+                        <div className="tenSanPham-xoa">
+                            <div className="tenSanPham">
+                                {item2?.tenSanPham}
+                            </div>
+                        </div>
+                        {item2?.allDacDiemSP &&
+                            item2?.allDacDiemSP?.length > 0 &&
+                            item2?.allDacDiemSP?.map((item, index) => {
+                                return (
+                                    <div
+                                        key={index}
+                                        className="dacDiem-themGioHang"
+                                    >
+                                        <div className="anhSp-tenSp">
+                                            <div className="tenSp">
+                                                {item?.tenDacDiem}
                                             </div>
-                                            <div className="soLuong">
-                                                {item.soLuong}
+                                            <div className="gioPhut">
+                                                {item?.gioPhut}
                                             </div>
-                                            {nhapHang?.find(
-                                                (item4) =>
-                                                    item4 === item.idSanPham
-                                            ) ? (
-                                                <div className="daChuyen">
-                                                    Đã Nhập
-                                                </div>
-                                            ) : (
-                                                <div
-                                                    onClick={() =>
-                                                        handleNhapHang(item)
-                                                    }
-                                                    className="nhapHang"
-                                                >
-                                                    Nhập Hàng
-                                                </div>
-                                            )}
-                                            {chuyenDon?.find(
-                                                (item4) =>
-                                                    item4 === item?.idSanPham
-                                            ) ? (
-                                                <div className="daChuyen">
-                                                    Đã Chuyển
-                                                </div>
-                                            ) : (
-                                                <div
-                                                    onClick={() =>
-                                                        handleChuyenDon(item)
-                                                    }
-                                                    className="chuyenDon"
-                                                >
-                                                    Chuyển Đơn
-                                                </div>
-                                            )}
                                         </div>
-                                    )}
-                                </div>
-                            );
-                        })}
+                                        <div className="giaSanPham">
+                                            <div className="giaKM">
+                                                {VND.format(item?.giaKhuyenMai)}
+                                            </div>
+                                            <div className="giaNY-giamGia">
+                                                <div className="giaNY">
+                                                    {VND.format(
+                                                        item?.giaNiemYet
+                                                    )}
+                                                </div>
+                                                <div className="giamGia">
+                                                    Giảm&nbsp;
+                                                    {Math.floor(
+                                                        (100 *
+                                                            (item?.giaNiemYet -
+                                                                item?.giaKhuyenMai)) /
+                                                            item?.giaNiemYet
+                                                    )}
+                                                    %
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="soLuong-SL">
+                                            <div className="soLuong">
+                                                Số Lượng
+                                            </div>
+                                            {/* <div className="SL">
+                                                {item.slMua}
+                                            </div> */}
+                                            <input
+                                                className="SL"
+                                                placeholder={item?.slMua}
+                                                onChange={(e) =>
+                                                    suaDonHang(
+                                                        e.target.value,
+                                                        item,
+                                                        item2
+                                                    )
+                                                }
+                                            />
+                                        </div>
+                                        <div className="thanhTien-TT">
+                                            <div className="thanhTien">
+                                                Thành Tiền
+                                            </div>
+                                            <div className="TT">
+                                                {VND.format(
+                                                    item?.slMua *
+                                                        item?.giaKhuyenMai
+                                                )}
+                                            </div>
+                                        </div>
+                                        {item.daXong === 1 ? (
+                                            <div
+                                                onClick={() =>
+                                                    handleDaXong(item, item2)
+                                                }
+                                                className="daXong"
+                                            >
+                                                ✅
+                                            </div>
+                                        ) : (
+                                            <div
+                                                onClick={() =>
+                                                    handleChuaXong(item, item2)
+                                                }
+                                                className="chuaXong"
+                                            >
+                                                ☐
+                                            </div>
+                                        )}
+                                    </div>
+                                );
+                            })}
                     </div>
                 );
             })}
-            {/* San Pham Lien Ket */}
-
-            {/* Don Hang Lien Ket trang thai 5 */}
-            {kho === "lienket" && (
-                <>
-                    <div>
-                        {arraySanPhamQuantity?.map((item2, index2) => {
-                            return (
-                                <div key={index2}>
-                                    {item2?.map((item, index) => {
-                                        return (
-                                            <div key={index}>
-                                                {item !== "hihi" && (
-                                                    <div>
-                                                        <div className="sanPham">
-                                                            <div className="anhVaTen">
-                                                                <img
-                                                                    src={
-                                                                        item?.AnhSanPham
-                                                                    }
-                                                                    className="anhSanPham"
-                                                                    alt="timtim"
-                                                                />
-                                                                <div className="tenSanPham">
-                                                                    {
-                                                                        item?.TenSanPham
-                                                                    }
-                                                                </div>
-                                                            </div>
-                                                            <div className="giaBan">
-                                                                {VND.format(
-                                                                    item?.giaKhuyenMai
-                                                                )}
-                                                            </div>
-                                                            <div className="soLuong">
-                                                                {item.quantity}
-                                                            </div>
-                                                            <div className="thanhTien">
-                                                                {VND.format(
-                                                                    item.quantity *
-                                                                        item.giaKhuyenMai
-                                                                )}
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                )}
-                                            </div>
-                                        );
-                                    })}
-                                </div>
-                            );
-                        })}
-                    </div>
-                    <div className="tongTien">
-                        <div className="tieude">Tổng Tiền Cần Thanh Toán</div>
-                        <div className="sotien">{VND.format(Tongtien)}</div>
-                    </div>
-                </>
-            )}
-
-            {/* Don Hang Lien Ket trang thai 5 */}
-
-            <div className="phancach">
-                <div className="thongTinNguoiNhan">Thanh Toán & Nơi Nhận</div>
-
-                <div className="thongTinChiTiet">
-                    <div className="tieuDe">Nơi Nhận</div>
-                    <div className="noiDung">
-                        {khachHang?.noiNhan}
-                        {khachHang?.soBan && (
-                            <>
-                                &emsp;-&emsp;
-                                {khachHang?.soBan}
-                            </>
-                        )}
-                    </div>
+            <div className="tinhTien">
+                <div className="tongTien">
+                    <div className="tieude">Tổng Tiền Hàng :</div>
+                    <div className="sotien">{VND.format(Tongtien)}</div>
                 </div>
-                <div className="thongTinChiTiet">
-                    <div className="tieuDe">Thanh Toán</div>
-                    <div className="noiDung"> {khachHang?.phuongThucTT}</div>
+                <div className="tongTien">
+                    <div className="tieude">Giảm Trừ :</div>
+                    <input
+                        type="number"
+                        className="sotien"
+                        placeholder={VND.format(giamTru)}
+                        onChange={(e) => setgiamTru(e.target.value)}
+                    />
+                </div>
+                <div className="tongTien">
+                    <div className="tieude">Cần Thanh Toán :</div>
+                    <div className="sotien">
+                        {VND.format(Tongtien - giamTru)}
+                    </div>
                 </div>
             </div>
-            {!khachHang?.soBan && (
+
+            <div className="tieuDeDonHang">Thông Tin Người Nhận</div>
+            {(thongTinDh?.khachHang?.noiNhan === "Ship Tận Nơi" ||
+                thongTinDh?.khachHang?.noiNhan === "Tự Đến Lấy") && (
                 <div className="phancach">
-                    <div className="thongTinNguoiNhan">
-                        Thông Tin Người Nhận
+                    <div className="thongTinChiTiet">
+                        <div className="tieuDe">Nơi Nhận :</div>
+                        <div className="noiDung">{khachHang?.noiNhan}</div>
                     </div>
                     <div className="thongTinChiTiet">
-                        <div className="tieuDe">Họ Và Tên</div>
+                        <div className="tieuDe">Họ Và Tên :</div>
                         <div className="noiDung">
                             {khachHang?.hoTenNguoiMua}
                         </div>
                     </div>
                     <div className="thongTinChiTiet">
-                        <div className="tieuDe">Số Điện Thoại</div>
+                        <div className="tieuDe">Số Điện Thoại :</div>
 
                         <div className="noiDung">{khachHang?.sdtNguoiMua}</div>
                     </div>
                     <div className="thongTinChiTiet">
-                        <div className="tieuDe">Địa Chỉ</div>
+                        <div className="tieuDe">Địa Chỉ :</div>
                         <div className="noiDung">{khachHang?.dcNguoiNMua}</div>
                     </div>
 
                     <div className="thongTinChiTiet">
-                        <div className="tieuDe">Ghi Chú Thêm</div>
+                        <div className="tieuDe">Ghi Chú Thêm :</div>
                         <div className="noiDung">
                             {khachHang?.ghiChuNguoiMua}
                         </div>
                     </div>
                 </div>
             )}
+            {thongTinDh?.khachHang?.noiNhan === "Nhận Tại Bàn" && (
+                <div className="phancach">
+                    <div className="thongTinChiTiet">
+                        <div className="tieuDe">Nơi Nhận :</div>
+                        <div className="noiDung">
+                            {khachHang?.noiNhan}
+                            {khachHang?.soBan && (
+                                <>
+                                    &emsp;-&emsp;
+                                    {khachHang?.soBan}
+                                </>
+                            )}
+                        </div>
+                    </div>
+                </div>
+            )}
+            <div className="thanhToanQrCode-container">
+                <div className="thanhToanQr">Thanh Toán Qua QR Code</div>
+                <img className="qr" src={qr} />
+            </div>
+            {/* <div className="tieuDeDonHang">Hoa Hồng Cộng Tác Viên</div> */}
             <div>
-                {thongTindh?.trangThaiDH === 1 && (
-                    // <a href={`/don-hang/${idShop}`}>
-                    <button
-                        className="hoanThanh"
-                        onClick={() => handleGiaoHang(thongTindh?._id)}
-                    >
-                        Giao Hàng
-                    </button>
-                    // </a>
+                {thongTinDh?.trangThaiDH === "Đơn Hàng Mới" && (
+                    <div className="tongKet">
+                        <div
+                            className="hoanThanh"
+                            onClick={() => handleGiaoHang(thongTinDh?._id)}
+                        >
+                            Giao Hàng
+                        </div>
+                        <div className="inHoaDon" onClick={() => handlePrint()}>
+                            In Hoá Đơn
+                        </div>
+                    </div>
                 )}
-                {thongTindh?.trangThaiDH === 2 && (
-                    <div>
-                        {/* <a href={`/don-hang-dang-giao/${idShop}`}> */}
-                        <button
+                {thongTinDh?.trangThaiDH === "Đơn Hàng Đang Giao" && (
+                    <div className="tongKet">
+                        <div
                             className="huyDon"
-                            onClick={() => handleHuyDon(thongTindh?._id)}
+                            onClick={() => handleHuyDon(thongTinDh?._id)}
                         >
                             Huỷ Đơn
-                        </button>
-                        {/* </a> */}
-                        {/* <a href={`/don-hang-dang-giao/${idShop}`}> */}
-                        <button
+                        </div>
+
+                        <div
                             className="hoanThanh"
-                            onClick={() => handleHoanThanh(thongTindh?._id)}
+                            onClick={() => handleHoanThanh(thongTinDh?._id)}
                         >
                             Hoàn Thành
-                        </button>
-                        {/* </a> */}
+                        </div>
                     </div>
                 )}
-                {thongTindh?.trangThaiDH === 3 && (
-                    <div>
-                        <button
+                {thongTinDh?.trangThaiDH === "Đơn Hàng Hoàn Thành" && (
+                    <div className="tongKet">
+                        <div
                             className="huyDon"
-                            onClick={() => handleTraLai(thongTindh?._id)}
+                            onClick={() => handleHuyDon(thongTinDh?._id)}
                         >
                             Trả Hàng
-                        </button>
-                        <a href={`/don-hang-hoan-thanh/${idShop}`}>
-                            <button className="hoanThanh">Đóng lại</button>
-                        </a>
+                        </div>
+                        <div className="inHoaDon" onClick={() => handlePrint()}>
+                            In Hoá Đơn
+                        </div>
                     </div>
                 )}
-                {thongTindh?.trangThaiDH === 4 && (
-                    <div>
-                        <a href={`/don-hang-huy/${idShop}`}>
-                            <button className="hoanThanh">Đóng lại</button>
-                        </a>
+                {thongTinDh?.trangThaiDH === "Đơn Hàng Huỷ" && (
+                    <div className="tongKet">
+                        <div onClick={() => handleClose()} className="huyDon">
+                            Quay lại
+                        </div>
+                        <div className="inHoaDon" onClick={() => handlePrint()}>
+                            In Hoá Đơn
+                        </div>
                     </div>
                 )}
             </div>
+            <InHoaDon
+                thongTinDh={thongTinDh}
+                setTongtien={setTongtien}
+                Tongtien={Tongtien}
+                setgiamTru={setgiamTru}
+                giamTru={giamTru}
+                qr={qr}
+            />
         </div>
     );
 };

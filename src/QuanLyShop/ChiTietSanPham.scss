@@ -228,218 +228,218 @@
 
 /* PC*/
 @media screen and (min-width : 1024px) {
-    .chitietsp-datHang{
-        background-color: #9cddc2;
-        padding: 6.5vw 0vw 15vw 0vw;
-        .container-ChiTietSanPhamTo{
-            background-color: #9cddc2;
-            a{text-decoration: none};
-            .container-ChiTietSanPham {
-                width: 25%;
-                justify-content: center;
-                align-items: center;
-                background-color: #fff;
-                margin-left: auto;
-                margin-right: auto;
-                border-radius: 1vw;
-                box-shadow: 12px 14px 12px -1px rgba(0,0,0,0.75);
-                -webkit-box-shadow: 12px 14px 12px -1px rgba(0,0,0,0.75);
-                -moz-box-shadow: 12px 14px 12px -1px rgba(0,0,0,0.75);
-                .close {
-                    font-size: 0.8vw;
-                    background-color: red;
-                    font-weight: 600;
-                    padding: 0.5vw;
-                    border-radius: 1vw;
+    // .chitietsp-datHang{
+    //     background-color: #9cddc2;
+    //     padding: 6.5vw 0vw 15vw 0vw;
+    //     .container-ChiTietSanPhamTo{
+    //         background-color: #9cddc2;
+    //         a{text-decoration: none};
+    //         .container-ChiTietSanPham {
+    //             width: 25%;
+    //             justify-content: center;
+    //             align-items: center;
+    //             background-color: #fff;
+    //             margin-left: auto;
+    //             margin-right: auto;
+    //             border-radius: 1vw;
+    //             box-shadow: 12px 14px 12px -1px rgba(0,0,0,0.75);
+    //             -webkit-box-shadow: 12px 14px 12px -1px rgba(0,0,0,0.75);
+    //             -moz-box-shadow: 12px 14px 12px -1px rgba(0,0,0,0.75);
+    //             .close {
+    //                 font-size: 0.8vw;
+    //                 background-color: red;
+    //                 font-weight: 600;
+    //                 padding: 0.5vw;
+    //                 border-radius: 1vw;
                     
-                }
-                .anhSanPham {
-                    width: 23vw;
-                    height: 25vw;
-                    object-fit: cover;
-                    border: solid 0.1vw gray;
-                    background-color: #fff;
-                    border-radius: 2vw;
-                }
-                .tenSanPham {
-                    font-size: 2vw;
-                    font-weight: 600;
-                    margin-top: 0.5vw;
-                    text-transform: uppercase;
-                    word-wrap:break-word;
-                    overflow:auto;
-                    width: 100%;
-                }
-                .giaBan {
-                    // display: flex;
-                    margin-top: 0.5vw;
-                    text-align: center;
-                    justify-content: center;
+    //             }
+    //             .anhSanPham {
+    //                 width: 23vw;
+    //                 height: 25vw;
+    //                 object-fit: cover;
+    //                 border: solid 0.1vw gray;
+    //                 background-color: #fff;
+    //                 border-radius: 2vw;
+    //             }
+    //             .tenSanPham {
+    //                 font-size: 2vw;
+    //                 font-weight: 600;
+    //                 margin-top: 0.5vw;
+    //                 text-transform: uppercase;
+    //                 word-wrap:break-word;
+    //                 overflow:auto;
+    //                 width: 100%;
+    //             }
+    //             .giaBan {
+    //                 // display: flex;
+    //                 margin-top: 0.5vw;
+    //                 text-align: center;
+    //                 justify-content: center;
                    
                     
-                    .giaBanMoi {
-                        color: red;
-                        font-size: 2vw;
-                    font-weight: 600;
-                    }
-                    .giaGiam{
-                        display: flex;
-                        gap: 0.5vw;
-                        align-items: center;
-                        justify-content: center;
-                        margin-top: 0.5vw;
-                        .giabanCu {
-                            text-decoration: line-through;
-                            font-size: 1.5vw;
-                            font-weight: 300;
+    //                 .giaBanMoi {
+    //                     color: red;
+    //                     font-size: 2vw;
+    //                 font-weight: 600;
+    //                 }
+    //                 .giaGiam{
+    //                     display: flex;
+    //                     gap: 0.5vw;
+    //                     align-items: center;
+    //                     justify-content: center;
+    //                     margin-top: 0.5vw;
+    //                     .giabanCu {
+    //                         text-decoration: line-through;
+    //                         font-size: 1.5vw;
+    //                         font-weight: 300;
             
-                        }
-                        .phanTram{
-                            font-size: 1.5vw;
-                            font-weight: 300;
-                        }
+    //                     }
+    //                     .phanTram{
+    //                         font-size: 1.5vw;
+    //                         font-weight: 300;
+    //                     }
                     
-                }
+    //             }
                    
-                }
-                .muaHang {
-                    font-size: 1.5vw;
-                    font-weight: 600;
-                    background-color: red;
-                    width: 90%;
-                    margin-top: 1vw;
-                    border-radius: 1vw;
-                    padding: 0.5vw;
-                }
-                .viTriSanPham {
-                    display: flex;
-                    gap: 0.8vw;
-                    text-align: center;
-                    justify-content: center;
-                    margin-top: 0.5vw;
+    //             }
+    //             .muaHang {
+    //                 font-size: 1.5vw;
+    //                 font-weight: 600;
+    //                 background-color: red;
+    //                 width: 90%;
+    //                 margin-top: 1vw;
+    //                 border-radius: 1vw;
+    //                 padding: 0.5vw;
+    //             }
+    //             .viTriSanPham {
+    //                 display: flex;
+    //                 gap: 0.8vw;
+    //                 text-align: center;
+    //                 justify-content: center;
+    //                 margin-top: 0.5vw;
             
-                    .diachisanpham {
-                        font-size: 1vw;
-                    }
-                }
-                .thongtinSanPham {
-                    text-align: center;
-                    padding: 1vw;
-                    font-size: 1.5vw;
-                    width: 100%;
-                    word-wrap:break-word;
-                    // height: 20vw;
-                    overflow:auto;
-                    margin-bottom: 2vw
-                ;
-                }
-            }
-        }
-        .datHang-container{
-            width: 25%;
-            justify-content: center;
-            align-items: center;
-            background-color: #fff;
-            margin: 0vw auto;
-            border-radius: 1vw;
-            box-shadow: 12px 14px 12px -1px rgba(0,0,0,0.75);
-            -webkit-box-shadow: 12px 14px 12px -1px rgba(0,0,0,0.75);
-            -moz-box-shadow: 12px 14px 12px -1px rgba(0,0,0,0.75);
+    //                 .diachisanpham {
+    //                     font-size: 1vw;
+    //                 }
+    //             }
+    //             .thongtinSanPham {
+    //                 text-align: center;
+    //                 padding: 1vw;
+    //                 font-size: 1.5vw;
+    //                 width: 100%;
+    //                 word-wrap:break-word;
+    //                 // height: 20vw;
+    //                 overflow:auto;
+    //                 margin-bottom: 2vw
+    //             ;
+    //             }
+    //         }
+    //     }
+    //     .datHang-container{
+    //         width: 25%;
+    //         justify-content: center;
+    //         align-items: center;
+    //         background-color: #fff;
+    //         margin: 0vw auto;
+    //         border-radius: 1vw;
+    //         box-shadow: 12px 14px 12px -1px rgba(0,0,0,0.75);
+    //         -webkit-box-shadow: 12px 14px 12px -1px rgba(0,0,0,0.75);
+    //         -moz-box-shadow: 12px 14px 12px -1px rgba(0,0,0,0.75);
         
-            a{text-decoration: none};
-            .close{
-                font-size: 0.8vw;
-                background-color: red;
-                font-weight: 600;
-                padding: 0.5vw;
-                border-radius: 1vw;
-            }
-            .anhSanPham{
-                width: 23vw;
-                height: 25vw;
-                object-fit: cover;
-                border: solid 0.1vw gray;
-                background-color: #fff;
-                border-radius: 2vw;
-        margin: 0vw auto;
+    //         a{text-decoration: none};
+    //         .close{
+    //             font-size: 0.8vw;
+    //             background-color: red;
+    //             font-weight: 600;
+    //             padding: 0.5vw;
+    //             border-radius: 1vw;
+    //         }
+    //         .anhSanPham{
+    //             width: 23vw;
+    //             height: 25vw;
+    //             object-fit: cover;
+    //             border: solid 0.1vw gray;
+    //             background-color: #fff;
+    //             border-radius: 2vw;
+    //     margin: 0vw auto;
         
-            }
-            .tenSanPham{
-                font-size: 2vw;
-                font-weight: 600;
-                margin-top: 0.5vw;
-                text-transform: uppercase;
+    //         }
+    //         .tenSanPham{
+    //             font-size: 2vw;
+    //             font-weight: 600;
+    //             margin-top: 0.5vw;
+    //             text-transform: uppercase;
         
-            }
-            .containerTieuChiFormregis {
-                display: flex;
-                margin-top: 0.5vw;
-                margin-left: 0.5vw;
-                margin-right: 0.2vw;
-                text-align: center;
-                .tieuChiFormregis {
-                    width: 30%;
-                    font-size: 1vw;
-                    padding: 0.5vw 0vw;
+    //         }
+    //         .containerTieuChiFormregis {
+    //             display: flex;
+    //             margin-top: 0.5vw;
+    //             margin-left: 0.5vw;
+    //             margin-right: 0.2vw;
+    //             text-align: center;
+    //             .tieuChiFormregis {
+    //                 width: 30%;
+    //                 font-size: 1vw;
+    //                 padding: 0.5vw 0vw;
 
-                    text-align: center;
-                    border: solid 0.11vw rgb(143, 140, 140);
-                }
-                .noiDungFormregis {
-                    width: 70%;
-                    font-size: 1vw;
-                    border: solid 0.1vw rgb(143, 140, 140);
-                    text-align: center;
-                    border-radius: 0.5vw;
-                    select{
-                        height: 1vw;
-                        width: 30%;
-                        margin: 0.5vw;
-                        border: solid 0.1vw rgb(143, 140, 140);
-                        border-radius: 1vw;
-                        option {
-                            // text-align: center;
+    //                 text-align: center;
+    //                 border: solid 0.11vw rgb(143, 140, 140);
+    //             }
+    //             .noiDungFormregis {
+    //                 width: 70%;
+    //                 font-size: 1vw;
+    //                 border: solid 0.1vw rgb(143, 140, 140);
+    //                 text-align: center;
+    //                 border-radius: 0.5vw;
+    //                 select{
+    //                     height: 1vw;
+    //                     width: 30%;
+    //                     margin: 0.5vw;
+    //                     border: solid 0.1vw rgb(143, 140, 140);
+    //                     border-radius: 1vw;
+    //                     option {
+    //                         // text-align: center;
                             
-                        }
-                    }
-                }
+    //                     }
+    //                 }
+    //             }
     
-            }
-            .thongTinNhanHang{
-                text-transform: uppercase;
-            font-size: 1.5vw;
-            font-weight: 600;
-            text-align: left;
-            padding-left: 3.0vw;
-            margin-top: 0.5vw;
-            }
+    //         }
+    //         .thongTinNhanHang{
+    //             text-transform: uppercase;
+    //         font-size: 1.5vw;
+    //         font-weight: 600;
+    //         text-align: left;
+    //         padding-left: 3.0vw;
+    //         margin-top: 0.5vw;
+    //         }
             
-            .hoanThanh{
-                cursor: pointer;
-                border-radius: 1vw;
-                width: 80%;
-                font-size: 2vw;
-                font-weight: 600;
-                text-align: center;
-                background-color: #04aa6d;
-                margin-top: 1vw;
-                margin-bottom: 2vw;
-                padding: 0.5vw;
-            }
-            .luuY{
-                font-size: 1vw;
-            }
-            .luuY2{
-                font-size: 2.2vw;
-                margin-top: 1vw; margin-top: 1vw;
-                color: red;
-            }
-            .dangkingay{
-                display: block;
-                font-size: 1.5vw;
-                font-weight: 600;
-                padding: 1vw;
-            }
-        }
-    }
+    //         .hoanThanh{
+    //             cursor: pointer;
+    //             border-radius: 1vw;
+    //             width: 80%;
+    //             font-size: 2vw;
+    //             font-weight: 600;
+    //             text-align: center;
+    //             background-color: #04aa6d;
+    //             margin-top: 1vw;
+    //             margin-bottom: 2vw;
+    //             padding: 0.5vw;
+    //         }
+    //         .luuY{
+    //             font-size: 1vw;
+    //         }
+    //         .luuY2{
+    //             font-size: 2.2vw;
+    //             margin-top: 1vw; margin-top: 1vw;
+    //             color: red;
+    //         }
+    //         .dangkingay{
+    //             display: block;
+    //             font-size: 1.5vw;
+    //             font-weight: 600;
+    //             padding: 1vw;
+    //         }
+    //     }
+    // }
 }

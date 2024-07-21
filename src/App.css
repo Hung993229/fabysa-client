@@ -145,12 +145,10 @@ button {
 }
 .App{
     max-width: calc(100% - 0px);
-    /* max-width: 699px; */
     margin: 0 auto;
     text-align: center;
     justify-content: center;
-    align-items: center;
-    /* width: 699px; */
+    align-items: center
    
 }
 /* Mobile < 740px*/

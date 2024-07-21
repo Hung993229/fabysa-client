@@ -1,0 +1,239 @@
+
+/* Mobile & Tablet */
+@media screen and (max-width : 1023px) {
+   .Shop2-Container{
+    // margin-bottom: 30vw;
+    .sanPham-shop{
+        // margin: 5vw auto;
+        justify-content: center;
+        align-items: center;
+        background-color: #88d3b4;
+        .nhomSanPham-themSanPham{
+            display: flex;
+            background-color: red;
+            font-size: 5vw;
+            font-weight: 600;
+            color: white;
+            height: 10vw;
+            // .sapXep{
+            //     line-height: 10vw;
+            //     width: 6vw; 
+            //     text-align: right;
+
+            // }
+            
+            .nhomSanPham{
+                line-height: 10vw; 
+                text-transform: uppercase;
+                text-align: center;
+                width: 94vw;
+                padding-left: 6vw;
+            }
+
+            .themSanPham{
+                line-height: 10vw;
+                width: 6vw; 
+                text-align: left;
+
+            }
+        }
+        .xacNhan-xoa{
+            font-size: 3.5vw;
+            justify-content: center;
+            align-items: center;
+            margin: 5vw auto;
+            padding: 2vw 0vw;
+            // border: solid 1px gray;
+            width: 60vw;
+            background-color: #fff;
+            border-radius: 1vw;
+            // color: #fff;
+            a{
+                text-decoration: none;
+            }
+            .xacNhan{
+              
+            }
+            .huyBo-xoa{
+              display: flex;
+              gap: 10vw;
+              margin: 2vw 5vw 0vw;
+            //   border: solid 1px gray;
+            //   width: 100vw;
+              .huyBo{
+               color: #fff;
+                text-align: center;
+                font-size: 2.5vw;
+                font-weight: 500;
+                width: 20vw;
+                line-height: 6vw;
+                border-radius: 1vw;
+                background-color: #04aa6d;
+                // border: solid 1px gray;
+                // margin: 2vw 5vw;
+              }
+              .xoa{
+                color: #fff;
+                text-align: center;
+                font-size: 2.5vw;
+                font-weight: 500;
+                width: 20vw;
+                line-height: 6vw;
+                border-radius: 1vw;
+                background-color: red;
+                
+              }
+            }
+            
+          }
+          .trong{
+            font-size: 3.5vw;
+            font-weight: 500;
+            margin: 5vw auto;
+        }
+       
+        .sanPham-container{
+            display: grid;
+            grid-template-columns: 1fr 1fr; 
+            padding: 1vw 0vw 30vw 0vw;
+            border: none;
+            .sanPham {
+                justify-content: center;
+                align-items: center;
+                padding: 2vw;
+                margin: 1vw;
+                border-radius: 2vw;
+                background-color: #fff;
+                box-shadow: 12px 14px 12px -1px rgba(0,0,0,0.75);
+        -webkit-box-shadow: 12px 14px 12px -1px rgba(0,0,0,0.75);
+        -moz-box-shadow: 12px 14px 12px -1px rgba(0,0,0,0.75);
+                .anhSanPham {
+                    width: 43vw;
+                    height: 43vw;
+                    object-fit: cover;
+                    border: solid 0.1vw gray;
+                    background-color: #fff;
+                    cursor: pointer;
+                    border-radius: 2vw;
+                }
+                .tenSanPham {
+                    width: 43vw;
+                    font-size: 3vw;
+                    font-weight: 600;
+                    margin: 2vw auto;
+                    text-transform: uppercase;
+                    word-wrap:break-word;
+                overflow:auto;
+                }
+                .giaBan {
+                    text-align: center;
+                    justify-content: center;
+                    
+                    .giaBanMoi {
+                        color: red;
+                        font-size: 5vw;
+                    font-weight: 600;
+                    // margin-bottom: 1vw;
+                    }
+                    
+                        .giaGiam{
+                            display: flex;
+                            gap: 2vw;
+                            align-items: center;
+                            justify-content: center;
+                            .giabanCu {
+                                text-decoration: line-through;
+                                font-size: 3.5vw;
+                                font-weight: 300;
+                
+                            }
+                            .phanTram{
+                                font-size: 3.5vw;
+                                font-weight: 300;
+                            }
+                        
+                    }
+                    
+                   
+                    
+                }
+                .muaHang {
+                    font-size: 3.9vw;
+                    font-weight: 600;
+                    background-color: red;
+                    width: 100%;
+                    margin: 2vw auto;
+                    border-radius: 2vw;
+                    padding: 1.5vw;
+                }
+                .daThem{
+                    font-size: 3.9vw;
+                    padding: 1.5vw;
+                    font-weight: 600;
+                    background-color: #04aa6d;
+                    width: 100%;
+                    margin: 2vw auto;
+                    border-radius: 2vw;
+                }
+                .xemChiTiet{
+                    color: #04aa6d;
+                   font-size: 3vw;
+                   font-weight: 500;
+                   cursor: pointer;
+                }
+                .viTriSanPham{
+                    display: flex;
+                    font-size: 2vw;
+                    gap: 1vw;
+                    align-items: center;
+                    justify-content: center;
+                }
+               
+              
+            }
+                    
+        
+            }
+           
+    }
+    
+    .menuGioHang2{
+        .menu{
+            object-fit: cover;
+            width: 15vw;
+            height: 15vw;
+            border-radius: 50%;
+            background-color: #04aa6d;
+            padding: 2px;
+            position: fixed;
+            cursor: pointer;
+            left: 20px;
+            bottom: 20px;
+            z-index: 2;
+
+        }
+        .gioHang2{
+            object-fit: cover;
+            width: 15vw;
+            height: 15vw;
+            border-radius: 50%;
+            background-color: #04aa6d;
+            padding: 2px;
+            position: fixed;
+            cursor: pointer;
+            right: 20px;
+            bottom: 20px;
+            z-index: 2;
+            // opacity: 0.6;
+    
+        }
+    }
+   }
+
+   
+}
+
+/* PC*/
+@media screen and (min-width : 1024px) {
+   
+}

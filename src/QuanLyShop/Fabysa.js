@@ -25,9 +25,9 @@ const Fabysa = () => {
     const user = useSelector((state) => state.auth.login?.currentUser);
     const myDetail = useSelector((state) => state.post.post?.myDetail);
     const allSanPham = useSelector(
-        (state) => state.sanPham.sanPham.allsanPham?.allSanpham
+        (state) => state.sanPham.sanPham.sanPhamDan?.allSanpham
     );
-    console.log("allSanPham",allSanPham)
+    console.log("allSanPham", allSanPham);
     const allShop = useSelector(
         (state) => state.ttShop.ttShop.allttShop?.AllShop
     );
@@ -65,7 +65,7 @@ const Fabysa = () => {
     const { spa, spb } = useParams();
     useEffect(() => {
         const arrIdSanPham = [spa, spb];
-        if (arrIdSanPham) {
+        if (arrIdSanPham && arrIdSanPham?.length !== 0) {
             getArrSanPham(arrIdSanPham, dispatch);
         }
     }, [spa, spb]);
@@ -123,11 +123,14 @@ const Fabysa = () => {
     }, [tenTinh, tenHuyen, tenXa]);
     // chon khu vuc
     // Que Quan
+    console.log("huyen", huyen);
+    console.log("skip", skip);
     useEffect(() => {
-        if (!huyen || allSanPham?.length === 0) {
-            getSanPhamDan(huyen, skip, dispatch);
+        const limit = 20;
+        if (!huyen) {
+            getSanPhamDan(skip, limit, dispatch);
         } else {
-            getSanPhamDanHuyen(huyen, skip, dispatch);
+            getSanPhamDanHuyen(huyen, skip, limit, dispatch);
         }
     }, [huyen, skip]);
     useEffect(() => {
@@ -159,7 +162,6 @@ const Fabysa = () => {
             setarrShop(arrShop4);
         }
     }, [arraySanPham, allSanPham]);
-    console.log("arrShop", arrShop);
     useEffect(() => {
         if (arrShop.length !== 0) {
             setloading(0);
@@ -167,354 +169,397 @@ const Fabysa = () => {
     }, [arrShop]);
 
     return (
-        <>
-            {loading === 0 ? (
-                <div>
-                    {moihoptac === 0 && (
-                        <div>
-                            {/* header shop */}
-                            <div className="container-header-shop">
-                                <div>
-                                    <img
-                                        src={bannerShop}
-                                        alt="timtim"
-                                        className="bannerShop"
-                                    />
-                                </div>
-                                <div className="wecomeShop">
-                                    Trung Tâm Thương Mại 24/7 - Fabysa
-                                </div>
+        <div className="Appy">
+            <div className="Appx">
+                {loading === 0 ? (
+                    <div>
+                        {moihoptac === 0 && (
+                            <div>
+                                {/* header shop */}
+                                <div className="container-header-shop">
+                                    <div>
+                                        <img
+                                            src={bannerShop}
+                                            alt="timtim"
+                                            className="bannerShop"
+                                        />
+                                    </div>
+                                    <div className="wecomeShop">
+                                        Trung Tâm Thương Mại Fabysa
+                                    </div>
 
-                                <div className="hoptac-sanpham">
-                                    <button
-                                        onClick={() => setmoihoptac(1)}
-                                        className="moihoptac"
+                                    <div className="hoptac-sanpham">
+                                        <button
+                                            onClick={() => setmoihoptac(1)}
+                                            className="moihoptac"
+                                        >
+                                            Giới Thiệu Fabysa
+                                        </button>
+
+                                        <button
+                                            className="themSanPham"
+                                            onClick={() => setmoihoptac(2)}
+                                        >
+                                            Shop Yêu Thích
+                                        </button>
+                                    </div>
+                                </div>
+                                {/* Chon Khu Vuc */}
+
+                                <div className="khuVuc-container">
+                                    <label hidden>Tỉnh</label>
+                                    <select
+                                        id="provinces"
+                                        onChange={(e) =>
+                                            setprovincesID(e.target.value)
+                                        }
                                     >
-                                        Giới Thiệu Fabysa
-                                    </button>
-
-                                    <button
-                                        className="themSanPham"
-                                        onClick={() => setmoihoptac(2)}
+                                        <option value="">
+                                            {!myDetail
+                                                ? "---Chọn Tỉnh/TP---"
+                                                : myDetail?.tinh}
+                                        </option>
+                                        {provinces?.map((item) => {
+                                            return (
+                                                <option
+                                                    key={item.province_id}
+                                                    value={item.province_id}
+                                                >
+                                                    {item.province_name}
+                                                </option>
+                                            );
+                                        })}
+                                    </select>
+                                    <select
+                                        onChange={(e) =>
+                                            setDistrictID(e.target.value)
+                                        }
                                     >
-                                        Shop Yêu Thích
-                                    </button>
+                                        <option value="">
+                                            {!myDetail
+                                                ? "---Chọn Quận/Huyện---"
+                                                : myDetail?.huyen}
+                                        </option>
+                                        {districts?.map((item) => {
+                                            return (
+                                                <option
+                                                    value={item.district_id}
+                                                    key={item.district_id}
+                                                >
+                                                    {item.district_name}
+                                                </option>
+                                            );
+                                        })}
+                                    </select>
+                                    <select
+                                        onChange={(e) =>
+                                            setWardID(e.target.value)
+                                        }
+                                    >
+                                        <option value="">
+                                            {!myDetail
+                                                ? "---Chọn Xã/Phường---"
+                                                : myDetail?.xa}
+                                        </option>
+                                        {wards?.map((item) => {
+                                            return (
+                                                <option
+                                                    value={item.ward_id}
+                                                    key={item.ward_id}
+                                                >
+                                                    {item.ward_name}
+                                                </option>
+                                            );
+                                        })}
+                                    </select>
                                 </div>
-                            </div>
-                            {/* Chon Khu Vuc */}
-
-                            <div className="khuVuc-container">
-                                <label hidden>Tỉnh</label>
-                                <select
-                                    id="provinces"
-                                    onChange={(e) =>
-                                        setprovincesID(e.target.value)
-                                    }
-                                >
-                                    <option value="">
-                                        {!myDetail
-                                            ? "---Chọn Tỉnh/TP---"
-                                            : myDetail?.tinh}
-                                    </option>
-                                    {provinces?.map((item) => {
-                                        return (
-                                            <option
-                                                key={item.province_id}
-                                                value={item.province_id}
-                                            >
-                                                {item.province_name}
-                                            </option>
-                                        );
-                                    })}
-                                </select>
-                                <select
-                                    onChange={(e) =>
-                                        setDistrictID(e.target.value)
-                                    }
-                                >
-                                    <option value="">
-                                        {!myDetail
-                                            ? "---Chọn Quận/Huyện---"
-                                            : myDetail?.huyen}
-                                    </option>
-                                    {districts?.map((item) => {
-                                        return (
-                                            <option
-                                                value={item.district_id}
-                                                key={item.district_id}
-                                            >
-                                                {item.district_name}
-                                            </option>
-                                        );
-                                    })}
-                                </select>
-                                <select
-                                    onChange={(e) => setWardID(e.target.value)}
-                                >
-                                    <option value="">
-                                        {!myDetail
-                                            ? "---Chọn Xã/Phường---"
-                                            : myDetail?.xa}
-                                    </option>
-                                    {wards?.map((item) => {
-                                        return (
-                                            <option
-                                                value={item.ward_id}
-                                                key={item.ward_id}
-                                            >
-                                                {item.ward_name}
-                                            </option>
-                                        );
-                                    })}
-                                </select>
-                            </div>
-                            {/* Chon Khu Vuc */}
-                            {/* sanPham */}
-                            <div className="sanPham-shop">
-                                {/* arraySanPham */}
-                                {spa &&
-                                    spb &&
-                                    spa?.length !== 0 &&
-                                    spb?.length !== 0 && (
-                                        <div>
-                                            {arraySanPham &&
-                                                arraySanPham.length !== 0 && (
-                                                    <div className="tenShop-like">
-                                                        <div className="tenShop">
-                                                            {
-                                                                arraySanPham[0]
-                                                                    .TenShop
-                                                            }
-                                                        </div>
-                                                    </div>
-                                                )}
-
-                                            <div className="sanPham-container">
+                                {/* Chon Khu Vuc */}
+                                {/* sanPham */}
+                                <div className="sanPham-shop">
+                                    {/* arraySanPham */}
+                                    {spa &&
+                                        spb &&
+                                        spa?.length !== 0 &&
+                                        spb?.length !== 0 && (
+                                            <div>
                                                 {arraySanPham &&
-                                                    arraySanPham?.map(
-                                                        (item, index) => {
-                                                            return (
-                                                                <div
-                                                                    key={index}
-                                                                    className="sanPham"
-                                                                >
-                                                                    <div>
-                                                                        <img
-                                                                            src={
-                                                                                item?.AnhSanPham
-                                                                            }
-                                                                            className="anhSanPham"
-                                                                            alt="timtim"
-                                                                        />
+                                                    arraySanPham.length !==
+                                                        0 && (
+                                                        <div className="tenShop-like">
+                                                            <div className="tenShop">
+                                                                {
+                                                                    arraySanPham[0]
+                                                                        .TenShop
+                                                                }
+                                                            </div>
+                                                        </div>
+                                                    )}
 
-                                                                        <div className="tenSanPham">
-                                                                            {
-                                                                                item?.TenSanPham
-                                                                            }
-                                                                        </div>
-                                                                        <div className="giaBan">
-                                                                            <div className="giaBanMoi">
-                                                                                {VND.format(
-                                                                                    item?.giaKhuyenMai
+                                                <div className="sanPham-container">
+                                                    {arraySanPham &&
+                                                        arraySanPham?.map(
+                                                            (item, index) => {
+                                                                return (
+                                                                    <div
+                                                                        key={
+                                                                            index
+                                                                        }
+                                                                        className="sanPham"
+                                                                    >
+                                                                        <div>
+                                                                            <img
+                                                                                src={
+                                                                                    item?.AnhSanPham
+                                                                                }
+                                                                                className="anhSanPham"
+                                                                                alt="timtim"
+                                                                            />
+
+                                                                            <div className="tenSanPham">
+                                                                                {item
+                                                                                    ?.TenSanPham
+                                                                                    ?.length >
+                                                                                28 ? (
+                                                                                    <div>
+                                                                                        {item?.TenSanPham.slice(
+                                                                                            0,
+                                                                                            20
+                                                                                        )}
+                                                                                        ...
+                                                                                    </div>
+                                                                                ) : (
+                                                                                    <div>
+                                                                                        {
+                                                                                            item?.TenSanPham
+                                                                                        }
+                                                                                    </div>
                                                                                 )}
                                                                             </div>
-
-                                                                            <div className="giaGiam">
-                                                                                <div className="giabanCu">
+                                                                            <div className="giaBan">
+                                                                                <div className="giaBanMoi">
                                                                                     {VND.format(
-                                                                                        item?.giaNiemYet
+                                                                                        item?.giaKhuyenMai
                                                                                     )}
                                                                                 </div>
-                                                                                <div className="phanTram">
-                                                                                    Giảm&nbsp;
-                                                                                    {Math.floor(
-                                                                                        (100 *
-                                                                                            (item?.giaNiemYet -
-                                                                                                item?.giaKhuyenMai)) /
+
+                                                                                <div className="giaGiam">
+                                                                                    <div className="giabanCu">
+                                                                                        {VND.format(
                                                                                             item?.giaNiemYet
-                                                                                    )}
+                                                                                        )}
+                                                                                    </div>
+                                                                                    <div className="phanTram">
+                                                                                        Giảm&nbsp;
+                                                                                        {Math.floor(
+                                                                                            (100 *
+                                                                                                (item?.giaNiemYet -
+                                                                                                    item?.giaKhuyenMai)) /
+                                                                                                item?.giaNiemYet
+                                                                                        )}
 
-                                                                                    %
+                                                                                        %
+                                                                                    </div>
                                                                                 </div>
                                                                             </div>
-                                                                        </div>
-                                                                        <a
-                                                                            href={`/shop/${item?.user}`}
-                                                                        >
-                                                                            <div className="xemThemSanPham">
-                                                                                Truy
-                                                                                Cập
-                                                                                Shop
-                                                                            </div>
-                                                                        </a>
+                                                                            <a
+                                                                                href={`/shop/${item?.user}`}
+                                                                            >
+                                                                                <div className="xemThemSanPham">
+                                                                                    Truy
+                                                                                    Cập
+                                                                                    Shop
+                                                                                </div>
+                                                                            </a>
 
-                                                                        <div className="viTriSanPham">
-                                                                            <i className="fa-solid fa-location-dot"></i>
-                                                                            <div className="diachisanpham">
-                                                                                {
-                                                                                    item?.xa
-                                                                                }
-                                                                            </div>
-                                                                            <div className="diachisanpham">
-                                                                                {
-                                                                                    item?.huyen
-                                                                                }
-                                                                            </div>
-                                                                            <div className="diachisanpham">
-                                                                                {
-                                                                                    item?.tinh
-                                                                                }
+                                                                            <div className="viTriSanPham">
+                                                                                <i className="fa-solid fa-location-dot"></i>
+                                                                                <div className="diachisanpham">
+                                                                                    {
+                                                                                        item?.xa
+                                                                                    }
+                                                                                </div>
+                                                                                <div className="diachisanpham">
+                                                                                    {
+                                                                                        item?.huyen
+                                                                                    }
+                                                                                </div>
+                                                                                <div className="diachisanpham">
+                                                                                    {
+                                                                                        item?.tinh
+                                                                                    }
+                                                                                </div>
                                                                             </div>
                                                                         </div>
                                                                     </div>
-                                                                </div>
-                                                            );
-                                                        }
-                                                    )}
-                                            </div>
-                                        </div>
-                                    )}
-                                {/* arraySanPham */}
-                                {/* allSanPham */}
-                                {arrShop &&
-                                    arrShop?.map((item2, index) => {
-                                        return (
-                                            <div key={index}>
-                                                <div className="tenShop-like">
-                                                    <div className="tenShop">
-                                                        {item2}
-                                                    </div>
-                                                </div>
-
-                                                <div className="sanPham-container">
-                                                    {allSanPham &&
-                                                        allSanPham?.map(
-                                                            (item, index) => {
-                                                                return (
-                                                                    item?.TenShop ===
-                                                                        item2 && (
-                                                                        <div
-                                                                            key={
-                                                                                index
-                                                                            }
-                                                                            className="sanPham"
-                                                                        >
-                                                                            <div>
-                                                                                <img
-                                                                                    src={
-                                                                                        item?.AnhSanPham
-                                                                                    }
-                                                                                    className="anhSanPham"
-                                                                                    alt="timtim"
-                                                                                />
-
-                                                                                <div className="tenSanPham">
-                                                                                    {
-                                                                                        item?.TenSanPham
-                                                                                    }
-                                                                                </div>
-                                                                                <div className="giaBan">
-                                                                                    <div className="giaBanMoi">
-                                                                                        {VND.format(
-                                                                                            item?.giaKhuyenMai
-                                                                                        )}
-                                                                                    </div>
-
-                                                                                    <div className="giaGiam">
-                                                                                        <div className="giabanCu">
-                                                                                            {VND.format(
-                                                                                                item?.giaNiemYet
-                                                                                            )}
-                                                                                        </div>
-                                                                                        <div className="phanTram">
-                                                                                            Giảm&nbsp;
-                                                                                            {Math.floor(
-                                                                                                (100 *
-                                                                                                    (item?.giaNiemYet -
-                                                                                                        item?.giaKhuyenMai)) /
-                                                                                                    item?.giaNiemYet
-                                                                                            )}
-
-                                                                                            %
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div>
-                                                                                <a
-                                                                                    href={`/shop/${item?.user}`}
-                                                                                >
-                                                                                    <div className="xemThemSanPham">
-                                                                                        Truy
-                                                                                        Cập
-                                                                                        Shop
-                                                                                    </div>
-                                                                                </a>
-
-                                                                                <div className="viTriSanPham">
-                                                                                    <i className="fa-solid fa-location-dot"></i>
-                                                                                    <div className="diachisanpham">
-                                                                                        {
-                                                                                            item?.xa
-                                                                                        }
-                                                                                    </div>
-                                                                                    <div className="diachisanpham">
-                                                                                        {
-                                                                                            item?.huyen
-                                                                                        }
-                                                                                    </div>
-                                                                                    <div className="diachisanpham">
-                                                                                        {
-                                                                                            item?.tinh
-                                                                                        }
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                    )
                                                                 );
                                                             }
                                                         )}
                                                 </div>
                                             </div>
-                                        );
-                                    })}
-                                {/* allSanPham */}
-                                {(skip > 20 || skip === 20) && (
-                                    <button
-                                        onClick={() => setskip(+skip - 20)}
-                                        className="xemThem"
-                                    >
-                                        Quay Lại
-                                    </button>
-                                )}
-                                {allSanPham?.length === 20 && (
-                                    <button
-                                        onClick={() => setskip(+skip + 20)}
-                                        className="xemThem"
-                                    >
-                                        Tiếp Theo
-                                    </button>
-                                )}
+                                        )}
+                                    {/* arraySanPham */}
+                                    {/* allSanPham */}
+                                    {arrShop &&
+                                        arrShop?.map((item2, index) => {
+                                            return (
+                                                <div key={index}>
+                                                    <div className="tenShop-like">
+                                                        <div className="tenShop">
+                                                            {item2}
+                                                        </div>
+                                                    </div>
+
+                                                    <div className="sanPham-container">
+                                                        {allSanPham &&
+                                                            allSanPham?.map(
+                                                                (
+                                                                    item,
+                                                                    index
+                                                                ) => {
+                                                                    return (
+                                                                        item?.TenShop ===
+                                                                            item2 && (
+                                                                            <div
+                                                                                key={
+                                                                                    index
+                                                                                }
+                                                                                className="sanPham"
+                                                                            >
+                                                                                <div>
+                                                                                    <img
+                                                                                        src={
+                                                                                            item?.AnhSanPham
+                                                                                        }
+                                                                                        className="anhSanPham"
+                                                                                        alt="timtim"
+                                                                                    />
+
+                                                                                    <div className="tenSanPham">
+                                                                                        {item
+                                                                                            ?.TenSanPham
+                                                                                            ?.length >
+                                                                                        28 ? (
+                                                                                            <div>
+                                                                                                {item?.TenSanPham.slice(
+                                                                                                    0,
+                                                                                                    20
+                                                                                                )}
+                                                                                                ...
+                                                                                            </div>
+                                                                                        ) : (
+                                                                                            <div>
+                                                                                                {
+                                                                                                    item?.TenSanPham
+                                                                                                }
+                                                                                            </div>
+                                                                                        )}
+                                                                                    </div>
+                                                                                    <div className="giaBan">
+                                                                                        <div className="giaBanMoi">
+                                                                                            {VND.format(
+                                                                                                item?.giaKhuyenMai
+                                                                                            )}
+                                                                                        </div>
+
+                                                                                        <div className="giaGiam">
+                                                                                            <div className="giabanCu">
+                                                                                                {VND.format(
+                                                                                                    item?.giaNiemYet
+                                                                                                )}
+                                                                                            </div>
+                                                                                            <div className="phanTram">
+                                                                                                Giảm&nbsp;
+                                                                                                {Math.floor(
+                                                                                                    (100 *
+                                                                                                        (item?.giaNiemYet -
+                                                                                                            item?.giaKhuyenMai)) /
+                                                                                                        item?.giaNiemYet
+                                                                                                )}
+
+                                                                                                %
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <a
+                                                                                        href={`/shop/${item?.user}`}
+                                                                                    >
+                                                                                        <div className="xemThemSanPham">
+                                                                                            Truy
+                                                                                            Cập
+                                                                                            Shop
+                                                                                        </div>
+                                                                                    </a>
+
+                                                                                    <div className="viTriSanPham">
+                                                                                        <i className="fa-solid fa-location-dot"></i>
+                                                                                        <div className="diachisanpham">
+                                                                                            {
+                                                                                                item?.xa
+                                                                                            }
+                                                                                        </div>
+                                                                                        <div className="diachisanpham">
+                                                                                            {
+                                                                                                item?.huyen
+                                                                                            }
+                                                                                        </div>
+                                                                                        <div className="diachisanpham">
+                                                                                            {
+                                                                                                item?.tinh
+                                                                                            }
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        )
+                                                                    );
+                                                                }
+                                                            )}
+                                                    </div>
+                                                </div>
+                                            );
+                                        })}
+                                    {/* allSanPham */}
+                                    {(skip > 20 || skip === 20) && (
+                                        <button
+                                            onClick={() => setskip(+skip - 20)}
+                                            className="xemThem"
+                                        >
+                                            Quay Lại
+                                        </button>
+                                    )}
+                                    {allSanPham?.length === 20 && (
+                                        <button
+                                            onClick={() => setskip(+skip + 20)}
+                                            className="xemThem"
+                                        >
+                                            Tiếp Theo
+                                        </button>
+                                    )}
+                                </div>
+                                {/* sanPham */}
                             </div>
-                            {/* sanPham */}
-                        </div>
-                    )}
-                    {moihoptac === 1 && (
-                        <GioiThieuFabysa
-                            moihoptac={moihoptac}
-                            setmoihoptac={setmoihoptac}
-                        />
-                    )}
-                    {moihoptac === 2 && (
-                        <ShopYeuThich
-                            moihoptac={moihoptac}
-                            setmoihoptac={setmoihoptac}
-                        />
-                    )}
-                </div>
-            ) : (
-                <Loading />
-            )}
-        </>
+                        )}
+                        {moihoptac === 1 && (
+                            <GioiThieuFabysa
+                                moihoptac={moihoptac}
+                                setmoihoptac={setmoihoptac}
+                            />
+                        )}
+                        {moihoptac === 2 && (
+                            <ShopYeuThich
+                                moihoptac={moihoptac}
+                                setmoihoptac={setmoihoptac}
+                            />
+                        )}
+                    </div>
+                ) : (
+                    <Loading />
+                )}
+            </div>
+            <div className="Appx2">
+                Website Được Tối Ưu Sử Dụng Trên Mobile
+            </div>
+        </div>
     );
 };
 export default Fabysa;

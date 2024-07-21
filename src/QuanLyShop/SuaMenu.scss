@@ -1,0 +1,108 @@
+
+
+/* Mobile & Tablet */
+@media screen and (max-width : 1023px) {
+  .SuaMenu-ConTaiNer{
+    a{
+      text-decoration: none;
+    }
+    
+    .suaNhomSanPham{
+      margin: 12vw 2vw;
+      .quayLai-tieuDe{
+        display: flex;
+        // border: solid 1px gray;
+        font-size: 3.5vw;
+        margin: 3vw auto;
+        .quayLai{
+            color: #04aa6d;
+            width: 25vw;
+            text-align: left;
+
+        }
+        .tieuDe{
+            // border: solid 1px gray;
+            font-weight: 600;
+            color: red;
+            text-align: center;
+            width: 50vw;
+            margin-right: 25vw;
+
+        }
+    }
+      .themNhom{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 3vw;
+        font-size: 3vw;
+        .tenNhom{
+          width: 68vw;
+          border: solid 1px gray ;
+          text-align: center;
+          border-radius: 1vw;
+          font-size: 3.5vw;
+          font-weight: 500;
+          height: 6vw;
+        }
+        .them{
+          width: 20vw;
+          line-height: 6vw;
+          background-color: #04aa6d;
+          color: #fff;
+          border-radius: 1vw;
+          font-size: 3.5vw;
+          font-weight: 500;
+          cursor: pointer;
+          
+
+        }
+      }
+      .danhSachNhom{
+        font-size: 5vw;
+        font-weight: 500;
+        margin: 3vw auto;
+
+      }
+      .tenNhomXoa{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 2vw;
+        gap: 3vw;
+        font-size: 3.5vw;
+        font-weight: 500;
+        .tenNhom{
+          width: 68vw;
+          text-align: center;
+          border-radius: 1vw;
+          background-color: #d0d4dd;
+          font-size: 3.5vw;
+          font-weight: 500;
+          line-height: 6vw;
+          text-transform: uppercase;
+
+        }
+        .xoa{
+          width: 20vw;
+          background-color: red;
+          color: #fff;
+          border-radius: 1vw;
+          font-size: 3.5vw;
+          font-weight: 500;
+          cursor: pointer;
+          line-height: 6vw;
+
+        }
+      }
+    }
+
+  }
+}
+
+/* PC*/
+@media screen and (min-width : 1024px) {
+    .SuaMenu-ConTaiNer{
+        
+    }
+}

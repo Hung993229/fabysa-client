@@ -6,212 +6,395 @@
         padding-top: 10vw;
         padding-bottom: 20vw;
         margin: auto 2vw;
-     .close{
-        background-color: red;
-        font-size: 3vw;
-        font-weight: 500;
-        width: 15vw;
-        padding: 0.5vw;
-        margin: 3vw auto;
-        color: #fff;
-        cursor: pointer;
-        border-radius: 1vw;
-
-     }
+        .quayLai-tieuDe{
+          display: flex;
+          // border: solid 1px gray;
+          font-size: 3.5vw;
+          margin: 3vw auto;
+          .quayLai{
+              color: #04aa6d;
+              width: 25vw;
+              text-align: left;
+              padding: 0vw 2vw;
+    
+          }
+          .tieuDe{
+              // border: solid 1px gray;
+              font-weight: 600;
+              color: red;
+              text-align: center;
+              width: 50vw;
+              margin-right: 25vw;
+    
+          }
+      }
      .tieuDeDonHang{
         text-align: left;
         font-size: 3.5vw;
         font-weight: 600;
-        margin: 2vw auto;
-        padding-left: 5vw;
+        margin:2vw;
         color: #04aa6d;
         
      }
      .sanPham{
-        display: grid;
-        grid-template-columns: 1fr 1fr 1fr 1fr ;
-        margin-bottom: 3vw;
+      padding: 2vw;
+      border-radius: 3vw;
+      .tenSanPham-xoa{
+        .tenSanPham{
+          width: 90vw;
+          text-align: left;
+            font-size: 3.5vw;
+            font-weight: 600;
+            margin-bottom: 2vw;
+            color: red;
+            text-transform: uppercase;
+            line-height: 3vw;
+    
+         }
+       
+      }
+   
+    .dacDiem-themGioHang{
+    display: flex;
+    margin: 2vw auto;
+    .anhSp-tenSp{
+      width: 20%;
+   
+      .tenSp{
         font-size: 3.5vw;
-        font-weight: 400;
-        text-align: center;
-        justify-content: center;
-        border-bottom: gray solid 1px;
-        .anhVaTen{
-            justify-content: center;
-            align-items: center;
-            .anhSanPham{
-              width: 8vw;
-              height: 10;
-              object-fit: cover;
-              border-radius: 0.5vw;
-    
-            }
-            .tenSanPham{
-              font-size: 2.5vw;
-              font-weight: 600;
-              text-transform: uppercase;
-              word-wrap:break-word;
-              overflow:auto;
-    
-            }
-    
-          }
-          .giaBan {
-            text-align: center;
-            justify-content: center;
-            margin: auto;
-            
-        }
-        .soLuong{
-            text-align: center;
-            justify-content: center;
-            margin: auto;
-          
-            }
-        .thanhTien{
-            text-align: center;
-            justify-content: center;
-            margin: auto;
-           
-            }
-     }
-     .sanPhamLienKet{
-      display: grid;
-      grid-template-columns: 1.3fr 1fr 1.3fr 1.3fr ;
-      margin-bottom: 3vw;
-      font-size: 2.5vw;
-      font-weight: 400;
-      text-align: center;
-      justify-content: center;
-      border-bottom: gray solid 1px;
-      .tenSanPham{
-        margin: 1vw;
         font-weight: 500;
+        word-wrap: break-word;
+        line-height: 5vw;
       }
-      .soLuong{
-        margin: 1vw;
-      }
-      .nhapHang {
- 
-        margin: 1vw;
-        border-radius: 1vw;
-        background-color: #04aa6d;
-        color: #fff;
-        cursor: pointer;
-        padding: 1vw;
-      }
-      .chuyenDon{
-      
-        margin: 1vw;
-        border-radius: 1vw;
-        background-color: #04aa6d;
-        color: #fff;
-        cursor: pointer;
-        padding: 1vw;
-        
-      }
-      .daChuyen{
-        margin: 1vw;
-        border-radius: 1vw;
-        background-color: gray;
-        color: #fff;
-        cursor: pointer;
-        padding: 1vw;
-      }
-     }
-     .tongTien{
-        display: flex;
-        padding-bottom: 1vw;
-        border-bottom: #04aa6d solid 0.1vw;
-        font-size: 3.5vw;
-        font-weight: 600;
+      .gioPhut{
         color: red;
-  .tieude{
-    width: 75%;
-    text-align: center;
-    
-  
-  }
-  .sotien{
-    width: 25%;
-    text-align: center;
-  
-  }
-      }
-      .phancach{
         font-size: 2.5vw;
-        .thongTinNguoiNhan{
+        line-height: 5vw;
+        line-height: 5vw;
+      }
+    }
+    .giaSanPham{
+      width: 30%;
+      .giaKM{
+        font-size: 3.5vw;
+        font-weight: 500;
+        color: red;
+        line-height: 5vw;
+      }
+      .giaNY-giamGia{
+        display: flex;
+        gap: 1vw;
+        justify-content: center;
+        align-items: center;
+        .giaNY{
+          text-decoration: line-through;
+          font-size: 2.5vw;
+          line-height: 5vw;
+
+        }
+        .giamGia{
+          font-size: 2vw;
+          line-height: 5vw;
+
+        }
+      }
+     
+    }
+    .soLuong-SL{
+      width: 15%;
+      justify-content: center;
+        align-items: center;
+      
+      .soLuong{
+        font-size: 2.5vw;
+        line-height: 5vw;
+      }
+      .SL{
+        width: 90%;
+        text-align: center;
+        font-weight: 600;
+        font-size: 3.5vw;
+        border-radius: 1vw;
+        line-height: 5vw;
+
+      }
+
+    }
+    .thanhTien-TT{
+      // border: solid 1px gray;
+      // margin: 3.3vw auto;
+      width: 26%;
+     
+      .thanhTien{
+        justify-content: center;
+        align-items: center;
+        font-size: 2.5;
+        line-height: 5vw;
+      }
+      .TT{
+        text-align: center;
+        font-weight: 600;
+        font-size: 3.5vw;
+        justify-content: center;
+        align-items: center;
+        line-height: 5vw;
+      }
+    }
+    .daXong{
+      width: 9%;
+     
+      font-size: 5vw;
+      line-height: 10vw;
+  
+
+    }
+    .chuaXong{
+      width: 9%;
+   
+      font-size: 8vw;
+      line-height: 10vw;
+
+    }
+    
+  }
+    }
+    .tinhTien{
+      border-top: solid 1px gray;
+      padding: 2vw;
+      .tongTien{
+        display: flex;
+        font-size: 3.5vw;
+        line-height: 6vw;
+        gap: 25%;
+        .tieude{
+          width: 35%;
+          text-align: right;
+          line-height: 6vw;
+        }
+        .sotien{
+          width: 35%;
+          text-align: center;
+          line-height: 6vw;
+          height: 6vw;
+        }
+      }
+    
+    }
+    .phancach{
+      margin: 5vw 2vw;
+      font-size: 3.5vw;
+  
+      .thongTinChiTiet{
+        display: flex;
+        margin-top: 1vw;
+        gap:5vw;
+        .tieuDe{
+          width: 25vw;
+          text-align: right;
+          font-size: 3.5vw;
+          line-height: 5vw;
+        }
+        .noiDung{
+          font-size: 3.5vw;
+          line-height: 5vw;
+          width: 62vw;
+          text-align: left;
+        }
+      }
+    }
+    .thanhToanQrCode-container{
+      .thanhToanQr{
           text-align: left;
           font-size: 3.5vw;
           font-weight: 600;
-          margin: 5vw auto 2vw auto;
-          padding-left: 3vw;
+          margin: 0vw 2vw;
           color: #04aa6d;
-         
-          
-        }
-        .thongTinChiTiet{
-          display: flex;
-          margin-top: 1vw;
-          text-align: center;
-        //   border-bottom: solid 0.11vw rgb(143, 140, 140);
-          .tieuDe{
-            width: 30%;
-           
-            padding: auto;
-            text-align: center;
-            border: solid 0.11vw rgb(143, 140, 140);
-    
-          }
-          .noiDung{
-           
-            width: 70%;
-            padding: auto;
-            border: solid 0.1vw rgb(143, 140, 140);
-            text-align: center;
-            border-radius: 0.3vw;
-    
-          }
-        }
-        
       }
+      .qr{
+        width: 96vw;
+        object-fit: cover;
+        // border: solid 1px gray;
+      } 
+    }
+    
+    .tongKet{
+      display: flex;
+      color: #fff;
+      margin: 10vw;
+      font-size: 3.5vw;
+      font-weight: 600;
+      gap:20vw;
+
       .hoanThanh{
         cursor: pointer;
-        border-radius: 2vw;
-        width: 25vw;
-        font-size: 3.5vw;
-        font-weight: 600;
-        text-align: center;
+        border-radius: 1vw;
+        width: 30vw;
         background-color: #04aa6d;
-        margin-top: 5vw;
-        margin-bottom: 8vw;
-        margin-left: 3vw;
         padding: 1vw;
     }
     .huyDon{
         cursor: pointer;
-        border-radius: 2vw;
-        width: 25vw;
-        font-size: 3.5vw;
-        font-weight: 600;
-        text-align: center;
+        border-radius: 1vw;
+        width: 30vw;
         background-color: red;
-        margin-top: 5vw;
-        margin-bottom: 8vw;
         padding: 1vw;
     }
+    .inHoaDon{
+      cursor: pointer;
+      border-radius: 1vw;
+      width: 30vw;
+      background-color: #04aa6d;
+      padding: 1vw;
+    }
+    }
+   
         
     }
 }
 
 /* PC*/
 @media screen and (min-width : 1024px) {
-    .chiTietDonHang-Container{
-        a{text-decoration: none};
-        margin-top: 5vw;
-        padding-top: 3vw;
-        padding-bottom: 20vw;
+    // .chiTietDonHang-Container{
+    //     a{text-decoration: none};
+    //     margin-top: 5vw;
+    //     padding-top: 3vw;
+    //     padding-bottom: 20vw;
      
        
+    // }
+}
+@media print {
+  .chiTietDonHang-Container{
+    .quayLai-tieuDe{
+      display: none;
+      .quayLai{
+        display: none;
+
+      }
+      .tieuDe{
+        display: none;
+
+      }
+  }
+ .tieuDeDonHang{
+  display: none;
+    
+ }
+ .sanPham{
+  display: none;
+  .tenSanPham-xoa{
+    .tenSanPham{
+      display: none;
+
+     }
+   
+  }
+
+.dacDiem-themGioHang{
+  display: none;
+.anhSp-tenSp{
+  display: none;
+  .tenSp{
+    display: none;
+  }
+  .gioPhut{
+    display: none;
+  }
+}
+.giaSanPham{
+  display: none;
+  .giaKM{
+    display: none;
+  }
+  .giaNY-giamGia{
+    display: none;
+    .giaNY{
+      display: none;
+
     }
+    .giamGia{
+      display: none;
+
+    }
+  }
+ 
+}
+.soLuong-SL{
+  display: none;
+  .soLuong{
+    display: none;
+  }
+  .SL{
+    display: none;
+
+  }
+
+}
+.thanhTien-TT{
+  display: none;
+ 
+  .thanhTien{
+    display: none;
+  }
+  .TT{
+    display: none;
+  }
+}
+
+}
+}
+.tinhTien{
+  display: none;
+  .tongTien{
+    display: none;
+    .tieude{
+      display: none;
+    }
+    .sotien{
+      display: none;
+    }
+  }
+
+}
+.thanhToanQrCode-container{
+  display: none;
+  .thanhToanQr{
+    display: none;
+  }
+  .qr{
+    display: none;
+  } 
+}
+.phancach{
+  display: none;
+  }
+  .thongTinChiTiet{
+    display: none;
+    .tieuDe{
+      display: none;
+    
+
+    }
+    .noiDung{
+      display: none;
+
+    }
+  }
+  .tongKet{
+    display: none;
+
+    .hoanThanh{
+      display: none;
+  }
+  .huyDon{
+    display: none;
+  }
+  .inHoaDon{
+    display: none;
+  }
+  }
+}
+  
+
+    
 }

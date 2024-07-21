@@ -15,11 +15,19 @@ const DonMua = () => {
     const [skip, setskip] = useState(0);
     const trangThaiDH = 1;
     useEffect(() => {
-        getDonHang(user?._id, skip, trangThaiDH, dispatch);
+        const limit = 20
+        getDonHang(user?._id, skip,limit, trangThaiDH, dispatch);
+        
     }, [skip]);
     return (
         <div className="DonMua">
-            <a href={`/shop/ca-nhan/${idShop}`}>
+            <a
+                href={
+                    idShop === user?._id
+                        ? `/ca-nhan`
+                        : `/shop/ca-nhan/${idShop}`
+                }
+            >
                 <button className="CloseShop">Close</button>
             </a>
             <div className="tieuDeDonHang">Đơn Hàng Đang Giao</div>

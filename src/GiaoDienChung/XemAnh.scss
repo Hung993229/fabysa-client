@@ -1,0 +1,45 @@
+
+
+/* Mobile & Tablet */
+@media screen and (max-width : 1023px) {
+  .XemAnh-ConTaiNer{
+    margin: 12vw auto;
+    justify-content: center;
+    align-items: center;
+  
+    .xemAnh{
+      
+      height: 76vh;
+      border: solid 1px gray;
+      .close{
+        background-color: red;
+        width: 15vw;
+        font-size: 3.5vw;
+        padding: 0.5vw;
+        border-radius: 1vw;
+        margin: 3vw auto;
+        font-weight: 500;
+        color: #fff;
+        cursor: pointer;
+  
+      }
+      .anhSanPham{
+        width: 100vw;
+  
+      }
+      .tenSanPham{
+  
+      }
+
+    }
+  
+
+  }
+}
+
+/* PC*/
+@media screen and (min-width : 1024px) {
+    .XemAnh-ConTaiNer{
+        
+    }
+}

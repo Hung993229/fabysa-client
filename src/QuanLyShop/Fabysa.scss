@@ -1,13 +1,18 @@
 
 /* Mobile & Tablet */
 @media screen and (max-width : 1023px) {
+    .Appy{
+        border: none;
+    .Appx{
+
+    
     .container-header-shop {
         text-align: center;
         margin-top: 9vw;
         // margin-bottom: 20vw;
          .bannerShop {
              width:  100%;
-             height: 40vw;
+             height: 55vw;
              margin: auto;
              justify-content: center;
              align-items: center;
@@ -16,7 +21,7 @@
          .wecomeShop {
             color: red;
             font-weight: 600;
-            font-size: 3.5vw;
+            font-size: 5vw;
             text-align: center;
             text-shadow: 0.2vw 0.2vw 0.4vw #c4c726;
             text-transform: uppercase;
@@ -34,18 +39,20 @@
                  margin-right: vw;
                  border-radius: 1vw;
                  background-color: #04aa6d;
-                 width: 30vw;
+                 width: 35vw;
                  text-align: center;
                  font-size: 3vw;
+            font-weight: 500;
              }
              .themSanPham {
                  display: block;
                  margin-right: vw;
                  border-radius: 1vw;
                  background-color: #04aa6d;
-                 width: 30vw;
+                 width: 35vw;
                  text-align: center;
                  font-size: 3vw;
+                 font-weight: 500;
              }
          }
         
@@ -193,10 +200,32 @@
         font-size: 3vw;
         border-radius: 1vw;
        }
-    }
+    }}
+    .Appx2{
+        display: none;
+      }}
 }
 
 /* PC*/
 @media screen and (min-width : 1024px) {
-   
+    .Appy{
+        .Appx {
+            display: none;
+            }
+        .Appx2{
+              margin: 10vw;
+              text-align: center;
+              text-align: center;
+              background-color: #04aa6d;
+              color: #fff;
+              font-size: 3vw;
+              font-weight: 600;
+               padding: 2vw;
+              border-radius: 3vw;
+              box-shadow: 13px 11px 27px 0px rgba(4,170,109,0.75);
+              -webkit-box-shadow: 13px 11px 27px 0px rgba(4,170,109,0.75);
+              -moz-box-shadow: 13px 11px 27px 0px rgba(4,170,109,0.75);
+            }
+    }
+       
 }

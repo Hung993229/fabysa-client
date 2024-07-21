@@ -1,44 +1,78 @@
 /* Mobile & Tablet */
 @media screen and (max-width : 1023px) {
-    .menuDonHang{
-        .donHang-nav{
-            display: grid;
-        grid-template-columns: 1fr 1fr 1fr ;
-        font-size: 2.5vw;
-        font-weight: 500;
-        margin-top: 2vw;
-        gap: 1.5vw;
-        a{
-            padding: 0.5vw auto;
-            padding: 1vw 0vw;
-            border-radius: 1vw;
-            background-color: #04aa6d;
-            color: #fff;
-            text-decoration: none;
-        }
-      
-        
-           
-        }
+    .menudonHang-container{
+        background-color: #88d3b4;
+        width: 100vw;
+        height: 100vh;
+        position: relative;
         .menu{
-            background-color:red ;
-            color: #fff;
-            padding: 0.5vw;
-            border-radius: 1vw;
-            width: 20vw;
-            margin:2vw 1vw ;
-            font-size: 3vw;
-            font-weight: 500;
-        }
-        .close{
-            background-color:red ;
-            color: #fff;
-            padding: 0.5vw;
-            border-radius: 1vw;
-            width: 20vw;
-            margin:2vw 1vw ;
-            font-size: 3vw;
-            font-weight: 500;
+            position: absolute;
+            background-color: #fff;
+             border: solid 5vw #fff;
+             width:80vw;
+             max-height: 68vh;
+             border-radius: 2vw;
+             top: 50%;
+             left: 50%;
+             transform: translate(-50%, -50%);
+             overflow: scroll;
+             box-shadow: 12px 14px 12px -1px rgba(0,0,0,0.75);
+             -webkit-box-shadow: 12px 14px 12px -1px rgba(0,0,0,0.75);
+             -moz-box-shadow: 12px 14px 12px -1px rgba(0,0,0,0.75);
+             .quayLai-tieuDe{
+                display: flex;
+                font-size: 3.5vw;
+                margin-bottom: 5vw;
+                line-height: 6vw;
+                width: 100%;
+                .quayLai{
+                    color: #04aa6d;
+                    width: 18vw;
+                    text-align: left;
+                    line-height: 6vw;
+                 
+          
+                }
+                .tieuDe{
+                    font-weight: 600;
+                    color: red;
+                    text-align: center;
+                    width: 35vw;
+                    line-height: 6vw;
+          
+        
+                }
+                
+            }
+            .menu-container{
+                .donHang{
+                    text-decoration: none;
+                    cursor: pointer;
+                    border-radius: 1vw;
+                    // border-radius: 1vw;
+                    background-color: #d0d4dd;
+                    margin-bottom: 3vw;
+                    text-transform: uppercase;
+                    font-size: 3.5vw;
+                    font-weight: 600;
+                    // color: ;
+                    line-height: 8vw;
+
+                }
+                .donHangChon{
+                    text-decoration: none;
+                    cursor: pointer;
+                    // padding: 1.5vw auto;
+                    border-radius: 1vw;
+                    background-color:red;
+                    margin-bottom: 3vw;
+                    text-transform: uppercase;
+                    font-size: 3.5vw;
+                    font-weight: 600;
+                    color: #fff;
+                    line-height: 8vw;
+                }
+            }
         }
     }
    

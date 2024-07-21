@@ -25,7 +25,8 @@ const DonHangMoi = () => {
     }, []);
     const trangThaiDH = 4;
     useEffect(() => {
-        getDonHang(idShop, skip, trangThaiDH, dispatch);
+        const limit = 20
+        getDonHang(idShop, skip,limit, trangThaiDH, dispatch);
     }, [idShop, skip]);
 
     const VND = new Intl.NumberFormat("vi-VN", {

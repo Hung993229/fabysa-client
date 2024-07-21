@@ -22,12 +22,16 @@
         .container-logo {
             text-align: center;
             margin: 0px auto;
-            width: 17%;
+            width: 20%;
             cursor: pointer;
             .logo {
             width: 5vw;
             height: 5vw;
+            padding: 0.2vw;
+            background-color: #fff;
+            border-radius: 50%;
             margin: 0.4vw auto 0.2vw auto;
+            object-fit: cover;
             
            
             }
@@ -56,7 +60,7 @@
          color:#fff;
             font-size: 3.5vw;
             font-weight: 600;
-            min-width: 66%;
+            min-width: 60%;
             text-align: center;
          
          
@@ -69,7 +73,7 @@
             color:#fff;
             font-size: 3.5vw;
             font-weight: 600;
-            min-width: 66%;
+            min-width: 60%;
             text-align: center;
             text-shadow: 4px 4px 2px rgba(0,0,0,0.6);
             text-transform: uppercase;
@@ -78,16 +82,18 @@
         }
         .my-detail {
             a{text-decoration: none;}
-            width: 17%;
+            width: 20%;
             text-align: center;
             justify-content: center;
            
             .my-avatar {
                 width: 5vw;
                 height: 5vw;
+                padding: 0.2vw;
+                background-color: #fff;
                 border-radius: 50%;
                 margin: 0.4vw auto 0.2vw auto;
-                // background-color: #ff0000;
+                object-fit: cover;
                
             }
             .my-cash {
@@ -127,194 +133,23 @@
     .container-header{
         display: none;
     }
-    .container-header2{
-        display: flex;
-        background-color: #04aa6d;
-        top: 0px;
-        z-index: 1;
-        position: fixed;
-        width: 100vw;
+    .container-header3 {
+        display: none;
+    }
+}
+@media print {
+    .container-header{
+        display: none;
         .title{
-            color: #e6f702;
-            width: 30vw;
-            border-right: solid 1px #fff;
-            font-size: 3vw;
-            font-weight: 600;
-            background-color: red;
-        }
-        .container-nav2 {
-            overflow: hidden;
-            display: flex;
-            width: 60vw;
-           
-            a {
-                text-decoration: none;
-                font-size: 1.5vw;
-                font-weight: 600;
-                color: #f2f2f2;
-                width: calc(100% / 6);
-                border-right: solid 1px #fff;
-                i{
-                    margin-bottom: 1.2vw;
-                    margin-top: 0.5vw;
-                }
-            }
-        
-            a:hover {
-                background-color: #f2f2f2;
-                color: black;
-            }
-        
-            a.active1 {
-                background-color: #e6f702;
-                color: black;
-                width: calc(100% / 6);
-            }
-            
-        }
-        .my-detail {
-            right: 0px;
-            a{text-decoration: none;}
-            width: 10%;
-            text-align: center;
-            justify-content: center;
-            background-color: #ff0000;
-           
-            .my-avatar {
-                width: 2.5vw;
-                height: 2.5vw;
-                border-radius: 50%;
-                margin: 0.1vw auto 0.2vw auto;
-               
-            }
-            .my-cash {
-                display: flex;
-                max-width: 70%;
-                margin: 0.2vw auto 0.4vw auto;
-                border-radius: 0.5vw;
-                color: red;
-                background-color: #e6f702;
-                padding: 0px 10%;
-                align-items: center;
-                justify-content: center;
-                .dangNhap{
-                border-radius: 0.5vw;
-                color: red;
-                font-size: 0.8vw;
-                }
-                .my-cash-title {
-                    color: red;
-                    max-width: 80%;
-                    font-size: 1vw;
-                }
-                .gold {
-                    width: 1vw;
-                    height: 1vw;
-                    max-width: 20%;
-                    margin: 0px 0.4vw;
-                }
-            }
+            display: none;
+
         }
     }
     .container-header3 {
-        a{text-decoration: none;}
-        display: flex;
-        background-color: #04aa6d;
-        top: 0px;
-        z-index: 1;
-        position: fixed;
-        width: 100vw;
-        
-        width: 100vw;
-        .container-logo {
-            text-align: center;
-            margin: 0px auto;
-            width: 17%;
-            .logo {
-                width: 3.5vw;
-                height: 3.5vw;
-            // border-radius: 50%;
-            margin: 0.4vw auto 0.2vw auto;
-            }
-            .tongSoLuong{
-                color: #f2f2f2;
-                font-size: 2vw;
-                font-weight: 600;
-                padding: 0.5vw 0.8vw;
-               
-
-            }
-        
-            .my-cash2 {
-                max-width: 60%;
-                margin: 0.2vw auto 0.4vw auto;
-                border-radius: 0.5vw;
-                color: #e6f702;
-                background-color: #ff0000;
-                font-size: 1vw;
-                
-            }
-        }
-        .title2{
-            color: #FFF;
-            font-size: 3vw;
-            font-weight: 600;
-            min-width: 66%;
-            text-align: center;
-            margin-top: 1vw;
-        }
-        
-        .title {
-            color: #FFF;
-            font-size: 6vw;
-            font-weight: 600;
-            min-width: 66%;
-            text-align: center;
-            margin-top: 1vw;
-            height: 8vw;
-           
-        }
-        .my-detail {
-            a{text-decoration: none;}
-            width: 17%;
-            text-align: center;
-            justify-content: center;
-           
-            .my-avatar {
-                width: 3.5vw;
-                height: 3.5vw;
-                border-radius: 50%;
-                margin: 0.4vw auto 0.2vw auto;
-                // background-color: #ff0000;
-               
-            }
-            .my-cash {
-                display: flex;
-                max-width: 60%;
-                margin: 0.2vw auto 0.4vw auto;
-                border-radius: 0.5vw;
-                color: #e6f702;
-                background-color: #ff0000;
-                padding: 0px 10%;
-                align-items: center;
-                justify-content: center;
-                .dangNhap{
-                border-radius: 0.5vw;
-                color: #e6f702;
-                font-size: 1vw;
-                }
-                .my-cash-title {
-                    color: #e6f702;
-                    max-width: 80%;
-                    font-size: 1vw;
-                }
-                .gold {
-                    width: 1vw;
-                    height: 1vw;
-                    max-width: 20%;
-                    margin: 0px 0.4vw;
-                }
-            }
-        }
+        display: none;
     }
+    .container-header2 {
+        display: none;
+    }
+  
 }

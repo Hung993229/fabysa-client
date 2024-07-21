@@ -1,6 +1,6 @@
 import "./Header.scss";
 import logo from "../assets/images/logo.jpg";
-import giohang from "../assets/images/giohang.jpg";
+import giohang from "../assets/images/giohang2.jpg";
 import gold from "../assets/images/Gold.png";
 import logo2 from "../assets/images/logo2.jpeg";
 import { useEffect } from "react";
@@ -52,7 +52,7 @@ const Header = (props) => {
                     </div>
                     
                 </div>
-                <div className="title2">Mua Online Nhiều Khuyến Mại</div>
+                <div className="title2">Xin Kính Chào Quý Khách !</div>
                 <div className="my-detail">
                     {myDetail && myDetail.length !== 0 ? (
                         <img

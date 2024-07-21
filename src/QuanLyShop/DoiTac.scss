@@ -1,76 +1,87 @@
 /* Mobile & Tablet */
 @media screen and (max-width : 1023px) {
    .DoiTac{
-    margin-top: 12vw;
-    .tieuDe{
-      font-size: 5vw;
-      font-weight: 600;
-      margin: 3vw;
-
+    margin: 12vw 2vw;
+    .quayLai-tieuDe{
+        display: flex;
+        font-size: 3.5vw;
+        margin: 3vw auto;
+        a{
+            text-decoration: none;
+        }
+        .quayLai{
+            color: #04aa6d;
+            width: 25vw;
+            text-align: left;
+        }
+        .tieuDe{
+            font-weight: 600;
+            color: red;
+            text-align: center;
+            width: 50vw;
+            margin-right: 25vw;
+        }
     }
-    .timSdt{
-      display: flex;
-      gap: 5vw
-    }
-    .danhSachTong{
-      display: flex;
-      padding: 1vw;
-      gap: 1vw;
-  
-      .chiaDoi{
-         width: 50%;
-         border: solid 1px gray;
-         text-align: center;
-         align-items: center;
-         .khachSi{
+    .nhanVien-container{
+      margin: 5vw 0vw;
+      .nhanVien{
+          text-align: left;
           margin: 2vw auto;
           font-size: 3.5vw;
-          font-weight: 600;
-         }
-         .themSdt{
-          border-bottom: solid 1px gray;
-          input{
+          font-weight: 500;
+
+      }
+      .sdt-them{
+        display: flex;
+        margin: 5vw auto;
+        gap: 2vw;
+        font-size: 3vw;
+        .sdt{
+            width: 40.5vw;
+            height: 8vw;
+            border-radius: 1vw;
+            border: solid 1px gray;
             text-align: center;
-align-items: center;
-width: 90%;
-font-size: 3vw;
+
+        }
+        .them{
+            width: 10vw;
+            line-height: 8vw;
+            color: #fff;
+            background-color: #04aa6d;
+            border-radius: 2vw;
+            font-size: 6vw;
+            font-weight: 600;
+
+        }
+    }
+      .danhSach-xoa{
+          display: flex;
+          margin: 2vw auto;
+          border: solid 1px #d0d4dd ;
+          font-size: 3vw;
+          border-radius: 2vw;
+          .danhSach{
+              width: 42.5vw;
+              line-height: 8vw;
+              text-align: center;
+              
 
           }
-          .them{
-font-size: 3vw;
-color: #fff;
-background-color: #04aa6d;
-border-radius: 1vw;
-margin: 2vw auto;
-padding: 1vw;
-width: 50%;
-text-align: center;
-cursor: pointer;
+          .xoa{   
+              width: 10vw;
+              line-height: 8vw;
+              font-weight: 600;
+              color: red;
+            //   background-color: red;
+              border-radius: 2vw;
+              
+
           }
 
-         }
-         .danhSach{
-            display: grid;
-            grid-template-columns: 3fr 1fr;
-            padding: 1vw;
-            border-bottom: solid 1px gray;
-           font-size: 3vw;
-            .xoa{
-              font-size: 2vw;
-color: #fff;
-background-color: red;
-border-radius: 1vw;
-padding: 0.5vw;
-cursor: pointer;
-width: 10vw;
-text-align: center;
-align-items: center;
-
-            }
-          }
       }
       
-    }
+   }
    
    }
 }

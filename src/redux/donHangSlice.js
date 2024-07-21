@@ -12,11 +12,11 @@ const donHangSlice = createSlice({
     },
     reducers: {
         logOutSuccessdonHang: (state) => {
-            state.donHang.donHang= null;
-            state.donHang.isFetching= false;
-            state.donHang.error= false;
-            state.donHang.success= false;
-            state.donHang.alldonHang= null;
+            state.donHang.donHang = null;
+            state.donHang.isFetching = false;
+            state.donHang.error = false;
+            state.donHang.success = false;
+            state.donHang.alldonHang = null;
         },
         updatedonHangStart: (state) => {
             state.donHang.isFetching = true;
@@ -30,7 +30,6 @@ const donHangSlice = createSlice({
             state.donHang.isFetching = false;
             state.donHang.error = true;
         },
-
         registerdonHangStart: (state) => {
             state.donHang.isFetching = true;
         },
@@ -57,6 +56,18 @@ const donHangSlice = createSlice({
             state.donHang.isFetching = false;
             state.donHang.error = true;
         },
+        getOnedonHangStart: (state) => {
+            state.donHang.isFetching = true;
+        },
+        getOnedonHangSuccess: (state, action) => {
+            state.donHang.isFetching = false;
+            state.donHang.donHang = action.payload;
+            state.donHang.success = true;
+        },
+        getOnedonHangFailed: (state) => {
+            state.donHang.isFetching = false;
+            state.donHang.error = true;
+        },
         deletedonHangStart: (state) => {
             state.donHang.isFetching = true;
         },
@@ -70,7 +81,6 @@ const donHangSlice = createSlice({
             state.donHang.error = true;
             state.donHang.success = false;
         },
-
     },
 });
 
@@ -84,10 +94,13 @@ export const {
     getdonHangStart,
     getdonHangSuccess,
     getdonHangFailed,
+    getOnedonHangStart,
+    getOnedonHangSuccess,
+    getOnedonHangFailed,
     deletedonHangStart,
     deletedonHangSuccess,
     deletedonHangFailed,
-    logOutSuccessdonHang
+    logOutSuccessdonHang,
 } = donHangSlice.actions;
 
 export default donHangSlice.reducer;

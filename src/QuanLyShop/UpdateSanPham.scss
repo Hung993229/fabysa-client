@@ -1,0 +1,175 @@
+
+
+/* Mobile & Tablet */
+@media screen and (max-width : 1023px) {
+  .UpdateSanPham-ConTaiNer{
+    margin-top: 12vw;
+    padding: 0vw 1vw;
+    .quayLai-tieuDe{
+        display: flex;
+        // border: solid 1px gray;
+        font-size: 3.5vw;
+        margin: 3vw auto;
+        .quayLai{
+            color: #04aa6d;
+            width: 25vw;
+            text-align: left;
+
+        }
+        .tieuDe{
+            // border: solid 1px gray;
+            font-weight: 600;
+            color: red;
+            text-align: center;
+            width: 50vw;
+            margin-right: 25vw;
+
+        }
+    }
+    .AddSp{
+      .nhomTen{
+          .nhomSanPham{
+              width: 50%;
+              height: 7vw;
+              margin: 3vw;
+              border-radius: 1vw;
+            border: solid 1px gray;
+            text-align: center;
+
+              option{
+                  text-align: center;
+              }
+  
+          }
+          .tenSanPham{
+              width: 98vw;
+             line-height: 7vw;
+             border-radius: 1vw;
+             text-align: center;
+              border: solid 1px gray;
+  
+          }
+      }
+  
+      .phanLoaiSanPham{
+          margin: 3vw;
+          font-size: 3vw;
+  
+      }
+      .chiTietPhanLoai2{
+        display: flex;
+        gap:1vw;
+        margin-bottom: 2vw;
+      
+        .anhDD{
+                border: solid 1px gray;
+                height: 18vw;
+                width: 18vw;
+                object-fit: cover;
+                margin-bottom: 1vw;
+
+        }
+        .phanLoai-container{
+            .tenDD-giaV-giaNY-giaKM{
+                display: flex;
+                gap:1vw;
+                .tenDD-themInput{
+                    margin-bottom: 2vw;
+                   
+                 
+                    .tenDD{
+                        width: 19vw;
+                        font-size: 2.2vw;
+                        text-align: center;
+                        line-height: 4vw;
+    
+                    }
+                    .themInput{
+                        width: 19vw;
+                        font-size: 2.6vw;
+                        text-align: center;
+                        height: 4vw;
+                        border-radius: 0.5vw;
+                        border: solid 1px gray;
+                         border: solid 1px gray;
+    
+                    }
+                }
+                .them{
+                    background-color: #04aa6d;
+                    color: white;
+                    text-align: center;
+                    font-size: 3.5vw;
+                    line-height: 8vw;
+                    height: 8vw;
+                    border-radius: 1vw;
+                    width: 19vw;
+    
+                }
+                .xoa{
+                    background-color: red;
+                    color: white;
+                    text-align: center;
+                    font-size: 3.5vw;
+                    line-height: 8vw;
+                    height: 8vw;
+                    border-radius: 1vw;
+                    width: 19vw;
+
+                }
+               
+    
+             } 
+        }
+         
+
+        
+       
+      }
+      .thongTinSanPham{
+          .tieuDe{
+              margin: 3vw;
+              font-size: 3vw;
+          }
+  
+      }
+      .closeLuu{
+          display: flex;
+          gap: 5vw;
+          justify-content: center;
+          margin: 5vw;
+          align-items: center;
+          font-size: 3.5vw;
+          .close{
+              text-decoration: none;
+              width: 28vw;
+              font-size: 3.5vw;
+              font-weight: 600;
+             line-height: 9vw;
+              border-radius: 1vw;
+              background-color: red;
+              color: #fff;
+  
+          }
+          .luu{
+            font-size: 3.5vw;
+              font-weight: 600;
+              width: 28vw;
+              line-height: 9vw;
+              border-radius: 1vw;
+              background-color: #04aa6d;
+              color: #fff;
+  
+          }
+      }
+     }
+
+  }
+}
+
+/* PC*/
+@media screen and (min-width : 1024px) {
+    .UpdateSanPham-ConTaiNer{
+        
+    }
+}

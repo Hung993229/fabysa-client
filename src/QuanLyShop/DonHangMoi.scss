@@ -1,113 +1,117 @@
 
 /* Mobile & Tablet */
 @media screen and (max-width : 1023px) {
-    .donHang-container{
+    .donHangMoi-container{
         a{text-decoration: none};
-        margin-top: 9vw;
-        margin-bottom: 20vw;
-        padding: 1vw;
-    .tieuDeDonHang{
-        font-size: 5vw;
-        font-weight: 600;
-        margin: 3vw auto;
-    
-    }
-    .ttdonHang{
-        display: grid;
-        grid-template-columns: 1fr 2fr 1fr 1fr ;
-        margin-bottom: 2vw;
-        font-size: 2.5vw;
-        font-weight: 400;
-        border: solid 1px gray;
-        justify-content: center;
-            align-items: center;
-            padding: 1vw;
-        
-
-        .thoiGian{
-            font-size: 2.5vw;
-
-        }
-        .SanPham{
+        margin: 12vw 2vw;
+        font-size: 3vw;
+        // color: #04aa6d;
+        .quayLai-tieuDe{
             display: flex;
-            gap: 2.5vw;
-            justify-content: center;
-            align-items: center;
-            
-            .tenSanPham{
-                width: 80%;
+            // border: solid 1px gray;
+            font-size: 3.5vw;
+            margin: 3vw auto;
+            .quayLai{
+                color: #04aa6d;
+                width: 25vw;
                 text-align: left;
-                font-size: 2.2vw;
-                font-weight: 500;
-                text-transform: uppercase;
-                word-wrap:break-word;
-            overflow:auto;
-              
-
+                padding: 0vw 1vw;
+      
             }
-            .soLuong{
-                font-size: 2.5vw;
-                font-weight: 500;
+            .tieuDe{
+                // border: solid 1px gray;
+                font-weight: 600;
                 color: red;
-
+                text-align: center;
+                width: 50vw;
+                margin-right: 25vw;
+      
             }
         }
-        .khachHang{
-            font-size: 2.5vw;
+       
+        .donHang-container{
+            display: flex;
+            margin: 2vw auto;
+            border: solid 1px #04aa6d;
+            border-radius: 2vw;
+            padding: 1vw;
             justify-content: center;
             align-items: center;
+            .ngayThang{
+                width: 20vw;
+                line-height: 5vw;
+               
+
+            }
+            .donHang{
           
+                
+                .tenSp-dacDiem-soLuong{
+                    
+                     width: 40vw;
+                     .tenSp{
+                    text-align: left;
+                    text-transform: uppercase;
+                    font-weight: 600;
+                    color: red;
+                    line-height: 6vw;
+                     }
+                     .dacDiem-soLuong{
+                          display: flex;
+                         .dacDiem{
+                             width: 25vw;
+                             line-height: 5vw;
+     
+                         }
+                         .soLuong{
+                             width: 13vw;
+                             line-height: 5vw;
+         
+                         }
+                     }
+                   
+                 }
+            }
+          
+            .soBan{
+                line-height: 5vw;
+                width: 18vw;
+               
 
+            }
+            .xemChiTiet{
+                width: 18vw;
+                color: red;
+                line-height: 5vw;
+                
+            }
         }
-        .xemChiTiet{
-            
-            font-size: 2.5vw;
-            
-
+        .donHangTrong{
+            font-size: 3.5vw;
+            line-height: 8vw;
         }
-    
-    }
-    .xemThem{
-        color: #fff;
-         margin: 5vw;
-         padding: 1vw;
-          background-color: #04aa6d;
-          width: 30vw;
-        font-weight: 600;
-          font-size: 3vw;
-          border-radius: 1vw;
-         }
-    
-        
-    
-    }
 }
+.menuDonHang{
+    .menu{
+        object-fit: cover;
+        width: 15vw;
+        height: 15vw;
+        border-radius: 50%;
+        background-color: #04aa6d;
+        padding: 2px;
+        position: fixed;
+        cursor: pointer;
+        left: 20px;
+        bottom: 20px;
+        z-index: 2;
+
+    }
+}}
 
 /* PC*/
 @media screen and (min-width : 1024px) {
-    .donHang-container{
-        a{text-decoration: none};
-        margin-top: 6vw;
-        margin-bottom: 20vw;
-        padding: 1vw;
-        .donHang-nav{
-            display: flex;
-            gap: 3vw;
-        
-           
-        }
-    .tieuDeDonHang{
-        font-size: 3vw;
-        font-weight: 600;
-        margin: 2vw auto;
-    
-    }
-    .ttdonHang{
-        display: flex;
-    }
-    
-    
-        
-    
-    }
+
+}
+@media print {
+    .menu{display: none;}
 }

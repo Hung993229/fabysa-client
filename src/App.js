@@ -6,6 +6,8 @@ import KetBan from "./KetBan/KetBan";
 import MiniGame from "./MiniGame/MiniGame";
 import Instruct from "./HuongDan/Instruct";
 import ThongTinCaNhan from "./ThongTinCaNhan/ThongTinCaNhan";
+import TrangCaNhan from "./ThongTinCaNhan/TrangCaNhan";
+
 import FormRegister from "./Tao Thong Tin/FormRegister";
 import DangNhap from "./DangNhap/DangNhap";
 import DangNhap2 from "./DangNhap/DangNhap2";
@@ -16,10 +18,14 @@ import ChiTietSanPham from "./QuanLyShop/ChiTietSanPham";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import QuanLyUser from "./QuanLyUser/QuanLyUser";
 import Shop from "./QuanLyShop/Shop";
+import Shop2 from "./QuanLyShop/Shop2";
 import KhoCtv from "./QuanLyShop/KhoCtv";
 import KhoSi from "./QuanLyShop/KhoSi";
 
 import UpdateShop from "./QuanLyShop/UpdateShop";
+import AddSp from "./QuanLyShop/AddSp";
+import SuaMenu from "./QuanLyShop/SuaMenu";
+
 import DonHang from "./QuanLyShop/DonHang";
 import DangHoanThien from "./GiaoDienChung/DangHoanThien";
 
@@ -41,6 +47,8 @@ import DoiTac from "./QuanLyShop/DoiTac";
 import LichSuDonMua from "./QuanLyShop/LichSuDonMua";
 import DonMua from "./QuanLyShop/DonMua";
 import ShopYeuThich from "./QuanLyShop/ShopYeuThich";
+import ThayPassword from "./ThayPassword/ThayPassword";
+import TrangChuFabysa from "./TrangChuFabysa/TrangChuFabysa";
 import { useState } from "react";
 
 function App() {
@@ -98,14 +106,36 @@ function App() {
                             </>
                         }
                     />
+                       <Route
+                        path="/ca-nhan2"
+                        element={
+                            <>
+                                <Header
+                                    Tongsoluong={Tongsoluong}
+                                    Tongtien={Tongtien}
+                                />
+                                <TrangCaNhan />
+                            </>
+                        }
+                    />
                     <Route path="/tao-thong-tin" element={<FormRegister />} />
+
+                    
                     <Route path="/dang-ki" element={<DangKi />} />
                     <Route path="/dang-nhap" element={<DangNhap />} />
+                    <Route
+                        path="/change-password"
+                        element={
+                            <>
+                                <Header />
+                                <ThayPassword />
+                            </>
+                        }
+                    />
                     <Route
                         path="/quan-ly-user"
                         element={
                             <>
-                                <Header className="header" />
                                 <QuanLyUser />
                             </>
                         }
@@ -138,7 +168,7 @@ function App() {
                         }
                     />
                     <Route
-                        path="/shop/:idShop"
+                        path="/:tenVietTat/:idShop/b"
                         element={
                             <>
                                 <Header2
@@ -158,6 +188,75 @@ function App() {
                             </>
                         }
                     />
+                    {/* banLe & chiaSe */}
+                    <Route
+                        path="/:tenVietTat/:idShop/a/:idCtv/:tenCtv/:sdtCtv"
+                        element={
+                            <>
+                                <Header2
+                                    showcart={showcart}
+                                    setshowcart={setshowcart}
+                                    Tongsoluong={Tongsoluong}
+                                    Tongtien={Tongtien}
+                                />
+                                <Shop2
+                                    showcart={showcart}
+                                    setshowcart={setshowcart}
+                                    setTongtien={setTongtien}
+                                    setTongsoluong={setTongsoluong}
+                                    Tongtien={Tongtien}
+                                    Tongsoluong={Tongsoluong}
+                                />
+                            </>
+                        }
+                    />
+                    {/* Ctv */}
+                      <Route
+                        path="/shop/kho-ctv/:idShop"
+                        element={
+                            <>
+                                <Header2
+                                    showcart={showcart}
+                                    setshowcart={setshowcart}
+                                    Tongsoluong={Tongsoluong}
+                                    Tongtien={Tongtien}
+                                />
+                                <KhoCtv
+                                    showcart={showcart}
+                                    setshowcart={setshowcart}
+                                    setTongtien={setTongtien}
+                                    setTongsoluong={setTongsoluong}
+                                    Tongtien={Tongtien}
+                                    Tongsoluong={Tongsoluong}
+                                />
+                               
+                            </>
+                        }
+                    />
+                    {/* Si */}
+                    <Route
+                        path="/shop/kho-si/:idShop"
+                        element={
+                            <>
+                                <Header2
+                                    showcart={showcart}
+                                    setshowcart={setshowcart}
+                                    Tongsoluong={Tongsoluong}
+                                    Tongtien={Tongtien}
+                                />
+                                <KhoSi
+                                    showcart={showcart}
+                                    setshowcart={setshowcart}
+                                    setTongtien={setTongtien}
+                                    setTongsoluong={setTongsoluong}
+                                    Tongtien={Tongtien}
+                                    Tongsoluong={Tongsoluong}
+                                />
+                                {/* <Nav /> */}
+                            </>
+                        }
+                    />
+
                     <Route
                         path="/shop/don-mua/:idShop"
                         element={
@@ -204,58 +303,7 @@ function App() {
                             </>
                         }
                     />
-                    <Route
-                        path="/shop/kho-ctv/:idShop"
-                        element={
-                            <>
-                                <Header2
-                                    showcart={showcart}
-                                    setshowcart={setshowcart}
-                                    Tongsoluong={Tongsoluong}
-                                    Tongtien={Tongtien}
-                                    // arraySanPhamQuantity={arraySanPhamQuantity}
-                                    // setarraySanPhamQuantity={
-                                    //     setarraySanPhamQuantity
-                                    // }
-                                />
-                                <KhoCtv
-                                    showcart={showcart}
-                                    setshowcart={setshowcart}
-                                    setTongtien={setTongtien}
-                                    setTongsoluong={setTongsoluong}
-                                    Tongtien={Tongtien}
-                                    Tongsoluong={Tongsoluong}
-                                    // arraySanPhamQuantity={arraySanPhamQuantity}
-                                    // setarraySanPhamQuantity={
-                                    //     setarraySanPhamQuantity
-                                    // }
-                                />
-                                {/* <Nav /> */}
-                            </>
-                        }
-                    />
-                    <Route
-                        path="/shop/kho-si/:idShop"
-                        element={
-                            <>
-                                <Header2
-                                    showcart={showcart}
-                                    setshowcart={setshowcart}
-                                    Tongsoluong={Tongsoluong}
-                                    Tongtien={Tongtien}
-                                />
-                                <KhoSi
-                                    showcart={showcart}
-                                    setshowcart={setshowcart}
-                                    setTongtien={setTongtien}
-                                    setTongsoluong={setTongsoluong}
-                                    Tongtien={Tongtien}
-                                    Tongsoluong={Tongsoluong}
-                                />
-                                {/* <Nav /> */}
-                            </>
-                        }
-                    />
+                  
                     <Route
                         path="/shop/ca-nhan/:idShop"
                         element={
@@ -294,6 +342,24 @@ function App() {
                                 <Header className="header" />
                                 <UpdateShop />
                                 {/* <Nav /> */}
+                            </>
+                        }
+                    />
+                    <Route
+                        path="/addsp/:idShop"
+                        element={
+                            <>
+                                <Header className="header" />
+                                <AddSp />
+                            </>
+                        }
+                    />
+                    <Route
+                        path="/sua-menu/:idShop"
+                        element={
+                            <>
+                                <Header className="header" />
+                                <SuaMenu />
                             </>
                         }
                     />
@@ -469,6 +535,7 @@ function App() {
                         path="/"
                         element={
                             <>
+                                <Header />
                                 <ThongTinCaNhan />
                             </>
                         }

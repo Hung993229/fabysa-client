@@ -5,10 +5,14 @@ import { useNavigate } from "react-router-dom";
 import { registerUser } from "../redux/apiRequest";
 import logo from "../assets/images/logo.jpg";
 import { NavLink } from "react-router-dom";
+import { useEffect } from "react";
+import { useSelector } from "react-redux";
 const DangKi = () => {
+    const register = useSelector((state) => state.auth.register);
     const [email, setEmail] = useState("");
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    const [thanhCong, setthanhCong] = useState(0);
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const handleRegister = (e) => {
@@ -27,18 +31,26 @@ const DangKi = () => {
                         password: password,
                         username: username,
                     };
-                    registerUser(newUser, dispatch);
-                    navigate("/dang-nhap");
+                    registerUser(newUser, setthanhCong, dispatch);
                 } catch (err) {
                     console.log(err);
                 }
             }
         }
     };
+    useEffect(() => {
+        if (thanhCong === 1) {
+            navigate("/dang-nhap");
+        }
+    }, [thanhCong]);
+
     return (
         <div className="register-containerTo">
             <div className="register-container">
                 <div className="login-title"> ĐĂNG KÍ </div>
+                {register?.error === true && (
+                    <div className="baoLoi">Tài khoản hoặc mật khẩu chưa hợp lệ!</div>
+                )}
                 <form onSubmit={handleRegister}>
                     <label className="labelDangNhap">Số Điện Thoại</label>
                     <div>

@@ -1,11 +1,11 @@
 import "./KhoCtv.scss";
-import facebookLogo from "../assets/images/Facebook_Logo.png";
-import zaloLogo from "../assets/images/zaloLogo.png";
-
+import logoInternet from "../assets/images/logoInternet.jpg";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-import { NavLink } from "react-router-dom";
+import like from "../assets/images/like.jpg";
+import like2 from "../assets/images/like2.jpg";
+import gioHang2 from "../assets/images/giohang2.jpg";
 import { useNavigate, useParams } from "react-router-dom";
 import {
     getttShop,
@@ -44,7 +44,7 @@ const KhoCtv = (props) => {
     const allShop = useSelector(
         (state) => state.ttShop.ttShop.allttShop?.AllShop
     );
-    const allSanPham = useSelector(
+    const allSanPham1 = useSelector(
         (state) => state.sanPham.sanPham.allsanPham?.allSanpham
     );
     const [cart, setcart] = useState([]);
@@ -60,10 +60,12 @@ const KhoCtv = (props) => {
     const { idShop } = useParams();
     const [iddetailSanPham, setiddetailSanPham] = useState("");
     const [showChiTietSanPham, setshowChiTietSanPham] = useState(0);
-    const thongTinSp = allSanPham?.find((item) => item._id === iddetailSanPham);
     const [tuVanVaThongTin, settuVanVaThongTin] = useState(0);
     const [loading, setloading] = useState(1);
     const [idShopLienKet, setidShopLienKet] = useState();
+    const [nhomSP, setnhomSP] = useState();
+    const [allSanPham, setallSanPham] = useState([]);
+    const [thongTinSp, setthongTinSp] = useState();
 
     useEffect(() => {
         if (user && user.length !== 0) {
@@ -85,8 +87,9 @@ const KhoCtv = (props) => {
         }
     }, []);
     useEffect(() => {
-        getSanPham(idShop, skip, dispatch, setloading);
-    }, [idShop, skip]);
+        const limit = 100;
+        getSanPham(idShop, nhomSP, skip, limit, dispatch, setloading);
+    }, [nhomSP]);
     const VND = new Intl.NumberFormat("vi-VN", {
         style: "currency",
         currency: "VND",
@@ -165,9 +168,9 @@ const KhoCtv = (props) => {
 
     // Tinh So Luong - Tong So Tien
     // Chi Tiet San Pham
-    const handleChiTietSanPham = (id) => {
+    const handleChiTietSanPham = (item) => {
         setshowChiTietSanPham(1);
-        setiddetailSanPham(id);
+        setthongTinSp(item);
     };
     // Chi Tiet San Pham
     const handleXoaSanPham = (item) => {
@@ -210,7 +213,8 @@ const KhoCtv = (props) => {
                     console.log("gioHangUpdate", gioHangUpdate);
                     updateYourStatusUser(
                         newshopLienKet,
-                        xetIdShopLienKet._id,setloading,
+                        xetIdShopLienKet._id,
+                        setloading,
                         dispatch
                     );
                 } else {
@@ -221,20 +225,35 @@ const KhoCtv = (props) => {
     };
     // Them vao Shop
     // phan loai san pham
-    const allSanPhamx = allSanPham?.filter(
-        (item) => item.nhomSanPham !== "Sản Phẩm Dẫn"
-    );
-    const arrNhomSanPham3 = allSanPhamx?.map((item) => {
-        return item.nhomSanPham;
-    });
-    const arrNhomSanPham2 = new Set(arrNhomSanPham3);
-    const arrNhomSanPham = [...arrNhomSanPham2];
-    console.log("arrNhomSanPham", arrNhomSanPham);
+
+    const arrNhomSanPham = ttShop?.nhomSanPham;
+    useEffect(() => {
+        if (allSanPham1 && allSanPham1?.length !== 0) {
+            setallSanPham([...allSanPham, ...allSanPham1]);
+        }
+    }, [allSanPham1]);
+
     // phan loai san pham
+    // An San Pham
+    const handleHienNhomSP = (item2) => {
+        setloading(item2);
+        setnhomSP(item2);
+    };
+    const handleAnNhomSP = (item2) => {
+        const anSp = allSanPham.filter((item) => item.nhomSanPham !== item2);
+        setallSanPham(anSp);
+        setnhomSP();
+    };
+    // An San Pham
+    // Da mo Shop
+    const handleDaMoShop = () => {
+        alert("Shop của bạn đã được mở!")
+    }
+    // Da mo Shop
 
     return (
         <>
-            {loading === 0 ? (
+            {(loading === 0 || loading !== 1) && (
                 <>
                     {showcart === 0 ? (
                         <>
@@ -253,8 +272,21 @@ const KhoCtv = (props) => {
                                                     <div className="tenCuaHang">
                                                         {ttShop?.TenShop}
                                                     </div>
+                                                    <div className="internet-website">
+                                                        <img
+                                                            src={logoInternet}
+                                                            className="internet"
+                                                        />
+                                                        <div className="website">
+                                                            Https://
+                                                            {ttShop?.website}
+                                                        </div>
+                                                        <img
+                                                            src={logoInternet}
+                                                            className="internet"
+                                                        />
+                                                    </div>
                                                 </a>
-
                                                 <div className="tuVan-gioiThieu">
                                                     <button
                                                         className="tuVan"
@@ -313,22 +345,55 @@ const KhoCtv = (props) => {
 
                                                         <div className="fabysa">
                                                             Trung Tâm Thương Mại
-                                                            24/7
+                                                            Fabysa
                                                         </div>
                                                         <div className="gioiThieuFabysa">
-                                                            - Đây là nơi giới
-                                                            thiệu danh sách Shop
-                                                            Online Uy Tín!{" "}
-                                                            <br /> - Thuộc đa
-                                                            dạng ngành hàng, giá
-                                                            cả ưu đãi!
-                                                        </div>
+                                                        - Giới thiệu danh sách
+                                                        Shop Uy Tín!
+                                                        <br /> - Sản phẩm đa
+                                                        dạng ngành hàng! <br />-
+                                                        Giá cả ưu đãi và rất
+                                                        nhiều khuyến mại!
+                                                    </div>
                                                         <a href={`/fabysa`}>
                                                             <button className="sanSale">
                                                                 Săn Sale Ngay
                                                             </button>
                                                         </a>
                                                     </div>
+                                                )}
+                                            </div>
+                                            <div className="huongDan-container">
+                                                <div className="huongDan">
+                                                    Hướng Dẫn
+                                                </div>
+                                                <div className="noiDung">
+                                                    - Kho Cộng Tác Viên là nơi
+                                                    niêm yết giá ưu đãi giành
+                                                    riêng cho Cộng Tác Viên.
+                                                    <br /> - Cộng Tác Viên có
+                                                    thể lên đơn hàng cực kỳ
+                                                    nhanh chóng. <br /> - Nếu
+                                                    Cộng Tác Viên có Shop Fabysa
+                                                    có thế dùng tính năng sao
+                                                    chép sản phẩm để bán hàng
+                                                    ngay, khi thông tin sản phẩm
+                                                    thay đổi sẽ tự động đồng bộ
+                                                    nhanh chóng. <br />- Nếu
+                                                    chưa có Shop Fabysa?
+                                                </div>
+
+                                                {allShop &&
+                                                allShop?.length !== 0 ? (
+                                                    <button onClick={()=>handleDaMoShop()} className="daDangKi">
+                                                        Đăng Kí Ngay
+                                                    </button>
+                                                ) : (
+                                                    <a href="/add-shop">
+                                                        <button className="dangKi">
+                                                            Đăng Kí Ngay
+                                                        </button>
+                                                    </a>
                                                 )}
                                             </div>
                                             <div className="sanPham-shop">
@@ -346,211 +411,255 @@ const KhoCtv = (props) => {
                                                                             "Sản Phẩm Dẫn" &&
                                                                             item2}
                                                                     </div>
-                                                                    <div className="sanPham-container">
-                                                                        {allSanPham &&
-                                                                            allSanPham?.map(
-                                                                                (
-                                                                                    item
-                                                                                ) => {
-                                                                                    return (
-                                                                                        item.nhomSanPham ===
-                                                                                            item2 && (
-                                                                                            <div
-                                                                                                key={
-                                                                                                    item._id
-                                                                                                }
-                                                                                                className="sanPham"
-                                                                                            >
-                                                                                                <div>
-                                                                                                    <img
-                                                                                                        onClick={() =>
-                                                                                                            handleChiTietSanPham(
-                                                                                                                item._id
-                                                                                                            )
-                                                                                                        }
-                                                                                                        src={
-                                                                                                            item?.AnhSanPham
-                                                                                                        }
-                                                                                                        className="anhSanPham"
-                                                                                                        alt="timtim"
-                                                                                                    />
+                                                                    <div className="hienAn">
+                                                                        {!allSanPham?.find(
+                                                                            (
+                                                                                item3
+                                                                            ) =>
+                                                                                item3?.nhomSanPham ===
+                                                                                item2
+                                                                        ) ? (
+                                                                            <button
+                                                                                onClick={() =>
+                                                                                    handleHienNhomSP(
+                                                                                        item2
+                                                                                    )
+                                                                                }
+                                                                                className="xemSanPham"
+                                                                            >
+                                                                                Xem
+                                                                                Thêm
+                                                                            </button>
+                                                                        ) : (
+                                                                            <button
+                                                                                onClick={() =>
+                                                                                    handleAnNhomSP(
+                                                                                        item2
+                                                                                    )
+                                                                                }
+                                                                                className="anSanPham"
+                                                                            >
+                                                                                Xem
+                                                                                Thêm
+                                                                            </button>
+                                                                        )}
+                                                                        {loading ===
+                                                                            item2 && (
+                                                                            <div className="Spinner">
+                                                                                {" "}
+                                                                                ...
+                                                                                Đang
+                                                                                Cập
+                                                                                Nhật
+                                                                                ...
+                                                                            </div>
+                                                                        )}
+                                                                        <div className="sanPham-container">
+                                                                            {allSanPham &&
+                                                                                allSanPham?.map(
+                                                                                    (
+                                                                                        item
+                                                                                    ) => {
+                                                                                        return (
+                                                                                            item.nhomSanPham ===
+                                                                                                item2 && (
+                                                                                                <div
+                                                                                                    key={
+                                                                                                        item._id
+                                                                                                    }
+                                                                                                    className="sanPham"
+                                                                                                >
+                                                                                                    <div>
+                                                                                                        <img
+                                                                                                            onClick={() =>
+                                                                                                                handleChiTietSanPham(
+                                                                                                                    item
+                                                                                                                )
+                                                                                                            }
+                                                                                                            src={
+                                                                                                                item?.AnhSanPham
+                                                                                                            }
+                                                                                                            className="anhSanPham"
+                                                                                                            alt="timtim"
+                                                                                                        />
 
-                                                                                                    <div className="tenSanPham">
-                                                                                                        {
-                                                                                                            item?.TenSanPham
-                                                                                                        }
-                                                                                                    </div>
-                                                                                                    <div className="giaBan">
-                                                                                                        <div className="giaCtv">
-                                                                                                            Giá
-                                                                                                            Cộng
-                                                                                                            Tác
-                                                                                                            Viên
-                                                                                                        </div>
-                                                                                                        <div className="giaBanMoi">
-                                                                                                            {VND.format(
-                                                                                                                item?.giaCtv
+                                                                                                        <div className="tenSanPham">
+                                                                                                            {item
+                                                                                                                ?.TenSanPham
+                                                                                                                ?.length >
+                                                                                                            28 ? (
+                                                                                                                <div>
+                                                                                                                    {item?.TenSanPham.slice(
+                                                                                                                        0,
+                                                                                                                        20
+                                                                                                                    )}
+                                                                                                                    ...
+                                                                                                                </div>
+                                                                                                            ) : (
+                                                                                                                <div>
+                                                                                                                    {
+                                                                                                                        item?.TenSanPham
+                                                                                                                    }
+                                                                                                                </div>
                                                                                                             )}
                                                                                                         </div>
-
-                                                                                                        <div className="giaGiam">
-                                                                                                            <div className="giabanCu">
+                                                                                                        <div className="giaBan">
+                                                                                                            <div className="giaCtv">
+                                                                                                                Giá
+                                                                                                                Cộng
+                                                                                                                Tác
+                                                                                                                Viên
+                                                                                                            </div>
+                                                                                                            <div className="giaBanMoi">
                                                                                                                 {VND.format(
-                                                                                                                    item?.giaKhuyenMai
+                                                                                                                    item?.giaCtv
                                                                                                                 )}
                                                                                                             </div>
-                                                                                                            <div className="phanTram">
-                                                                                                                Chiết
-                                                                                                                Khấu&nbsp;
-                                                                                                                {Math.floor(
-                                                                                                                    (100 *
-                                                                                                                        (item?.giaKhuyenMai -
-                                                                                                                            item?.giaCtv)) /
-                                                                                                                        item?.giaKhuyenMai
-                                                                                                                )}
 
-                                                                                                                %
+                                                                                                            <div className="giaGiam">
+                                                                                                                <div className="giabanCu">
+                                                                                                                    {VND.format(
+                                                                                                                        item?.giaKhuyenMai
+                                                                                                                    )}
+                                                                                                                </div>
+                                                                                                                <div className="phanTram">
+                                                                                                                    Chiết
+                                                                                                                    Khấu&nbsp;
+                                                                                                                    {Math.floor(
+                                                                                                                        (100 *
+                                                                                                                            (item?.giaKhuyenMai -
+                                                                                                                                item?.giaCtv)) /
+                                                                                                                            item?.giaKhuyenMai
+                                                                                                                    )}
+
+                                                                                                                    %
+                                                                                                                </div>
                                                                                                             </div>
                                                                                                         </div>
-                                                                                                    </div>
-                                                                                                    <>
-                                                                                                        {cart?.find(
-                                                                                                            (
-                                                                                                                item2
-                                                                                                            ) =>
-                                                                                                                item2._id ===
-                                                                                                                item._id
-                                                                                                        ) ? (
-                                                                                                            <button
-                                                                                                                onClick={() =>
-                                                                                                                    handleXoaSanPham(
-                                                                                                                        item
-                                                                                                                    )
-                                                                                                                }
-                                                                                                                className="daThem"
-                                                                                                            >
-                                                                                                                ĐÃ
-                                                                                                                THÊM
-                                                                                                            </button>
-                                                                                                        ) : (
-                                                                                                            <button
-                                                                                                                onClick={() =>
-                                                                                                                    handleThemGioHang(
-                                                                                                                        item
-                                                                                                                    )
-                                                                                                                }
-                                                                                                                className="muaHang"
-                                                                                                            >
-                                                                                                                THÊM
-                                                                                                                GIỎ
-                                                                                                                HÀNG
-                                                                                                            </button>
-                                                                                                        )}
-                                                                                                    </>
-                                                                                                    <div className="chonShopThem">
-                                                                                                        <select
-                                                                                                            className="chonShop"
-                                                                                                            onChange={(
-                                                                                                                e
-                                                                                                            ) =>
-                                                                                                                setidShopLienKet(
-                                                                                                                    e
-                                                                                                                        .target
-                                                                                                                        .value
-                                                                                                                )
-                                                                                                            }
-                                                                                                        >
-                                                                                                            <option value="">
-                                                                                                                ---Chọn
-                                                                                                                Shop---
-                                                                                                            </option>
-                                                                                                            {allShop &&
-                                                                                                                allShop.length >
-                                                                                                                    0 &&
-                                                                                                                allShop.map(
-                                                                                                                    (
-                                                                                                                        item,
-                                                                                                                        index
-                                                                                                                    ) => {
-                                                                                                                        return (
-                                                                                                                            <option
-                                                                                                                                value={
-                                                                                                                                    item._id
-                                                                                                                                }
-                                                                                                                                key={
-                                                                                                                                    index
-                                                                                                                                }
-                                                                                                                            >
-                                                                                                                                {
-                                                                                                                                    item.TenShop
-                                                                                                                                }
-                                                                                                                            </option>
-                                                                                                                        );
-                                                                                                                    }
-                                                                                                                )}
-                                                                                                        </select>
-                                                                                                        <div
-                                                                                                            onClick={() =>
-                                                                                                                handleThemVaoShop(
+                                                                                                        <>
+                                                                                                            {cart?.find(
+                                                                                                                (
+                                                                                                                    item2
+                                                                                                                ) =>
+                                                                                                                    item2._id ===
                                                                                                                     item._id
-                                                                                                                )
-                                                                                                            }
-                                                                                                            className="themVaoShop"
-                                                                                                        >
-                                                                                                            Sao
-                                                                                                            Chép
+                                                                                                            ) ? (
+                                                                                                                <button
+                                                                                                                    onClick={() =>
+                                                                                                                        handleXoaSanPham(
+                                                                                                                            item
+                                                                                                                        )
+                                                                                                                    }
+                                                                                                                    className="daThem"
+                                                                                                                >
+                                                                                                                    ĐÃ
+                                                                                                                    THÊM
+                                                                                                                </button>
+                                                                                                            ) : (
+                                                                                                                <button
+                                                                                                                    onClick={() =>
+                                                                                                                        handleThemGioHang(
+                                                                                                                            item
+                                                                                                                        )
+                                                                                                                    }
+                                                                                                                    className="muaHang"
+                                                                                                                >
+                                                                                                                    THÊM
+                                                                                                                    GIỎ
+                                                                                                                    HÀNG
+                                                                                                                </button>
+                                                                                                            )}
+                                                                                                        </>
+                                                                                                        <div className="chonShopThem">
+                                                                                                            <select
+                                                                                                                className="chonShop"
+                                                                                                                onChange={(
+                                                                                                                    e
+                                                                                                                ) =>
+                                                                                                                    setidShopLienKet(
+                                                                                                                        e
+                                                                                                                            .target
+                                                                                                                            .value
+                                                                                                                    )
+                                                                                                                }
+                                                                                                            >
+                                                                                                                <option value="">
+                                                                                                                    ---Chọn
+                                                                                                                    Shop---
+                                                                                                                </option>
+                                                                                                                {allShop &&
+                                                                                                                    allShop.length >
+                                                                                                                        0 &&
+                                                                                                                    allShop.map(
+                                                                                                                        (
+                                                                                                                            item,
+                                                                                                                            index
+                                                                                                                        ) => {
+                                                                                                                            return (
+                                                                                                                                <option
+                                                                                                                                    value={
+                                                                                                                                        item._id
+                                                                                                                                    }
+                                                                                                                                    key={
+                                                                                                                                        index
+                                                                                                                                    }
+                                                                                                                                >
+                                                                                                                                    {
+                                                                                                                                        item.TenShop
+                                                                                                                                    }
+                                                                                                                                </option>
+                                                                                                                            );
+                                                                                                                        }
+                                                                                                                    )}
+                                                                                                            </select>
+                                                                                                            <div
+                                                                                                                onClick={() =>
+                                                                                                                    handleThemVaoShop(
+                                                                                                                        item._id
+                                                                                                                    )
+                                                                                                                }
+                                                                                                                className="themVaoShop"
+                                                                                                            >
+                                                                                                                Sao
+                                                                                                                Chép
+                                                                                                            </div>
                                                                                                         </div>
-                                                                                                    </div>
-                                                                                                    <div className="viTriSanPham">
-                                                                                                        <i className="fa-solid fa-location-dot"></i>
-                                                                                                        <div className="diachisanpham">
-                                                                                                            {
-                                                                                                                item?.xa
-                                                                                                            }
-                                                                                                        </div>
-                                                                                                        <div className="diachisanpham">
-                                                                                                            {
-                                                                                                                item?.huyen
-                                                                                                            }
-                                                                                                        </div>
-                                                                                                        <div className="diachisanpham">
-                                                                                                            {
-                                                                                                                item?.tinh
-                                                                                                            }
+                                                                                                        <div className="viTriSanPham">
+                                                                                                            <i className="fa-solid fa-location-dot"></i>
+                                                                                                            <div className="diachisanpham">
+                                                                                                                {
+                                                                                                                    item?.xa
+                                                                                                                }
+                                                                                                            </div>
+                                                                                                            <div className="diachisanpham">
+                                                                                                                {
+                                                                                                                    item?.huyen
+                                                                                                                }
+                                                                                                            </div>
+                                                                                                            <div className="diachisanpham">
+                                                                                                                {
+                                                                                                                    item?.tinh
+                                                                                                                }
+                                                                                                            </div>
                                                                                                         </div>
                                                                                                     </div>
                                                                                                 </div>
-                                                                                            </div>
-                                                                                        )
-                                                                                    );
-                                                                                }
-                                                                            )}
+                                                                                            )
+                                                                                        );
+                                                                                    }
+                                                                                )}
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                             );
                                                         }
                                                     )}
-                                                {(skip > 20 || skip === 20) && (
-                                                    <button
-                                                        onClick={() =>
-                                                            setskip(+skip - 20)
-                                                        }
-                                                        className="xemThem"
-                                                    >
-                                                        Quay Lại
-                                                    </button>
-                                                )}
-                                                {allSanPham?.length === 20 && (
-                                                    <button
-                                                        onClick={() =>
-                                                            setskip(+skip + 20)
-                                                        }
-                                                        className="xemThem"
-                                                    >
-                                                        Xem Thêm
-                                                    </button>
-                                                )}
                                             </div>
+                                            <img
+                                                onClick={() => setshowcart(1)}
+                                                src={gioHang2}
+                                                className="gioHang2"
+                                            />
                                         </div>
                                     )}
                                 </div>
@@ -582,9 +691,8 @@ const KhoCtv = (props) => {
                         />
                     )}
                 </>
-            ) : (
-                <Loading />
             )}
+            {loading === 1 && <Loading />}
         </>
     );
 };

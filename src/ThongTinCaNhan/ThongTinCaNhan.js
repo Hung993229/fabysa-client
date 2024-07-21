@@ -5,7 +5,7 @@ import UpdateDetail from "../Tao Thong Tin/UpdateDetail";
 import FormRegister from "../Tao Thong Tin/FormRegister";
 import { getPost } from "../redux/apiRequest";
 import MyDetail from "./MyDetail";
-import Header from '../GiaoDienChung/Header'
+import Header from "../GiaoDienChung/Header";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { NavLink, useNavigate, useParams } from "react-router-dom";
@@ -18,23 +18,17 @@ const ThongTinCaNhan = () => {
     const user = useSelector((state) => state.auth.login?.currentUser);
     const dispatch = useDispatch();
     const { idShop } = useParams();
-    const [loading, setloading] = useState(1);
+    const [loading, setloading] = useState(0);
     useEffect(() => {
-        const getPostMydetail = () => {
-            if (!user) {
-                console.log("chua co userId");
-            }
-            if (user) {
-                getPost(user?._id, dispatch, setloading);
-            }
-        };
-        getPostMydetail();
+        if (user) {
+            getPost(user?._id, dispatch);
+        }
     }, [user]);
     return !user ? (
         <DangNhap />
     ) : (
-            <>
-                <Header />
+        <>
+            <Header />
             {loading === 0 ? (
                 <div className="container-thongTinCanhan">
                     <div>
