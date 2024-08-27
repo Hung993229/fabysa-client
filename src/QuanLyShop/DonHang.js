@@ -1,48 +1,49 @@
 import "./DonHang.scss";
-import CommonUtils from "../component/CommonUtils";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import InHoaDon from "./InHoaDon";
-import { useNavigate, useParams } from "react-router-dom";
 import {
-    getDonHang,
     updateDonHang,
-    getttShop,
-    getArrSanPham,
-    getYourStatus,
-    getPost,
-    registerDonHang,
+    updateTaiKhoan,
+    getTaiKhoan,
 } from "../redux/apiRequest";
 import { useEffect } from "react";
 const DonHang = (props) => {
-    const {
-        loading,
-        setloading,
-        thongTinDh,
-        setthongTinDh,
-        settrangThaiDH,
-        trangThaiDH,
-        setallDonHang,
-        allDonHang,
-        setskip,
-        skip,
-    } = props;
-    const user = useSelector((state) => state.auth.login.currentUser);
-    const myDetail = useSelector((state) => state.post.post?.myDetail);
+    const { setloading, thongTinDh, settrangThaiDH, setallDonHang, setskip } =
+        props;
     const ttShop = useSelector((state) => state.ttShop.ttShop.ttShop?.shop);
-
     const dispatch = useDispatch();
-    const navigate = useNavigate();
-    const { idShop } = useParams();
     const [Tongtien, setTongtien] = useState();
+    const [giaVon, setgiaVon] = useState();
     const [trangThaiDH2, settrangThaiDH2] = useState("");
 
-    const [giamTru, setgiamTru] = useState(
-        thongTinDh?.khachHang.giamTru || "0"
-    );
+    const [giamTru, setgiamTru] = useState(thongTinDh?.ttThem?.giamTru || "0");
     const [donHang, setdonHang] = useState(thongTinDh?.donHang);
-    const khachHang = thongTinDh?.khachHang;
+    const [timShip, settimShip] = useState("Ship Nội Bộ");
+    const [phiShip, setphiShip] = useState(0);
+
+    const [dateMax, setdateMax] = useState(new Date());
+    const [dateMin, setdateMin] = useState(0);
+
+    console.log("new Date()", new Date().toISOString());
+
+    console.log(
+        "d5",
+        `${dateMax.getFullYear()} - ${dateMax.getMonth()} - ${dateMax.getDate()}` <
+            dateMax.toISOString()
+    );
+
+    const d = new Date();
+    console.log("d.setDate(20);", d.setDate(20));
+    const gioPhut = `${d.getHours()}h${d.getMinutes()}`;
+    const ngayThang = `${d.getDate()}/${d.getMonth()}/${d.getFullYear()}`;
+    const taiKhoan = useSelector(
+        (state) => state?.taiKhoan?.taiKhoan?.taiKhoan?.taiKhoan
+    );
+    useEffect(() => {
+        getTaiKhoan(thongTinDh?.idShop, dispatch);
+    }, []);
     useEffect(() => {
         const xetTrangThaiDH = donHang.find((item) =>
             item?.allDacDiemSP?.find(
@@ -50,9 +51,9 @@ const DonHang = (props) => {
             )
         );
         if (xetTrangThaiDH) {
-            settrangThaiDH2("Đơn Hàng Mới");
+            settrangThaiDH2("ĐH Mới");
         } else {
-            settrangThaiDH2("Đơn Hàng Đang Giao");
+            settrangThaiDH2("ĐH Chưa Thanh Toán");
         }
     }, [donHang]);
     const handleGiaoHang = (id) => {
@@ -79,10 +80,44 @@ const DonHang = (props) => {
         try {
             const giamTru2 = { giamTru: giamTru };
             const newDonHang = {
-                trangThaiDH: "Đơn Hàng Hoàn Thành",
+                trangThaiDH: "ĐH Đã Thanh Toán",
                 khachHang: { ...thongTinDh?.khachHang, ...giamTru2 },
             };
 
+            updateDonHang(newDonHang, id, dispatch);
+            setallDonHang([]);
+            settrangThaiDH(thongTinDh?.trangThaiDH);
+            setloading(0);
+            setskip(0);
+
+            const newTaiKhoan = {
+                ThongTinThem: {
+                    TenShop: ttShop?.TenShop,
+                    sdtShop: ttShop?.sdtShop,
+                    BaoCaoKD: [
+                        {
+                            thoiGian: `${ngayThang} ${gioPhut}`,
+                            noiNhan: thongTinDh?.khachHang?.noiNhan,
+                            doanhThu: Tongtien,
+                            chiPhi: giaVon,
+                            idDonHang: id,
+                        },
+                        ...taiKhoan?.ThongTinThem?.BaoCaoKD,
+                    ],
+                },
+            };
+            updateTaiKhoan(newTaiKhoan, taiKhoan?._id, dispatch);
+        } catch (err) {
+            console.log(err);
+        }
+    };
+    const handleHuyDon = (id) => {
+        try {
+            const giamTru2 = { giamTru: giamTru };
+            const newDonHang = {
+                trangThaiDH: "ĐH Huỷ",
+                khachHang: { ...thongTinDh?.khachHang, ...giamTru2 },
+            };
             updateDonHang(newDonHang, id, dispatch);
             setallDonHang([]);
             settrangThaiDH(thongTinDh?.trangThaiDH);
@@ -92,12 +127,11 @@ const DonHang = (props) => {
             console.log(err);
         }
     };
-    console.log("trangThaiDH2", trangThaiDH2);
-    const handleHuyDon = (id) => {
+    const handleTraHang = (id) => {
         try {
             const giamTru2 = { giamTru: giamTru };
             const newDonHang = {
-                trangThaiDH: "Đơn Hàng Huỷ",
+                trangThaiDH: "ĐH Huỷ",
                 khachHang: { ...thongTinDh?.khachHang, ...giamTru2 },
             };
             updateDonHang(newDonHang, id, dispatch);
@@ -105,6 +139,24 @@ const DonHang = (props) => {
             settrangThaiDH(thongTinDh?.trangThaiDH);
             setloading(0);
             setskip(0);
+            const newTaiKhoan = {
+                ThongTinThem: {
+                    TenShop: ttShop?.TenShop,
+                    sdtShop: ttShop?.sdtShop,
+                    BaoCaoKD: [
+                        {
+                            thoiGian: `${ngayThang} ${gioPhut}`,
+                            noiNhan: "Trả Hàng ",
+                            doanhThu: -Tongtien,
+                            chiPhi: -giaVon,
+                            idDonHang: id,
+                        },
+                        ...taiKhoan?.ThongTinThem?.BaoCaoKD,
+                    ],
+                },
+            };
+            console.log("newTaiKhoan", newTaiKhoan);
+            updateTaiKhoan(newTaiKhoan, taiKhoan?._id, dispatch);
         } catch (err) {
             console.log(err);
         }
@@ -185,7 +237,7 @@ const DonHang = (props) => {
         console.log("newDonHang", newDonHang);
         updateDonHang(newDonHang, id, dispatch);
     };
-    console.log("donhang", donHang);
+    console.log("thongTinDh", thongTinDh);
     const handleClose = () => {
         settrangThaiDH(thongTinDh?.trangThaiDH);
         setallDonHang([]);
@@ -196,27 +248,77 @@ const DonHang = (props) => {
         style: "currency",
         currency: "VND",
     });
-    const tinhtongtien = () => {
-        let tt = 0;
-        if (donHang?.length !== 0) {
-            donHang?.map((sp) => {
-                sp?.allDacDiemSP?.map((item) => {
-                    tt += +item?.slMua * item?.giaKhuyenMai;
-                });
-            });
-        }
 
-        setTongtien(tt);
-    };
     useEffect(() => {
-        tinhtongtien();
+        if (thongTinDh?.ttThem?.khachHang?.nhomKhach === "Khách Lẻ") {
+            const tinhtongtien = () => {
+                let tt = 0;
+                if (donHang?.length !== 0) {
+                    donHang?.map((sp) => {
+                        sp?.allDacDiemSP?.map((item) => {
+                            tt += +item?.slMua * item?.giaKhuyenMai;
+                        });
+                    });
+                }
+
+                setTongtien(tt);
+            };
+            tinhtongtien();
+        }
+        if (thongTinDh?.ttThem?.khachHang?.nhomKhach === "Khách Sỉ") {
+            const tinhtongtien = () => {
+                let tt = 0;
+                if (donHang?.length !== 0) {
+                    donHang?.map((sp) => {
+                        sp?.allDacDiemSP?.map((item) => {
+                            tt += +item?.slMua * item?.giaSi;
+                        });
+                    });
+                }
+
+                setTongtien(tt);
+            };
+            tinhtongtien();
+        }
+        if (
+            thongTinDh?.ttThem?.khachHang?.nhomKhach === "Khách Cộng Tác Viên"
+        ) {
+            const tinhtongtien = () => {
+                let tt = 0;
+                if (donHang?.length !== 0) {
+                    donHang?.map((sp) => {
+                        sp?.allDacDiemSP?.map((item) => {
+                            tt += +item?.slMua * item?.giaCtv;
+                        });
+                    });
+                }
+
+                setTongtien(tt);
+            };
+            tinhtongtien();
+        }
     });
+    useEffect(() => {
+        const tinhTongGiaVon = () => {
+            let tt = 0;
+            if (donHang?.length !== 0) {
+                donHang?.map((sp) => {
+                    sp?.allDacDiemSP?.map((item) => {
+                        tt += +item?.slMua * item?.giaVon;
+                    });
+                });
+            }
+
+            setgiaVon(tt);
+        };
+        tinhTongGiaVon();
+    });
+    console.log("giaVon", giaVon);
     const handlePrint = () => {
         window.print();
     };
     //  Viet QR
     const nganHang = ttShop?.ttShopThem?.nganHang;
-    console.log("nganHang", nganHang);
     const BANK_ID = nganHang.maSo;
     const ACCOUNT_NO = nganHang.taiKhoanNganHang;
     const TEMPLATE = "print";
@@ -225,116 +327,376 @@ const DonHang = (props) => {
     const ACCOUNT_NAME = nganHang.chuTaiKhoanNganhang;
     const qr = `https://img.vietqr.io/image/${BANK_ID}-${ACCOUNT_NO}-${TEMPLATE}.png?amount=${AMOUNT}&addInfo=${DESCRIPTION}&accountName=${ACCOUNT_NAME}`;
     // Viet QR
-
+    const handleQuayLai = () => {
+        setloading(0);
+        settrangThaiDH(thongTinDh?.trangThaiDH);
+        setallDonHang([]);
+        setskip(0);
+    };
+    const handleTimShip = () => {
+        const newDonHang = {
+            trangThaiDH: "ĐH Tìm Ship",
+            ttThem: {
+                ...thongTinDh?.ttThem,
+                ...{
+                    ttGiaoHang: {
+                        sdtNv: "",
+                        tenNv: "",
+                        phiShip: phiShip,
+                    },
+                },
+            },
+        };
+        console.log("newDonHang", newDonHang);
+        updateDonHang(newDonHang, thongTinDh?._id, dispatch);
+    };
+    console.log("thongTinDh?.ttThem", thongTinDh?.ttThem);
     return (
         <div className="chiTietDonHang-Container">
             <div className="quayLai-tieuDe">
-                <div className="quayLai" onClick={() => handleClose()}>
-                    Quay Lại
+                <div onClick={() => handleQuayLai()} className="quayLai">
+                    <i className="fa fa-angle-double-left"></i>Quay Lại
                 </div>
                 <div className="tieuDe">Chi Tiết Đơn Hàng</div>
             </div>
-            {donHang?.map((item2, index) => {
-                return (
-                    <div key={index} className="sanPham">
-                        <div className="tenSanPham-xoa">
-                            <div className="tenSanPham">
-                                {item2?.tenSanPham}
-                            </div>
-                        </div>
-                        {item2?.allDacDiemSP &&
-                            item2?.allDacDiemSP?.length > 0 &&
-                            item2?.allDacDiemSP?.map((item, index) => {
-                                return (
-                                    <div
-                                        key={index}
-                                        className="dacDiem-themGioHang"
-                                    >
-                                        <div className="anhSp-tenSp">
-                                            <div className="tenSp">
-                                                {item?.tenDacDiem}
-                                            </div>
-                                            <div className="gioPhut">
-                                                {item?.gioPhut}
-                                            </div>
-                                        </div>
-                                        <div className="giaSanPham">
-                                            <div className="giaKM">
-                                                {VND.format(item?.giaKhuyenMai)}
-                                            </div>
-                                            <div className="giaNY-giamGia">
-                                                <div className="giaNY">
-                                                    {VND.format(
-                                                        item?.giaNiemYet
-                                                    )}
+
+            {thongTinDh?.ttThem?.khachHang?.nhomKhach === "Khách Lẻ" && (
+                <div className="allSanPham">
+                    {donHang?.map((item2, index) => {
+                        return (
+                            <div key={index} className="sanPham">
+                                <div className="tenSanPham-xoa">
+                                    <div className="tenSanPham">
+                                        {item2?.tenSanPham}
+                                    </div>
+                                </div>
+                                {item2?.allDacDiemSP &&
+                                    item2?.allDacDiemSP?.length > 0 &&
+                                    item2?.allDacDiemSP?.map((item, index) => {
+                                        return (
+                                            <div
+                                                key={index}
+                                                className="dacDiem-themGioHang"
+                                            >
+                                                <div className="anhSp-tenSp">
+                                                    <div className="tenSp">
+                                                        {item?.tenDacDiem}
+                                                    </div>
+                                                    <div className="gioPhut">
+                                                        {item?.gioPhut}
+                                                    </div>
                                                 </div>
-                                                <div className="giamGia">
-                                                    Giảm&nbsp;
-                                                    {Math.floor(
-                                                        (100 *
-                                                            (item?.giaNiemYet -
-                                                                item?.giaKhuyenMai)) /
-                                                            item?.giaNiemYet
-                                                    )}
-                                                    %
+                                                <div className="giaSanPham">
+                                                    <div className="giaKM">
+                                                        {VND.format(
+                                                            item?.giaKhuyenMai
+                                                        )}
+                                                    </div>
+                                                    <div className="giaNY-giamGia">
+                                                        <div className="giaNY">
+                                                            {VND.format(
+                                                                item?.giaNiemYet
+                                                            )}
+                                                        </div>
+                                                        <div className="giamGia">
+                                                            Giảm&nbsp;
+                                                            {Math.floor(
+                                                                (100 *
+                                                                    (item?.giaNiemYet -
+                                                                        item?.giaKhuyenMai)) /
+                                                                    item?.giaNiemYet
+                                                            )}
+                                                            %
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        </div>
-                                        <div className="soLuong-SL">
-                                            <div className="soLuong">
-                                                Số Lượng
-                                            </div>
-                                            {/* <div className="SL">
-                                                {item.slMua}
-                                            </div> */}
-                                            <input
-                                                className="SL"
-                                                placeholder={item?.slMua}
-                                                onChange={(e) =>
-                                                    suaDonHang(
-                                                        e.target.value,
-                                                        item,
-                                                        item2
-                                                    )
-                                                }
-                                            />
-                                        </div>
-                                        <div className="thanhTien-TT">
-                                            <div className="thanhTien">
-                                                Thành Tiền
-                                            </div>
-                                            <div className="TT">
-                                                {VND.format(
-                                                    item?.slMua *
-                                                        item?.giaKhuyenMai
+                                                <div className="soLuong-SL">
+                                                    <div className="soLuong">
+                                                        Số Lượng
+                                                    </div>
+                                                    <input
+                                                        className="SL"
+                                                        placeholder={
+                                                            item?.slMua
+                                                        }
+                                                        onChange={(e) =>
+                                                            suaDonHang(
+                                                                e.target.value,
+                                                                item,
+                                                                item2
+                                                            )
+                                                        }
+                                                    />
+                                                </div>
+                                                <div className="thanhTien-TT">
+                                                    <div className="thanhTien">
+                                                        Thành Tiền
+                                                    </div>
+                                                    <div className="TT">
+                                                        {VND.format(
+                                                            item?.slMua *
+                                                                item?.giaKhuyenMai
+                                                        )}
+                                                    </div>
+                                                </div>
+                                                {item.daXong === 1 ? (
+                                                    <div
+                                                        onClick={() =>
+                                                            handleDaXong(
+                                                                item,
+                                                                item2
+                                                            )
+                                                        }
+                                                        className="daXong"
+                                                    >
+                                                        ✅
+                                                    </div>
+                                                ) : (
+                                                    <div
+                                                        onClick={() =>
+                                                            handleChuaXong(
+                                                                item,
+                                                                item2
+                                                            )
+                                                        }
+                                                        className="chuaXong"
+                                                    >
+                                                        ☐
+                                                    </div>
                                                 )}
                                             </div>
-                                        </div>
-                                        {item.daXong === 1 ? (
-                                            <div
-                                                onClick={() =>
-                                                    handleDaXong(item, item2)
-                                                }
-                                                className="daXong"
-                                            >
-                                                ✅
-                                            </div>
-                                        ) : (
-                                            <div
-                                                onClick={() =>
-                                                    handleChuaXong(item, item2)
-                                                }
-                                                className="chuaXong"
-                                            >
-                                                ☐
-                                            </div>
-                                        )}
+                                        );
+                                    })}
+                            </div>
+                        );
+                    })}
+                </div>
+            )}
+            {thongTinDh?.ttThem?.khachHang?.nhomKhach === "Khách Sỉ" && (
+                <div className="allSanPham">
+                    {donHang?.map((item2, index) => {
+                        return (
+                            <div key={index} className="sanPham">
+                                <div className="tenSanPham-xoa">
+                                    <div className="tenSanPham">
+                                        {item2?.tenSanPham}
                                     </div>
-                                );
-                            })}
-                    </div>
-                );
-            })}
+                                </div>
+                                {item2?.allDacDiemSP &&
+                                    item2?.allDacDiemSP?.length > 0 &&
+                                    item2?.allDacDiemSP?.map((item, index) => {
+                                        return (
+                                            <div
+                                                key={index}
+                                                className="dacDiem-themGioHang"
+                                            >
+                                                <div className="anhSp-tenSp">
+                                                    <div className="tenSp">
+                                                        {item?.tenDacDiem}
+                                                    </div>
+                                                    <div className="gioPhut">
+                                                        {item?.gioPhut}
+                                                    </div>
+                                                </div>
+                                                <div className="giaSanPham">
+                                                    <div className="giaKM">
+                                                        {VND.format(
+                                                            item?.giaSi
+                                                        )}
+                                                    </div>
+                                                    <div className="giaNY-giamGia">
+                                                        <div className="giaNY">
+                                                            {VND.format(
+                                                                item?.giaNiemYet
+                                                            )}
+                                                        </div>
+                                                        <div className="giamGia">
+                                                            Giảm&nbsp;
+                                                            {Math.floor(
+                                                                (100 *
+                                                                    (item?.giaNiemYet -
+                                                                        item?.giaSi)) /
+                                                                    item?.giaNiemYet
+                                                            )}
+                                                            %
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div className="soLuong-SL">
+                                                    <div className="soLuong">
+                                                        Số Lượng
+                                                    </div>
+                                                    <input
+                                                        className="SL"
+                                                        placeholder={
+                                                            item?.slMua
+                                                        }
+                                                        onChange={(e) =>
+                                                            suaDonHang(
+                                                                e.target.value,
+                                                                item,
+                                                                item2
+                                                            )
+                                                        }
+                                                    />
+                                                </div>
+                                                <div className="thanhTien-TT">
+                                                    <div className="thanhTien">
+                                                        Thành Tiền
+                                                    </div>
+                                                    <div className="TT">
+                                                        {VND.format(
+                                                            item?.slMua *
+                                                                item?.giaSi
+                                                        )}
+                                                    </div>
+                                                </div>
+                                                {item.daXong === 1 ? (
+                                                    <div
+                                                        onClick={() =>
+                                                            handleDaXong(
+                                                                item,
+                                                                item2
+                                                            )
+                                                        }
+                                                        className="daXong"
+                                                    >
+                                                        ✅
+                                                    </div>
+                                                ) : (
+                                                    <div
+                                                        onClick={() =>
+                                                            handleChuaXong(
+                                                                item,
+                                                                item2
+                                                            )
+                                                        }
+                                                        className="chuaXong"
+                                                    >
+                                                        ☐
+                                                    </div>
+                                                )}
+                                            </div>
+                                        );
+                                    })}
+                            </div>
+                        );
+                    })}
+                </div>
+            )}
+            {thongTinDh?.ttThem?.khachHang?.nhomKhach ===
+                "Khách Cộng Tác Viên" && (
+                <div className="allSanPham">
+                    {donHang?.map((item2, index) => {
+                        return (
+                            <div key={index} className="sanPham">
+                                <div className="tenSanPham-xoa">
+                                    <div className="tenSanPham">
+                                        {item2?.tenSanPham}
+                                    </div>
+                                </div>
+                                {item2?.allDacDiemSP &&
+                                    item2?.allDacDiemSP?.length > 0 &&
+                                    item2?.allDacDiemSP?.map((item, index) => {
+                                        return (
+                                            <div
+                                                key={index}
+                                                className="dacDiem-themGioHang"
+                                            >
+                                                <div className="anhSp-tenSp">
+                                                    <div className="tenSp">
+                                                        {item?.tenDacDiem}
+                                                    </div>
+                                                    <div className="gioPhut">
+                                                        {item?.gioPhut}
+                                                    </div>
+                                                </div>
+                                                <div className="giaSanPham">
+                                                    <div className="giaKM">
+                                                        {VND.format(
+                                                            item?.giaCtv
+                                                        )}
+                                                    </div>
+                                                    <div className="giaNY-giamGia">
+                                                        <div className="giaNY">
+                                                            {VND.format(
+                                                                item?.giaNiemYet
+                                                            )}
+                                                        </div>
+                                                        <div className="giamGia">
+                                                            Giảm&nbsp;
+                                                            {Math.floor(
+                                                                (100 *
+                                                                    (item?.giaNiemYet -
+                                                                        item?.giaCtv)) /
+                                                                    item?.giaNiemYet
+                                                            )}
+                                                            %
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div className="soLuong-SL">
+                                                    <div className="soLuong">
+                                                        Số Lượng
+                                                    </div>
+                                                    <input
+                                                        className="SL"
+                                                        placeholder={
+                                                            item?.slMua
+                                                        }
+                                                        onChange={(e) =>
+                                                            suaDonHang(
+                                                                e.target.value,
+                                                                item,
+                                                                item2
+                                                            )
+                                                        }
+                                                    />
+                                                </div>
+                                                <div className="thanhTien-TT">
+                                                    <div className="thanhTien">
+                                                        Thành Tiền
+                                                    </div>
+                                                    <div className="TT">
+                                                        {VND.format(
+                                                            item?.slMua *
+                                                                item?.giaCtv
+                                                        )}
+                                                    </div>
+                                                </div>
+                                                {item.daXong === 1 ? (
+                                                    <div
+                                                        onClick={() =>
+                                                            handleDaXong(
+                                                                item,
+                                                                item2
+                                                            )
+                                                        }
+                                                        className="daXong"
+                                                    >
+                                                        ✅
+                                                    </div>
+                                                ) : (
+                                                    <div
+                                                        onClick={() =>
+                                                            handleChuaXong(
+                                                                item,
+                                                                item2
+                                                            )
+                                                        }
+                                                        className="chuaXong"
+                                                    >
+                                                        ☐
+                                                    </div>
+                                                )}
+                                            </div>
+                                        );
+                                    })}
+                            </div>
+                        );
+                    })}
+                </div>
+            )}
             <div className="tinhTien">
                 <div className="tongTien">
                     <div className="tieude">Tổng Tiền Hàng :</div>
@@ -358,60 +720,129 @@ const DonHang = (props) => {
             </div>
 
             <div className="tieuDeDonHang">Thông Tin Người Nhận</div>
-            {(thongTinDh?.khachHang?.noiNhan === "Ship Tận Nơi" ||
-                thongTinDh?.khachHang?.noiNhan === "Tự Đến Lấy") && (
+            {(thongTinDh?.ttThem?.khachHang?.noiNhan === "Ship Tận Nơi" ||
+                thongTinDh?.ttThem?.khachHang?.noiNhan === "Tự Đến Lấy") && (
                 <div className="phancach">
                     <div className="thongTinChiTiet">
-                        <div className="tieuDe">Nơi Nhận :</div>
-                        <div className="noiDung">{khachHang?.noiNhan}</div>
-                    </div>
-                    <div className="thongTinChiTiet">
-                        <div className="tieuDe">Họ Và Tên :</div>
                         <div className="noiDung">
-                            {khachHang?.hoTenNguoiMua}
+                            Nơi Nhận :&nbsp;
+                            {thongTinDh?.ttThem?.khachHang?.noiNhan}
                         </div>
                     </div>
                     <div className="thongTinChiTiet">
-                        <div className="tieuDe">Số Điện Thoại :</div>
-
-                        <div className="noiDung">{khachHang?.sdtNguoiMua}</div>
-                    </div>
-                    <div className="thongTinChiTiet">
-                        <div className="tieuDe">Địa Chỉ :</div>
-                        <div className="noiDung">{khachHang?.dcNguoiNMua}</div>
-                    </div>
-
-                    <div className="thongTinChiTiet">
-                        <div className="tieuDe">Ghi Chú Thêm :</div>
                         <div className="noiDung">
-                            {khachHang?.ghiChuNguoiMua}
+                            Họ Và Tên :&nbsp;
+                            {thongTinDh?.ttThem?.khachHang?.hoTenNguoiMua}
+                        </div>
+                    </div>
+                    <div className="thongTinChiTiet">
+                        <div className="noiDung">
+                            Số Điện Thoại :&nbsp;
+                            {thongTinDh?.ttThem?.khachHang?.sdtNguoiMua}
+                        </div>
+                    </div>
+                    <div className="thongTinChiTiet">
+                        <div className="noiDung">
+                            Địa Chỉ :&nbsp;{thongTinDh?.thonXomMua},&nbsp;
+                            {thongTinDh?.xaMua},&nbsp;
+                            {thongTinDh?.huyenMua},&nbsp;
+                            {thongTinDh?.tinhMua}
+                        </div>
+                    </div>
+
+                    <div className="thongTinChiTiet">
+                        <div className="noiDung">
+                            Ghi Chú Thêm :&nbsp;
+                            {thongTinDh?.ttThem?.khachHang?.ghiChuNguoiMua}
+                        </div>
+                    </div>
+                    <div className="thongTinChiTiet">
+                        <div className="noiDung">
+                            Nhóm KH:&nbsp;
+                            {thongTinDh?.ttThem?.khachHang?.nhomKhach}
                         </div>
                     </div>
                 </div>
             )}
-            {thongTinDh?.khachHang?.noiNhan === "Nhận Tại Bàn" && (
+            {thongTinDh?.ttThem?.khachHang?.noiNhan === "Nhận Tại Bàn" && (
                 <div className="phancach">
                     <div className="thongTinChiTiet">
-                        <div className="tieuDe">Nơi Nhận :</div>
+                        {/* <div className="tieuDe">Nơi Nhận :</div> */}
                         <div className="noiDung">
-                            {khachHang?.noiNhan}
-                            {khachHang?.soBan && (
-                                <>
-                                    &emsp;-&emsp;
-                                    {khachHang?.soBan}
-                                </>
-                            )}
+                            Nơi Nhận :&nbsp;
+                            {thongTinDh?.ttThem?.khachHang?.noiNhan}
+                            &emsp;-&emsp;
+                            {thongTinDh?.ttThem?.khachHang?.soBan}
+                        </div>
+                    </div>
+                    <div className="thongTinChiTiet">
+                        {/* <div className="tieuDe">Nhóm KH :</div> */}
+                        <div className="noiDung">
+                            Nhóm KH :&nbsp;
+                            {thongTinDh?.ttThem?.khachHang?.nhomKhach}
                         </div>
                     </div>
                 </div>
             )}
-            <div className="thanhToanQrCode-container">
-                <div className="thanhToanQr">Thanh Toán Qua QR Code</div>
-                <img className="qr" src={qr} />
-            </div>
-            {/* <div className="tieuDeDonHang">Hoa Hồng Cộng Tác Viên</div> */}
+            {thongTinDh?.trangThaiDH === "ĐH Mới" && (
+                <div className="timShip2-container">
+                    <div className="tieuDe">Chọn Phương Thức Ship</div>
+                    <select
+                        onChange={(e) => settimShip(e.target.value)}
+                        className="chonPhuongThuc"
+                        id="provinces"
+                    >
+                        <option>Ship Nội Bộ</option>
+                        <option>Thuê Ship Ngoài</option>
+                    </select>
+                    {timShip === "Thuê Ship Ngoài" && (
+                        <div className="thueShip">
+                            <div className="noiGui">
+                                Nơi Gửi :&nbsp;{ttShop?.thonXom},&nbsp;
+                                {ttShop?.xa},&nbsp;
+                                {ttShop?.huyen},&nbsp; {ttShop?.tinh}
+                            </div>
+                            <div className="noiGui">
+                                SĐT Gửi :&nbsp;{ttShop?.sdtShop}
+                            </div>
+                            <div className="noiGui">
+                                Nơi Nhận :&nbsp;{thongTinDh?.thonXomMua},&nbsp;
+                                {thongTinDh?.xaMua},&nbsp;
+                                {thongTinDh?.huyenMua},&nbsp;
+                                {thongTinDh?.tinhMua}
+                            </div>
+                            <div className="noiGui">
+                                SĐT Nhận :&nbsp;
+                                {thongTinDh?.ttThem?.khachHang?.sdtNguoiMua}
+                            </div>
+                            <div className="phiShip-input">
+                                <div className="phiShip">Phí Ship :</div>
+                                <input
+                                    onChange={(e) => setphiShip(e.target.value)}
+                                    className="input"
+                                    placeholder="0"
+                                />
+                                <div
+                                    className="taoDonShip"
+                                    onClick={() =>
+                                        handleTimShip(thongTinDh?._id)
+                                    }
+                                >
+                                    Tạo Đơn Ship
+                                </div>
+                            </div>
+                        </div>
+                    )}
+                </div>
+            )}
+            {thongTinDh?.trangThaiDH === "ĐH Chưa Thanh Toán" && (
+                <div className="thanhToanQrCode-container">
+                    <div className="thanhToanQr">Thanh Toán Qua QR Code</div>
+                    <img className="qr" src={qr} />
+                </div>
+            )}
             <div>
-                {thongTinDh?.trangThaiDH === "Đơn Hàng Mới" && (
+                {thongTinDh?.trangThaiDH === "ĐH Mới" && (
                     <div className="tongKet">
                         <div
                             className="hoanThanh"
@@ -424,7 +855,7 @@ const DonHang = (props) => {
                         </div>
                     </div>
                 )}
-                {thongTinDh?.trangThaiDH === "Đơn Hàng Đang Giao" && (
+                {thongTinDh?.trangThaiDH === "ĐH Chưa Thanh Toán" && (
                     <div className="tongKet">
                         <div
                             className="huyDon"
@@ -441,11 +872,11 @@ const DonHang = (props) => {
                         </div>
                     </div>
                 )}
-                {thongTinDh?.trangThaiDH === "Đơn Hàng Hoàn Thành" && (
+                {thongTinDh?.trangThaiDH === "ĐH Đã Thanh Toán" && (
                     <div className="tongKet">
                         <div
                             className="huyDon"
-                            onClick={() => handleHuyDon(thongTinDh?._id)}
+                            onClick={() => handleTraHang(thongTinDh?._id)}
                         >
                             Trả Hàng
                         </div>
@@ -454,7 +885,7 @@ const DonHang = (props) => {
                         </div>
                     </div>
                 )}
-                {thongTinDh?.trangThaiDH === "Đơn Hàng Huỷ" && (
+                {thongTinDh?.trangThaiDH === "ĐH Huỷ" && (
                     <div className="tongKet">
                         <div onClick={() => handleClose()} className="huyDon">
                             Quay lại

@@ -1,14 +1,247 @@
 
 /* Mobile & Tablet */
 @media screen and (max-width : 1023px) {
-   .shop{
-    margin-top: 20vw;
-   }
-
+  .Shop-Container{
+   .sanPham-shop{
+       justify-content: center;
+       align-items: center;
+       background-color: #88d3b4;
+       .nhomSanPham-themSanPham{
+           display: flex;
+           text-align: center;
+           font-size: 3.9vw;
+           font-weight: 600;
+         
+           color: #fff;
+        
    
+           .suaMenu{
+               line-height: 9vw;
+               width: 9vw;
+               margin-right: 1vw;
+               background-color: red; 
+               border-radius: 1vw;
+
+           }
+           .nhomSanPham{
+               height: 9vw; 
+               text-transform: uppercase;
+               width: 80vw; 
+               text-align-last:center ;
+               background-color: red;
+               color: #fff;
+               border: solid 1px red;
+               margin-right: 1vw; 
+               border-radius: 1vw;
+               font-weight: 600;
+               option{
+                   text-transform: uppercase;
+                   width: 80vw; 
+               }
+           }
+
+           .themSanPham{
+               line-height: 9vw;
+               width: 9vw; 
+               background-color: red;
+               border-radius: 1vw;
+
+           }
+           .nhomSanPham2{
+               height: 9vw; 
+               text-transform: uppercase;
+               width: 100vw; 
+               text-align-last:center ;
+               background-color: red;
+               color: #fff;
+               font-weight: 600;
+               border: solid 1px red;
+               border-radius: 0%;
+               option{
+                   text-transform: uppercase;
+               }
+           }
+       }
+       .xacNhan-xoa{
+           font-size: 3.5vw;
+           justify-content: center;
+           align-items: center;
+           margin: 5vw auto;
+           padding: 2vw 0vw;
+           width: 60vw;
+           background-color: #fff;
+           border-radius: 1vw;
+           a{
+               text-decoration: none;
+           }
+           .xacNhan{
+             
+           }
+           .huyBo-xoa{
+             display: flex;
+             gap: 10vw;
+             margin: 2vw 5vw 0vw;
+             .huyBo{
+              color: #fff;
+               text-align: center;
+               font-size: 2.5vw;
+               font-weight: 500;
+               width: 20vw;
+               line-height: 6vw;
+               border-radius: 1vw;
+               background-color: #04aa6d;
+               // border: solid 1px gray;
+               // margin: 2vw 5vw;
+             }
+             .xoa{
+               color: #fff;
+               text-align: center;
+               font-size: 2.5vw;
+               font-weight: 500;
+               width: 20vw;
+               line-height: 6vw;
+               border-radius: 1vw;
+               background-color: red;
+               
+             }
+           }
+           
+         }
+         .trong{
+           font-size: 3.5vw;
+           font-weight: 500;
+           margin: 5vw auto 100vw;
+       }
+      
+       .sanPham-container{
+           display: grid;
+           grid-template-columns: 1fr 1fr; 
+           padding: 1vw 0vw 30vw 0vw;
+           border: none;
+           .sanPham {
+               justify-content: center;
+               align-items: center;
+               padding: 2vw;
+               margin: 1vw;
+               border-radius: 2vw;
+               background-color: #fff;
+               box-shadow: 12px 14px 12px -1px rgba(0,0,0,0.75);
+       -webkit-box-shadow: 12px 14px 12px -1px rgba(0,0,0,0.75);
+       -moz-box-shadow: 12px 14px 12px -1px rgba(0,0,0,0.75);
+               .anhSanPham {
+                   width: 43vw;
+                   height: 55vw;
+                   object-fit: cover;
+                   border: solid 0.1vw #d0d4dd;
+                   background-color: #fff;
+                   cursor: pointer;
+                   border-radius: 2vw;
+               }
+               .tenSanPham {
+                   width: 43vw;
+                   font-size: 3vw;
+                   font-weight: 600;
+                   margin: 2vw auto;
+                   text-transform: uppercase;
+                   word-wrap:break-word;
+               overflow:auto;
+               }
+               .giaBan {
+                   text-align: center;
+                   justify-content: center;
+                   
+                   .giaBanMoi {
+                       color: red;
+                       font-size: 5vw;
+                   font-weight: 600;
+                   // margin-bottom: 1vw;
+                   }
+                   
+                       .giaGiam{
+                           display: flex;
+                           gap: 2vw;
+                           align-items: center;
+                           justify-content: center;
+                           .giabanCu {
+                               text-decoration: line-through;
+                               font-size: 3.5vw;
+                               font-weight: 300;
+               
+                           }
+                           .phanTram{
+                               font-size: 3.5vw;
+                               font-weight: 300;
+                           }
+                       
+                   }
+                   
+                  
+                   
+               }
+               .muaHang {
+                   font-size: 3.9vw;
+                   font-weight: 600;
+                   background-color: red;
+                   width: 100%;
+                   margin: 2vw auto;
+                   border-radius: 2vw;
+                   padding: 1.5vw;
+               }
+               .daThem{
+                   font-size: 3.9vw;
+                   padding: 1.5vw;
+                   font-weight: 600;
+                   background-color: #04aa6d;
+                   width: 100%;
+                   margin: 2vw auto;
+                   border-radius: 2vw;
+               }
+               .xemChiTiet{
+                   color: #04aa6d;
+                  font-size: 3vw;
+                  font-weight: 500;
+                  cursor: pointer;
+               }
+               .viTriSanPham{
+                   display: flex;
+                   font-size: 2vw;
+                   gap: 1vw;
+                   align-items: center;
+                   justify-content: center;
+               }
+              
+             
+           }
+                   
+       
+           }
+          
+   }
+   
+   .menuGioHang2{
+       .gioHang2{
+           object-fit: cover;
+           width: 15vw;
+           height: 15vw;
+           font-size: 9vw;
+           border-radius: 50%;
+           border: solid 2px #04aa6d;
+           background-color: #fff;
+           position: fixed;
+           cursor: pointer;
+           left: 20px;
+           bottom: 20px;
+           z-index: 2;
+
+       }
+       
+   }
+  }
+
+  
 }
 
 /* PC*/
 @media screen and (min-width : 1024px) {
-   
+  
 }

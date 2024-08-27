@@ -2,7 +2,6 @@
 /* Mobile & Tablet */
 @media screen and (max-width : 1023px) {
    .Shop2-Container{
-    // margin-bottom: 30vw;
     .sanPham-shop{
         // margin: 5vw auto;
         justify-content: center;
@@ -10,31 +9,68 @@
         background-color: #88d3b4;
         .nhomSanPham-themSanPham{
             display: flex;
-            background-color: red;
-            font-size: 5vw;
+            text-align: center;
+            font-size: 3.9vw;
             font-weight: 600;
-            color: white;
-            height: 10vw;
-            // .sapXep{
-            //     line-height: 10vw;
-            //     width: 6vw; 
-            //     text-align: right;
+          
+            color: #fff;
+         
+    
+            .suaMenu{
+                line-height: 9vw;
+                width: 9vw;
+                margin-right: 1vw;
+                background-color: red; 
+                border-radius: 1vw;
 
-            // }
-            
-            .nhomSanPham{
-                line-height: 10vw; 
-                text-transform: uppercase;
-                text-align: center;
-                width: 94vw;
-                padding-left: 6vw;
             }
-
+            .nhomSanPham{
+                height: 9vw; 
+                text-transform: uppercase;
+                width: 80vw; 
+                text-align-last:center ;
+                background-color: red;
+                color: #fff;
+                border: solid 1px red;
+                margin-right: 1vw; 
+                border-radius: 1vw;
+                font-weight: 600;
+                option{
+                    text-transform: uppercase;
+                    width: 80vw; 
+                }
+            }
             .themSanPham{
-                line-height: 10vw;
-                width: 6vw; 
-                text-align: left;
+                line-height: 9vw;
+                width: 9vw; 
+                background-color: red;
+                border-radius: 1vw;
 
+            }
+            .sapXep{
+              font-size: 5vw;
+              width: 9vw;
+              line-height: 9vw;
+              text-align: center;
+              background-color: red;
+              color: #fff;
+              font-weight: 600; 
+              border-radius: 1vw;
+              margin-right: 1vw;
+            }
+            .nhomSanPham2{
+                height: 9vw; 
+                text-transform: uppercase;
+                width: 91vw; 
+                text-align-last:center ;
+                background-color: red;
+                color: #fff;
+                font-weight: 600;
+                border: solid 1px red;
+                border-radius: 1vw;
+                option{
+                    text-transform: uppercase;
+                }
             }
         }
         .xacNhan-xoa{
@@ -89,8 +125,51 @@
           .trong{
             font-size: 3.5vw;
             font-weight: 500;
-            margin: 5vw auto;
+            margin: 5vw auto 100vw;
+            .line{
+                height: 3px;
+                width: 100%;
+                background: #e8e8e8;
+                margin-top: 10vw;
+                
+                .inner{
+                  width: 100%;
+                  height: inherit;
+                  background: #04aa6d;
+                  animation: slide 2s ease-in-out infinite;
+                }
+              }
         }
+        @keyframes slide{
+            0%{
+              transform-origin: left;
+              transform: scalex(0.3);
+            }
+            25%{
+              transform-origin: left;
+              transform: scalex(1);
+            }
+            26%{
+              transform-origin: right;
+              transform: scalex(1);
+            }
+            50%{
+              transform-origin: right;
+              transform: scalex(0.3);
+            }
+            75%{
+              transform-origin: right;
+              transform: scalex(1);
+            }
+            76%{
+              transform-origin: left;
+              transform: scalex(1);
+            }
+            100%{
+              transform-origin: left;
+              transform: scalex(0.3);
+            }
+          }
        
         .sanPham-container{
             display: grid;
@@ -109,9 +188,9 @@
         -moz-box-shadow: 12px 14px 12px -1px rgba(0,0,0,0.75);
                 .anhSanPham {
                     width: 43vw;
-                    height: 43vw;
+                    height: 55vw;
                     object-fit: cover;
-                    border: solid 0.1vw gray;
+                    border: solid 0.1vw #d0d4dd;
                     background-color: #fff;
                     cursor: pointer;
                     border-radius: 2vw;
@@ -198,13 +277,14 @@
     }
     
     .menuGioHang2{
-        .menu{
+        .gioHang2{
             object-fit: cover;
             width: 15vw;
             height: 15vw;
+            font-size: 9vw;
             border-radius: 50%;
-            background-color: #04aa6d;
-            padding: 2px;
+            border: solid 2px #04aa6d;
+            background-color: #fff;
             position: fixed;
             cursor: pointer;
             left: 20px;
@@ -212,21 +292,7 @@
             z-index: 2;
 
         }
-        .gioHang2{
-            object-fit: cover;
-            width: 15vw;
-            height: 15vw;
-            border-radius: 50%;
-            background-color: #04aa6d;
-            padding: 2px;
-            position: fixed;
-            cursor: pointer;
-            right: 20px;
-            bottom: 20px;
-            z-index: 2;
-            // opacity: 0.6;
-    
-        }
+        
     }
    }
 

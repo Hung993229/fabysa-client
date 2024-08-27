@@ -107,6 +107,9 @@ import {
     getAllttShopStart,
     getAllttShopSuccess,
     getAllttShopFailed,
+    getAllttShopTimKiemStart,
+    getAllttShopTimKiemSuccess,
+    getAllttShopTimKiemFailed,
 } from "./ttShopSlice";
 
 import {
@@ -146,6 +149,25 @@ import {
     deletegioHangFailed,
     logOutSuccessgioHang,
 } from "./gioHangSlice";
+
+import {
+    updateTaiKhoanStart,
+    updateTaiKhoanSuccess,
+    updateTaiKhoanFailed,
+    registerTaiKhoanStart,
+    registerTaiKhoanSuccess,
+    registerTaiKhoanFailed,
+    getTaiKhoanStart,
+    getTaiKhoanSuccess,
+    getTaiKhoanFailed,
+    getAllTaiKhoanStart,
+    getAllTaiKhoanSuccess,
+    getAllTaiKhoanFailed,
+    deleteTaiKhoanStart,
+    deleteTaiKhoanSuccess,
+    deleteTaiKhoanFailed,
+    logOutSuccessTaiKhoan,
+} from "./taiKhoanSlice";
 export const loginUser = async (user, setdangNhapOk, dispatch) => {
     dispatch(loginStart());
     try {
@@ -207,24 +229,24 @@ export const logOut = async (dispatch, id, accessToken, axiosJWT) => {
             headers: { token: `Bearer ${accessToken}` },
         });
         dispatch(logOutSuccess());
-        dispatch(logOutSuccessPost());
         dispatch(logOutSuccessSanPham());
         dispatch(logOutSuccessStatus());
         dispatch(logOutSuccessUser());
+        dispatch(logOutSuccessPost());
         dispatch(logOutSuccessYourStatus());
         dispatch(logOutSuccessttShop());
         dispatch(logOutSuccessdonHang());
         dispatch(logOutSuccessgioHang());
+        dispatch(logOutSuccessTaiKhoan());
     } catch (err) {
         dispatch(logOutFailed());
     }
 };
-export const registerPost = async (post, dispatch, setloading) => {
+export const registerPost = async (post, dispatch) => {
     dispatch(registerPostStart());
     try {
         const res = await axios.post("/v1/post/", post);
         dispatch(registerPostSuccess(res.data));
-        setloading(0);
     } catch (err) {
         dispatch(registerPostFailed());
     }
@@ -367,11 +389,18 @@ export const registerSanPham = async (newSanPham, dispatch, setloading) => {
         setloading(0);
     }
 };
-export const getSanPham = async (idShop, nhomSP, skip, limit, dispatch) => {
+export const getSanPham = async (
+    idShop,
+    nhomSP,
+    sort,
+    skip,
+    limit,
+    dispatch
+) => {
     dispatch(getSanPhamStart());
     try {
         const res = await axios.get(
-            `/v1/shop/san-pham/?idShop=${idShop}&nhomSP=${nhomSP}&skip=${skip}&limit=${limit}`
+            `/v1/shop/san-pham/?idShop=${idShop}&nhomSP=${nhomSP}&sort=${sort}&skip=${skip}&limit=${limit}`
         );
         dispatch(getSanPhamSuccess(res.data));
     } catch (err) {
@@ -379,15 +408,15 @@ export const getSanPham = async (idShop, nhomSP, skip, limit, dispatch) => {
     }
 };
 
-export const getSanPhamDan = async (skip, limit, dispatch) => {
-    dispatch(getSanPhamDanStart());
+export const getAllSanPham = async (idShop, skip, limit, dispatch) => {
+    dispatch(getSanPhamStart());
     try {
         const res = await axios.get(
-            `/v1/shop/san-pham-dan/?skip=${skip}&limit=${limit}`
+            `/v1/shop/all-san-pham/?idShop=${idShop}&skip=${skip}&limit=${limit}`
         );
-        dispatch(getSanPhamDanSuccess(res.data));
+        dispatch(getSanPhamSuccess(res.data));
     } catch (err) {
-        dispatch(getSanPhamDanFailed());
+        dispatch(getSanPhamFailed());
     }
 };
 export const getSanPhamDanHuyen = async (huyen, skip, limit, dispatch) => {
@@ -433,7 +462,6 @@ export const getArrSanPham = async (arrIdSanPham, dispatch) => {
         dispatch(getArrSanPhamFailed());
     }
 };
-
 export const deleteSanPham = async (id, setloading, dispatch) => {
     dispatch(deleteSanPhamStart());
     try {
@@ -492,6 +520,28 @@ export const getAllttShop = async (idShop, dispatch) => {
         dispatch(getAllttShopFailed());
     }
 };
+export const getAllttShopTimKiem = async (
+    tenSdt,
+    tinh,
+    huyen,
+    xa,
+    kinhDo,
+    viDo,
+    skip,
+    limit,
+    dispatch
+) => {
+    dispatch(getAllttShopTimKiemStart());
+    try {
+        const res = await axios.get(
+            `/v1/shop/tim-kiem-all-shop/?tenSdt=${tenSdt}&tinh=${tinh}&huyen=${huyen}&xa=${xa}&kinhDo=${kinhDo}&viDo=${viDo}&skip=${skip}&limit=${limit}`
+        );
+        dispatch(getAllttShopTimKiemSuccess(res.data));
+    } catch (err) {
+        dispatch(getAllttShopTimKiemFailed());
+    }
+};
+
 export const updatettShop = async (newShop, id, dispatch, setloading) => {
     dispatch(updatettShopStart());
     try {
@@ -524,6 +574,14 @@ export const updateDonHang = async (newDonHang, id, dispatch) => {
 };
 export const getDonHang = async (
     idShop,
+    sdtCtv,
+    sdtKhachHang,
+    sdtOrder,
+    sdtXuLyDon,
+    sdtGiaoHang,
+    sdtThuTien,
+    kinhDo,
+    viDo,
     skip,
     limit,
     trangThaiDH,
@@ -532,13 +590,14 @@ export const getDonHang = async (
     dispatch(getdonHangStart());
     try {
         const res = await axios.get(
-            `/v1/shop/don-hang/?idShop=${idShop}&skip=${skip}&limit=${limit}&trangThaiDH=${trangThaiDH}`
+            `/v1/shop/don-hang/?idShop=${idShop}&sdtCtv=${sdtCtv}&sdtKhachHang=${sdtKhachHang}&sdtOrder=${sdtOrder}&sdtXuLyDon=${sdtXuLyDon}&sdtGiaoHang=${sdtGiaoHang}&sdtThuTien=${sdtThuTien}&kinhDo=${kinhDo}&viDo=${viDo}&skip=${skip}&limit=${limit}&trangThaiDH=${trangThaiDH}`
         );
         dispatch(getdonHangSuccess(res.data));
     } catch (err) {
         dispatch(getdonHangFailed());
     }
 };
+
 export const getOneDonHang = async (idShop, soBan, dispatch) => {
     dispatch(getOnedonHangStart());
     try {
@@ -600,3 +659,51 @@ export const deleteGioHang = async (id, dispatch) => {
     }
 };
 // Gio Hang
+export const registerTaiKhoan = async (newTaiKhoan, dispatch) => {
+    dispatch(registerTaiKhoanStart());
+    try {
+        const res = await axios.post(
+            "/v1/tai-khoan/tai-khoan-moi",
+            newTaiKhoan
+        );
+        dispatch(registerTaiKhoanSuccess(res.data));
+    } catch (err) {
+        dispatch(registerTaiKhoanFailed());
+    }
+};
+export const getTaiKhoan = async (id, dispatch) => {
+    dispatch(getTaiKhoanStart());
+    try {
+        const res = await axios.get(`/v1/tai-khoan/${id}`);
+        dispatch(getTaiKhoanSuccess(res.data));
+    } catch (err) {
+        dispatch(getTaiKhoanFailed());
+    }
+};
+export const getAllTaiKhoan = async (dispatch) => {
+    dispatch(getAllTaiKhoanStart());
+    try {
+        const res = await axios.get(`/v1/tai-khoan`);
+        dispatch(getAllTaiKhoanSuccess(res.data));
+    } catch (err) {
+        dispatch(getAllTaiKhoanFailed());
+    }
+};
+export const updateTaiKhoan = async (newTaiKhoan, id, dispatch) => {
+    dispatch(updateTaiKhoanStart());
+    try {
+        const res = await axios.put(`/v1/tai-khoan/${id}`, newTaiKhoan);
+        dispatch(updateTaiKhoanSuccess(res.data));
+    } catch (err) {
+        dispatch(updateTaiKhoanFailed());
+    }
+};
+export const deleteTaiKhoan = async (id, dispatch) => {
+    dispatch(deleteyourStatusStart());
+    try {
+        const res = await axios.delete(`/v1/tai-khoan/${id}`);
+        dispatch(deleteyourStatusSuccess(res.data));
+    } catch (err) {
+        dispatch(deleteyourStatusFailed());
+    }
+};

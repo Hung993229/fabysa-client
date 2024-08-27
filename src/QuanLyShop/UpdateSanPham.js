@@ -49,6 +49,8 @@ const UpdateSanPham = (props) => {
     const [giaKhuyenMai, setgiaKhuyenMai] = useState(0);
     const [giaCtv, setgiaCtv] = useState(0);
     const [giaSi, setgiaSi] = useState(0);
+    const [view, setview] = useState(thongTinSp?.view || "Hiện");
+    console.log("view", view);
 
     const dacDiemSanPham = {
         AnhSanPham,
@@ -164,9 +166,11 @@ const UpdateSanPham = (props) => {
             const newSanPham = {
                 nhomSanPham: nhomSP,
                 TenSanPham: tenSP,
+                giaMin: allDacDiemSP[0]?.giaKhuyenMai,
                 allDacDiemSP: allDacDiemSP,
                 thongTinSanPham: thongTinSP,
                 TenShop: ttShop?.TenShop,
+                view: view,
                 xa: ttShop?.xa,
                 huyen: ttShop?.huyen,
                 tinh: ttShop?.tinh,
@@ -190,16 +194,13 @@ const UpdateSanPham = (props) => {
     const handleXoaSanPham = (id) => {
         deleteSanPham(id, setloading, dispatch);
         setloading(1);
-        // setnhomSP(thongTinSp?.nhomSanPham);
-        // setallSanPham([]);
-        // setskip(0);
     };
     // Xoa san pham
     return (
         <div className="UpdateSanPham-ConTaiNer">
             <div className="quayLai-tieuDe">
                 <div className="quayLai" onClick={() => setloading(4)}>
-                    Quay Lại
+                    <i className="fa fa-angle-double-left"></i>Quay Lại
                 </div>
                 <div className="tieuDe">Sửa Sản Phẩm</div>
             </div>
@@ -218,13 +219,25 @@ const UpdateSanPham = (props) => {
                             })}
                     </select>
                     <br />
-                    <input
-                        id="input0"
-                        className="tenSanPham"
-                        type="text"
-                        placeholder={thongTinSp?.TenSanPham}
-                        onChange={(e) => settenSP(e.target.value)}
-                    />
+                    <div className="tenSp-hienAn">
+                        <input
+                            id="input0"
+                            className="tenSanPham"
+                            type="text"
+                            placeholder={thongTinSp?.TenSanPham}
+                            onChange={(e) => settenSP(e.target.value)}
+                        />
+                        {view === "Hiện" && (
+                            <div onClick={() => setview("Ẩn")} className="hien">
+                                Hiện
+                            </div>
+                        )}
+                        {view === "Ẩn" && (
+                            <div onClick={() => setview("Hiện")} className="an">
+                                Ẩn
+                            </div>
+                        )}
+                    </div>
                 </div>
                 <div className="phanLoaiSanPham">
                     Đặc Điểm Phân Loại (Size, Màu sắc, Kích thước, ...)

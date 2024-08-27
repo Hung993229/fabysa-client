@@ -1,28 +1,41 @@
 /* Mobile & Tablet */
 @media screen and (max-width : 1023px) {
     .addSpConrainer{
-        margin: 12vw 1vw;
-         .quayLai-tieuDe{
-        display: flex;
-        font-size: 3.5vw;
-        margin: 3vw auto;
-        a{
-            text-decoration: none;
+        
+        .quayLai-tieuDe{
+            display: flex;
+            font-size: 3.5vw;
+            background-color: #fff;
+            border-bottom: #d0d4dd 1px solid;
+            position: fixed;
+        
+            top: 0px;
+              z-index: 1;
+            a{
+                text-decoration: none;
+            }
+            .quayLai{
+                color: #04aa6d;
+                width: 25vw;
+                text-align: left;
+                line-height: 9vw;
+                padding-left: 2vw;
+               
+            }
+            .tieuDe{
+              font-size: 3.9vw;
+                font-weight: 600;
+                color: red;
+                text-align: center;
+                width: 75vw;
+                line-height: 9vw;
+                text-transform: uppercase;
+                padding-right: 25vw;
+      
+            }
         }
-        .quayLai{
-            color: #04aa6d;
-            width: 25vw;
-            text-align: left;
-        }
-        .tieuDe{
-            font-weight: 600;
-            color: red;
-            text-align: center;
-            width: 50vw;
-            margin-right: 25vw;
-        }
-    }
     .AddSp{
+        margin: 12vw 1vw 30vw;
         .nhomTen{
             .nhomSanPham{
                 width: 50%;
@@ -30,10 +43,10 @@
                 margin: 3vw;
                 border-radius: 1vw;
               border: solid 1px gray;
-              text-align: center;
+              text-align-last:center;
   
                 option{
-                    text-align: center;
+                    text-align-last:center;
                 }
     
             }
@@ -59,20 +72,20 @@
         
           .anhDD{
                   border: solid 1px gray;
-                  height: 18vw;
+                  height: 24vw;
                   width: 18vw;
                   object-fit: cover;
                   margin-bottom: 1vw;
+                  border-radius: 1vw;
   
           }
           .phanLoai-container{
+            margin-top: 3vw;
               .tenDD-giaV-giaNY-giaKM{
                   display: flex;
                   gap:1vw;
                   .tenDD-themInput{
                       margin-bottom: 2vw;
-                     
-                   
                       .tenDD{
                           width: 19vw;
                           font-size: 2.2vw;
@@ -87,7 +100,7 @@
                           height: 4vw;
                           border-radius: 0.5vw;
                           border: solid 1px gray;
-                           border: solid 1px gray;
+                          text-align-last:center;
       
                       }
                   }
@@ -150,6 +163,7 @@
        }
         .addThanhCong{
             font-size: 3.5vw;
+            margin-top: 15vw;
             .themThanhCong{
               
 
@@ -164,6 +178,7 @@
                     font-weight: 600;
                     border-radius: 1vw;
                     background-color: #04aa6d;
+                    line-height: 8vw;
                 }
             }
 

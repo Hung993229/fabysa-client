@@ -6,93 +6,128 @@
     a{
       text-decoration: none;
     }
+    .quayLai-tieuDe{
+      display: flex;
+      font-size: 3.5vw;
+      background-color: #fff;
+      border-bottom: #d0d4dd 1px solid;
+      position: fixed;
+  
+      top: 0px;
+        z-index: 1;
+      a{
+          text-decoration: none;
+      }
+      .quayLai{
+          color: #04aa6d;
+          width: 25vw;
+          text-align: left;
+          line-height: 9vw;
+          padding-left: 2vw;
+         
+      }
+      .tieuDe{
+        font-size: 3.9vw;
+          font-weight: 600;
+          color: red;
+          text-align: center;
+          width: 75vw;
+          line-height: 9vw;
+          text-transform: uppercase;
+          padding-right: 25vw;
+
+      }
+  }
     
     .suaNhomSanPham{
-      margin: 12vw 2vw;
-      .quayLai-tieuDe{
-        display: flex;
-        // border: solid 1px gray;
-        font-size: 3.5vw;
-        margin: 3vw auto;
-        .quayLai{
-            color: #04aa6d;
-            width: 25vw;
-            text-align: left;
+      margin: 15vw 2vw;
 
-        }
-        .tieuDe{
-            // border: solid 1px gray;
-            font-weight: 600;
-            color: red;
-            text-align: center;
-            width: 50vw;
-            margin-right: 25vw;
-
-        }
-    }
       .themNhom{
         display: flex;
         justify-content: center;
         align-items: center;
         gap: 3vw;
         font-size: 3vw;
+        margin-bottom: 5vw;
         .tenNhom{
-          width: 68vw;
+          width: 83vw;
           border: solid 1px gray ;
           text-align: center;
           border-radius: 1vw;
           font-size: 3.5vw;
           font-weight: 500;
-          height: 6vw;
+          height: 8vw;
         }
         .them{
-          width: 20vw;
-          line-height: 6vw;
-          background-color: #04aa6d;
+          width: 10vw;
+          line-height: 8vw;
           color: #fff;
-          border-radius: 1vw;
-          font-size: 3.5vw;
-          font-weight: 500;
-          cursor: pointer;
+          background-color: #04aa6d;
+          border-radius: 2vw;
+          font-size: 6vw;
+          font-weight: 600;
           
 
         }
       }
-      .danhSachNhom{
-        font-size: 5vw;
-        font-weight: 500;
-        margin: 3vw auto;
-
-      }
+      
       .tenNhomXoa{
         display: flex;
-        justify-content: center;
-        align-items: center;
-        margin: 2vw;
-        gap: 3vw;
+        margin: 2vw auto;
+        border: solid 1px #d0d4dd ;
         font-size: 3.5vw;
-        font-weight: 500;
+        border-radius: 2vw;
         .tenNhom{
-          width: 68vw;
+          width: 86vw;
+          line-height: 8vw;
           text-align: center;
-          border-radius: 1vw;
-          background-color: #d0d4dd;
-          font-size: 3.5vw;
-          font-weight: 500;
-          line-height: 6vw;
           text-transform: uppercase;
 
         }
         .xoa{
-          width: 20vw;
-          background-color: red;
-          color: #fff;
-          border-radius: 1vw;
-          font-size: 3.5vw;
-          font-weight: 500;
-          cursor: pointer;
-          line-height: 6vw;
+          width: 10vw;
+          line-height: 8vw;
+          border-radius: 2vw;
 
+        }
+      }
+      .luuY{
+        font-size: 3vw;
+        color: red;
+        text-align: left;
+        line-height: 6vw;
+      }
+      .dsSanPham-container{
+        margin-top: 5vw;
+        .danhSach{
+          line-height: 6vw;
+          font-weight: 600;
+          font-size: 3.5vw;
+          text-align: left;
+          margin: 2vw auto;
+          
+        }
+        .allSanPham{
+          display: flex;
+          gap:5vw;
+          padding:   1vw;
+          font-size: 3.5vw;
+          border: solid 1px #d0d4dd ;
+          margin-bottom: 2vw;
+          border-radius: 2vw;
+          .tenSp{
+width: 50vw;
+line-height: 6vw;
+text-align: left;
+text-transform: uppercase;
+          }
+          .nhomSanPham{
+width: 41vw;
+height: 6vw;
+text-align-last:center ;
+border: solid 1px #d0d4dd ;
+border-radius: 2vw;
+          }
         }
       }
     }

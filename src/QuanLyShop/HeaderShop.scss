@@ -3,106 +3,202 @@
 /* Mobile & Tablet */
 @media screen and (max-width : 1023px) {
   .HeaderShop-ConTaiNer{
-    margin: 10vw 0vw 5vw;
+ 
     a{
       text-decoration: none;
       color: black;
     }
-    .banner-tenShop{
-        .banner{
-            width: 100%;
-            height: 55vw;
-            object-fit: cover;
-
-        }
-        .tenShop{
-            color: red;
-            text-transform: uppercase;
-            padding: 1vw 0vw;
-            font-size: 5vw;
-            font-weight: 600;
-            line-height: 8vw;
-
-        }
-        .like{
-            margin-left: 36vw;
-            font-style: italic;
-            border-radius: 1vw;
-            width: 28vw;
-            text-align: center;
-            font-size: 3.5vw;
-            font-weight: 668;
-            margin: 2vw auto;
-
-        }
-        .daLike{
-            margin-left: 36vw;
-            font-style: italic;
-            border-radius: 1vw;
-            width: 28vw;
-            text-align: center;
-            font-size: 3.5vw;
-            font-weight: 668;
-            margin: 2vw auto;
-            color: #04aa6d;
-
-        }
-        .nganHang-gioiThieu{
-            display: flex;
-            margin: 0vw 5vw;
-            gap:34vw;
-            .nganHang{
-        padding: 2vw;
-        color: #fff;
-        border-radius: 1vw;
-        background-color: #04aa6d;
-        width: 28vw;
-        text-align: center;
+    .headerShop21{
+        display: flex;
         font-size: 3.5vw;
-        font-weight: 600;
+      background-color: #fff;
+      border-bottom: #d0d4dd 1px solid;
+      position: fixed;
+      top: 0px;
+        z-index: 3;
+        .gioHang21-container{
+            width: 25vw;
+            height: 9vw;
+            display: flex;
         
-  
-            }
-            .gioiThieu{
-                padding: 2vw;
-        display: block;
-        color: #fff;
-        border-radius: 1vw;
-        background-color: #04aa6d;
-        width: 28vw;
-        text-align: center;
-        font-size: 3.5vw;
-             font-weight: 600;
-        border: none;
-  
-            }
-        }
-    }
-    .nganHang-container{
-        margin: 12vw 2vw;
-        .quayLai-tieuDe{
-            display: flex;
-            // border: solid 1px gray;
-            font-size: 3.5vw;
-            margin: 2vw auto;
-            .quayLai{
-                color: #04aa6d;
-                width: 25vw;
-                text-align: left;
-                // padding: 0vw 2vw;
+            .gioHang2{
+                width: 7vw;
+                height: 7vw;
+                border-radius: 50%;
+                border: solid 1px #04aa6d;
+                margin: 1vw;
+                // font-size: 4.5vw;
       
+    
             }
-            .tieuDe{
-                // border: solid 1px gray;
+            .soLuong-thanhTien{
+            width: 16vw;
+            font-size: 2.8vw;
+            padding-left:1vw ;
+            text-align: left;
+           
+                .soLuong{
+                    line-height: 4vw;
+                font-weight: 500;
+                     color: red;
+    
+                }
+                .thanhTien{
+                    line-height: 5vw;
+                }
+            }
+
+        }
+        .tieuDe{
+                font-size: 3.8vw;
                 font-weight: 600;
                 color: red;
                 text-align: center;
                 width: 50vw;
-                margin-right: 25vw;
+                line-height: 9vw;
+                text-transform: uppercase;
+               
+        }
+        .caNhan{
+            display: flex;
+            width: 25vw;
+             height: 9vw;
+       
+            .xinChao-taiKhoan{
+                width: 16vw;
+                .xinChao{
+                    font-size: 2.8vw;
+                    line-height: 4.5vw;
+                    padding-right:1vw ;
+                    text-align: right;
+                }
+                .taiKhoan{
+                    font-size: 2.8vw;
+                    line-height: 4.5vw;
+                    padding-right:1vw ;
+                    text-align: right;
+            
+                    }
+            }
+            
+            .avatar{
+                    width: 7vw;
+                    height: 7vw;
+                    border-radius: 50%;
+                    border: solid 1px #04aa6d;
+                    margin: 1vw;
+            }
+        }
+        
+    }
+    .banner-tenShop{
+           margin: 9vw 0vw 21vw;
+           position: relative;
+        .bannerx{
+            width: 100%;
+            height: 56vw;
+            object-fit: cover;
+            border-bottom: solid 1px #04aa6d ;
+            z-index: 1;
+
+        }
+        .logo-tenShop-gioiThieu{
+            display: flex;
+            position: absolute;
+               top: 55vw;
+                z-index: 2;
+            .tenShop-gioiThieu-nganHang{
+              
+                .tenShop-follow{
+                    display: flex;
+                    color: #fff;
+                    background-color: #04aa6d;
+                    font-size: 3.9vw;
+                    font-weight: 600;
+                    // border: solid 1px #04aa6d;
+                                //  position: absolute;
+               
+                    .tenShop{
+                        width: 75vw;
+                        // border: solid 1px gray;
+                        text-align: left;
+                       
+                       
+                        line-height: 9vw;
+                        text-transform: uppercase;
+                        
+                        padding-left:2vw;
+                   
+    
+                    }
+                    .follow{
+                        text-align: center;
+                        width: 25vw;
+                        line-height: 9vw;
+                        color: black;
+
+                    }
+                    .followed{
+                        text-align: center;
+                        width: 25vw;
+                        line-height: 9vw;
+                        color: #fff;
+
+                    }
+                }
+                .gioiThieu-nganHang-follow{
+                    padding-left: 2vw;
+                    display: flex;
+                    gap: 5vw;
+                    line-height: 9vw;
+                    font-size: 3.5vw;
+                    font-weight: 600;
+                    color: #04aa6d;
+                    .gioiThieu{                       
+                    }
+                    .nganHang{        
+                    }
+               
+                }
+            }
+        }
+    }
+    .nganHang-container{
+       
+        .quayLai-tieuDe{
+            display: flex;
+            font-size: 3.5vw;
+            background-color: #fff;
+            border-bottom: #d0d4dd 1px solid;
+            position: fixed;
+        
+            top: 0px;
+              z-index: 1;
+            a{
+                text-decoration: none;
+            }
+            .quayLai{
+                color: #04aa6d;
+                width: 25vw;
+                text-align: left;
+                line-height: 9vw;
+                padding-left: 2vw;
+               
+            }
+            .tieuDe{
+              font-size: 3.9vw;
+                font-weight: 600;
+                color: red;
+                text-align: center;
+                width: 75vw;
+                line-height: 9vw;
+                text-transform: uppercase;
+                padding-right: 25vw;
       
             }
         }
      .ttTaiKhoan{
+        margin: 12vw 2vw;
         line-height: 6vw;
         font-weight: 600;
         font-size: 3.5vw;
@@ -119,7 +215,9 @@
      }
      .nhapSoTien{
         margin: 5vw auto;
-        font-size: 3.5vw;
+        color: red;
+        font-size: 3.9vw;
+    font-weight: 600;
         height: 8vw;
         width: 60vw;
         text-align: center;
@@ -127,10 +225,15 @@
         border-radius: 1vw;
 
      }
+     .nhapSoTien::placeholder {
+        color: red;
+        font-size: 3.9vw;
+    font-weight: 600;
+      }
      .menhGiaTien{
         display: grid;
         grid-template-columns: 1fr 1fr 1fr 1fr 1fr; 
-      
+        margin: auto 2vw;
         gap:2vw;
         color: #fff;
         font-weight: 600;
@@ -148,7 +251,7 @@
         font-weight: 600;
         font-size: 3.5vw;
         text-align: left;
-        margin: 5vw auto;
+        margin: 5vw 2vw;
 
      }
      .qr{
@@ -158,40 +261,52 @@
      }
       }
     .gioiThieuChiTiet{
-        margin: 12vw 2vw;
+       margin-bottom: 30vw;
         .quayLai-tieuDe{
             display: flex;
             font-size: 3.5vw;
-            margin: 2vw auto;
+            background-color: #fff;
+            border-bottom: #d0d4dd 1px solid;
+            position: fixed;
+        
+            top: 0px;
+              z-index: 1;
+            a{
+                text-decoration: none;
+            }
             .quayLai{
                 color: #04aa6d;
                 width: 25vw;
                 text-align: left;
-      
+                line-height: 9vw;
+                padding-left: 2vw;
+               
             }
             .tieuDe{
+              font-size: 3.9vw;
                 font-weight: 600;
                 color: red;
                 text-align: center;
-                width: 50vw;
-    
+                width: 75vw;
+                line-height: 9vw;
+                text-transform: uppercase;
+                padding-right: 25vw;
       
             }
         }
         .gioiThieu-container{
-            margin-bottom: 5vw;
+            margin: 12vw 2vw 5vw;
             .gioiThieu{
                 line-height: 6vw;
                 font-weight: 600;
                 font-size: 3.5vw;
                 text-align: left;
-                margin-bottom: 2vw;
             }
             .tenShop{
                   color: #04aa6d;
                   font-weight: 600;
                   font-size: 3.5vw;
-                  text-align: center;
+                  text-align: left;
                   margin-bottom: 1vw;
                   text-transform: uppercase;
     
@@ -210,13 +325,29 @@
   
             }
         }
+        .gioiThieu-container2{
+            margin: 0vw 2vw 5vw;
+            .gioiThieu2{
+ line-height: 6vw;
+                font-weight: 600;
+                font-size: 3.5vw;
+                text-align: left;
+            }
+            .gt2{
+                font-size: 3vw;
+                text-align: left;
+              margin-left: 2vw;
+                line-height: 5vw;
+            }
+
+            
+         }
         .quanLy-container{
-            margin-bottom: 5vw;
+            margin: 0vw 2vw 5vw;
             .quanLy{
                 font-weight: 600;
                 font-size: 3.5vw;
                 text-align: left;
-                margin-bottom: 2vw;
                 line-height: 6vw;
             }
             .donHang{
@@ -232,9 +363,9 @@
             }
         }
         .khoContainer{
-            margin-bottom: 5vw;
+            margin: 5vw 2vw 0vw;
           .dsKho{
-            margin-bottom: 2vw;
+            // margin-bottom: 2vw;
             font-weight: 600;
                 font-size: 3.5vw;
                 text-align: left;
@@ -253,21 +384,23 @@
             }
         }    
          .qrcode-container{
+            margin-top: 5vw;
             .qrcode{
                 line-height: 6vw;
                 font-weight: 600;
                 font-size: 3.5vw;
                 text-align: left;
-                margin-bottom: 10vw;
+                margin: auto 2vw 10vw;
 
             }
             .taiqr{
                 font-size: 3.5vw;
                 line-height: 8vw;
                 font-weight: 500;
-                color: #04aa6d;
+             
             }
          }
+        
       }     
      
           

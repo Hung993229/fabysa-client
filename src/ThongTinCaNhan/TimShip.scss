@@ -1,0 +1,227 @@
+
+
+/* Mobile & Tablet */
+@media screen and (max-width : 1023px) {
+  .view{
+    .mobile{
+      .TimShip-ConTaiNer{
+        .quayLai-tieuDe{
+          width: 100vw;
+          display: flex;
+          font-size: 3.5vw;
+          background-color: #fff;
+          border-bottom: #d0d4dd 1px solid;
+          position: fixed;
+          top: 0px;
+            z-index: 1;
+          a{
+              text-decoration: none;
+          }
+          .quayLai{
+              color: #04aa6d;
+              width: 25vw;
+              text-align: left;
+              line-height: 9vw;
+              padding-left: 2vw;
+             
+          }
+            .tieuDe{
+                font-size: 3.9vw;
+                font-weight: 600;
+                color: red;
+                text-transform: uppercase;
+                width: 50vw;
+                line-height: 9vw;
+         
+      
+            }
+         
+        }
+        .chonDonHang-phiNenTang{
+          margin: 12vw 2vw auto;
+          display: flex;
+          gap: 16vw;
+          
+         .chonDonHang-container{
+          width: 40vw;
+          .tieuDe{
+              line-height: 6vw;
+              font-weight: 600;
+              font-size: 3.5vw;
+              text-align: center;
+      
+          }
+          .chonDonHang{
+      width: 100%;
+      height: 8vw;
+      font-size: 3.5vw;
+      border: solid 1px gray;
+      text-align-last:center ;
+      border-radius: 2vw;
+          }
+         }
+        }
+        .donHang-all{
+          margin: 5vw 2vw 30vw;
+          .ds{
+              line-height: 6vw;
+              font-weight: 600;
+              font-size: 3.5vw;
+              text-align: left;
+          }
+              .donHang-container2{
+                  // display: flex;
+                  margin: 2vw auto;
+                  padding: 0vw 2vw;
+                  border: solid 1px #04aa6d;
+                  border-radius: 2vw;
+                  justify-content: center;
+                  align-items: center;
+                  font-size: 3vw;
+                  .ngayThang{
+                      text-align: left;
+                      line-height: 6vw;
+                     
+      
+                  }
+                  .noiGui-diaChi{
+                    width: 92vw;
+                    .noiGui{
+                   
+                      font-weight: 600;
+                      color: red;
+                      text-align: left;
+                      line-height: 6vw;
+                    }
+                    .diaChi{
+                      text-align: center;
+                      padding-left: 2vw;
+                      line-height: 6vw;
+                      font-size: 3.5vw;
+
+                    }
+
+                  }
+                  // .xemChiTiet{
+                  //     width: 18vw;
+                  //     color: red;
+                  //     line-height: 6vw;
+                      
+                  // }
+              }
+              .donHangTrong{
+                  line-height: 6vw;
+                  font-weight: 600;
+                  font-size: 3.5vw;
+                  text-align: center;
+              }
+          }
+      }
+      .chiTietDonHang-ConTaiNer{
+        .quayLai-tieuDe{
+          width: 100vw;
+          display: flex;
+          font-size: 3.5vw;
+          background-color: #fff;
+          border-bottom: #d0d4dd 1px solid;
+          position: fixed;
+          top: 0px;
+            z-index: 1;
+          a{
+              text-decoration: none;
+          }
+          .quayLai{
+              color: #04aa6d;
+              width: 25vw;
+              text-align: left;
+              line-height: 9vw;
+              padding-left: 2vw;
+             
+          }
+            .tieuDe{
+                font-size: 3.9vw;
+                font-weight: 600;
+                color: red;
+                text-transform: uppercase;
+                width: 50vw;
+                line-height: 9vw;
+         
+      
+            }
+         
+        }
+        .chiTiet{
+          margin: 12vw 2vw auto;
+          font-size: 3.5vw;
+          .phiShip{
+            width: 96vw;
+            line-height: 6vw;
+            font-weight: 600;
+            color: red;
+            text-align: left;
+          }
+          .tienCoc{
+            color: red;
+            width: 96vw;
+            line-height: 6vw;
+            font-weight: 600;
+            margin: 2vw auto 0vw;
+            text-align: left;
+          }
+          .noiGui-thongTin{
+            margin: 2vw auto 0vw;
+            .tieuDe{
+              width: 96vw;
+              line-height: 6vw;
+              font-weight: 600;
+              
+              text-align: left;
+     
+
+            }
+            .noiDung{
+              width: 96vw;
+              text-align: left;
+              line-height: 6vw;
+              padding-left: 2vw;
+            }
+            .phiShip{
+              width: 96vw;
+              text-align: left;
+              line-height: 6vw;
+            }
+          }
+          .nhanDon{
+            width: 35vw;
+            margin: 10vw auto 0vw;
+            line-height:8vw ;
+           background-color: #04aa6d;
+           color: #fff;
+            border-radius: 2vw;
+            font-size: 3.5vw;
+            font-weight: 600;
+
+          }
+        }
+      }
+    }
+    .pc{
+      display: none;
+    }
+  }
+  
+}
+
+/* PC*/
+@media screen and (min-width : 1024px) {
+  .view{
+    .mobile{
+     display: none;
+    }
+    .pc{
+      .TimShip-ConTaiNer{
+    
+      }
+    }
+  }
+}

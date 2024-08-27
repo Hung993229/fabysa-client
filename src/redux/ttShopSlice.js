@@ -8,6 +8,7 @@ const ttShopSlice = createSlice({
             error: false,
             success: false,
             allttShop: null,
+            allShopTimKiem: null,
         },
     },
     reducers: {
@@ -17,6 +18,7 @@ const ttShopSlice = createSlice({
             state.ttShop.error = false;
             state.ttShop.success = false;
             state.ttShop.allttShop = null;
+            state.ttShop.allShopTimKiem = null;
         },
         updatettShopStart: (state) => {
             state.ttShop.isFetching = true;
@@ -69,6 +71,20 @@ const ttShopSlice = createSlice({
             state.ttShop.isFetching = false;
             state.ttShop.error = true;
         },
+
+        getAllttShopTimKiemStart: (state) => {
+            state.ttShop.isFetching = true;
+        },
+        getAllttShopTimKiemSuccess: (state, action) => {
+            state.ttShop.isFetching = false;
+            state.ttShop.allShopTimKiem = action.payload;
+            state.ttShop.success = true;
+        },
+        getAllttShopTimKiemFailed: (state) => {
+            state.ttShop.isFetching = false;
+            state.ttShop.error = true;
+        },
+
         deletettShopStart: (state) => {
             state.ttShop.isFetching = true;
         },
@@ -98,6 +114,9 @@ export const {
     getAllttShopStart,
     getAllttShopSuccess,
     getAllttShopFailed,
+    getAllttShopTimKiemStart,
+    getAllttShopTimKiemSuccess,
+    getAllttShopTimKiemFailed,
     deletettShopStart,
     deletettShopSuccess,
     deletettShopFailed,

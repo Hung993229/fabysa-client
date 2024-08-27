@@ -1,84 +1,343 @@
 import "./DonMua.scss";
-import { useParams } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { getDonHang } from "../redux/apiRequest";
-import { useEffect } from "react";
+import CommonUtils from "../component/CommonUtils";
 import { useState } from "react";
+import menu from "../assets/images/menu.png";
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { NavLink } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { getDonHang, updateDonHang, getttShop } from "../redux/apiRequest";
+import Loading from "../GiaoDienChung/Loading";
+import { useEffect } from "react";
+import DonHang from "./DonHang";
 const DonMua = () => {
-    const { idShop } = useParams();
-    const user = useSelector((state) => state.auth.login.currentUser);
-    const dispatch = useDispatch();
+    const { tenVietTat, idShop, idCtv, tenCtv, sdtCtv } = useParams();
 
-    const allDonHang = useSelector(
+    const user = useSelector((state) => state.auth.login.currentUser);
+    const allDonHang2 = useSelector(
         (state) => state.donHang.donHang.alldonHang?.allDonHang
     );
-    const [skip, setskip] = useState(0);
-    const trangThaiDH = 1;
+    const [allDonHang, setallDonHang] = useState([]);
     useEffect(() => {
-        const limit = 20
-        getDonHang(user?._id, skip,limit, trangThaiDH, dispatch);
-        
-    }, [skip]);
+        if (allDonHang2 && allDonHang2?.length !== 0) {
+            setallDonHang(allDonHang2);
+        }
+    }, [allDonHang2]);
+    console.log("allDonHang", allDonHang);
+    const allDonHangNhanTaiBan = allDonHang?.filter(
+        (item) => item?.khachHang?.noiNhan === "Nhận Tại Bàn"
+    );
+    const allDonHangTuDenLay = allDonHang?.filter(
+        (item) => item?.khachHang?.noiNhan === "Tự Đến Lấy"
+    );
+    const allDonHangShipTanNoi = allDonHang?.filter(
+        (item) => item?.khachHang?.noiNhan === "Ship Tận Nơi"
+    );
+    const ttShop = useSelector((state) => state.ttShop.ttShop.ttShop?.shop);
+    const [loading, setloading] = useState(0);
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const [skip, setskip] = useState(0);
+    const [thongTinDh, setthongTinDh] = useState();
+    const [trangThaiDH, settrangThaiDH] = useState("Đơn Hàng Mới");
+    console.log("trangThaiDH", trangThaiDH);
+    useEffect(() => {
+        const handleScroll = (e) => {
+            const scrollHeight = e.target.documentElement.scrollHeight;
+            const currentHeight =
+                e.target.documentElement.scrollTop + window.innerHeight;
+            if (currentHeight >= scrollHeight) {
+                setskip(skip + 20);
+            }
+        };
+        window.addEventListener("scroll", handleScroll);
+        return () => window.removeEventListener("scroll", handleScroll);
+    }, [allDonHang]);
+    useEffect(() => {
+        const idShop = user._id;
+        const limit = 20;
+        getDonHang(idShop, skip, limit, trangThaiDH, dispatch);
+    }, [trangThaiDH, skip]);
+    console.log("skip", skip);
+
+    const VND = new Intl.NumberFormat("vi-VN", {
+        style: "currency",
+        currency: "VND",
+    });
+    const handleChiTietDonHang = (item) => {
+        setloading(2);
+        setthongTinDh(item);
+        settrangThaiDH("");
+    };
+    console.log("loading", loading);
+    const dsMenuDonHang2 = [
+        "Đơn Hàng Mới",
+        "Đơn Hàng Đang Giao",
+        "Đơn Hàng Hoàn Thành",
+        "Đơn Hàng Huỷ",
+    ];
+    const dsMenuDonHang = dsMenuDonHang2.filter((item) => item !== trangThaiDH);
+    const handleChonDonHang = (item) => {
+        settrangThaiDH(item);
+        setallDonHang([]);
+        setskip(0);
+    };
+
     return (
-        <div className="DonMua">
-            <a
-                href={
-                    idShop === user?._id
-                        ? `/ca-nhan`
-                        : `/shop/ca-nhan/${idShop}`
-                }
-            >
-                <button className="CloseShop">Close</button>
-            </a>
-            <div className="tieuDeDonHang">Đơn Hàng Đang Giao</div>
-            {allDonHang && allDonHang.length !== 0 ? (
-                <div className="ttdonHang">
-                    <div className="thoiGian">Thời Gian</div>
-                    <div className="SanPham">
-                        <div className="tenSanPham">Sản Phẩm</div>
-                        <div className="soLuong">Số Lượng</div>
+        <>
+            {/* {loading === 0 && trangThaiDH && (
+                <div className="DonMua-container">
+                    <div className="quayLai-tieuDe">
+                        <a
+                            href={`/ca-nhan/${tenVietTat}/${idShop}/a/${idCtv}/${tenCtv}/${sdtCtv}`}
+                            onClick={() => setloading(0)}
+                            className="quayLai"
+                        >
+                            <i className="fa fa-angle-double-left"></i>Quay Lại
+                        </a>
+                        <select
+                            id="provinces"
+                            onChange={(e) => handleChonDonHang(e.target.value)}
+                        >
+                            <option>{trangThaiDH}</option>
+                            {dsMenuDonHang?.map((item) => {
+                                return <option key={item}>{item}</option>;
+                            })}
+                        </select>
+                    </div>
+                    <div className="donHang-all">
+                        {allDonHangNhanTaiBan &&
+                            allDonHangNhanTaiBan?.map((item, index) => {
+                                return (
+                                    <div
+                                        onClick={() =>
+                                            handleChiTietDonHang(item)
+                                        }
+                                        key={index}
+                                        className="donHang-container"
+                                    >
+                                        <div className="ngayThang">
+                                            {item?.createdAt.slice(5, 10)}{" "}
+                                            <br />
+                                            {item?.createdAt.slice(11, 19)}
+                                        </div>
+                                        <div className="donHang">
+                                            {item.donHang.map(
+                                                (item2, index) => {
+                                                    return (
+                                                        <div
+                                                            key={index}
+                                                            className="tenSp-dacDiem-soLuong"
+                                                        >
+                                                            <div className="tenSp">
+                                                                {
+                                                                    item2.tenSanPham
+                                                                }
+                                                            </div>
+                                                            {item2.allDacDiemSP.map(
+                                                                (
+                                                                    item3,
+                                                                    index
+                                                                ) => {
+                                                                    return (
+                                                                        <div
+                                                                            key={
+                                                                                index
+                                                                            }
+                                                                            className="dacDiem-soLuong"
+                                                                        >
+                                                                            <div className="dacDiem">
+                                                                                {
+                                                                                    item3.tenDacDiem
+                                                                                }
+                                                                            </div>
+                                                                            <div className="soLuong">
+                                                                                {
+                                                                                    item3.slMua
+                                                                                }
+                                                                            </div>
+                                                                        </div>
+                                                                    );
+                                                                }
+                                                            )}
+                                                        </div>
+                                                    );
+                                                }
+                                            )}
+                                        </div>
+                                        <div className="soBan">
+                                            Số Bàn <br />
+                                            {item.soBan}
+                                        </div>
+                                        <div className="xemChiTiet">
+                                            Xem <br /> Chi Tiết
+                                        </div>
+                                    </div>
+                                );
+                            })}
+                        {allDonHangShipTanNoi &&
+                            allDonHangShipTanNoi?.map((item, index) => {
+                                return (
+                                    <div
+                                        onClick={() =>
+                                            handleChiTietDonHang(item)
+                                        }
+                                        key={index}
+                                        className="donHang-container"
+                                    >
+                                        <div className="ngayThang">
+                                            {item?.createdAt.slice(5, 10)}{" "}
+                                            <br />
+                                            {item?.createdAt.slice(11, 19)}
+                                        </div>
+                                        <div className="donHang">
+                                            {item.donHang.map(
+                                                (item2, index) => {
+                                                    return (
+                                                        <div
+                                                            key={index}
+                                                            className="tenSp-dacDiem-soLuong"
+                                                        >
+                                                            <div className="tenSp">
+                                                                {
+                                                                    item2.tenSanPham
+                                                                }
+                                                            </div>
+                                                            {item2.allDacDiemSP.map(
+                                                                (
+                                                                    item3,
+                                                                    index
+                                                                ) => {
+                                                                    return (
+                                                                        <div
+                                                                            key={
+                                                                                index
+                                                                            }
+                                                                            className="dacDiem-soLuong"
+                                                                        >
+                                                                            <div className="dacDiem">
+                                                                                {
+                                                                                    item3.tenDacDiem
+                                                                                }
+                                                                            </div>
+                                                                            <div className="soLuong">
+                                                                                {
+                                                                                    item3.slMua
+                                                                                }
+                                                                            </div>
+                                                                        </div>
+                                                                    );
+                                                                }
+                                                            )}
+                                                        </div>
+                                                    );
+                                                }
+                                            )}
+                                        </div>
+                                        <div className="soBan">
+                                            Ship
+                                            <br />
+                                            Tận Nơi
+                                        </div>
+                                        <div className="xemChiTiet">
+                                            Xem <br /> Chi Tiết
+                                        </div>
+                                    </div>
+                                );
+                            })}
+                        {allDonHangTuDenLay &&
+                            allDonHangTuDenLay?.map((item, index) => {
+                                return (
+                                    <div
+                                        onClick={() =>
+                                            handleChiTietDonHang(item)
+                                        }
+                                        key={index}
+                                        className="donHang-container"
+                                    >
+                                        <div className="ngayThang">
+                                            {item?.createdAt.slice(5, 10)}{" "}
+                                            <br />
+                                            {item?.createdAt.slice(11, 19)}
+                                        </div>
+                                        <div className="donHang">
+                                            {item.donHang.map(
+                                                (item2, index) => {
+                                                    return (
+                                                        <div
+                                                            key={index}
+                                                            className="tenSp-dacDiem-soLuong"
+                                                        >
+                                                            <div className="tenSp">
+                                                                {
+                                                                    item2.tenSanPham
+                                                                }
+                                                            </div>
+                                                            {item2.allDacDiemSP.map(
+                                                                (
+                                                                    item3,
+                                                                    index
+                                                                ) => {
+                                                                    return (
+                                                                        <div
+                                                                            key={
+                                                                                index
+                                                                            }
+                                                                            className="dacDiem-soLuong"
+                                                                        >
+                                                                            <div className="dacDiem">
+                                                                                {
+                                                                                    item3.tenDacDiem
+                                                                                }
+                                                                            </div>
+                                                                            <div className="soLuong">
+                                                                                {
+                                                                                    item3.slMua
+                                                                                }
+                                                                            </div>
+                                                                        </div>
+                                                                    );
+                                                                }
+                                                            )}
+                                                        </div>
+                                                    );
+                                                }
+                                            )}
+                                        </div>
+                                        <div className="soBan">
+                                            Tự
+                                            <br />
+                                            Đến Lấy
+                                        </div>
+                                        <div className="xemChiTiet">
+                                            Xem <br /> Chi Tiết
+                                        </div>
+                                    </div>
+                                );
+                            })}
+                        {allDonHang && allDonHang?.length === 0 && (
+                            <div className="donHangTrong">Đơn hàng trống! </div>
+                        )}
                     </div>
                 </div>
-            ) : (
-                <div>Đơn hàng trống!</div>
             )}
 
-            {allDonHang?.map((item, index) => {
-                return (
-                    <div key={index}>
-                        <div className="ttdonHang">
-                            <div className="thoiGian">
-                                {item?.createdAt.slice(5, 10)}
-                            </div>
-                            <div>
-                                {item?.donHang?.map((item2, index) => {
-                                    return (
-                                        <div className="SanPham" key={index}>
-                                            <div className="tenSanPham">
-                                                {item2.TenSanPham}
-                                            </div>
-                                            <div className="soLuong">
-                                                {item2.soLuong}
-                                            </div>
-                                        </div>
-                                    );
-                                })}
-                            </div>
-                        </div>
-                    </div>
-                );
-            })}
-            {(skip > 20 || skip === 20) && (
-                <button onClick={() => setskip(+skip - 20)} className="xemThem">
-                    Quay Lại
-                </button>
-            )}
-            {allDonHang?.length === 20 && (
-                <button onClick={() => setskip(+skip + 20)} className="xemThem">
-                    Xem Thêm
-                </button>
-            )}
-        </div>
+            {loading === 1 && <Loading />}
+            {(loading === 2 || !trangThaiDH) && (
+                <DonHang
+                    loading={loading}
+                    setloading={setloading}
+                    thongTinDh={thongTinDh}
+                    setthongTinDh={setthongTinDh}
+                    trangThaiDH={trangThaiDH}
+                    settrangThaiDH={settrangThaiDH}
+                    setallDonHang={setallDonHang}
+                    allDonHang={allDonHang}
+                    setskip={setskip}
+                    skip={skip}
+                />
+            )} */}
+        </>
     );
 };
 export default DonMua;

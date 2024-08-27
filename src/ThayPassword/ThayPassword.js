@@ -1,14 +1,15 @@
 import "./ThayPassword.scss";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { changePassword, logOut } from "../redux/apiRequest";
 import { createAxios } from "../../src/createInstance";
 import { logOutSuccess } from "../redux/authSlice";
 import { useState } from "react";
 import { useEffect } from "react";
 const ThayPassword = (props) => {
-    const { setthayPass } = props;
+    const { loading, setloading } = props;
+    const { tenVietTat, idShop, idCtv, tenCtv, sdtCtv } = useParams();
     const user = useSelector((state) => state.auth.login.currentUser);
     const accessToken = user?.accessToken;
     const id = user?._id;
@@ -20,8 +21,7 @@ const ThayPassword = (props) => {
     const [passwordNew, setPasswordNew] = useState("");
     const [passwordNew2, setPasswordNew2] = useState("");
     const [doiThanhCong, setdoiThanhCong] = useState(false);
-    const handleChangePassword = (e) => {
-        e.preventDefault();
+    const handleChangePassword = () => {
         if (!password || !passwordNew || !passwordNew2) {
             alert("Vui lòng nhập đủ thông tin!");
         } else {
@@ -43,55 +43,63 @@ const ThayPassword = (props) => {
     useEffect(() => {
         if (doiThanhCong === true) {
             logOut(dispatch, id, accessToken, axiosJWT);
-            navigate("/dang-nhap");
             alert("Đổi Mật Khẩu Thành Công");
+            if (!idShop || idShop === "a") {
+                navigate(`/dang-nhap/a/a/a/a/a/a`);
+            } else {
+                navigate(
+                    `/dang-nhap/${tenVietTat}/${idShop}/a/${idCtv}/${tenCtv}/${sdtCtv}`
+                );
+            }
         }
     }, [doiThanhCong]);
 
     return (
-        <div className="ThayPassword">
+        <div className="thayPassword-container">
+            <div className="quayLai-tieuDe2">
+                <div onClick={() => setloading(0)} className="quayLai">
+                    <i className="fa fa-angle-double-left"></i>Quay Lại
+                </div>
+                <div className="tieuDe">Đổi Mật Khẩu</div>
+            </div>
             <div className="login-container">
-                <div className="login-title"> Đổi Mật Khẩu</div>
                 {changePass?.error === true && (
                     <div className="baoLoi">Mật khẩu chưa hợp lệ!</div>
                 )}
-                <form onSubmit={handleChangePassword}>
-                    <label className="labelDangNhap">Mật Khẩu Cũ</label>
-                    <div>
-                        <input
-                            className="inputDangNhap"
-                            type="text"
-                            placeholder="Nhập mật khẩu cũ"
-                            onChange={(e) => setPassword(e.target.value)}
-                        />
-                    </div>
-                    <label className="labelDangNhap">Mật Khẩu Mới</label>
-                    <div>
-                        <input
-                            className="inputDangNhap"
-                            type="text"
-                            placeholder="Nhập mật khẩu mới"
-                            onChange={(e) => setPasswordNew(e.target.value)}
-                        />
-                    </div>
-                    <label className="labelDangNhap">
-                        Nhập Lại Mật Khẩu Mới
-                    </label>
-                    <div>
-                        <input
-                            className="inputDangNhap"
-                            type="text"
-                            placeholder="Nhập lại mật khẩu mới"
-                            onChange={(e) => setPasswordNew2(e.target.value)}
-                        />
-                    </div>
-                    <button className="quayLai">
-                        <a href={"/ca-nhan"}>Quay Lại</a>
-                    </button>
-                    <button type="submit" className="buttonDangNhap">
-                        Lưu Mật Khẩu
-                    </button>
-                </form>
+                <div className="labelDangNhap">Mật Khẩu Cũ</div>
+                <div>
+                    <input
+                        className="inputDangNhap"
+                        type="text"
+                        placeholder="Nhập mật khẩu cũ"
+                        onChange={(e) => setPassword(e.target.value)}
+                    />
+                </div>
+                <div className="labelDangNhap">Mật Khẩu Mới</div>
+                <div>
+                    <input
+                        className="inputDangNhap"
+                        type="text"
+                        placeholder="Nhập mật khẩu mới"
+                        onChange={(e) => setPasswordNew(e.target.value)}
+                    />
+                </div>
+                <div className="labelDangNhap">Nhập Lại Mật Khẩu Mới</div>
+                <div>
+                    <input
+                        className="inputDangNhap"
+                        type="text"
+                        placeholder="Nhập lại mật khẩu mới"
+                        onChange={(e) => setPasswordNew2(e.target.value)}
+                    />
+                </div>
+
+                <div
+                    onClick={() => handleChangePassword()}
+                    className="buttonDangNhap"
+                >
+                    Lưu Mật Khẩu
+                </div>
             </div>
         </div>
     );

@@ -2,100 +2,89 @@
 @media screen and (max-width : 1023px) {
    
    .chiTietSanPham-container{
-    margin: 12vw 0vw;
+   
     .quayLai-tieuDe{
       display: flex;
-      // border: solid 1px gray;
       font-size: 3.5vw;
-      margin: 0vw 2vw 3vw;
-      line-height: 5vw;
+      background-color: #fff;
+      border-bottom: #d0d4dd 1px solid;
+      position: fixed;
+  
+      top: 0px;
+        z-index: 1;
+      a{
+          text-decoration: none;
+      }
       .quayLai{
           color: #04aa6d;
           width: 25vw;
           text-align: left;
-          line-height: 5vw;
-
+          line-height: 9vw;
+          padding-left: 2vw;
+         
       }
       .tieuDe{
-          // border: solid 1px gray;
+        font-size: 3.9vw;
           font-weight: 600;
           color: red;
           text-align: center;
-          width: 50vw;
-          line-height: 5vw;
+          width: 75vw;
+          line-height: 9vw;
+          text-transform: uppercase;
+          padding-right: 25vw;
 
       }
-   
   }
   
     .sanPham-container{
+margin: 12vw 0vw 30vw;
       .tenSanPham-sua-xoa{
         display: flex;
-        margin: auto 2vw;
+        margin: 0vw 2vw;
         .tenSanPham{
           font-size: 3.5vw;
           font-weight: 600;
-          width: 88vw;
+          width: 96vw;
           text-transform: uppercase;
           word-wrap:break-word;
           overflow:auto;
-          // color: red;
           text-align: left;
-  
-        }
-        .sua{
-          width: 8vw;
-          text-align: center;
-          // border: solid 1px gray;
-          font-size: 3.5vw;
-          font-weight: 600;
-          line-height: 5vw;
+          line-height: 8vw;
   
         }
        
+       
 
       }
-      .xacNhan-xoa{
-        font-size: 3.5vw;
-        justify-content: center;
-        align-items: center;
-        margin: 5vw auto;
-        .xacNhan{
-          
-        }
-        .huyBo-xoa{
-          display: flex;
-          gap: 10vw;
-          margin: 2vw 25vw;
-          .huyBo{
-            color: #fff;
-            text-align: center;
-            font-size: 2.5vw;
-            font-weight: 500;
-            width: 20vw;
-            line-height: 6vw;
-            border-radius: 1vw;
-            background-color: #04aa6d;
-          }
-          .xoa{
-            color: #fff;
-            text-align: center;
-            font-size: 2.5vw;
-            font-weight: 500;
-            width: 20vw;
-            line-height: 6vw;
-            border-radius: 1vw;
-            background-color: red;
-          }
-        }
-        
-      }
-      .themGioHang{
-        text-align: left;
+      .bangGiaSP-themGioHang{
+        display: flex;
+        margin: 2vw;
         font-size: 3.5vw;
         font-weight: 600;
-        margin: 2vw;
-        color: #04aa6d;
+        .bangGiaSP{
+          text-align: left;
+          width: 63vw;
+          color: #04aa6d;
+          line-height: 6vw;
+        }
+        .themGH{
+          width: 33vw;
+          line-height: 6vw;
+          text-align: center;
+          color: #fff;
+          background-color:red;
+          border-radius: 2vw;
+          text-transform: uppercase;
+        }
+        .dathemGH{
+          width: 33vw;
+          line-height: 6vw;
+          text-align: center;
+          color: #fff;
+          background-color: #04aa6d;
+          border-radius: 2vw;
+          text-transform: uppercase;
+        }
 
       }
       .dacDiem-container{
@@ -103,20 +92,15 @@
         .dacDiem-themGioHang{
           display: flex;
           margin-bottom: 2vw;
-          border-radius: 1.5vw;
-            // border: solid 1px gray;
-            padding: 1vw;
             font-size: 3.5vw;
-           
             .anhSp{
-              width: 15vw;
-              height: 15vw;
+              width: 20vw;
+              height: 26vw;
               object-fit: cover;
               border-radius: 1vw;
-    
             }
           .giaSanPham{
-            width: 35vw;
+            width: 30vw;
             .tenSp{
               line-height: 7.5vw;
               font-weight: 600;
@@ -126,10 +110,12 @@
               line-height: 7.5vw;
               font-weight: 600;
               color: red;
+              padding-top: 5vw;
             }
             
           }
           .giaNY-giamGia{
+            padding-top: 5vw;
           width: 30vw;
             justify-content: center;
             align-items: center;
@@ -143,60 +129,41 @@
             }
           }
           .sl{
-            width: 20vw;
+            padding-top: 5vw;
+            width: 16vw;
             line-height: 15vw;
-    
            }
           
         }
       }
-      .themGH{
-        font-size: 3.5vw;
-        font-weight: 600;
-        width: 35vw;
-        line-height: 8vw;
-        color: #fff;
-     
-        background-color:red;
-        border-radius: 2vw;
-        cursor: pointer;
-        margin: 5vw auto;
-        text-transform: uppercase;
-      }
-      .dathemGH{
-        font-size: 3.5vw;
-        font-weight: 600;
-        width: 35vw;
-        line-height: 8vw;
-        color: #fff;
-        background-color: #04aa6d;
-        border-radius: 2vw;
-        cursor: pointer;
-        margin: 5vw auto;
-        text-transform: uppercase;
-      }
-      
-      .anhSanPham{
-        width: 100vw;
-        height: 133vw;
-        object-fit: cover;
-        margin: 2vw auto;
-      border: solid 1px gray;
+      .thongTinSp{
 
+      }
+      .gioiThieuSp{
+        font-size: 3.5vw;
+            font-weight: 600;
+            margin: 5vw 2vw 0vw;
+            text-align: left;
+            width: 63vw;
+            color: #04aa6d;
+            line-height: 6vw;
+    
+    
+      }
+      .thongTinChiTiet{
+        p{
+          margin-bottom: 0vw;
+        }
+        margin: 0vw 2vw;
+        font-size: 3vw;
+        text-align: left;
+        line-height: 5vw;
+    
       }
     }
     
     
-  .thongTinSp{
-
-  }
-  .thongTinChiTiet{
-    font-size: 3vw;
-    text-align: left;
-    margin: 1vw auto 1vw 20vw;
-    line-height: 5vw;
-
-  }
+ 
 
    }
     }

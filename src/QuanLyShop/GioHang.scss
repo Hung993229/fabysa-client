@@ -1,31 +1,42 @@
 /* Mobile & Tablet */
 @media screen and (max-width : 1023px) {
    .gioHang-container{
-    margin: 12vw 2vw;
+    margin-bottom: 30vw;
     a{text-decoration: none;}
     .quayLai-tieuDe{
       display: flex;
       font-size: 3.5vw;
-      margin: 3vw auto;
+      background-color: #fff;
+      border-bottom: #d0d4dd 1px solid;
+      position: fixed;
+  
+      top: 0px;
+        z-index: 1;
+      a{
+          text-decoration: none;
+      }
       .quayLai{
           color: #04aa6d;
           width: 25vw;
           text-align: left;
-          // padding: 0vw 2vw;
-
+          line-height: 9vw;
+          padding-left: 2vw;
+         
       }
       .tieuDe{
-          // border: solid 1px gray;
+        font-size: 3.9vw;
           font-weight: 600;
           color: red;
           text-align: center;
-          width: 50vw;
-          margin-right: 25vw;
+          width: 75vw;
+          line-height: 9vw;
+          text-transform: uppercase;
+          padding-right: 25vw;
 
       }
   }
     .thongTinGioHang-container{
-      margin-bottom: 6vw;
+      margin: 12vw 2vw 5vw;
       .thongTinGioHang{
         text-align: left;
         font-size: 3.5vw;
@@ -54,120 +65,129 @@
       
            }
           .xoa{
-            // font-size: 3vw;
-            // color: red;
-            // border: solid 1px red;
-            // border-radius: 50%;
-            // text-transform: uppercase;
-            // margin-left: 5vw;
-            // width: 3vw;
-            // height: 3vw;
+     
             line-height: 3vw;
           }
         }
-     
-      .dacDiem-themGioHang{
-      display: flex;
-      // margin-bottom: 2vw;
-      // border: solid 1px gray;
-      .anhSp-tenSp{
-        // border: solid 1px gray;
-        width: 25%;
-        .anhSp{
-          width: 12vw;
-          height: 12vw;
-          object-fit: cover;
-        }
-        .tenSp{
-          font-size: 3.5vw;
-          font-weight: 500;
-          line-height: 6vw;
-        }
-      }
-      .giaSanPham{
-        // border: solid 1px gray;
-        width: 35%;
-        // margin: 3.3vw auto;
-        .giaKM{
-          line-height: 8vw;
-          font-size: 3.6vw;
-          font-weight: 500;
-          color: red;
-
-        }
-        .giaNY-giamGia{
-          line-height: 4vw;
-          display: flex;
-          gap: 1vw;
-          justify-content: center;
-          align-items: center;
-          .giaNY{
-            text-decoration: line-through;
-
-          }
-          .giamGia{
-            font-size: 2.2vw;
-
-          }
-        }
-        .sl{
-          line-height: 6vw;
-          font-size: 3vw;
-          // font-weight: 500;
-        }
-      }
-      .soLuong-SL{
-        // border: solid 1px gray;
-        // margin: 3.3vw auto;
-        line-height: 4vw;
-        width: 15%;
-        justify-content: center;
-          align-items: center;
-        
-        .soLuong{
-          line-height: 8vw;
+        .dacDiem-tenDacDiem{
+          margin-bottom: 2vw;
+          .dacDiem-themGioHang{
+            display: flex;
+            // margin-bottom: 2vw;
+            // border: solid 1px gray;
+            .anhSp-tenSp{
           
-
-        }
-        .SL{
-          width: 90%;
-          line-height: 4vw;
-          text-align: center;
-          font-weight: 600;
-          font-size: 3.6vw;
-          border-radius: 1vw;
-          border: solid 1px red;
-
-        }
-
-      }
-      .thanhTien-TT{
-        // border: solid 1px gray;
-        // margin: 3.3vw auto;
-        width: 25%;
-       
-        .thanhTien{
-          line-height: 8vw;
-          justify-content: center;
-          align-items: center;
-         
-          // border: solid 1px gray;
-
-        }
-        .TT{
-          line-height: 4vw;
-          // border: solid 1px gray;
-          text-align: center;
-          font-weight: 600;
-          font-size: 3.6vw;
-          justify-content: center;
-          align-items: center;
-        
-
-        }
-      }
+              width: 15vw;
+              .anhSp{
+                width: 12vw;
+                height: 15vw;
+                object-fit: cover;
+                border-radius: 1vw;
+              }
+              .tenSp{
+                font-size: 3.5vw;
+                font-weight: 500;
+                line-height: 5vw;
+              }
+            }
+            .giaSanPham{
+              // border: solid 1px gray;
+              width: 26vw;
+              // margin: 3.3vw auto;
+              .giaKM{
+                line-height: 7.5vw;
+                font-size: 3.5vw;
+                font-weight: 500;
+                color: red;
       
-    }
+              }
+              .giaNY-giamGia{
+                line-height: 5vw;
+                display: flex;
+                gap: 1vw;
+                justify-content: center;
+                align-items: center;
+                .giaNY{
+                  text-decoration: line-through;
+                  font-size: 2.5vw;
+                  line-height: 7.55vw;
+                }
+                .giamGia{
+                  font-size: 2.5vw;
+                  line-height: 7.5vw;
+                }
+              }
+             
+            }
+            .soLuong-SL{
+              width: 30vw;
+                font-size: 3vw;
+              
+              .soLuong{
+                line-height: 7.5vw;
+                text-align: center;
+                width: 30vw;
+      
+              }
+              .thayDoiSl{
+                display: flex;
+                .giamSl{
+            width: 5.5vw;
+                  color: #04aa6d;
+                  font-size: 3.9vw;
+                  font-weight: 600;
+        
+                  line-height: 7.5vw;
+                  margin: auto 1vw;
+             
+      
+                }
+                .SL{
+                  width: 15vw;
+                  height: 7.5vw;
+                  text-align: center;
+                  font-weight: 600;
+                  font-size: 3.5vw;
+                  border-radius: 1vw;
+                  border: solid 1px red;
+                  color: black;
+        
+                }
+                .tangSl{
+           
+                }
+              }
+              
+      
+            }
+            .thanhTien-TT{
+              width: 21vw;
+             font-size: 3vw;
+              .thanhTien{
+                line-height: 7.5vw;
+                text-align: center;
+              }
+              .TT{
+                line-height: 7.5vw;
+                text-align: center;
+                font-weight: 600;
+                font-size: 3vw;
+              
+      
+              }
+            }
+            
+          }
+          .tenDacDiem{
+            font-size: 3.5vw;
+            font-weight: 500;
+            line-height: 6vw;
+            text-align: left;
+            padding-left: 1vw;
+          }
+        }
+     
+     
       }
       .tongTien{
         display: flex;
@@ -192,7 +212,7 @@
      
     }
     .datHangThanhCong-conatiner{
-      margin: 6vw;
+      margin: 12vw auto 5vw;
      
       .datHangTC{
         font-size: 3vw;
@@ -200,7 +220,7 @@
       }
     }
     .chonNoiNhan-container{
-      margin-bottom: 6vw;
+      margin: 5vw 2vw;
       .chonNoiNhan{
         text-align: left;
         font-size: 3.5vw;
@@ -218,13 +238,16 @@
           width: 30vw;
           height: 8vw;
           border-radius: 1vw;
-          text-align:center;
+          
+      border: solid 1px gray;
+      text-align-last:center;
         }
         .soBan{
           width: 30vw;
           height: 8vw;
           border-radius: 1vw;
-          text-align:center;
+          border: solid 1px gray;
+          text-align-last:center;
 
         }
         .maBaoVe{
@@ -232,6 +255,7 @@
           height: 8vw;
           border-radius: 1vw;
           text-align:center;
+          border: solid 1px gray;
 
         }
   
@@ -241,7 +265,7 @@
       }
     }
     .thongTinNguoiNhan-container{
-      margin-bottom: 6vw;
+      margin: 5vw 2vw;
       .thongTinNguoiNhan{
         text-align: left;
         font-size: 3.5vw;
@@ -269,6 +293,38 @@
           margin-bottom: 2vw;
         }
       }
+      .diaChi-container{
+        font-size: 3vw;
+        margin: 0vw auto 2vw;
+        .diaChi{
+            line-height: 6vw;
+    font-weight: 600;
+    font-size: 3.5vw;
+    text-align: left;
+   margin: 0vw auto 2vw;
+        }
+        .tinh-huyen-xa{
+            margin-bottom: 2vw;
+            display: flex;
+            gap: 2vw;
+            select{
+                width: 100%;
+                height: 8vw;
+               
+                border-radius: 1vw;
+                border: solid 1px gray;
+                text-align-last: center;
+            }
+        }
+        .soNha{
+            width: 48vw;
+            height: 8vw;
+            margin-right: 52vw;
+            text-align: center;
+            border: solid 1px gray;
+            border-radius: 1vw;
+        }
+     }
       .luuY{
         margin: 1vw auto;
         color: #04aa6d;
@@ -301,7 +357,7 @@
       margin: 0vw auto 10vw;
     }
     .thongTinDonHang-container{
-      margin-bottom: 5vw;
+      margin: 5vw 2vw;
       .thongTinDonHang{
         text-align: left;
         font-size: 3.5vw;
@@ -327,8 +383,6 @@
         }
       }
       .sanPham{
-        // border: solid 1px gray;
-        // padding: 2vw;
         border-radius: 3vw;
         margin-bottom: 2vw;
         .tenSanPham-xoa{
@@ -349,23 +403,24 @@
       .dacDiem-themGioHang{
       display: flex;
       margin: 2vw auto;
+      font-size: 3vw;
       .anhSp-tenSp{
         width: 20%;
         .tenSp{
-          font-size: 3.5vw;
+          // font-size: 3.5vw;
           font-weight: 500;
           line-height: 5vw;
         }
         .gioPhut{
           color: red;
-          font-size: 2.5vw;
+          // font-size: 2.5vw;
           line-height: 5vw;
         }
       }
       .giaSanPham{
         width: 30%;
         .giaKM{
-          font-size: 3.5vw;
+          // font-size: 3.5vw;
           font-weight: 500;
           color: red;
           line-height: 5vw;
@@ -378,7 +433,7 @@
           line-height: 5vw;
           .giaNY{
             text-decoration: line-through;
-            font-size: 2.5vw;
+            // font-size: 2.5vw;
 
           }
           .giamGia{
@@ -388,7 +443,7 @@
         }
         .sl{
           // line-height: 6vw;
-          font-size: 3.5vw;
+          // font-size: 3.5vw;
           // font-weight: 500;
         }
       }
@@ -398,14 +453,14 @@
           align-items: center;
         
         .soLuong{
-          font-size: 2.5vw;
+          // font-size: 2.5vw;
           line-height: 5vw;
         }
         .SL{
           width: 90%;
           text-align: center;
           font-weight: 600;
-          font-size: 3.5vw;
+          // font-size: 3.5vw;
           border-radius: 1vw;
           line-height: 5vw;
           height: 5vw;
@@ -414,20 +469,17 @@
 
       }
       .thanhTien-TT{
-        // border: solid 1px gray;
-        // margin: 3.3vw auto;
         width: 26%;
-       
         .thanhTien{
           justify-content: center;
           align-items: center;
-          font-size: 2.5;
+          // font-size: 2.5;
           line-height: 5vw;
         }
         .TT{
           text-align: center;
           font-weight: 600;
-          font-size: 3.5vw;
+          // font-size: 3.5vw;
           justify-content: center;
           align-items: center;
           line-height: 5vw;
@@ -435,15 +487,11 @@
       }
       .daXong{
         width: 9%;
-       
         font-size: 5vw;
         line-height: 10vw;
-    
-  
       }
       .chuaXong{
         width: 9%;
-     
         font-size: 8vw;
         line-height: 10vw;
   
@@ -456,10 +504,7 @@
         padding: 2vw;
         .tongTien{
           display: flex;
-          // padding: 1.5vw;
-          // border-bottom: #04aa6d solid 0.1vw;
           font-size: 3.5vw;
-          // font-weight: 600;
           line-height: 6vw;
           gap: 20%;
         .tieude{
@@ -479,7 +524,7 @@
       
     }
     .thanhToanQrCode-container{
-      margin-bottom: 5vw;
+      margin: 5vw 2vw;
       .thanhToanQr{
           text-align: left;
           font-size: 3.5vw;
@@ -503,7 +548,6 @@
       border-radius: 1vw;
       background-color: red;
       color: #fff;
-      margin-bottom: 30vw;
       text-transform: uppercase;
 
     }
@@ -517,7 +561,6 @@
       line-height: 8vw;
       border-radius: 1vw;
       background-color: #d0d4dd;
-      margin-bottom: 30vw;
 
     }
     

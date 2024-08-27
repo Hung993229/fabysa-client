@@ -1,395 +1,486 @@
 import "./Shop.scss";
-import Jimp from "jimp";
-import facebookLogo from "../assets/images/Facebook_Logo.png";
-import zaloLogo from "../assets/images/zaloLogo.png";
-import gioHang2 from "../assets/images/giohang2.jpg";
-import like from "../assets/images/like.jpg";
-import like2 from "../assets/images/like2.jpg";
-import CommonUtils from "../component/CommonUtils";
+import gioHang2 from "../assets/images/giohang.jpg";
+import XemAnh from "../GiaoDienChung/XemAnh";
+import HeaderShop from "./HeaderShop";
 import { useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { NavLink } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import {
     getttShop,
     getSanPham,
-    getSanPhamDanHuyen2,
     getPost,
-    registerGioHang,
-    updateGioHang,
     getGioHang,
     getYourStatus,
-    getArrSanPham,
-    updatePost,
 } from "../redux/apiRequest";
 import { useEffect } from "react";
 import GioHang from "./GioHang";
 import ChiTietSanPham2 from "./ChiTietSanPham2";
+import UpdateSanPham from "./UpdateSanPham";
 import Loading from "../GiaoDienChung/Loading";
-import QRCode from "react-qr-code";
-import QrScanner from "qr-scanner";
-import logoInternet from "../assets/images/logoInternet.jpg";
-import logoInternet2 from "../assets/images/tuvanvien.jpg";
-const Shop = (props) => {
-    const {
-        showcart,
-        setshowcart,
-        setTongtien,
-        setTongsoluong,
-        Tongtien,
-        Tongsoluong,
-    } = props;
+const Shop = () => {
+    const { tenVietTat, idShop, idCtv, tenCtv, sdtCtv } = useParams();
     const user = useSelector((state) => state.auth.login.currentUser);
-    const myDetail = useSelector((state) => state.post.post?.myDetail);
-    const gioHang = useSelector(
-        (state) => state.gioHang.gioHang.gioHang?.gioHang
-    );
     const ttShop = useSelector((state) => state.ttShop.ttShop.ttShop?.shop);
-    const loaiSanPham = ttShop?.nhomSanPham;
-    const allSanPham1 = useSelector(
+    const nvQuanLy = ttShop?.ttShopThem?.nvQuanLy;
+    const allSanPham2 = useSelector(
         (state) => state.sanPham.sanPham.allsanPham?.allSanpham
     );
-    const arraySanPham = useSelector(
-        (state) => state.sanPham.sanPham.arrsanPham?.arrSanpham
-    );
-    const sanPhamDan = useSelector(
-        (state) => state.sanPham.sanPham.sanPhamDan?.allSanpham
-    );
+    const VND = new Intl.NumberFormat("vi-VN", {
+        style: "currency",
+        currency: "VND",
+    });
+    const [Tongsoluong, setTongsoluong] = useState(0);
+    const [Tongtien, setTongtien] = useState(0);
+    const [loading, setloading] = useState(0);
+    const [loadingTruoc, setloadingTruoc] = useState(0);
+    const [xemAnhFull, setxemAnhFull] = useState();
+    const [thongTinSp, setthongTinSp] = useState();
 
-    const allshopLienKet = useSelector(
-        (state) => state.yourStatus.yourStatus.allYourStatus?.yourStatus
-    );
-
-    const [cart, setcart] = useState([]);
-    const [arrNhomSanPham, setarrNhomSanPham] = useState([]);
-    const [sanPhamLienKet, setsanPhamLienKet] = useState([]);
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const { idShop } = useParams();
-    const [allSanPham, setallSanPham] = useState([]);
-    const [indexNhomSP, setindexNhomSP] = useState(0);
-    const [nhomSP, setnhomSP] = useState();
-    const [thongTinSp, setthongTinSp] = useState();
-    const [showChiTietSanPham, setshowChiTietSanPham] = useState(0);
-    const [tuVanVaThongTin, settuVanVaThongTin] = useState(0);
-    const [loading, setloading] = useState(1);
-    const [suaPost, setsuaPost] = useState(0);
+    const [nhomSP, setnhomSP] = useState("Khuyến Mại Đặc Biệt");
     const [skip, setskip] = useState(0);
-    const [spa, setspa] = useState();
-    const [spb, setspb] = useState();
-    const khachSi = ttShop?.khachSi;
-    const khachCtv = ttShop?.khachCtv;
+    const [soBan, setsoBan] = useState("fabysa");
+    const [maBaoMat, setmaBaoMat] = useState();
+    const [allSanPham, setallSanPham] = useState([]);
+
+    const nhomSanPham2 = ttShop?.ttShopThem?.menuShop;
+    const nhomSanPham = nhomSanPham2?.filter((item) => item !== nhomSP);
+
     useEffect(() => {
         if (user && user.length !== 0) {
-            getPost(user?._id, dispatch, setloading);
+            getPost(user?._id, dispatch);
             getGioHang(idShop, user?._id, dispatch);
         }
     }, []);
     useEffect(() => {
         getttShop(idShop, dispatch);
         getYourStatus(idShop, dispatch);
-    }, []);
-    // get san Pham
-    useEffect(() => {
-        if (loaiSanPham?.length > indexNhomSP + 1) {
-            const handleScroll = (e) => {
-                const scrollHeight = e.target.documentElement.scrollHeight;
-                const currentHeight =
-                    e.target.documentElement.scrollTop + window.innerHeight;
-                if (currentHeight + 1 >= scrollHeight) {
-                    // setindexNhomSP(indexNhomSP + 1);
-                }
-            };
-            window.addEventListener("scroll", handleScroll);
-            return () => window.removeEventListener("scroll", handleScroll);
-        }
-    }, [indexNhomSP]);
-    useEffect(() => {
-        const limit = 100;
-        getSanPham(idShop, nhomSP, skip, limit, dispatch, setloading);
-    }, [nhomSP]);
-    useEffect(() => {
-        if (allSanPham1 && allSanPham1?.length !== 0) {
-            setallSanPham([...allSanPham, ...allSanPham1]);
-        }
-    }, [allSanPham1]);
-    // get san Pham
-    useEffect(() => {
-        const limit = 2;
-        const huyen = idShop;
-        const skip = 0;
-        getSanPhamDanHuyen2(huyen, skip, limit, dispatch);
     }, [idShop]);
-    const VND = new Intl.NumberFormat("vi-VN", {
-        style: "currency",
-        currency: "VND",
-    });
-    // San Pham Dan
-
+    // get san pham
     useEffect(() => {
-        if (sanPhamDan && sanPhamDan?.length !== 0) {
-            setspa(sanPhamDan[0]?._id);
-            setspb(sanPhamDan[1]?._id);
-        }
-    }, [sanPhamDan]);
-    // San Pham Dan
-    // San Pham Shop
-    const sanPhamShop = allSanPham?.filter(
-        (item) => item.tinhTrang === "Còn Hàng"
-    );
-    // San Pham Shop
-    // San Pham lien ket
-
-    useEffect(() => {
-        if (allshopLienKet && allshopLienKet?.length !== 0) {
-            const arrIdSanPham2 = allshopLienKet[0]?.sanPhamCtv.concat(
-                allshopLienKet[0]?.sanPhamSi
-            );
-            const arrIdSanPham3 = new Set(arrIdSanPham2);
-            const arrIdSanPham = [...arrIdSanPham3];
-            getArrSanPham(arrIdSanPham, dispatch);
-        } else {
-            const arrIdSanPham = [];
-            getArrSanPham(arrIdSanPham, dispatch);
-        }
-    }, [allshopLienKet]);
-    useEffect(() => {
-        if (arraySanPham && arraySanPham.length !== 0) {
-            const arrNhomSanPham3 = arraySanPham?.map((item) => {
-                return (
-                    item?.nhomSanPham !== "Sản Phẩm Dẫn" && item?.nhomSanPham
-                );
-            });
-            const arrNhomSanPham2 = new Set(arrNhomSanPham3);
-
-            setarrNhomSanPham([...arrNhomSanPham2]);
-        }
-    }, [arraySanPham]);
-    const handleXemSpLienKet = (item2) => {
-        const hienSpLienKet = arraySanPham?.filter(
-            (item) =>
-                item.tinhTrang === "Còn Hàng" && item?.nhomSanPham === item2
-        );
-        setsanPhamLienKet([...sanPhamLienKet, ...hienSpLienKet]);
-    };
-    const handleAnSpLienKet = (item2) => {
-        const anSpLienKet = sanPhamLienKet?.filter(
-            (item) => item.nhomSanPham !== item2
-        );
-        setsanPhamLienKet(anSpLienKet);
-    };
-    // San Pham lien ket
-    // An San Pham
-    const handleHienNhomSP = (item2) => {
-        setloading(item2);
-        setnhomSP(item2);
-    };
-    const handleAnNhomSP = (item2) => {
-        const anSp = allSanPham.filter((item) => item.nhomSanPham !== item2);
-        setallSanPham(anSp);
-        setnhomSP();
-    };
-    // An San Pham
-    // Them gio Hang
-    const handleThemGioHang = (item) => {
-        const ProductExist = cart?.find((item2) => item2?._id === item._id);
-        if (ProductExist) {
-            const gioHang2 = cart.map((item3) =>
-                item3._id === item._id
-                    ? {
-                          ...ProductExist,
-                          quantity: +ProductExist.quantity + 1,
-                      }
-                    : item3
-            );
-            setcart(gioHang2);
-        } else {
-            const gioHang3 = [...cart, { ...item, quantity: 1 }];
-            setcart(gioHang3);
-        }
-        if (myDetail && myDetail?.length !== 0) {
-            const id = item?._id;
-            if (!gioHang) {
-                const newGioHang = {
-                    idShop: idShop,
-                    user: user._id,
-                    gioHang: id,
-                };
-                console.log("newGioHang", newGioHang);
-                registerGioHang(newGioHang, dispatch);
-            } else {
-                const idSanPham = gioHang?.gioHang?.find(
-                    (item2) => item2 === item._id
-                );
-                console.log("idSanPham", idSanPham);
-                if (!idSanPham) {
-                    const gioHangUpdate = [...gioHang.gioHang, id];
-                    const newGioHang = {
-                        idShop: idShop,
-                        user: user._id,
-                        gioHang: gioHangUpdate,
-                    };
-                    console.log("updateGioHang", newGioHang);
-                    updateGioHang(newGioHang, gioHang._id, dispatch);
-                }
+        const handleScroll = (e) => {
+            const scrollHeight = e.target.documentElement.scrollHeight;
+            const currentHeight =
+                e.target.documentElement.scrollTop + window.innerHeight;
+            if (currentHeight >= scrollHeight) {
+                setskip(skip + 6);
             }
-        }
-    };
-    // Them gio Hang
-    // Tinh So Luong - Tong So Tien
-    const tinhtongtien = () => {
-        let tt = 0;
-        if (cart?.length !== 0) {
-            cart?.map((sp) => {
-                tt += sp.giaKhuyenMai * sp.quantity;
-            });
-        }
-        setTongtien(tt);
-    };
-    const tinhsoluong = () => {
-        let tt = 0;
-        if (cart?.length !== 0) {
-            cart?.map((sp) => {
-                tt += +sp.quantity;
-            });
-        }
+        };
+        window.addEventListener("scroll", handleScroll);
+        return () => window.removeEventListener("scroll", handleScroll);
+    }, [allSanPham]);
 
-        setTongsoluong(tt);
-    };
     useEffect(() => {
-        tinhtongtien();
-        tinhsoluong();
-    });
-    // Tinh So Luong - Tong So Tien
+        const limit = 6;
+        getSanPham(idShop, nhomSP, skip, limit, dispatch);
+    }, [nhomSP, skip]);
+
+    useEffect(() => {
+        if (allSanPham2 && allSanPham) {
+            const allSanPham3 = [...allSanPham, ...allSanPham2];
+
+            allSanPham3.sort(function (a, b) {
+                if (
+                    +a?.allDacDiemSP[0]?.giaKhuyenMai >
+                    +b?.allDacDiemSP[0]?.giaKhuyenMai
+                )
+                    return 1;
+                if (
+                    +a?.allDacDiemSP[0]?.giaKhuyenMai <
+                    +b?.allDacDiemSP[0]?.giaKhuyenMai
+                )
+                    return -1;
+                return 0;
+            });
+            setallSanPham(allSanPham3);
+        }
+    }, [allSanPham2]);
+    // get san pham
+    // Gio hang
+    const [cart, setcart] = useState([]);
+    const [xoaSp, setxoaSp] = useState();
+    const [cartDemo, setcartDemo] = useState([]);
+    // Gio hang
+
     // Chi Tiet San Pham
-    const handleChiTietSanPham = (item) => {
-        setshowChiTietSanPham(1);
+    const handleChiTietSP = (item) => {
+        setloading(4);
         setthongTinSp(item);
     };
+    //Gio Hang
+    const handleDaThemGioHang = (item) => {
+        if (cartDemo && cartDemo.length > 0) {
+            const CartDemo2 = cartDemo.filter(
+                (item2) => item2._id !== item._id
+            );
+            console.log("xetCartDemo", CartDemo2);
+            setcartDemo(CartDemo2);
+        }
+
+        if (cart && cart.length > 0) {
+            const xetCart = cart.filter((item2) => item2._id !== item._id);
+            setcart(xetCart);
+        }
+    };
+    const handleThemGioHang = (item) => {
+        const allDacDiemSP = item?.allDacDiemSP;
+        const allDacDiemSP2 = allDacDiemSP?.map(
+            (item) =>
+                item && {
+                    ...item,
+                    slMua: 0,
+                }
+        );
+        setcartDemo([
+            ...cartDemo,
+            {
+                _id: item?._id,
+                tenSanPham: item?.TenSanPham,
+                allDacDiemSP: allDacDiemSP2,
+                thongTinSanPham: item?.thongTinSanPham,
+            },
+        ]);
+    };
+    // Gio Hang
     // Chi Tiet San Pham
-    const handleXoaSanPham = (item) => {
-        if (cart?.length !== 0) {
-            const ProductExist = cart?.find((item2) => item2._id === item._id);
-            if (ProductExist) {
-                setcart(cart?.filter((item2) => item2._id !== item._id));
-            }
+    // Xem Anh Full
+    const handlexemAnh = (item) => {
+        setloading(5);
+        setxemAnhFull(item);
+        setloadingTruoc(loading);
+    };
+    // Xem Anh Full
+    // Sap xep
+    const handleSapXepTang = () => {
+        if (allSanPham && allSanPham?.length > 0) {
+            const allSanPham3 = allSanPham;
+
+            allSanPham3.sort(function (a, b) {
+                if (
+                    +a?.allDacDiemSP[0]?.giaKhuyenMai >
+                    +b?.allDacDiemSP[0]?.giaKhuyenMai
+                )
+                    return 1;
+                if (
+                    +a?.allDacDiemSP[0]?.giaKhuyenMai <
+                    +b?.allDacDiemSP[0]?.giaKhuyenMai
+                )
+                    return -1;
+                return 0;
+            });
+            setallSanPham(allSanPham3);
         }
     };
-    // qr code
-    const [data, setdata] = useState();
-    const [dataQrCode, setdataQrCode] = useState("");
-    const [result, setResult] = useState("");
-    const download = () => {
-        const svg = document.getElementById("QRCode");
-        const svgData = new XMLSerializer().serializeToString(svg);
-        const canvas = document.createElement("canvas");
-        const ctx = canvas.getContext("2d");
-        const img = new Image();
-        img.onload = () => {
-            canvas.width = img.width;
-            canvas.height = img.height;
-            ctx.drawImage(img, 0, 0);
-            const pngFile = canvas.toDataURL("image/png");
-            const downloadLink = document.createElement("a");
-            // name image
-            downloadLink.download = `${dataQrCode}`;
-            downloadLink.href = `${pngFile}`;
-            downloadLink.click();
-        };
-        img.src = `data:image/svg+xml;base64,${btoa(svgData)}`;
-    };
-    // read qr code
-    const readCode = (e) => {
-        console.log("e", e);
-        const file = e.target.files[0];
-        if (!file) {
-            return;
+    const handleSapXepGiam = () => {
+        if (allSanPham && allSanPham?.length > 0) {
+            const allSanPham3 = allSanPham;
+
+            allSanPham3.sort(function (a, b) {
+                if (
+                    +a?.allDacDiemSP[0]?.giaKhuyenMai >
+                    +b?.allDacDiemSP[0]?.giaKhuyenMai
+                )
+                    return 1;
+                if (
+                    +a?.allDacDiemSP[0]?.giaKhuyenMai <
+                    +b?.allDacDiemSP[0]?.giaKhuyenMai
+                )
+                    return -1;
+                return 0;
+            });
+            setallSanPham(allSanPham3);
         }
-        QrScanner.scanImage(file, { returnDetailedScanResult: true })
-            .then((result) => setResult(result.data))
-            .catch((e) => console.log(e));
     };
-    // qr code
-    // like Shop
-    const allLikeShop = myDetail?.likeShop;
-    const handeleLikeShop = (idShop) => {
-        console.log("idShop", idShop);
-        const likeShop = [
-            ...myDetail?.likeShop,
-            { idShop: idShop, tenShop: ttShop?.TenShop },
-        ];
-        const newPost = {
-            likeShop: likeShop,
-        };
-        console.log("newPost", newPost);
-        updatePost(newPost, myDetail._id, dispatch, setsuaPost);
+
+    // Sap xep
+    const handleChonNhomSanPham = (item) => {
+        setallSanPham([]);
+        setnhomSP(item);
+        setskip(0);
     };
-    const handeleDislikeShop = (idShop) => {
-        console.log("idShop", idShop);
-        const likeShop = allLikeShop?.filter((item) => item?.idShop !== idShop);
-        const newPost = {
-            likeShop: likeShop,
-        };
-        console.log("newPost", newPost);
-        updatePost(newPost, myDetail._id, dispatch, setsuaPost);
+    // Them Sp
+    const themSanPhamMoi = () => {
+        const themSp = window.confirm("Thêm Sản Phẩm Mới?");
+        if (themSp) {
+            navigate(`/addsp/${idShop}`);
+        }
     };
-    const likeShop = allLikeShop?.find((item) => item?.idShop === idShop);
-
-    // like Shop
-    const [AnhSanPham, setAnhSanPham] = useState();
-    const [previewAnhSP, setpreviewAnhSP] = useState();
-    console.log("AnhSanPham", AnhSanPham);
-    console.log("previewAnhSP", previewAnhSP);
-    // xu ly anh
-    const handleOnchangeImageBanner = async (e) => {
-        const fileBanner = e.target.files[0];
-        // console.log("fileBanner", fileBanner);
-        console.log("e", e);
-
-        // const anhReSize = Jimp?.read(fileBanner.name)
-        //     .then((lenna) => {
-        //         return lenna
-        //             .resize(256, 256) // resize
-        //             .quality(60) // set JPEG quality
-        //             .greyscale() // set greyscale
-        //             .write("lena-small-bw.jpg"); // save
-        //     })
-        //     .catch((err) => {
-        //         console.error(err);
-        //     });
-        // console.log("anhReSize", anhReSize);
-
-        // Read the image.
-        // const image = await Jimp.read('');
-        // Resize the image to width 150 and heigth 150.
-        // await image.resize(150, 150);
-        // Save and overwrite the image
-        // await image.writeAsync(`test/${Date.now()}_150x150.png`);
-
-        let bannerBase64 = await CommonUtils.getBase64(fileBanner);
-
-        fileBanner.preview = URL.createObjectURL(fileBanner);
-
-        setAnhSanPham(bannerBase64);
-        setpreviewAnhSP(fileBanner);
+    // Them Sp
+    // Sua Menu
+    const suaMenuMoi = () => {
+        const themSp = window.confirm("Sửa Menu Shop?");
+        if (themSp) {
+            navigate(`/sua-menu/${idShop}`);
+        }
     };
-    //
+    // Sua Menu
+
     return (
-        <div className="shop">
-            <div>Upload Anh</div>
-            <input
-                id="anh2"
-                type="file"
-                // hidden
-                onChange={handleOnchangeImageBanner}
+        <div className="Shop-Container">
+            <HeaderShop
+                setTongtien={setTongtien}
+                setTongsoluong={setTongsoluong}
+                Tongtien={Tongtien}
+                Tongsoluong={Tongsoluong}
+                loading={loading}
+                setloading={setloading}
+                setloadingTruoc={setloadingTruoc}
+                loadingTruoc={loadingTruoc}
+                handlexemAnh={handlexemAnh}
             />
-            {/* <label htmlFor="anh2">
-                {previewAnhSP ? (
-                    <img src={previewAnhSP.preview} className="anhDD" />
-                ) : (
-                    <img src={themAnh} className="anhDD" />
+            {loading === 0 && (
+                <div className="sanPham-shop">
+                    {user?._id === ttShop?.user ||
+                    user?.admin === true ||
+                    nvQuanLy?.find(
+                        (item) => item?.sdtnvQuanLy === user?.username
+                    ) ? (
+                        <div className="nhomSanPham-themSanPham">
+                            <div
+                                className="suaMenu"
+                                onClick={() => suaMenuMoi()}
+                            >
+                                <i className="fa fa-edit"></i>
+                            </div>
+                            <select
+                                className="nhomSanPham"
+                                id="provinces"
+                                onChange={(e) =>
+                                    handleChonNhomSanPham(e.target.value)
+                                }
+                            >
+                                <option>{nhomSP}</option>
+                                {nhomSanPham?.map((item) => {
+                                    return <option key={item}>{item}</option>;
+                                })}
+                            </select>
+                            <div
+                                className="themSanPham"
+                                onClick={() => themSanPhamMoi()}
+                            >
+                                <i className="fa fa-plus-circle"></i>
+                            </div>
+                        </div>
+                    ) : (
+                        <div className="nhomSanPham-themSanPham">
+                            <select
+                                className="nhomSanPham2"
+                                id="provinces"
+                                onChange={(e) =>
+                                    handleChonNhomSanPham(e.target.value)
+                                }
+                            >
+                                <option>{nhomSP}</option>
+                                {nhomSanPham?.map((item) => {
+                                    return <option key={item}>{item}</option>;
+                                })}
+                            </select>
+                        </div>
+                    )}
+
+                    {allSanPham?.length < 1 && (
+                        <div className="trong">Đang Cập Nhật Dữ Liệu</div>
+                    )}
+                    <div className="sanPham-container">
+                        {allSanPham &&
+                            allSanPham?.map((item, index) => {
+                                return (
+                                    <div key={index} className="sanPham">
+                                        <div>
+                                            <img
+                                                onClick={() =>
+                                                    handleChiTietSP(item)
+                                                }
+                                                src={
+                                                    item?.allDacDiemSP[0]
+                                                        ?.AnhSanPham
+                                                }
+                                                className="anhSanPham"
+                                                alt="timtim"
+                                            />
+
+                                            <div className="tenSanPham">
+                                                {item?.TenSanPham?.length >
+                                                28 ? (
+                                                    <div>
+                                                        {item?.TenSanPham.slice(
+                                                            0,
+                                                            20
+                                                        )}
+                                                        ...
+                                                    </div>
+                                                ) : (
+                                                    <div>{item.TenSanPham}</div>
+                                                )}
+                                            </div>
+                                            <div className="giaBan">
+                                                <div className="giaBanMoi">
+                                                    {VND.format(
+                                                        item?.allDacDiemSP[0]
+                                                            .giaKhuyenMai
+                                                    )}
+                                                </div>
+
+                                                <div className="giaGiam">
+                                                    <div className="giabanCu">
+                                                        {VND.format(
+                                                            item
+                                                                ?.allDacDiemSP[0]
+                                                                .giaNiemYet
+                                                        )}
+                                                    </div>
+                                                    <div className="phanTram">
+                                                        Giảm&nbsp;
+                                                        {Math.floor(
+                                                            (100 *
+                                                                (item
+                                                                    ?.allDacDiemSP[0]
+                                                                    .giaNiemYet -
+                                                                    item
+                                                                        ?.allDacDiemSP[0]
+                                                                        .giaKhuyenMai)) /
+                                                                item
+                                                                    ?.allDacDiemSP[0]
+                                                                    .giaNiemYet
+                                                        )}
+                                                        %
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <>
+                                                {cartDemo &&
+                                                cartDemo?.find(
+                                                    (item2) =>
+                                                        item2._id === item._id
+                                                ) ? (
+                                                    <button
+                                                        onClick={() =>
+                                                            handleDaThemGioHang(
+                                                                item
+                                                            )
+                                                        }
+                                                        className="daThem"
+                                                    >
+                                                        ĐÃ THÊM
+                                                    </button>
+                                                ) : (
+                                                    <button
+                                                        onClick={() =>
+                                                            handleThemGioHang(
+                                                                item
+                                                            )
+                                                        }
+                                                        className="muaHang"
+                                                    >
+                                                        THÊM GIỎ HÀNG
+                                                    </button>
+                                                )}
+                                            </>
+
+                                            <div className="viTriSanPham">
+                                                <i className="fa-solid fa-location-dot"></i>
+                                                <div className="diachisanpham">
+                                                    {ttShop?.xa}
+                                                </div>
+                                                <div className="diachisanpham">
+                                                    {ttShop?.huyen}
+                                                </div>
+                                                <div className="diachisanpham">
+                                                    {ttShop?.tinh}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                );
+                            })}
+                    </div>
+                </div>
+            )}
+            <div className="menuGioHang2">
+                {loading === 2 && (
+                    <img
+                        onClick={() => setloading(0)}
+                        src={gioHang2}
+                        className="gioHang2"
+                    />
                 )}
-            </label> */}
+                {loading === 0 && (
+                    <img
+                        onClick={() => setloading(2)}
+                        src={gioHang2}
+                        className="gioHang2"
+                    />
+                )}
+            </div>
+            {loading === 1 && <Loading />}
+            {loading === 2 && (
+                <GioHang
+                    handleDaThemGioHang={handleDaThemGioHang}
+                    cart={cart}
+                    setcart={setcart}
+                    loading={loading}
+                    setloading={setloading}
+                    setTongtien={setTongtien}
+                    setTongsoluong={setTongsoluong}
+                    Tongtien={Tongtien}
+                    Tongsoluong={Tongsoluong}
+                    setcartDemo={setcartDemo}
+                    cartDemo={cartDemo}
+                    soBan={soBan}
+                    setsoBan={setsoBan}
+                    maBaoMat={maBaoMat}
+                    setmaBaoMat={setmaBaoMat}
+                    setloadingTruoc={setloadingTruoc}
+                    loadingTruoc={loadingTruoc}
+                    handlexemAnh={handlexemAnh}
+                />
+            )}
+
+            {loading === 4 && (
+                <ChiTietSanPham2
+                    handleDaThemGioHang={handleDaThemGioHang}
+                    handleThemGioHang={handleThemGioHang}
+                    cart={cart}
+                    setcart={setcart}
+                    setcartDemo={setcartDemo}
+                    cartDemo={cartDemo}
+                    thongTinSp={thongTinSp}
+                    loading={loading}
+                    setloading={setloading}
+                    idShop={idShop}
+                    setloadingTruoc={setloadingTruoc}
+                    loadingTruoc={loadingTruoc}
+                    handlexemAnh={handlexemAnh}
+                />
+            )}
+            {loading === 5 && (
+                <XemAnh
+                    xemAnhFull={xemAnhFull}
+                    setxemAnhFull={setxemAnhFull}
+                    loading={loading}
+                    setloading={setloading}
+                    setloadingTruoc={setloadingTruoc}
+                    loadingTruoc={loadingTruoc}
+                />
+            )}
+            {loading === 6 && (
+                <UpdateSanPham
+                    setloading={setloading}
+                    loading={loading}
+                    thongTinSp={thongTinSp}
+                    setthongTinSp={setthongTinSp}
+                    ttShop={ttShop}
+                    idShop={idShop}
+                    nhomSP={nhomSP}
+                    setnhomSP={setnhomSP}
+                    setallSanPham={setallSanPham}
+                    allSanPham={allSanPham}
+                    setskip={setskip}
+                    skip={skip}
+                />
+            )}
         </div>
     );
 };

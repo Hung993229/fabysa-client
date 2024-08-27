@@ -4,7 +4,7 @@ import Loading from "../GiaoDienChung/Loading";
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 const DoiTac = () => {
     const { idShop } = useParams();
     const dispatch = useDispatch();
@@ -103,15 +103,15 @@ const DoiTac = () => {
             {loading === 0 && (
                 <div>
                     <div className="quayLai-tieuDe">
-                        <a
-                            href={`/${ttShop.ttShopThem?.tenVietTat}/${ttShop._id}/a/a/a/a`}
-                            className="quayLai"
-                        >
-                            Quay Lại
-                        </a>
-                        <div className="tieuDe">Danh Sách Đối Tác</div>
-                    </div>
-                   
+                <a
+                    href={`/${ttShop.ttShopThem?.tenVietTat}/${ttShop._id}/a/a/a/a`}
+                    className="quayLai"
+                >
+                    <i className="fa fa-angle-double-left"></i>Quay Lại
+                </a>
+
+                <div className="tieuDe">Danh Sách Đối Tác</div>
+            </div>
                     <div className="nhanVien-container">
                         <div className="nhanVien">Khách Sỉ</div>
                         <div className="sdt-them">
@@ -149,7 +149,7 @@ const DoiTac = () => {
                                                 handleXoaKhachSi(item)
                                             }
                                         >
-                                            ❌ 
+                                            ❌
                                         </div>
                                     </div>
                                 );
@@ -190,7 +190,7 @@ const DoiTac = () => {
                                             className="xoa"
                                             onClick={() => handleXoaCtv(item)}
                                         >
-                                            ❌ 
+                                            ❌
                                         </div>
                                     </div>
                                 );

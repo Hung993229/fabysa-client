@@ -3,14 +3,47 @@
 @media screen and (max-width : 1023px) {
    
     .pc-updateShop{
+        font-size: 3vw;
+        .quayLai-tieuDe{
+            display: flex;
+            font-size: 3.5vw;
+            background-color: #fff;
+            border-bottom: #d0d4dd 1px solid;
+            position: fixed;
+        
+            top: 0px;
+              z-index: 1;
+            a{
+                text-decoration: none;
+            }
+            .quayLai{
+                color: #04aa6d;
+                width: 25vw;
+                text-align: left;
+                line-height: 9vw;
+                padding-left: 2vw;
+               
+            }
+            .tieuDe{
+              font-size: 3.9vw;
+                font-weight: 600;
+                color: red;
+                text-align: center;
+                width: 75vw;
+                line-height: 9vw;
+                text-transform: uppercase;
+                padding-right: 25vw;
+      
+            }
+        }
     .updateShop-container{
-        margin-top: 10vw;
+        margin-top: 9vw;
         margin-bottom: 20vw;
         .banner-container{
          
          .bannerShop{
             width:  100%;
-            height: 68vw;
+            height: 56vw;
             object-fit: cover;
             border: solid 1px gray;
          }
@@ -60,6 +93,45 @@
                 border-radius: 1vw;
                 font-size: 3vw;
                 border: solid 1px gray;
+            }
+         }
+         .toaDo-container{
+            margin: 5vw 2vw;
+            .toaDo{
+                text-align: left;
+                margin: 2vw auto;
+                font-size: 3.5vw;
+                font-weight: 500;
+            }
+            .viTriHienTai{
+                display: block;
+                font-size: 3.5vw;
+                font-weight: 600;
+                color: #04aa6d;
+                text-align: left;
+                line-height: 8vw;
+
+            }
+            .kDvD-container{
+                display: flex;
+                    gap: 6vw;
+                    
+                .kinhDo-input{
+                    font-size: 3vw;
+                    .kinhDo{
+                        width: 45vw;
+                        line-height: 8vw;
+                        text-align: left;
+                        padding-left: 2vw;
+                    }
+                    .input{
+                        width: 45vw;
+                        height: 8vw;
+                        border-radius: 1vw;
+                       text-align: center;
+                        border: solid 1px gray;
+                    }
+                }
             }
          }
          .nganHang{
@@ -216,26 +288,16 @@
             }
          }
       .close-luu{
-        display: flex;
-        gap: 20vw;
-        font-size: 3.5vw;
-        font-weight: 600;
-        color: #fff;
-        margin: 10vw 5vw;
-        .close{
-            text-decoration: none;
-            width: 35vw;
-            background-color: red;
-            color: #fff;
-            line-height: 8vw;
-            border-radius: 2vw;
-
-        }
+      
         .luu{
-            width: 35vw;
+            font-size: 3.5vw;
+            font-weight: 600;
+            color: #fff;
+            width: 40vw;
             background-color: #04aa6d;
             line-height: 8vw;
             border-radius: 2vw;
+            margin: 10vw 30vw;
         }
       }
      }

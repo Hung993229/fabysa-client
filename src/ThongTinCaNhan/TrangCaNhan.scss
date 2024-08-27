@@ -2,15 +2,688 @@
 
 /* Mobile & Tablet */
 @media screen and (max-width : 1023px) {
-  .TrangCaNhan-ConTaiNer{
-    margin-top: 12vw;
+  .view{
+    .mobile{
+      .TrangCaNhan-ConTaiNer{
+        margin-bottom: 30vw;
+        font-size: 3vw;
+        a{
+          text-decoration: none;
+      }
+       
+        .TrangCaNhan{
+          
+          .quayLai-tieuDe{
+            display: flex;
+            font-size: 3.5vw;
+            background-color: #fff;
+            border-bottom: #d0d4dd 1px solid;
+            position: fixed;
+            top: 0px;
+              z-index: 1;
+            
+            .quayLai{
+                color: #04aa6d;
+                width: 25vw;
+                text-align: left;
+                line-height: 9vw;
+                padding-left: 1vw;
+          
+            }
+            .fabysa{
+              color: #04aa6d;
+              font-size: 6vw;
+              font-weight: 600;
+              width: 25vw;
+              text-align: left;
+              line-height: 9vw;
+              padding-left: 2vw;
+           
+      
+            }
+            .tieuDe{
+              font-size: 3.9vw;
+                font-weight: 600;
+                color: red;
+                text-align: center;
+                width: 50vw;
+                line-height: 9vw;
+                text-transform: uppercase;
+            }
+            .taiKhoan{
+              text-align: right;
+              width: 21vw;
+              font-size: 2.8vw;
+              line-height: 9vw;
+              color: red;
+              
+            
+      
+            }
+            .avatar{
+         
+              width: 9vw;
+              height: 9vw;
+              border-radius: 50%;
+              border: solid 1vw #fff;
+            }
+            .dangXuat{
+              width: 23vw;
+              text-align: center;
+              line-height: 7vw;
+               margin: 1vw;
+              border: solid 1px red;
+              border-radius: 2vw;
+              text-decoration: none;
+              color: red;
+              // background-color: #d0d4dd;
+              font-weight: 500;
+              
+            }
+            .dangNhap{
+              width: 23vw;
+              text-align: center;
+              line-height: 7vw;
+              font-weight: 500;
+              margin: 1vw;
+              border: solid 1px #04aa6d;
+              border-radius: 2vw;
+              text-decoration: none;
+              color: #04aa6d;
+              // background-color: #04aa6d;
+              
+            }
+        }
+      .ttCaNhan-container{
+     
+        margin: 12vw 2vw auto;
+      .tieuDe{
+        line-height: 6vw;
+        font-weight: 600;
+        font-size: 3.5vw;
+        text-align: left;
+      
+      }
+      .thongTin{
+        display: flex;
+        .hoTen-sdt{
+          width: 48vw;
+          .hoTen{
+            
+            font-size: 3.5vw;
+            text-align: left;
+            line-height: 8vw;
+          }
+        }
+        .avatar-taiKhoan{
+          width: 48vw;
+          .avatar{
+            width: 19vw;
+            height:19vw ;
+            border-radius: 50%;
+            object-fit: cover;
+      
+          }
+          .taiKhoan{
+            font-size: 3.5vw;
+            font-weight: 500;
+            text-align: center;
+            line-height: 8vw;
+            color: red;
+          }
+          .quyDoi{
+            font-size: 2.8vw;
+            line-height: 5vw;
+          }
+          
+        }
+      }
+      .diaChi{
+        font-size: 3.5vw;
+        text-align: left;
+        line-height: 8vw;
+      
+      }
+      }
+      
+      .qlCaNhan-container{
+        margin: auto 2vw;
+        .tieuDe{
+          line-height: 6vw;
+          font-weight: 600;
+          font-size: 3.5vw;
+          text-align: left;
+         margin: 5vw auto 0vw;
+        
+        }
+        .noiDung{
+          display: block;
+          font-size: 3.5vw;
+          font-weight: 600;
+          color: #04aa6d;
+          text-align: left;
+          line-height: 8vw;
+          border-bottom: solid 1px #d0d4dd ;
+        }
+        .noiDung2{
+          display: block;
+          font-size: 3.5vw;
+          font-weight: 600;
+          color: gray;
+          text-align: left;
+          line-height: 8vw;
+          border-bottom: solid 1px #d0d4dd ;
+        }
+      }
+      .tkNganHang-container{
+        margin: auto 2vw;
+          .tieuDe{
+            line-height: 6vw;
+            font-weight: 600;
+            font-size: 3.5vw;
+            text-align: left;
+           margin-top:  5vw;
+          
+          }
+      .taikhoan{
+        display: flex;
+        .ttTaiKhoan{
+          width: 50vw;
+    
+          .stk{
+            font-size: 3.5vw;
+            text-align: left;
+            line-height: 8vw;
+      
+          }
+          select, option,input{
+            font-size: 3vw;
+            text-align-last: center;
+            height: 8vw;
+            width: 48vw;
+            border-radius: 1vw;
+            border: solid 1px gray;
+            margin-bottom: 2vw;
+          
+        }
+        .input2{
+          color: red;
+        font-size: 3.9vw;
+    font-weight: 600;
+        }
+        .input2::placeholder {
+          color: red;
+          font-size: 3.9vw;
+      font-weight: 600;
+        }
+        }
+        .qr-container{
+          width: 50vw;
+          margin-top: 8vw;
+          .maQr{
+            width: 48vw;
+            object-fit: cover;
+          }
+        }
+      }
+    .menhGiaTien{
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr 1fr 1fr; 
+      gap:2vw;
+      color: #fff;
+      font-weight: 600;
+      font-size: 3vw;
+      margin-top: 3vw;
+      .giaTriTien{
+          background-color: #04aa6d;
+          padding: 1.5vw 0.5vw ;
+          border-radius: 1vw;
+      }
+    
+    }
+    
+      }
+      .timShiper-container{
+        margin: auto 2vw;
+        .tieuDe{
+          line-height: 6vw;
+          font-weight: 600;
+          font-size: 3.5vw;
+          text-align: left;
+         margin: 5vw auto 0vw;
+        
+        }
+        .noiDung{
+          display: block;
+          font-size: 3.5vw;
+          font-weight: 600;
+          color: #04aa6d;
+          text-align: left;
+          line-height: 8vw;
+          border-bottom: solid 1px #d0d4dd ;
+        }
+      }
+      .timShop-container{
+       margin: auto 2vw;
+        .tieuDe{
+          line-height: 6vw;
+          font-weight: 600;
+          font-size: 3.5vw;
+          text-align: left;
+         margin: 5vw auto 0vw;
+        
+        }
+        .noiDung{
+          display: block;
+          font-size: 3.5vw;
+          font-weight: 600;
+          color: #04aa6d;
+          text-align: left;
+          line-height: 8vw;
+          border-bottom: solid 1px #d0d4dd ;
+        }
+        .diaChi-select{
+          margin: 3vw auto;
+          .select-container{
+            margin-bottom: 2vw;
+            display: flex;
+            gap: 2vw;
+            .select{
+              width: 100%;
+              height: 8vw;
+              border: solid 1px gray;
+              border-radius: 1vw;
+              text-align-last: center;
+        
+            }
+          }
+    
+        }
+        .timTheoTenSdt{
+          margin: 3vw auto;
+          .input-tim{
+            display: flex;
+            gap: 5vw;
+.input{
 
+  font-size: 3vw;
+  width: 76vw;
+  height: 8vw;
+  border: solid 1px gray;
+  border-radius: 1vw;
+  text-align: center;
+
+}
+.tim{
+  width: 15vw;
+  font-size: 3.5vw;
+  font-weight: 600;
+  color: #fff;
+  line-height: 8vw;
+  background-color: #04aa6d;
+  border-radius: 1vw;
+
+}
+          }
+        }
+        .toaDo{
+          display: flex;
+          border-bottom: solid 1px #d0d4dd ;
+          font-size: 3.5vw;
+          font-weight: 600;
+          .noiDungx{
+            width: 26vw;
+            color: #04aa6d;
+            text-align: left;
+            line-height: 8vw;
+          }
+    .lat{
+      width: 35vw;
+      line-height: 8vw;
+    }
+    .lont{
+      width: 35vw;
+      line-height: 8vw;
+    }
+        }
+        .allShoplike{
+          margin-bottom: 2vw;
+          border-bottom: solid 1px #d0d4dd ;
+          text-decoration: none;
+          display: block;
+          font-size: 3.5vw;
+          color: #04aa6d;
+          .tenShop{
+    font-weight: 600;
+    text-align: left;
+    line-height: 8vw;
+    text-transform: uppercase;
+          }
+          .diaChi{
+              text-align: left;
+              line-height: 5vw;
+              color: black;
+          }
+      }
+      }
+        }
+      }
+    }
+    .pc{
+      display: none;
+    }
   }
+ 
+  
 }
 
 /* PC*/
 @media screen and (min-width : 1024px) {
-    .TrangCaNhan-ConTaiNer{
-        
+  .view{
+    .mobile{
+      display: none;
     }
+    .pc{
+      display: flex;
+      width: 100vw;
+      .TrangCaNhan-ConTaiNer{
+        width: 40vw;
+        margin-bottom: 10vw;
+        font-size: 1vw;
+        // border: #d0d4dd 1px solid;
+        background-color: #fff;
+        z-index: 3;
+        a{
+          text-decoration: none;
+      }
+       
+        .TrangCaNhan{
+          
+          .quayLai-tieuDe{
+            width: 40vw;
+            display: flex;
+            font-size: 1vw;
+            background-color: #fff;
+            border-bottom: #d0d4dd 1px solid;
+            position: fixed;
+            top: 0px;
+           
+            // border: #d0d4dd 1px solid;
+            .quayLai{
+              color: #04aa6d;
+              // font-size: vw;
+              font-weight: 600;
+              width: 8vw;
+              text-align: left;
+              line-height: 3vw;
+              padding-left: 0.6vw;
+          
+            }
+            .fabysa{
+              color: #04aa6d;
+              font-size: 1.5vw;
+              font-weight: 600;
+              width: 8vw;
+              text-align: left;
+              line-height: 3vw;
+              padding-left: 0.5vw;
+           
+      
+            }
+            .tieuDe{
+              font-size: 1.5vw;
+                font-weight: 600;
+                color: red;
+                text-align: center;
+                width: 24vw;
+                line-height: 3vw;
+                text-transform: uppercase;
+            }
+            .dangXuat{
+              width: 7vw;
+              text-align: center;
+              line-height: 2vw;
+               margin: 0.5vw;
+              border-radius: 0.5vw;
+              text-decoration: none;
+              font-weight: 500;
+              color: red;
+              cursor: pointer;
+              border: solid 1px red;
+              
+            }
+            .dangNhap{
+              width: 7vw;
+              text-align: center;
+              line-height: 2vw;
+               margin: 0.5vw;
+              border-radius: 0.5vw;
+              text-decoration: none;
+              font-weight: 500;
+              color: #04aa6d;
+              border: solid 1px #04aa6d;
+              cursor: pointer;
+              
+            }
+        }
+      .ttCaNhan-container{
+     
+        margin: 12vw 2vw auto;
+      .tieuDe{
+        line-height: 6vw;
+        font-weight: 600;
+        font-size: 3.5vw;
+        text-align: left;
+      
+      }
+      .thongTin{
+        display: flex;
+        .hoTen-sdt{
+          width: 48vw;
+          .hoTen{
+            
+            font-size: 3.5vw;
+            text-align: left;
+            line-height: 8vw;
+          }
+        }
+        .avatar-taiKhoan{
+          width: 48vw;
+          .avatar{
+            width: 19vw;
+            height:19vw ;
+            border-radius: 50%;
+            object-fit: cover;
+      
+          }
+          .taiKhoan{
+            font-size: 3.5vw;
+            font-weight: 500;
+            text-align: center;
+            line-height: 8vw;
+            color: red;
+          }
+          .quyDoi{
+            font-size: 2.8vw;
+            line-height: 5vw;
+          }
+          
+        }
+      }
+      .diaChi{
+        font-size: 3.5vw;
+        text-align: left;
+        line-height: 8vw;
+      
+      }
+      }
+      
+      .qlCaNhan-container{
+        margin: auto 2vw;
+        .tieuDe{
+          line-height: 6vw;
+          font-weight: 600;
+          font-size: 3.5vw;
+          text-align: left;
+         margin: 5vw auto 0vw;
+        
+        }
+        .noiDung{
+          display: block;
+          font-size: 3.5vw;
+          font-weight: 600;
+          color: #04aa6d;
+          text-align: left;
+          line-height: 8vw;
+          border-bottom: solid 1px #d0d4dd ;
+        }
+        .noiDung2{
+          display: block;
+          font-size: 3.5vw;
+          font-weight: 600;
+          color: gray;
+          text-align: left;
+          line-height: 8vw;
+          border-bottom: solid 1px #d0d4dd ;
+        }
+      }
+      .tkNganHang-container{
+        margin: auto 2vw;
+          .tieuDe{
+            line-height: 6vw;
+            font-weight: 600;
+            font-size: 3.5vw;
+            text-align: left;
+           margin-top:  5vw;
+          
+          }
+      .taikhoan{
+        display: flex;
+        .ttTaiKhoan{
+          width: 50vw;
+    
+          .stk{
+            font-size: 3.5vw;
+            text-align: left;
+            line-height: 8vw;
+      
+          }
+          select, option,input{
+            font-size: 3vw;
+            text-align-last: center;
+            height: 8vw;
+            width: 48vw;
+            border-radius: 1vw;
+            border: solid 1px gray;
+            margin-bottom: 2vw;
+        }
+        }
+        .qr-container{
+          width: 50vw;
+          margin-top: 8vw;
+          .maQr{
+            width: 48vw;
+            object-fit: cover;
+          }
+        }
+      }
+    .menhGiaTien{
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr 1fr 1fr; 
+      gap:2vw;
+      color: #fff;
+      font-weight: 600;
+      font-size: 3vw;
+      margin-top: 3vw;
+      .giaTriTien{
+          background-color: #04aa6d;
+          padding: 1.5vw 0.5vw ;
+          border-radius: 1vw;
+      }
+    
+    }
+    
+      }
+      .timShiper-container{
+        margin: auto 2vw;
+        .tieuDe{
+          line-height: 6vw;
+          font-weight: 600;
+          font-size: 3.5vw;
+          text-align: left;
+         margin: 5vw auto 0vw;
+        
+        }
+        .noiDung{
+          display: block;
+          font-size: 3.5vw;
+          font-weight: 600;
+          color: #04aa6d;
+          text-align: left;
+          line-height: 8vw;
+          border-bottom: solid 1px #d0d4dd ;
+        }
+      }
+      .timShop-container{
+       margin: auto 2vw;
+        .tieuDe{
+          line-height: 6vw;
+          font-weight: 600;
+          font-size: 3.5vw;
+          text-align: left;
+         margin: 5vw auto 0vw;
+        
+        }
+        .noiDung{
+          display: block;
+          font-size: 3.5vw;
+          font-weight: 600;
+          color: #04aa6d;
+          text-align: left;
+          line-height: 8vw;
+          border-bottom: solid 1px #d0d4dd ;
+        }
+        .toaDo{
+          display: flex;
+          border-bottom: solid 1px #d0d4dd ;
+          font-size: 3.5vw;
+          font-weight: 600;
+          .noiDungx{
+            width: 26vw;
+            color: #04aa6d;
+            text-align: left;
+            line-height: 8vw;
+          }
+    .lat{
+      width: 35vw;
+      line-height: 8vw;
+    }
+    .lont{
+      width: 35vw;
+      line-height: 8vw;
+    }
+        }
+      }
+        }
+      }
+      .hinhNen-container{
+        background-color: #04aa6d;
+        width: 60vw;
+        height: 100vh;
+        justify-content: center;
+        align-items: center;
+        position: fixed;
+        right:  0px;
+        bottom: 0px;
+        z-index: 2;
+        .hinhNen{
+          width: 39vw;
+            height:39vw ;
+            border-radius: 50%;
+            object-fit: cover;
+                }
+      }
+      
+    }
+  }
 }

@@ -3,32 +3,80 @@
 @media screen and (max-width : 1023px) {
     .donHangMoi-container{
         a{text-decoration: none};
-        margin: 12vw 2vw;
-        font-size: 3vw;
-        // color: #04aa6d;
-        .quayLai-tieuDe{
-            display: flex;
-            // border: solid 1px gray;
-            font-size: 3.5vw;
-            margin: 3vw auto;
-            .quayLai{
-                color: #04aa6d;
-                width: 25vw;
-                text-align: left;
-                padding: 0vw 1vw;
-      
-            }
-            .tieuDe{
-                // border: solid 1px gray;
-                font-weight: 600;
-                color: red;
-                text-align: center;
-                width: 50vw;
-                margin-right: 25vw;
-      
-            }
-        }
+  font-size: 3vw;
+  .quayLai-tieuDe{
+    width: 100vw;
+    display: flex;
+    font-size: 3.5vw;
+    background-color: #fff;
+    border-bottom: #d0d4dd 1px solid;
+    position: fixed;
+
+    top: 0px;
+      z-index: 1;
+    a{
+        text-decoration: none;
+    }
+    .quayLai{
+        color: #04aa6d;
+        width: 25vw;
+        text-align: left;
+        line-height: 9vw;
+        padding-left: 2vw;
        
+    }
+      .donHang{
+          font-size: 3.9vw;
+          font-weight: 600;
+          color: red;
+          text-transform: uppercase;
+          width: 50vw;
+          line-height: 9vw;
+   
+
+      }
+      .taiKhoanShop{
+        width: 25vw;
+        text-align: right;
+        padding-right: 2vw;
+        line-height: 9vw;
+        color: red;
+  
+    }
+  }
+  .chonDonHang-phiNenTang{
+    margin: 12vw 2vw auto;
+    display: flex;
+    gap: 16vw;
+    
+   .chonDonHang-container{
+    width: 40vw;
+    .tieuDe{
+        line-height: 6vw;
+        font-weight: 600;
+        font-size: 3.5vw;
+        text-align: center;
+
+    }
+    .chonDonHang{
+width: 100%;
+height: 8vw;
+font-size: 3.5vw;
+border: solid 1px gray;
+text-align-last:center ;
+border-radius: 2vw;
+    }
+   }
+  }
+  
+  .donHang-all{
+    margin: 5vw 2vw 30vw;
+    .ds{
+        line-height: 6vw;
+        font-weight: 600;
+        font-size: 3.5vw;
+        text-align: left;
+    }
         .donHang-container{
             display: flex;
             margin: 2vw auto;
@@ -87,26 +135,14 @@
             }
         }
         .donHangTrong{
+            line-height: 6vw;
+            font-weight: 600;
             font-size: 3.5vw;
-            line-height: 8vw;
+            text-align: center;
         }
-}
-.menuDonHang{
-    .menu{
-        object-fit: cover;
-        width: 15vw;
-        height: 15vw;
-        border-radius: 50%;
-        background-color: #04aa6d;
-        padding: 2px;
-        position: fixed;
-        cursor: pointer;
-        left: 20px;
-        bottom: 20px;
-        z-index: 2;
-
     }
-}}
+}
+}
 
 /* PC*/
 @media screen and (min-width : 1024px) {

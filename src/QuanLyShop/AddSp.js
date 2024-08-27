@@ -2,7 +2,7 @@ import "./AddSp.scss";
 import { useState } from "react";
 import { useEffect } from "react";
 import CommonUtils from "../component/CommonUtils";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import themAnh from "../assets/images/themAnh.png";
 import Loading from "../GiaoDienChung/Loading";
@@ -14,7 +14,6 @@ import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 const AddSp = () => {
     const { idShop } = useParams();
     const dispatch = useDispatch();
-    const navigate = useNavigate();
     useEffect(() => {
         getttShop(idShop, dispatch);
     }, []);
@@ -42,6 +41,7 @@ const AddSp = () => {
     const [giaKhuyenMai, setgiaKhuyenMai] = useState(0);
     const [giaCtv, setgiaCtv] = useState(0);
     const [giaSi, setgiaSi] = useState(0);
+    const [view, setview] = useState("Hiện");
 
     const dacDiemSanPham = {
         AnhSanPham,
@@ -53,6 +53,8 @@ const AddSp = () => {
         giaCtv,
         giaSi,
     };
+
+    
     console.log("thongTinSP", thongTinSP);
     const handleThemDacDiem = () => {
         if (
@@ -125,9 +127,11 @@ const AddSp = () => {
             const newSanPham = {
                 nhomSanPham: nhomSP,
                 TenSanPham: tenSP,
+                giaMin: allDacDiemSP[0]?.giaKhuyenMai,
                 allDacDiemSP: allDacDiemSP,
                 thongTinSanPham: thongTinSP,
                 TenShop: ttShop?.TenShop,
+                view:view,
                 xa: ttShop?.xa,
                 huyen: ttShop?.huyen,
                 tinh: ttShop?.tinh,
@@ -187,9 +191,8 @@ const AddSp = () => {
                     href={`/${tenVietTat}/${idShop}/a/a/a/a`}
                     className="quayLai"
                 >
-                    Quay Lại
+                    <i className="fa fa-angle-double-left"></i>Quay Lại
                 </a>
-
                 <div className="tieuDe">Thêm Sản Phẩm</div>
             </div>
             {loading === 0 && (

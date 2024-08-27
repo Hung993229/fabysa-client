@@ -1,25 +1,20 @@
 import "./UpdateShop.scss";
 import CommonUtils from "../component/CommonUtils";
+// import parse from "html-react-parser";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import themAnh from "../assets/images/themAnh.png";
 import { useNavigate, useParams } from "react-router-dom";
 import Loading from "../GiaoDienChung/Loading";
+import BoxSoanThao from "../component/BoxSoanThao";
 import logoInternet from "../assets/images/logoInternet.jpg";
 import {
+    getTaiKhoan,
+    registerTaiKhoan,
     getttShop,
     updatettShop,
-    registerSanPham,
-    getSanPham,
-    getSanPhamDanHuyen2,
-    updateSanPham,
     getPost,
-    deleteSanPham,
-    updatePost,
-    getArrSanPham,
-    updateYourStatusUser,
-    getYourStatus,
 } from "../redux/apiRequest";
 import { useEffect } from "react";
 import {
@@ -27,19 +22,14 @@ import {
     apiGetPublicDistrict,
     apiGetPublicWard,
 } from "../redux/ApiProvince";
-import DangNhap from "../DangNhap/DangNhap";
-import { CKEditor } from "@ckeditor/ckeditor5-react";
-import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
-import ReactHtmlParser, {
-    processNodes,
-    convertNodeToElement,
-    htmlparser2,
-} from "react-html-parser";
 const UpdateShop = () => {
     const { idShop } = useParams();
     const user = useSelector((state) => state.auth.login?.currentUser);
     const myDetail = useSelector((state) => state.post.post?.myDetail);
     const ttShop = useSelector((state) => state.ttShop.ttShop.ttShop?.shop);
+    const taiKhoan = useSelector(
+        (state) => state?.taiKhoan?.taiKhoan?.taiKhoan?.taiKhoan
+    );
     const [loading, setloading] = useState(0);
     const dispatch = useDispatch();
     useEffect(() => {
@@ -49,10 +39,14 @@ const UpdateShop = () => {
     useEffect(() => {
         getttShop(idShop, dispatch);
     }, [idShop]);
-
+    useEffect(() => {
+        getTaiKhoan(idShop, dispatch);
+    }, []);
     const [TenShop, setTenShop] = useState();
     const [SdtShop, setSdtShop] = useState();
     const [capBac, setcapBac] = useState();
+    const [xuatBan, setxuatBan] = useState();
+
     const [cash, setcash] = useState();
     const [UserShop, setUserShop] = useState();
 
@@ -67,6 +61,7 @@ const UpdateShop = () => {
     const [zalo, setzalo] = useState();
     const [slogan, setslogan] = useState();
     const [gioiThieu, setgioiThieu] = useState();
+    const [vanBan, setvanBan] = useState();
 
     // const [nganHang, setnganHang] = useState({});
     const [tenNganHang, settenNganHang] = useState("");
@@ -86,27 +81,37 @@ const UpdateShop = () => {
     const [nvQuanLy2, setnvQuanLy2] = useState("");
     const [sdtnvQuanLy2, setsdtnvQuanLy2] = useState("");
     const [menuShop2, setmenuShop2] = useState("");
+
+    const [kinhDo, setkinhDo] = useState(0);
+    const [viDo, setviDo] = useState(0);
     useEffect(() => {
         if (ttShop) {
             setTenShop(ttShop?.TenShop);
             setSdtShop(ttShop?.sdtShop);
+
+            setkinhDo(ttShop?.kinhDo || 0);
+            setviDo(ttShop?.viDo || 0);
             // Tinh
             // huyen
             // xa
             setthonXom(ttShop?.thonXom);
             setcash(ttShop?.cash);
-            setcapBac(ttShop?.capBac);
+            setcapBac(ttShop?.capBac || 1);
+            setxuatBan(ttShop?.xuatBan || "Xây Dựng");
             setUserShop(ttShop?.user);
             // ttShopThem
-            setBanner(ttShop?.ttShopThem?.Banner);
-            setgiaoDien(ttShop?.ttShopThem?.giaoDien);
-            settenVietTat(ttShop?.ttShopThem?.tenVietTat);
-            setnguoiHoTro(ttShop?.ttShopThem?.nguoiHoTro);
-            setwebsite(ttShop?.ttShopThem?.website);
-            setfaceBook(ttShop?.ttShopThem?.faceBook);
-            setzalo(ttShop?.ttShopThem?.zalo);
-            setslogan(ttShop?.ttShopThem?.slogan);
-            setgioiThieu(ttShop?.ttShopThem?.gioiThieu);
+            setBanner(ttShop?.ttShopThem?.Banner || themAnh);
+            setgiaoDien(ttShop?.ttShopThem?.giaoDien || 1);
+            settenVietTat(ttShop?.ttShopThem?.tenVietTat || "Tên viết tắt");
+            setnguoiHoTro(
+                ttShop?.ttShopThem?.nguoiHoTro || "Thêm người hỗ trợ"
+            );
+            setwebsite(ttShop?.ttShopThem?.website || "Website");
+            setfaceBook(ttShop?.ttShopThem?.faceBook || "Link Facebook");
+            setzalo(ttShop?.ttShopThem?.zalo || "Số điện thoại Zalo");
+            setslogan(ttShop?.ttShopThem?.slogan || "Thêm slogan");
+            setgioiThieu(ttShop?.ttShopThem?.gioiThieu || "Thêm giới thiệu");
+            setvanBan(ttShop?.ttShopThem?.gioiThieu || "Thêm giới thiệu");
 
             settenNganHang(
                 ttShop?.ttShopThem?.nganHang?.tenNganHang ||
@@ -144,12 +149,15 @@ const UpdateShop = () => {
     const [wards, setWards] = useState([]);
     const [wardID, setWardID] = useState();
     const [thonXom, setthonXom] = useState();
+    const d = new Date();
+    const gioPhut = `${d.getHours()}h${d.getMinutes()}`;
+    const ngayThang = `${d.getDate()}/${d.getMonth()}/${d.getFullYear()}`;
     // Tinh
     useEffect(() => {
         const fetchPublicProvince = async () => {
             const response = await apiGetPublicProvinces();
             if (response.status === 200) {
-                setProvinces(response?.data.results);
+                setProvinces(response?.data?.results);
             }
         };
         fetchPublicProvince();
@@ -159,7 +167,7 @@ const UpdateShop = () => {
         const fetchPublicDictrict = async () => {
             const response = await apiGetPublicDistrict(provincesID);
             if (response.status === 200) {
-                setDistricts(response?.data.results);
+                setDistricts(response?.data?.results);
             }
         };
         provincesID && fetchPublicDictrict();
@@ -171,7 +179,7 @@ const UpdateShop = () => {
         const fetchPublicWard = async () => {
             const response = await apiGetPublicWard(districtID);
             if (response.status === 200) {
-                setWards(response?.data.results);
+                setWards(response?.data?.results);
             }
         };
         districtID && fetchPublicWard();
@@ -215,7 +223,7 @@ const UpdateShop = () => {
         );
         const nganHang = {
             tenNganHang: tenNganHang,
-            maSo: xetTkNH.maSo,
+            maSo: xetTkNH?.maSo,
             taiKhoanNganHang: taiKhoanNganHang,
             chuTaiKhoanNganhang: chuTaiKhoanNganhang,
         };
@@ -236,7 +244,7 @@ const UpdateShop = () => {
             faceBook,
             zalo,
             slogan,
-            gioiThieu,
+            gioiThieu: vanBan,
             soBan,
         };
 
@@ -252,18 +260,48 @@ const UpdateShop = () => {
                 thonXom: thonXom,
 
                 cash: cash,
+                phiNenTang: ttShop?.phiNenTang,
                 capBac: capBac,
+                xuatBan: xuatBan,
                 ttShopThem: ttShopThem,
                 user: UserShop,
+                kinhDo: kinhDo,
+                viDo: viDo,
             };
             console.log("newShop", newShop);
             updatettShop(newShop, id, dispatch, setloading);
             setloading(1);
-            const newPost = {
-                vaiTro: capBac,
-            };
-            const idpost = myDetail?._id;
-            updatePost(newPost, idpost, dispatch);
+            if (!taiKhoan) {
+                const newTaiKhoan = {
+                    NapTien: 300000,
+                    XacNhanNapTien: "Thành Công",
+                    LichsuGiaoDich: {
+                        gdVao: [
+                            {
+                                thoiGian: `${ngayThang} ${gioPhut}`,
+                                soTien: 300000,
+                                noiDung: "Fabysa Tặng",
+                                xacNhan: "Thành Công",
+                            },
+                        ],
+                        gdRa: [
+                            {
+                                thoiGian: `${ngayThang} ${gioPhut}`,
+                                soTien: 0,
+                                noiDung: "Phí Mở Shop",
+                                xacNhan: "Thành Công",
+                            },
+                        ],
+                    },
+                    ThongTinThem: {
+                        TenShop: TenShop,
+                        sdtShop: SdtShop,
+                    },
+                    user: ttShop?._id,
+                };
+                console.log("newTaiKhoan", newTaiKhoan);
+                registerTaiKhoan(newTaiKhoan, dispatch);
+            }
         } catch (err) {
             console.log(err);
         }
@@ -306,9 +344,27 @@ const UpdateShop = () => {
     const handleXoaSoBan = (item) => {
         setsoBan(soBan.filter((item2) => item2 !== item));
     };
+    const handleViTriHienTai = () => {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition((position) => {
+                setkinhDo(position.coords.latitude);
+                setviDo(position.coords.longitude);
+            });
+        }
+    };
 
     return (
         <div className="pc-updateShop">
+            <div className="quayLai-tieuDe">
+                <a
+                    href={`/${ttShop?.ttShopThem?.tenVietTat}/${ttShop?._id}/a/a/a/a`}
+                    className="quayLai"
+                >
+                    <i className="fa fa-angle-double-left"></i>Quay Lại
+                </a>
+
+                <div className="tieuDe">Sửa Thông Tin Shop</div>
+            </div>
             {loading === 0 && (
                 <div className="updateShop-container">
                     {(user?._id === ttShop?.user ||
@@ -432,6 +488,37 @@ const UpdateShop = () => {
                                     onChange={(e) => setthonXom(e.target.value)}
                                 />
                             </div>
+                            <div className="toaDo-container">
+                                <div className="toaDo">Toạ Độ</div>
+                                <div
+                                    onClick={() => handleViTriHienTai()}
+                                    className="viTriHienTai"
+                                >
+                                    Vị Trí Hiện Tại
+                                </div>
+                                <div className="kDvD-container">
+                                    <div className="kinhDo-input">
+                                        <div className="kinhDo">Kinh Độ</div>
+                                        <input
+                                            className="input"
+                                            placeholder={kinhDo}
+                                            onChange={(e) =>
+                                                setkinhDo(e.target.value)
+                                            }
+                                        />
+                                    </div>
+                                    <div className="kinhDo-input">
+                                        <div className="kinhDo">Vĩ Độ</div>
+                                        <input
+                                            className="input"
+                                            placeholder={viDo}
+                                            onChange={(e) =>
+                                                setviDo(e.target.value)
+                                            }
+                                        />
+                                    </div>
+                                </div>
+                            </div>
                             <div className="tenShop-TS">
                                 <div className="tenShop">Facebook</div>
                                 <input
@@ -462,15 +549,13 @@ const UpdateShop = () => {
                                 />
                             </div>
                             <div className="tenShop-TS">
-                                <div className="tenShop">Giới Thiệu Thêm</div>
-                                <input
-                                    className="TS"
-                                    placeholder={gioiThieu}
-                                    type="text"
-                                    onChange={(e) =>
-                                        setgioiThieu(e.target.value)
-                                    }
-                                />
+                                <div className="tenShop">Giới Thiệu</div>
+                                <div>
+                                    <BoxSoanThao
+                                        setvanBan={setvanBan}
+                                        vanBan={vanBan}
+                                    />
+                                </div>
                             </div>
                             <div className="nganHang">
                                 <div className="chonNganHang">
@@ -532,7 +617,7 @@ const UpdateShop = () => {
                                     </div>
                                 </div>
                                 {soBan &&
-                                    soBan.map((item, index) => {
+                                    soBan?.map((item, index) => {
                                         return (
                                             <div
                                                 key={index}
@@ -584,7 +669,7 @@ const UpdateShop = () => {
                                     </div>
                                 </div>
                                 {nvBanHang &&
-                                    nvBanHang.map((item, index) => {
+                                    nvBanHang?.map((item, index) => {
                                         return (
                                             <div
                                                 key={index}
@@ -639,7 +724,7 @@ const UpdateShop = () => {
                                     </div>
                                 </div>
                                 {nvQuanLy &&
-                                    nvQuanLy.map((item, index) => {
+                                    nvQuanLy?.map((item, index) => {
                                         return (
                                             <div
                                                 key={index}
@@ -662,6 +747,17 @@ const UpdateShop = () => {
                                             </div>
                                         );
                                     })}
+                            </div>
+                            <div className="nganHang">
+                                <div className="chonNganHang">Xuất Bản</div>
+                                <select
+                                    id="provinces"
+                                    onChange={(e) => setxuatBan(e.target.value)}
+                                >
+                                    <option>{xuatBan}</option>
+                                    <option>Xây Dựng</option>
+                                    <option>Hoàn Thành</option>
+                                </select>
                             </div>
                         </>
                     )}
@@ -690,15 +786,7 @@ const UpdateShop = () => {
                                     }
                                 />
                             </div>
-                            <div className="tenShop-TS">
-                                <div className="tenShop">Cấp Bậc</div>
-                                <input
-                                    className="TS"
-                                    placeholder={capBac}
-                                    type="text"
-                                    onChange={(e) => setcapBac(e.target.value)}
-                                />
-                            </div>
+
                             <div className="tenShop-TS">
                                 <div className="tenShop">Tài Khoản</div>
                                 <input
@@ -750,6 +838,16 @@ const UpdateShop = () => {
                                     onChange={(e) => setwebsite(e.target.value)}
                                 />
                             </div>
+                            <div className="tenShop-TS">
+                                <div className="tenShop">Cấp Bậc</div>
+                                <i>1-Binh thường 2-Không hiển thị</i>
+                                <input
+                                    className="TS"
+                                    placeholder={capBac}
+                                    type="number"
+                                    onChange={(e) => setcapBac(e.target.value)}
+                                />
+                            </div>
                         </div>
                     )}
                     {(user?._id === ttShop?.user ||
@@ -758,12 +856,6 @@ const UpdateShop = () => {
                             (item) => item?.sdtnvQuanLy === user?.username
                         )) && (
                         <div className="close-luu">
-                            <a
-                                href={`/${ttShop.ttShopThem?.tenVietTat}/${ttShop._id}/a/a/a/a`}
-                                className="close"
-                            >
-                                Quay Lại Shop
-                            </a>
                             <div
                                 className="luu"
                                 onClick={handleLuuThongTinShop}

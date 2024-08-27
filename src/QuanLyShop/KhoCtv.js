@@ -1,699 +1,472 @@
-import "./KhoCtv.scss";
-import logoInternet from "../assets/images/logoInternet.jpg";
+import "./Shop2.scss";
+import facebookLogo from "../assets/images/Facebook_Logo.png";
+import zaloLogo from "../assets/images/zaloLogo.png";
+import gioHang2 from "../assets/images/giohang.jpg";
+import menu from "../assets/images/menu.png";
+import like from "../assets/images/like.jpg";
+import like2 from "../assets/images/like2.jpg";
+import XemAnh from "../GiaoDienChung/XemAnh";
+import HeaderShop from "./HeaderShop";
+import SuaMenu from "./SuaMenu";
+
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-import like from "../assets/images/like.jpg";
-import like2 from "../assets/images/like2.jpg";
-import gioHang2 from "../assets/images/giohang2.jpg";
+import { NavLink } from "react-router-dom";
 import { useNavigate, useParams } from "react-router-dom";
 import {
     getttShop,
     getSanPham,
+    getSanPhamDanHuyen2,
     getPost,
     registerGioHang,
     updateGioHang,
     getGioHang,
-    registerYourStatus,
-    updateYourStatusUser,
     getYourStatus,
-    getAllttShop,
+    getArrSanPham,
+    updatePost,
 } from "../redux/apiRequest";
 import { useEffect } from "react";
 import GioHang from "./GioHangCtv";
-import ChiTietSanPham2 from "./ChiTietSanPham2";
+import ChiTietSanPham2 from "./ChiTietSanPhamCtv";
+import UpdateSanPham from "./UpdateSanPham";
 import Loading from "../GiaoDienChung/Loading";
-const KhoCtv = (props) => {
-    const {
-        showcart,
-        setshowcart,
-        setTongtien,
-        setTongsoluong,
-        Tongtien,
-        Tongsoluong,
-    } = props;
+const Shop2 = () => {
+    const { tenVietTat, idShop, idCtv, tenCtv, sdtCtv } = useParams();
     const user = useSelector((state) => state.auth.login.currentUser);
     const myDetail = useSelector((state) => state.post.post?.myDetail);
     const gioHang = useSelector(
         (state) => state.gioHang.gioHang.gioHang?.gioHang
     );
-    const arraySanPham = useSelector(
-        (state) => state.sanPham.sanPham.arrsanPham?.arrSanpham
-    );
     const ttShop = useSelector((state) => state.ttShop.ttShop.ttShop?.shop);
-    const allShop = useSelector(
-        (state) => state.ttShop.ttShop.allttShop?.AllShop
-    );
-    const allSanPham1 = useSelector(
+
+    const ttShopThem = ttShop?.ttShopThem;
+    const khachSi = ttShopThem?.khachSi;
+    const khachCtv = ttShopThem?.khachCtv;
+    const nvBanHang = ttShopThem?.nvBanHang;
+    const nvQuanLy = ttShop?.ttShopThem?.nvQuanLy;
+    const allSanPham2 = useSelector(
         (state) => state.sanPham.sanPham.allsanPham?.allSanpham
     );
-    const [cart, setcart] = useState([]);
-    const [skip, setskip] = useState(0);
-    const shopLienKet = useSelector(
-        (state) => state.yourStatus.yourStatus.yourStatus?.yourstatus
-    );
-    const allshopLienKet = useSelector(
-        (state) => state.yourStatus.yourStatus.allYourStatus?.yourStatus
-    );
-    const dispatch = useDispatch();
-    const navigate = useNavigate();
-    const { idShop } = useParams();
-    const [iddetailSanPham, setiddetailSanPham] = useState("");
-    const [showChiTietSanPham, setshowChiTietSanPham] = useState(0);
-    const [tuVanVaThongTin, settuVanVaThongTin] = useState(0);
-    const [loading, setloading] = useState(1);
-    const [idShopLienKet, setidShopLienKet] = useState();
-    const [nhomSP, setnhomSP] = useState();
-    const [allSanPham, setallSanPham] = useState([]);
-    const [thongTinSp, setthongTinSp] = useState();
-
-    useEffect(() => {
-        if (user && user.length !== 0) {
-            getPost(user?._id, dispatch, setloading);
-            getGioHang(idShop, user?._id, dispatch);
-        }
-    }, []);
-    useEffect(() => {
-        if (user && user.length !== 0) {
-            getYourStatus(user?._id, dispatch);
-        }
-    }, [shopLienKet]);
-    useEffect(() => {
-        getttShop(idShop, dispatch);
-    }, []);
-    useEffect(() => {
-        if (user) {
-            getAllttShop(user?._id, dispatch);
-        }
-    }, []);
-    useEffect(() => {
-        const limit = 100;
-        getSanPham(idShop, nhomSP, skip, limit, dispatch, setloading);
-    }, [nhomSP]);
     const VND = new Intl.NumberFormat("vi-VN", {
         style: "currency",
         currency: "VND",
     });
+    const [Tongsoluong, setTongsoluong] = useState(0);
+    const [Tongtien, setTongtien] = useState(0);
+    const [loading, setloading] = useState(0);
+    const [loadingTruoc, setloadingTruoc] = useState(0);
+    const [xemAnhFull, setxemAnhFull] = useState();
+    const [thongTinSp, setthongTinSp] = useState();
 
-    // Them gio Hang
-    const handleThemGioHang = (item) => {
-        const ProductExist = cart?.find((item2) => item2?._id === item._id);
-        if (ProductExist) {
-            const gioHang2 = cart.map((item3) =>
-                item3._id === item._id
-                    ? {
-                          ...ProductExist,
-                          quantity: +ProductExist.quantity + 1,
-                      }
-                    : item3
-            );
-            setcart(gioHang2);
-        } else {
-            const gioHang3 = [...cart, { ...item, quantity: 1 }];
-            setcart(gioHang3);
-        }
-        if (myDetail && myDetail?.length !== 0) {
-            const id = item?._id;
-            if (!gioHang) {
-                const newGioHang = {
-                    idShop: idShop,
-                    user: user._id,
-                    gioHang: id,
-                };
-                console.log("newGioHang", newGioHang);
-                registerGioHang(newGioHang, dispatch);
-            } else {
-                const idSanPham = gioHang?.gioHang?.find(
-                    (item2) => item2 === item._id
-                );
-                console.log("idSanPham", idSanPham);
-                if (!idSanPham) {
-                    const gioHangUpdate = [...gioHang.gioHang, id];
-                    const newGioHang = {
-                        idShop: idShop,
-                        user: user._id,
-                        gioHang: gioHangUpdate,
-                    };
-                    console.log("updateGioHang", newGioHang);
-                    updateGioHang(newGioHang, gioHang._id, dispatch);
-                }
-            }
-        }
-    };
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const [nhomSP, setnhomSP] = useState("Xin kính chào quý khách");
+    const [skip, setskip] = useState(0);
+    const [soBan, setsoBan] = useState("fabysa");
+    const [maBaoMat, setmaBaoMat] = useState();
+    const [allSanPham, setallSanPham] = useState([]);
+    const [sort, setsort] = useState(1);
+    const nhomSanPham2 = ttShop?.ttShopThem?.menuShop;
+    const nhomSanPham = nhomSanPham2?.filter((item) => item !== nhomSP);
 
-    // Tinh So Luong - Tong So Tien
-    const tinhtongtien = () => {
-        let tt = 0;
-        if (cart?.length !== 0) {
-            cart?.map((sp) => {
-                tt += sp.giaKhuyenMai * sp.quantity;
-            });
-        }
-        setTongtien(tt);
-    };
-    const tinhsoluong = () => {
-        let tt = 0;
-        if (cart?.length !== 0) {
-            cart?.map((sp) => {
-                tt += +sp.quantity;
-            });
-        }
-
-        setTongsoluong(tt);
-    };
     useEffect(() => {
-        tinhtongtien();
-        tinhsoluong();
-    });
+        if (user && user.length !== 0) {
+            getPost(user?._id, dispatch);
+            getGioHang(idShop, user?._id, dispatch);
+        }
+    }, []);
+    useEffect(() => {
+        getttShop(idShop, dispatch);
+        getYourStatus(idShop, dispatch);
+    }, [idShop]);
+    // get san pham
+    useEffect(() => {
+        if (ttShop) {
+            setnhomSP(ttShop?.ttShopThem?.menuShop[0] || "Xin kính chào quý khách");
+        }
+    }, [ttShop]);
+    useEffect(() => {
+        const handleScroll = (e) => {
+            const scrollHeight = e.target.documentElement.scrollHeight;
+            const currentHeight =
+                e.target.documentElement.scrollTop + window.innerHeight;
+            if (currentHeight >= scrollHeight) {
+                setskip(skip + 6);
+            }
+        };
+        window.addEventListener("scroll", handleScroll);
+        return () => window.removeEventListener("scroll", handleScroll);
+    }, [allSanPham]);
 
-    // Tinh So Luong - Tong So Tien
+    useEffect(() => {
+        const limit = 6;
+        getSanPham(idShop, nhomSP, sort, skip, limit, dispatch);
+    }, [nhomSP, skip, sort]);
+
+    useEffect(() => {
+        if (allSanPham2 && allSanPham) {
+            setallSanPham([...allSanPham, ...allSanPham2]);
+        }
+    }, [allSanPham2]);
+    // get san pham
+    // Gio hang
+    const [cart, setcart] = useState([]);
+    const [cartDemo, setcartDemo] = useState([]);
+    // Gio hang
+    
+    const handleSapXep = () => {
+        setallSanPham([]);
+        setsort(-sort);
+        setskip(0);
+    };
+
     // Chi Tiet San Pham
-    const handleChiTietSanPham = (item) => {
-        setshowChiTietSanPham(1);
+    const handleChiTietSP = (item) => {
+        setloading(4);
         setthongTinSp(item);
     };
-    // Chi Tiet San Pham
-    const handleXoaSanPham = (item) => {
-        if (cart?.length !== 0) {
-            const ProductExist = cart?.find((item2) => item2._id === item._id);
-            if (ProductExist) {
-                setcart(cart?.filter((item2) => item2._id !== item._id));
-            }
-        }
-    };
-    // Them vao Shop
-    const handleThemVaoShop = (id) => {
-        if (!idShopLienKet) {
-            alert("Vui lòng chọn Shop!");
-        } else {
-            const xetIdShopLienKet = allshopLienKet.find(
-                (item) => item.idShop === idShopLienKet
+    //Gio Hang
+    const handleDaThemGioHang = (item) => {
+        if (cartDemo && cartDemo.length > 0) {
+            const CartDemo2 = cartDemo.filter(
+                (item2) => item2._id !== item._id
             );
-            if (!xetIdShopLienKet) {
-                const newshopLienKet = {
-                    idShop: idShopLienKet,
-                    user: user._id,
-                    sanPhamCtv: id,
-                };
-                console.log("newGioHang", newshopLienKet);
+            setcartDemo(CartDemo2);
+        }
 
-                registerYourStatus(newshopLienKet, dispatch);
-            } else {
-                const idSanPham = xetIdShopLienKet?.sanPhamCtv?.find(
-                    (item2) => item2 === id
-                );
-
-                if (!idSanPham) {
-                    const gioHangUpdate = [...xetIdShopLienKet?.sanPhamCtv, id];
-                    const newshopLienKet = {
-                        idShop: idShopLienKet,
-                        user: user._id,
-                        sanPhamCtv: gioHangUpdate,
-                    };
-                    console.log("gioHangUpdate", gioHangUpdate);
-                    updateYourStatusUser(
-                        newshopLienKet,
-                        xetIdShopLienKet._id,
-                        setloading,
-                        dispatch
-                    );
-                } else {
-                    alert("Đã thêm");
+        if (cart && cart.length > 0) {
+            const xetCart = cart.filter((item2) => item2._id !== item._id);
+            setcart(xetCart);
+        }
+    };
+    const handleThemGioHang = (item) => {
+        const allDacDiemSP = item?.allDacDiemSP;
+        const allDacDiemSP2 = allDacDiemSP?.map(
+            (item) =>
+                item && {
+                    ...item,
+                    slMua: 0,
                 }
-            }
+        );
+        setcartDemo([
+            ...cartDemo,
+            {
+                _id: item?._id,
+                tenSanPham: item?.TenSanPham,
+                allDacDiemSP: allDacDiemSP2,
+                thongTinSanPham: item?.thongTinSanPham,
+            },
+        ]);
+    };
+    // Gio Hang
+    // Chi Tiet San Pham
+    // Xem Anh Full
+    const handlexemAnh = (item) => {
+        setloading(5);
+        setxemAnhFull(item);
+        setloadingTruoc(loading);
+    };
+    // Xem Anh Full
+    const handleChonNhomSanPham = (item) => {
+        setallSanPham([]);
+        setnhomSP(item);
+        setskip(0);
+    };
+    // Them Sp
+    const themSanPhamMoi = () => {
+        const themSp = window.confirm("Thêm Sản Phẩm Mới?");
+        if (themSp) {
+            navigate(`/addsp/${idShop}`);
         }
     };
-    // Them vao Shop
-    // phan loai san pham
-
-    const arrNhomSanPham = ttShop?.nhomSanPham;
-    useEffect(() => {
-        if (allSanPham1 && allSanPham1?.length !== 0) {
-            setallSanPham([...allSanPham, ...allSanPham1]);
+    // Them Sp
+    // Sua Menu
+    const suaMenuMoi = () => {
+        const themSp = window.confirm("Sửa Menu Shop?");
+        if (themSp) {
+            navigate(`/sua-menu/${idShop}`);
         }
-    }, [allSanPham1]);
-
-    // phan loai san pham
-    // An San Pham
-    const handleHienNhomSP = (item2) => {
-        setloading(item2);
-        setnhomSP(item2);
     };
-    const handleAnNhomSP = (item2) => {
-        const anSp = allSanPham.filter((item) => item.nhomSanPham !== item2);
-        setallSanPham(anSp);
-        setnhomSP();
-    };
-    // An San Pham
-    // Da mo Shop
-    const handleDaMoShop = () => {
-        alert("Shop của bạn đã được mở!")
-    }
-    // Da mo Shop
+    // Sua Menu
 
     return (
-        <>
-            {(loading === 0 || loading !== 1) && (
-                <>
-                    {showcart === 0 ? (
-                        <>
-                            {showChiTietSanPham === 0 ? (
-                                <div>
-                                    {ttShop && ttShop.length !== 0 && (
-                                        <div className="shopCtv-container">
-                                            <div>
-                                                <div>
-                                                    <img
-                                                        src={ttShop?.Banner}
-                                                        className="banner-container"
-                                                    />
-                                                </div>
-                                                <a href={`/shop/${idShop}`}>
-                                                    <div className="tenCuaHang">
-                                                        {ttShop?.TenShop}
-                                                    </div>
-                                                    <div className="internet-website">
-                                                        <img
-                                                            src={logoInternet}
-                                                            className="internet"
-                                                        />
-                                                        <div className="website">
-                                                            Https://
-                                                            {ttShop?.website}
-                                                        </div>
-                                                        <img
-                                                            src={logoInternet}
-                                                            className="internet"
-                                                        />
-                                                    </div>
-                                                </a>
-                                                <div className="tuVan-gioiThieu">
-                                                    <button
-                                                        className="tuVan"
-                                                        onClick={() =>
-                                                            settuVanVaThongTin(
-                                                                2
-                                                            )
-                                                        }
-                                                    >
-                                                        Fabysa
-                                                    </button>
-                                                    <button
-                                                        className="gioiThieu"
-                                                        onClick={() =>
-                                                            settuVanVaThongTin(
-                                                                1
-                                                            )
-                                                        }
-                                                    >
-                                                        Liên Hệ
-                                                    </button>
-                                                </div>
-                                                {tuVanVaThongTin === 1 && (
-                                                    <div className="gioiThieuChiTiet">
-                                                        <button
-                                                            className="closeGioiThieu"
-                                                            onClick={() =>
-                                                                settuVanVaThongTin(
-                                                                    0
-                                                                )
-                                                            }
-                                                        >
-                                                            Close
-                                                        </button>
-                                                        <a
-                                                            href={`/shop/${idShop}`}
-                                                        >
-                                                            <div className="tenCuaHang2">
-                                                                Trang Chủ
-                                                            </div>
-                                                        </a>
-                                                    </div>
-                                                )}
-                                                {tuVanVaThongTin === 2 && (
-                                                    <div className="tuVanChiTiet">
-                                                        <button
-                                                            className="closeGioiThieu"
-                                                            onClick={() =>
-                                                                settuVanVaThongTin(
-                                                                    0
-                                                                )
-                                                            }
-                                                        >
-                                                            Close
-                                                        </button>
+        <div className="Shop2-Container">
+            <HeaderShop
+                setTongtien={setTongtien}
+                setTongsoluong={setTongsoluong}
+                Tongtien={Tongtien}
+                Tongsoluong={Tongsoluong}
+                loading={loading}
+                setloading={setloading}
+                setloadingTruoc={setloadingTruoc}
+                loadingTruoc={loadingTruoc}
+                handlexemAnh={handlexemAnh}
+            />
+            {loading === 0 && (
+                <div className="sanPham-shop">
+                    {user?._id === ttShop?.user ||
+                    user?.admin === true ||
+                    nvQuanLy?.find(
+                        (item) => item?.sdtnvQuanLy === user?.username
+                    ) ? (
+                        <div className="nhomSanPham-themSanPham">
+                            <div
+                                className="suaMenu"
+                                onClick={() => suaMenuMoi()}
+                            >
+                                <i className="fa fa-edit"></i>
+                            </div>
+                            <select
+                                className="nhomSanPham"
+                                id="provinces"
+                                onChange={(e) =>
+                                    handleChonNhomSanPham(e.target.value)
+                                }
+                            >
+                                <option>{nhomSP}</option>
+                                {nhomSanPham?.map((item) => {
+                                    return <option key={item}>{item}</option>;
+                                })}
+                            </select>
+                            <div
+                                className="themSanPham"
+                                onClick={() => themSanPhamMoi()}
+                            >
+                                <i className="fa fa-plus-circle"></i>
+                            </div>
+                        </div>
+                    ) : (
+                            <div className="nhomSanPham-themSanPham">
+                                   <div
+                                className="sapXep"
+                                onClick={() => handleSapXep()}
+                            >
+                                <i className="fas fa-retweet"></i>
+                            </div>
+                            <select
+                                className="nhomSanPham2"
+                                id="provinces"
+                                onChange={(e) =>
+                                    handleChonNhomSanPham(e.target.value)
+                                }
+                            >
+                                <option>{nhomSP}</option>
+                                {nhomSanPham?.map((item) => {
+                                    return <option key={item}>{item}</option>;
+                                })}
+                            </select>
+                        </div>
+                    )}
 
-                                                        <div className="fabysa">
-                                                            Trung Tâm Thương Mại
-                                                            Fabysa
-                                                        </div>
-                                                        <div className="gioiThieuFabysa">
-                                                        - Giới thiệu danh sách
-                                                        Shop Uy Tín!
-                                                        <br /> - Sản phẩm đa
-                                                        dạng ngành hàng! <br />-
-                                                        Giá cả ưu đãi và rất
-                                                        nhiều khuyến mại!
+                    {allSanPham?.length < 1 && (
+                       <div className="trong">
+                            <div className="container">
+                                <span className=""></span>
+                                <div className="line">
+                                    <div className="inner"></div>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+                    <div className="sanPham-container">
+                        {allSanPham &&
+                            allSanPham?.map((item, index) => {
+                                return (
+                                    <div key={index} className="sanPham">
+                                        <div>
+                                            <img
+                                                onClick={() =>
+                                                    handleChiTietSP(item)
+                                                }
+                                                src={
+                                                    item?.allDacDiemSP[0]
+                                                        ?.AnhSanPham
+                                                }
+                                                className="anhSanPham"
+                                                alt="timtim"
+                                            />
+
+                                            <div className="tenSanPham">
+                                                {item?.TenSanPham?.length >
+                                                28 ? (
+                                                    <div>
+                                                        {item?.TenSanPham.slice(
+                                                            0,
+                                                            20
+                                                        )}
+                                                        ...
                                                     </div>
-                                                        <a href={`/fabysa`}>
-                                                            <button className="sanSale">
-                                                                Săn Sale Ngay
-                                                            </button>
-                                                        </a>
-                                                    </div>
+                                                ) : (
+                                                    <div>{item.TenSanPham}</div>
                                                 )}
                                             </div>
-                                            <div className="huongDan-container">
-                                                <div className="huongDan">
-                                                    Hướng Dẫn
-                                                </div>
-                                                <div className="noiDung">
-                                                    - Kho Cộng Tác Viên là nơi
-                                                    niêm yết giá ưu đãi giành
-                                                    riêng cho Cộng Tác Viên.
-                                                    <br /> - Cộng Tác Viên có
-                                                    thể lên đơn hàng cực kỳ
-                                                    nhanh chóng. <br /> - Nếu
-                                                    Cộng Tác Viên có Shop Fabysa
-                                                    có thế dùng tính năng sao
-                                                    chép sản phẩm để bán hàng
-                                                    ngay, khi thông tin sản phẩm
-                                                    thay đổi sẽ tự động đồng bộ
-                                                    nhanh chóng. <br />- Nếu
-                                                    chưa có Shop Fabysa?
+                                            <div className="giaBan">
+                                                <div className="giaBanMoi">
+                                                    {VND.format(
+                                                        item?.allDacDiemSP[0]
+                                                            .giaCtv
+                                                    )}
                                                 </div>
 
-                                                {allShop &&
-                                                allShop?.length !== 0 ? (
-                                                    <button onClick={()=>handleDaMoShop()} className="daDangKi">
-                                                        Đăng Kí Ngay
+                                                <div className="giaGiam">
+                                                    <div className="giabanCu">
+                                                        {VND.format(
+                                                            item
+                                                                ?.allDacDiemSP[0]
+                                                                .giaNiemYet
+                                                        )}
+                                                    </div>
+                                                    <div className="phanTram">
+                                                        Giảm&nbsp;
+                                                        {Math.floor(
+                                                            (100 *
+                                                                (item
+                                                                    ?.allDacDiemSP[0]
+                                                                    .giaNiemYet -
+                                                                    item
+                                                                        ?.allDacDiemSP[0]
+                                                                        .giaCtv)) /
+                                                                item
+                                                                    ?.allDacDiemSP[0]
+                                                                    .giaNiemYet
+                                                        )}
+                                                        %
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <>
+                                                {cartDemo &&
+                                                cartDemo?.find(
+                                                    (item2) =>
+                                                        item2._id === item._id
+                                                ) ? (
+                                                    <button
+                                                        onClick={() =>
+                                                            handleDaThemGioHang(
+                                                                item
+                                                            )
+                                                        }
+                                                        className="daThem"
+                                                    >
+                                                        ĐÃ THÊM
                                                     </button>
                                                 ) : (
-                                                    <a href="/add-shop">
-                                                        <button className="dangKi">
-                                                            Đăng Kí Ngay
-                                                        </button>
-                                                    </a>
-                                                )}
-                                            </div>
-                                            <div className="sanPham-shop">
-                                                {/* ssp dan */}
-                                                {arrNhomSanPham &&
-                                                    arrNhomSanPham?.map(
-                                                        (item2, index) => {
-                                                            return (
-                                                                <div
-                                                                    key={index}
-                                                                    className="nhomSanPham-sanPham"
-                                                                >
-                                                                    <div className="nhomSanPham">
-                                                                        {item2 !==
-                                                                            "Sản Phẩm Dẫn" &&
-                                                                            item2}
-                                                                    </div>
-                                                                    <div className="hienAn">
-                                                                        {!allSanPham?.find(
-                                                                            (
-                                                                                item3
-                                                                            ) =>
-                                                                                item3?.nhomSanPham ===
-                                                                                item2
-                                                                        ) ? (
-                                                                            <button
-                                                                                onClick={() =>
-                                                                                    handleHienNhomSP(
-                                                                                        item2
-                                                                                    )
-                                                                                }
-                                                                                className="xemSanPham"
-                                                                            >
-                                                                                Xem
-                                                                                Thêm
-                                                                            </button>
-                                                                        ) : (
-                                                                            <button
-                                                                                onClick={() =>
-                                                                                    handleAnNhomSP(
-                                                                                        item2
-                                                                                    )
-                                                                                }
-                                                                                className="anSanPham"
-                                                                            >
-                                                                                Xem
-                                                                                Thêm
-                                                                            </button>
-                                                                        )}
-                                                                        {loading ===
-                                                                            item2 && (
-                                                                            <div className="Spinner">
-                                                                                {" "}
-                                                                                ...
-                                                                                Đang
-                                                                                Cập
-                                                                                Nhật
-                                                                                ...
-                                                                            </div>
-                                                                        )}
-                                                                        <div className="sanPham-container">
-                                                                            {allSanPham &&
-                                                                                allSanPham?.map(
-                                                                                    (
-                                                                                        item
-                                                                                    ) => {
-                                                                                        return (
-                                                                                            item.nhomSanPham ===
-                                                                                                item2 && (
-                                                                                                <div
-                                                                                                    key={
-                                                                                                        item._id
-                                                                                                    }
-                                                                                                    className="sanPham"
-                                                                                                >
-                                                                                                    <div>
-                                                                                                        <img
-                                                                                                            onClick={() =>
-                                                                                                                handleChiTietSanPham(
-                                                                                                                    item
-                                                                                                                )
-                                                                                                            }
-                                                                                                            src={
-                                                                                                                item?.AnhSanPham
-                                                                                                            }
-                                                                                                            className="anhSanPham"
-                                                                                                            alt="timtim"
-                                                                                                        />
-
-                                                                                                        <div className="tenSanPham">
-                                                                                                            {item
-                                                                                                                ?.TenSanPham
-                                                                                                                ?.length >
-                                                                                                            28 ? (
-                                                                                                                <div>
-                                                                                                                    {item?.TenSanPham.slice(
-                                                                                                                        0,
-                                                                                                                        20
-                                                                                                                    )}
-                                                                                                                    ...
-                                                                                                                </div>
-                                                                                                            ) : (
-                                                                                                                <div>
-                                                                                                                    {
-                                                                                                                        item?.TenSanPham
-                                                                                                                    }
-                                                                                                                </div>
-                                                                                                            )}
-                                                                                                        </div>
-                                                                                                        <div className="giaBan">
-                                                                                                            <div className="giaCtv">
-                                                                                                                Giá
-                                                                                                                Cộng
-                                                                                                                Tác
-                                                                                                                Viên
-                                                                                                            </div>
-                                                                                                            <div className="giaBanMoi">
-                                                                                                                {VND.format(
-                                                                                                                    item?.giaCtv
-                                                                                                                )}
-                                                                                                            </div>
-
-                                                                                                            <div className="giaGiam">
-                                                                                                                <div className="giabanCu">
-                                                                                                                    {VND.format(
-                                                                                                                        item?.giaKhuyenMai
-                                                                                                                    )}
-                                                                                                                </div>
-                                                                                                                <div className="phanTram">
-                                                                                                                    Chiết
-                                                                                                                    Khấu&nbsp;
-                                                                                                                    {Math.floor(
-                                                                                                                        (100 *
-                                                                                                                            (item?.giaKhuyenMai -
-                                                                                                                                item?.giaCtv)) /
-                                                                                                                            item?.giaKhuyenMai
-                                                                                                                    )}
-
-                                                                                                                    %
-                                                                                                                </div>
-                                                                                                            </div>
-                                                                                                        </div>
-                                                                                                        <>
-                                                                                                            {cart?.find(
-                                                                                                                (
-                                                                                                                    item2
-                                                                                                                ) =>
-                                                                                                                    item2._id ===
-                                                                                                                    item._id
-                                                                                                            ) ? (
-                                                                                                                <button
-                                                                                                                    onClick={() =>
-                                                                                                                        handleXoaSanPham(
-                                                                                                                            item
-                                                                                                                        )
-                                                                                                                    }
-                                                                                                                    className="daThem"
-                                                                                                                >
-                                                                                                                    ĐÃ
-                                                                                                                    THÊM
-                                                                                                                </button>
-                                                                                                            ) : (
-                                                                                                                <button
-                                                                                                                    onClick={() =>
-                                                                                                                        handleThemGioHang(
-                                                                                                                            item
-                                                                                                                        )
-                                                                                                                    }
-                                                                                                                    className="muaHang"
-                                                                                                                >
-                                                                                                                    THÊM
-                                                                                                                    GIỎ
-                                                                                                                    HÀNG
-                                                                                                                </button>
-                                                                                                            )}
-                                                                                                        </>
-                                                                                                        <div className="chonShopThem">
-                                                                                                            <select
-                                                                                                                className="chonShop"
-                                                                                                                onChange={(
-                                                                                                                    e
-                                                                                                                ) =>
-                                                                                                                    setidShopLienKet(
-                                                                                                                        e
-                                                                                                                            .target
-                                                                                                                            .value
-                                                                                                                    )
-                                                                                                                }
-                                                                                                            >
-                                                                                                                <option value="">
-                                                                                                                    ---Chọn
-                                                                                                                    Shop---
-                                                                                                                </option>
-                                                                                                                {allShop &&
-                                                                                                                    allShop.length >
-                                                                                                                        0 &&
-                                                                                                                    allShop.map(
-                                                                                                                        (
-                                                                                                                            item,
-                                                                                                                            index
-                                                                                                                        ) => {
-                                                                                                                            return (
-                                                                                                                                <option
-                                                                                                                                    value={
-                                                                                                                                        item._id
-                                                                                                                                    }
-                                                                                                                                    key={
-                                                                                                                                        index
-                                                                                                                                    }
-                                                                                                                                >
-                                                                                                                                    {
-                                                                                                                                        item.TenShop
-                                                                                                                                    }
-                                                                                                                                </option>
-                                                                                                                            );
-                                                                                                                        }
-                                                                                                                    )}
-                                                                                                            </select>
-                                                                                                            <div
-                                                                                                                onClick={() =>
-                                                                                                                    handleThemVaoShop(
-                                                                                                                        item._id
-                                                                                                                    )
-                                                                                                                }
-                                                                                                                className="themVaoShop"
-                                                                                                            >
-                                                                                                                Sao
-                                                                                                                Chép
-                                                                                                            </div>
-                                                                                                        </div>
-                                                                                                        <div className="viTriSanPham">
-                                                                                                            <i className="fa-solid fa-location-dot"></i>
-                                                                                                            <div className="diachisanpham">
-                                                                                                                {
-                                                                                                                    item?.xa
-                                                                                                                }
-                                                                                                            </div>
-                                                                                                            <div className="diachisanpham">
-                                                                                                                {
-                                                                                                                    item?.huyen
-                                                                                                                }
-                                                                                                            </div>
-                                                                                                            <div className="diachisanpham">
-                                                                                                                {
-                                                                                                                    item?.tinh
-                                                                                                                }
-                                                                                                            </div>
-                                                                                                        </div>
-                                                                                                    </div>
-                                                                                                </div>
-                                                                                            )
-                                                                                        );
-                                                                                    }
-                                                                                )}
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            );
+                                                    <button
+                                                        onClick={() =>
+                                                            handleThemGioHang(
+                                                                item
+                                                            )
                                                         }
-                                                    )}
+                                                        className="muaHang"
+                                                    >
+                                                        THÊM GIỎ HÀNG
+                                                    </button>
+                                                )}
+                                            </>
+
+                                            <div className="viTriSanPham">
+                                                <i className="fa-solid fa-location-dot"></i>
+                                                <div className="diachisanpham">
+                                                    {ttShop?.xa}
+                                                </div>
+                                                <div className="diachisanpham">
+                                                    {ttShop?.huyen}
+                                                </div>
+                                                <div className="diachisanpham">
+                                                    {ttShop?.tinh}
+                                                </div>
                                             </div>
-                                            <img
-                                                onClick={() => setshowcart(1)}
-                                                src={gioHang2}
-                                                className="gioHang2"
-                                            />
                                         </div>
-                                    )}
-                                </div>
-                            ) : (
-                                <ChiTietSanPham2
-                                    handleXoaSanPham={handleXoaSanPham}
-                                    cart={cart}
-                                    setcart={setcart}
-                                    handleThemGioHang={handleThemGioHang}
-                                    thongTinSp={thongTinSp}
-                                    showChiTietSanPham={showChiTietSanPham}
-                                    setshowChiTietSanPham={
-                                        setshowChiTietSanPham
-                                    }
-                                />
-                            )}
-                        </>
-                    ) : (
-                        <GioHang
-                            handleXoaSanPham={handleXoaSanPham}
-                            cart={cart}
-                            setcart={setcart}
-                            showcart={showcart}
-                            setshowcart={setshowcart}
-                            setTongtien={setTongtien}
-                            setTongsoluong={setTongsoluong}
-                            Tongtien={Tongtien}
-                            Tongsoluong={Tongsoluong}
-                        />
-                    )}
-                </>
+                                    </div>
+                                );
+                            })}
+                    </div>
+                </div>
             )}
+            <div className="menuGioHang2">
+                {loading === 2 && (
+                    <img
+                        onClick={() => setloading(0)}
+                        src={gioHang2}
+                        className="gioHang2"
+                    />
+                )}
+                {loading === 0 && (
+                    <img
+                        onClick={() => setloading(2)}
+                        src={gioHang2}
+                        className="gioHang2"
+                    />
+                )}
+            </div>
             {loading === 1 && <Loading />}
-        </>
+            {loading === 2 && (
+                <GioHang
+                    handleDaThemGioHang={handleDaThemGioHang}
+                    cart={cart}
+                    setcart={setcart}
+                    loading={loading}
+                    setloading={setloading}
+                    setTongtien={setTongtien}
+                    setTongsoluong={setTongsoluong}
+                    Tongtien={Tongtien}
+                    Tongsoluong={Tongsoluong}
+                    setcartDemo={setcartDemo}
+                    cartDemo={cartDemo}
+                    soBan={soBan}
+                    setsoBan={setsoBan}
+                    maBaoMat={maBaoMat}
+                    setmaBaoMat={setmaBaoMat}
+                    setloadingTruoc={setloadingTruoc}
+                    loadingTruoc={loadingTruoc}
+                    handlexemAnh={handlexemAnh}
+                />
+            )}
+            {loading === 4 && (
+                <ChiTietSanPham2
+                    handleDaThemGioHang={handleDaThemGioHang}
+                    handleThemGioHang={handleThemGioHang}
+                    cart={cart}
+                    setcart={setcart}
+                    setcartDemo={setcartDemo}
+                    cartDemo={cartDemo}
+                    thongTinSp={thongTinSp}
+                    loading={loading}
+                    setloading={setloading}
+                    idShop={idShop}
+                    setloadingTruoc={setloadingTruoc}
+                    loadingTruoc={loadingTruoc}
+                    handlexemAnh={handlexemAnh}
+                />
+            )}
+            {loading === 5 && (
+                <XemAnh
+                    xemAnhFull={xemAnhFull}
+                    setxemAnhFull={setxemAnhFull}
+                    loading={loading}
+                    setloading={setloading}
+                    setloadingTruoc={setloadingTruoc}
+                    loadingTruoc={loadingTruoc}
+                />
+            )}
+            {loading === 6 && (
+                <UpdateSanPham
+                    setloading={setloading}
+                    loading={loading}
+                    thongTinSp={thongTinSp}
+                    setthongTinSp={setthongTinSp}
+                    ttShop={ttShop}
+                    idShop={idShop}
+                    nhomSP={nhomSP}
+                    setnhomSP={setnhomSP}
+                    setallSanPham={setallSanPham}
+                    allSanPham={allSanPham}
+                    setskip={setskip}
+                    skip={skip}
+                />
+            )}
+        </div>
     );
 };
-export default KhoCtv;
+export default Shop2;

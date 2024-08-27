@@ -4,39 +4,54 @@ import { useDispatch } from "react-redux";
 import {
     getttShop,
     updatettShop,
-    registerSanPham,
-    getSanPham,
-    getSanPhamDanHuyen2,
+    getAllSanPham,
     updateSanPham,
-    getPost,
-    deleteSanPham,
-    updatePost,
-    getArrSanPham,
-    updateYourStatusUser,
-    getYourStatus,
 } from "../redux/apiRequest";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Loading from "../GiaoDienChung/Loading";
-
 const SuaMenu = () => {
     const { idShop } = useParams();
-    const user = useSelector((state) => state.auth.login?.currentUser);
-    const myDetail = useSelector((state) => state.post.post?.myDetail);
     const ttShop = useSelector((state) => state.ttShop.ttShop.ttShop?.shop);
+    const allSanPham2 = useSelector(
+        (state) => state.sanPham.sanPham.allsanPham?.allSanpham
+    );
     const ttShopThem2 = ttShop?.ttShopThem;
     const tenVietTat = ttShop?.ttShopThem?.tenVietTat;
-    console.log("ttShop", ttShop);
     const dispatch = useDispatch();
     const [loading, setloading] = useState(0);
     const [loaiSanPham, setloaiSanPham] = useState([]);
+    const [skip, setskip] = useState(0);
+    const [thongTinSp, setthongTinSp] = useState();
+    const [allSanPham, setallSanPham] = useState([]);
     useEffect(() => {
         setloaiSanPham(ttShopThem2?.menuShop);
     }, [ttShop]);
-    console.log("loaiSanPham", loaiSanPham);
     useEffect(() => {
         getttShop(idShop, dispatch);
     }, []);
+
+    useEffect(() => {
+        if (allSanPham2) {
+            setallSanPham([...allSanPham, ...allSanPham2]);
+        }
+    }, [allSanPham2]);
+    useEffect(() => {
+        const handleScroll = (e) => {
+            const scrollHeight = e.target.documentElement.scrollHeight;
+            const currentHeight =
+                e.target.documentElement.scrollTop + window.innerHeight;
+            if (currentHeight >= scrollHeight) {
+                setskip(skip + 20);
+            }
+        };
+        window.addEventListener("scroll", handleScroll);
+        return () => window.removeEventListener("scroll", handleScroll);
+    }, [allSanPham]);
+    useEffect(() => {
+        const limit = 20;
+        getAllSanPham(idShop, skip, limit, dispatch);
+    }, [skip]);
     // Sua Nhom San Pham
     const [nhomSanPhamMoi, setnhomSanPhamMoi] = useState("");
 
@@ -57,8 +72,8 @@ const SuaMenu = () => {
         }
     };
     const handleXoaNhomSanPham = (item) => {
-        if (item === "Khuyến Mại Đặc Biệt") {
-            alert("Khuyến Mại Đặc Biệt không thể xoá!");
+        if (loaiSanPham?.length === 1) {
+            alert("Không thể xoá toàn bộ menu!");
         } else {
             const id = ttShop._id;
             const menuShop2 = {
@@ -68,24 +83,31 @@ const SuaMenu = () => {
             const newShop = {
                 ttShopThem: ttShopThem,
             };
-            console.log("newShop", newShop);
             updatettShop(newShop, id, dispatch, setloading);
             setloading(1);
         }
     };
-
     // Sua Nhom San Pham
-
+    const handleDoiNhomSanPham = (nhomSP, id) => {
+        const newSanPham = {
+            nhomSanPham: nhomSP,
+        };
+        updateSanPham(newSanPham, id, setloading, setthongTinSp, dispatch);
+        setloading(1);
+    };
     return (
         <div className="SuaMenu-ConTaiNer">
-            {loading === 0 && (
+            <div className="quayLai-tieuDe">
+                <a
+                    href={`/${tenVietTat}/${idShop}/a/a/a/a`}
+                    className="quayLai"
+                >
+                    <i className="fa fa-angle-double-left"></i>Quay Lại
+                </a>
+                <div className="tieuDe">Sửa Menu Shop</div>
+            </div>
+            {(loading === 0 || loading === 4) && (
                 <div className="suaNhomSanPham">
-                    <div className="quayLai-tieuDe">
-                        <a className="quayLai" href={`/${tenVietTat}/${idShop}/a`}>
-                            Quay Lại
-                        </a>
-                        <div className="tieuDe">Sửa Menu Shop</div>
-                    </div>
                     <div className="themNhom">
                         <input
                             className="tenNhom"
@@ -96,10 +118,10 @@ const SuaMenu = () => {
                             className="them"
                             onClick={() => handleThemNhomSanPham()}
                         >
-                            Thêm
+                            +
                         </div>
                     </div>
-                    <div className="danhSachNhom">Danh Sách Nhóm Sản Phẩm</div>
+                    
                     <div>
                         {loaiSanPham &&
                             loaiSanPham?.length !== 0 &&
@@ -113,8 +135,51 @@ const SuaMenu = () => {
                                             }
                                             className="xoa"
                                         >
-                                            Xoá
+                                            ❌
                                         </div>
+                                    </div>
+                                );
+                            })}
+                    </div>
+                    <div className="luuY">
+                        Lưu ý: Xoá hết sản phẩm trong danh mục trước khi xoá
+                        danh mục
+                    </div>
+                    <div className="dsSanPham-container">
+                        <div className="danhSach">Danh Sách Sản Phẩm</div>
+                        {allSanPham &&
+                            allSanPham?.length !== 0 &&
+                            allSanPham?.map((item, index) => {
+                                return (
+                                    <div className="allSanPham" key={index}>
+                                        <div className="tenSp">
+                                            {index + 1}.&nbsp; {item?.TenSanPham}
+                                        </div>
+                                        <select
+                                            className="nhomSanPham"
+                                            onChange={(e) =>
+                                                handleDoiNhomSanPham(
+                                                    e.target.value,
+                                                    item._id
+                                                )
+                                            }
+                                        >
+                                            <option>{item?.nhomSanPham}</option>
+                                            {loaiSanPham &&
+                                                loaiSanPham?.length !== 0 &&
+                                                loaiSanPham?.map(
+                                                    (item2, index) => {
+                                                        return (
+                                                            <option
+                                                                value={item2}
+                                                                key={index}
+                                                            >
+                                                                {item2}
+                                                            </option>
+                                                        );
+                                                    }
+                                                )}
+                                        </select>
                                     </div>
                                 );
                             })}

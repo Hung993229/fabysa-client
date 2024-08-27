@@ -3,28 +3,30 @@
 /* Mobile & Tablet */
 @media screen and (max-width : 1023px) {
   .XemAnh-ConTaiNer{
-    margin: 12vw auto;
-    justify-content: center;
-    align-items: center;
-  
+  background-color: black;
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+  .close{
+    width: 10vw;
+    height: 10vw;
+    line-height: 10vw;
+    font-size: 6vw;
+    border-radius: 50%;
+    padding: 3vw auto;
+    font-weight: 500;
+    color: #fff;
+    cursor: pointer;
+
+  }
     .xemAnh{
-      
-      height: 76vh;
-      border: solid 1px gray;
-      .close{
-        background-color: red;
-        width: 15vw;
-        font-size: 3.5vw;
-        padding: 0.5vw;
-        border-radius: 1vw;
-        margin: 3vw auto;
-        font-weight: 500;
-        color: #fff;
-        cursor: pointer;
-  
-      }
+      top: 50%;
+      left: 50%;
+      position: absolute;
+      transform: translate(-50%, -50%);
+     
       .anhSanPham{
-        width: 100vw;
+            width: 100vw;
   
       }
       .tenSanPham{

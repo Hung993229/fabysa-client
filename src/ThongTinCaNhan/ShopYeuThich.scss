@@ -1,0 +1,75 @@
+/* Mobile & Tablet */
+@media screen and (max-width : 1023px) {
+    .ShopYeuThich{
+        font-size: 3vw;
+
+    .quayLai-tieuDe{
+      display: flex;
+      font-size: 3.5vw;
+      background-color: #fff;
+      border-bottom: #d0d4dd 1px solid;
+      position: fixed;
+  
+      top: 0px;
+        z-index: 1;
+      a{
+          text-decoration: none;
+      }
+      .quayLai{
+          color: #04aa6d;
+          width: 25vw;
+          text-align: left;
+          line-height: 9vw;
+          padding-left: 2vw;
+      }
+      .tieuDe{
+        font-size: 3.9vw;
+          font-weight: 600;
+          color: red;
+          text-align: center;
+          width: 75vw;
+          line-height: 9vw;
+          text-transform: uppercase;
+          padding-right: 25vw;
+
+      }
+  }
+        .tenDanhSach{
+            line-height: 6vw;
+            font-weight: 600;
+            font-size: 3.5vw;
+            text-align: left;
+           margin: 12vw 2vw 0vw;
+        }
+        .danhSachTrong{
+            font-size: 
+            3.5vw;
+            line-height: 10vw;
+        }
+        .allShoplike{
+            border-bottom: solid 1px #d0d4dd ;
+            margin: 2vw;
+            text-decoration: none;
+            display: block;
+            font-size: 3.5vw;
+            color: #04aa6d;
+            .tenShop{
+      font-weight: 600;
+      text-align: left;
+      line-height: 8vw;
+      text-transform: uppercase;
+            }
+            .diaChi{
+                text-align: left;
+                line-height: 5vw;
+                color: black;
+            }
+        }
+    }
+   
+}
+
+/* PC*/
+@media screen and (min-width : 1024px) {
+   
+}

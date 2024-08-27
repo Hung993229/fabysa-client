@@ -2,15 +2,29 @@
 
 /* Mobile & Tablet */
 @media screen and (max-width : 1023px) {
-  .ViDu-ConTaiNer{
-    margin-top: 12vw;
-
+  .view{
+    .mobile{
+      .ViDu-ConTaiNer{
+    
+      }
+    }
+    .pc{
+      display: none;
+    }
   }
+  
 }
 
 /* PC*/
 @media screen and (min-width : 1024px) {
-    .ViDu-ConTaiNer{
-        
+  .view{
+    .mobile{
+     display: none;
     }
+    .pc{
+      .ViDu-ConTaiNer{
+    
+      }
+    }
+  }
 }

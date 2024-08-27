@@ -1,0 +1,116 @@
+
+
+/* Mobile & Tablet */
+@media screen and (max-width : 1023px) {
+.DonHangMua-container{
+  a{text-decoration: none};
+  font-size: 3vw;
+  .quayLai-tieuDe{
+    width: 100vw;
+    display: flex;
+    font-size: 3.5vw;
+    background-color: #fff;
+    border-bottom: #d0d4dd 1px solid;
+    position: fixed;
+
+    top: 0px;
+      z-index: 1;
+    a{
+        text-decoration: none;
+    }
+    .quayLai{
+        color: #04aa6d;
+        width: 22vw;
+        text-align: left;
+        line-height: 9vw;
+        padding-left: 2vw;
+       
+    }
+      select{
+          border: solid 1px #04aa6d;
+          border-radius: 2vw;
+       margin: 1vw 0vw;
+          font-weight: 600;
+          color: red;
+          text-align-last: center;
+          text-transform: uppercase;
+          width: 56vw;
+
+      }
+  }
+  .donHang-all{
+    margin: 12vw 2vw;
+    .donHang-container{
+        display: flex;
+       margin-bottom: 2vw;
+        border: solid 1px #04aa6d;
+        border-radius: 2vw;
+        padding: 1vw;
+        justify-content: center;
+        align-items: center;
+        .ngayThang{
+            width: 20vw;
+            line-height: 5vw;
+           
+  
+        }
+        .donHang{
+      
+            
+            .tenSp-dacDiem-soLuong{
+                
+                 width: 40vw;
+                 .tenSp{
+                text-align: left;
+                text-transform: uppercase;
+                font-weight: 600;
+                color: red;
+                line-height: 6vw;
+                 }
+                 .dacDiem-soLuong{
+                      display: flex;
+                     .dacDiem{
+                         width: 25vw;
+                         line-height: 5vw;
+  
+                     }
+                     .soLuong{
+                         width: 13vw;
+                         line-height: 5vw;
+     
+                     }
+                 }
+               
+             }
+        }
+      
+        .soBan{
+            line-height: 5vw;
+            width: 18vw;
+           
+  
+        }
+        .xemChiTiet{
+            width: 18vw;
+            color: red;
+            line-height: 5vw;
+            
+        }
+    }
+    .donHangTrong{
+        font-size: 3.5vw;
+        line-height: 8vw;
+    }
+  }
+ 
+  
+  
+}
+}
+
+/* PC*/
+@media screen and (min-width : 1024px) {
+    .DonHangMua-ConTaiNer{
+        
+    }
+}

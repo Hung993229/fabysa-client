@@ -1,13 +1,14 @@
 import "./DangKi.scss";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { registerUser } from "../redux/apiRequest";
 import logo from "../assets/images/logo.jpg";
 import { NavLink } from "react-router-dom";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
 const DangKi = () => {
+    const { tenVietTat, idShop, idCtv, tenCtv, sdtCtv } = useParams();
     const register = useSelector((state) => state.auth.register);
     const [email, setEmail] = useState("");
     const [username, setUsername] = useState("");
@@ -40,16 +41,32 @@ const DangKi = () => {
     };
     useEffect(() => {
         if (thanhCong === 1) {
-            navigate("/dang-nhap");
+            navigate(
+                `/dang-nhap/${tenVietTat}/${idShop}/a/${idCtv}/${tenCtv}/${sdtCtv}`
+            );
         }
     }, [thanhCong]);
 
     return (
         <div className="register-containerTo">
+            <div className="quayLai-tieuDe">
+                <a
+                    href={`/ca-nhan/${tenVietTat}/${idShop}/a/${idCtv}/${tenCtv}/${sdtCtv}`}
+                    className="quayLai"
+                >
+                    <i className="fa fa-angle-double-left"></i>Quay Lại
+                </a>
+                <div className="tieuDe">Fabysa</div>
+            </div>
             <div className="register-container">
-                <div className="login-title"> ĐĂNG KÍ </div>
+                <div className="fast">Fast - Buy - Sale</div>
+                <div className="logoDangNhap">
+                    <img src={logo} alt="he" />
+                </div>
                 {register?.error === true && (
-                    <div className="baoLoi">Tài khoản hoặc mật khẩu chưa hợp lệ!</div>
+                    <div className="baoLoi">
+                        Tài khoản hoặc mật khẩu chưa hợp lệ!
+                    </div>
                 )}
                 <form onSubmit={handleRegister}>
                     <label className="labelDangNhap">Số Điện Thoại</label>
@@ -85,16 +102,12 @@ const DangKi = () => {
                         Tạo Tài Khoản
                     </button>
                     <div className="login-register"> Nếu có tài khoản? </div>
-                    <NavLink className="login-register-link" to="/dang-nhap">
+                    <NavLink
+                        className="login-register-link"
+                        to={`/dang-nhap/${tenVietTat}/${idShop}/a/${idCtv}/${tenCtv}/${sdtCtv}`}
+                    >
                         Đăng Nhập Ngay
                     </NavLink>
-                    <div className="logoDangNhap">
-                        <img src={logo} alt="he" />
-                    </div>
-                    {/* <div className="sloganDangNhap">
-                        Thời gian thích hợp gặp một người thích hợp là Hạnh
-                        Phúc!
-                    </div> */}
                 </form>
             </div>
         </div>

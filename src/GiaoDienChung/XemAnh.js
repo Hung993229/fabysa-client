@@ -1,14 +1,24 @@
 import "./XemAnh.scss";
 
 const XemAnh = (props) => {
-    const { xemAnhFull, loading, setloading } = props;
+    const {
+        xemAnhFull,
+        setxemAnhFull,
+        setloading,
+        loadingTruoc,
+    } = props;
+
+    const handleDongLai = () => {
+        setloading(loadingTruoc);
+        setxemAnhFull();
+    };
 
     return (
         <div className="XemAnh-ConTaiNer">
+            <div className="close" onClick={() => handleDongLai()}>
+            <i className="fa fa-remove"></i>
+            </div>
             <div className="xemAnh">
-                <button className="close" onClick={() => setloading(0)}>
-                    Close
-                </button>
                 <img src={xemAnhFull} className="anhSanPham" alt="timtim" />
             </div>
         </div>

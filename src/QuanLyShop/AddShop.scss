@@ -2,125 +2,111 @@
 /* Mobile & Tablet */
 @media screen and (max-width : 1023px) {
     .addShop-container{
-        margin-top: 15vw;
-        margin-bottom: 20vw;
-       
+        font-size: 3vw;
+        .quayLai-tieuDe{
+          display: flex;
+          font-size: 3.5vw;
+          background-color: #fff;
+          border-bottom: #d0d4dd 1px solid;
+          position: fixed;
+      
+          top: 0px;
+            z-index: 1;
+          a{
+              text-decoration: none;
+          }
+          .quayLai{
+              color: #04aa6d;
+              width: 25vw;
+              text-align: left;
+              line-height: 9vw;
+              padding-left: 2vw;
+          }
+          .tieuDe{
+            font-size: 3.9vw;
+              font-weight: 600;
+              color: red;
+              text-align: center;
+              width: 75vw;
+              line-height: 9vw;
+              text-transform: uppercase;
+              padding-right: 25vw;
+    
+          }
+      }
         .addShop{
-           .taoShopMoi{
-            font-size: 5vw;
-            font-weight: 600;
-            color: red;
-            text-transform: uppercase;
-           }
+            margin: 12vw 2vw 30vw;
+            font-size: 3.5vw;
+          
          .tenShop-TS{
-            margin: 5vw 2vw;
+     
             .tenShop{
+                line-height: 8vw;
+                font-weight: 600;
+          
                 text-align: left;
-                margin: 2vw auto;
-                font-size: 3.5vw;
-                font-weight: 500;
+               margin: 5vw auto 0vw;
             }
             .TS{
-                width: 100%;
+                width: 96vw;
+                height: 8vw;
                 text-align: center;
-                line-height: 6vw;
-                border-radius: 1vw;
-                font-size: 3vw;
                 border: solid 1px gray;
+                border-radius: 1vw;
             }
          }
          .diaChi-container{
-            margin: 5vw 2vw;
+            font-size: 3vw;
             .diaChi{
-                text-align: left;
-                margin: 2vw auto;
-                font-size: 3.5vw;
-                font-weight: 500;
+                line-height: 6vw;
+        font-weight: 600;
+        font-size: 3.5vw;
+        text-align: left;
+       margin: 5vw auto 2vw;
             }
             .tinh-huyen-xa{
-                gap:3vw;
+                margin-bottom: 2vw;
                 display: flex;
-                margin: 2vw auto;
+                gap: 2vw;
                 select{
-                    width: 30vw;
-                    text-align: center;
-                    height: 6vw;
+                    width: 100%;
+                    height: 8vw;
+                   
                     border-radius: 1vw;
-                    font-size: 2.5vw;
                     border: solid 1px gray;
+                    text-align-last: center;
                 }
             }
             .soNha{
-                width: 96vw;
+                width: 48vw;
+                height: 8vw;
+                margin-right: 52vw;
                 text-align: center;
-                line-height: 6vw;
-                border-radius: 1vw;
-                font-size: 3vw;
                 border: solid 1px gray;
+                border-radius: 1vw;
             }
          }
+         .luuY{
+            font-size: 3.5vw;
+            text-align: left;
+            margin: 5vw auto 0vw;
+            font-style:italic;
+            font-weight: 500;
+         }
             
-            .huyBo-luuShop{
-                display: flex;
-                margin-top: 10vw;
-                margin-bottom: 20vw;
-                font-size: 5vw;
-                gap: 15vw;
-                justify-content: center;
-                align-items: center;
-                .huyBo{
-                    cursor: pointer;
-                    border-radius: 1.5vw;
-                    width: 35vw;
-                    background-color: red;
-                    padding: 1vw;
-                    color: #fff;
-                    text-decoration: none;
-                    font-weight: 600;
-    
-                }
-                .luuShop{
-                    cursor: pointer;
-                    border-radius: 1.5vw;
-                    width: 35vw;
-                    padding: 1vw;
-                    color: #fff;
-                    text-decoration: none;
-                    font-weight: 600;
-                    background-color: #04aa6d;
-                    
-                }
-            }
-        } 
-        .moiDangNhap{
-            margin-top: 15vw;
-            .logoDangNhap{
-                text-align: center;
-                img{
-                    width: 30vw;
-                    height: 30vw;
-                    border-radius: 50%;
-                }
-            }
-            .vuiLong{
-                font-size: 3vw;
-                text-align: center;
-                line-height: 5vw;
-
-            }
-            .dangNhap{
-                background-color:  #04aa6d;
-                width: 30vw;
-                font-size: 3.5vw;
-                font-weight: 600;
-                color: white;
-                cursor: pointer;
-                text-transform: uppercase;
-                padding: 2vw 0vw;
-                border-radius: 2vw;
-                margin-top: 5vw;
-            }
+         .luuShop{
+            width: 30vw;
+            background-color: #04aa6d;
+            line-height: 8vw;
+            font-size: 3.5vw;
+            font-weight: 600;
+            color: #fff;
+            border-radius: 1vw;
+            margin: 10vw auto;
+            
         }
+        } 
+      
     }
     
     

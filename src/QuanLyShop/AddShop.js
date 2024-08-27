@@ -1,23 +1,20 @@
 import "./AddShop.scss";
-import CommonUtils from "../component/CommonUtils";
+import banner2 from "../assets/images/hinhNen.jpg";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import { registerttShop, updatePost, getPost } from "../redux/apiRequest";
+import { registerttShop } from "../redux/apiRequest";
 import { useEffect } from "react";
 import {
     apiGetPublicProvinces,
     apiGetPublicDistrict,
     apiGetPublicWard,
 } from "../redux/ApiProvince";
-import logo from "../assets/images/logo.jpg";
-const AddShop = () => {
+const AddShop = (props) => {
+    const { setloading } = props;
     const user = useSelector((state) => state.auth.login.currentUser);
-    const myDetail = useSelector((state) => state.post.post?.myDetail);
     const dispatch = useDispatch();
-    const navigate = useNavigate();
-    const [Banner, setBanner] = useState();
+    const [Banner, setBanner] = useState(banner2);
     const [TenShop, setTenShop] = useState();
     const [thonXom, setthonXom] = useState();
     const [SdtShop, setSdtShop] = useState();
@@ -32,6 +29,7 @@ const AddShop = () => {
     const [wards, setWards] = useState([]);
     const [wardID, setWardID] = useState();
     //  Que Quan
+   
     // Tinh
     useEffect(() => {
         const fetchPublicProvince = async () => {
@@ -63,8 +61,6 @@ const AddShop = () => {
         districtID && fetchPublicWard();
 
         !provincesID && setWards([]);
-
-        !districtID && setWards([]);
     }, [districtID]);
     // Que Quan
     const handleLuuThongTinShop = () => {
@@ -92,7 +88,7 @@ const AddShop = () => {
             "Thực Phẩm Thịt",
             "Rau, Củ, Quả",
         ];
-        if (!TenShop || !SdtShop) {
+        if (!TenShop || !SdtShop || !tenTinh || !tenHuyen) {
             alert("Vui lòng nhập đủ thông tin");
         } else {
             try {
@@ -102,17 +98,21 @@ const AddShop = () => {
 
                     tinh: tenTinh?.province_name,
                     huyen: tenHuyen?.district_name,
-                    xa: tenXa?.ward_name || "... Trống ...",
-                    thonXom: thonXom || "... Trống ...",
+                    xa: tenXa?.ward_name || "Trống",
+                    thonXom: thonXom || "Trống",
 
-                    cash: 0,
+                    cash: 300000,
+                    phiNenTang: "1K/Đơn Hàng",
                     capBac: 1,
+                    xuatBan: "Xây Dựng",
                     ttShopThem: { Banner, menuShop },
                     user: UserShop || user._id,
                 };
-                console.log("newShop", newShop);
-                registerttShop(newShop, dispatch);
-                navigate(`/ca-nhan`);
+                const themShopMoi = registerttShop(newShop, dispatch);
+               
+                if (themShopMoi) {
+                    setloading(0);
+                }
             } catch (err) {
                 console.log(err);
             }
@@ -120,113 +120,98 @@ const AddShop = () => {
     };
     return (
         <div className="addShop-container">
-            {myDetail && myDetail.length !== 0 ? (
-                <div className="addShop">
-                    <div className="taoShopMoi">Mở Shop Mới</div>
-                    <div className="tenShop-TS">
-                        <div className="tenShop">Tên Shop</div>
-                        <input
-                            className="TS"
-                            placeholder="Nhập Tên Shop"
-                            type="text"
-                            onChange={(e) => setTenShop(e.target.value)}
-                        />
-                    </div>
+            <div className="quayLai-tieuDe">
+                <div onClick={() => setloading(0)} className="quayLai">
+                    <i className="fa fa-angle-double-left"></i>Quay Lại
+                </div>
+                <div className="tieuDe">Thêm Shop Mới</div>
+            </div>
+            <div className="addShop">
+                <div className="tenShop-TS">
+                    <div className="tenShop">Tên Shop</div>
+                    <input
+                        className="TS"
+                        placeholder="Nhập Tên Shop"
+                        type="text"
+                        onChange={(e) => setTenShop(e.target.value)}
+                    />
+                </div>
 
-                    <div className="tenShop-TS">
-                        <div className="tenShop">Số Điện Thoại</div>
-                        <input
-                            className="TS"
-                            placeholder="Nhập Số Điện Thoại"
-                            type="text"
-                            onChange={(e) => setSdtShop(e.target.value)}
-                        />
-                    </div>
+                <div className="tenShop-TS">
+                    <div className="tenShop">Số Điện Thoại</div>
+                    <input
+                        className="TS"
+                        placeholder="Nhập Số Điện Thoại"
+                        type="text"
+                        onChange={(e) => setSdtShop(e.target.value)}
+                    />
+                </div>
 
-                    <div className="diaChi-container">
-                        <div className="diaChi">Địa Chỉ</div>
+                <div className="diaChi-container">
+                    <div className="diaChi">Địa Chỉ</div>
 
-                        <div className="tinh-huyen-xa">
-                            <select
-                                id="provinces"
-                                onChange={(e) => setprovincesID(e.target.value)}
-                            >
-                                <option value="">--- Tỉnh/Thành Phố ---</option>
-                                {provinces?.map((item) => {
-                                    return (
-                                        <option
-                                            key={item.province_id}
-                                            value={item.province_id}
-                                        >
-                                            {item.province_name}
-                                        </option>
-                                    );
-                                })}
-                            </select>
-                            <select
-                                onChange={(e) => setDistrictID(e.target.value)}
-                            >
-                                <option value="">--- Quận/Huyện ---</option>
-                                {districts?.map((item) => {
-                                    return (
-                                        <option
-                                            value={item.district_id}
-                                            key={item.district_id}
-                                        >
-                                            {item.district_name}
-                                        </option>
-                                    );
-                                })}
-                            </select>
-                            <select onChange={(e) => setWardID(e.target.value)}>
-                                <option value="">--- Xã/Phường ---</option>
-                                {wards?.map((item) => {
-                                    return (
-                                        <option
-                                            value={item.ward_id}
-                                            key={item.ward_id}
-                                        >
-                                            {item.ward_name}
-                                        </option>
-                                    );
-                                })}
-                            </select>
-                        </div>
-                        <input
-                            className="soNha"
-                            placeholder="Số nhà/Thôn/Xóm/..."
-                            type="text"
-                            onChange={(e) => setthonXom(e.target.value)}
-                        />
-                    </div>
-                    <div className="huyBo-luuShop">
-                        <a href="/ca-nhan">
-                            <button className="huyBo">Huỷ Bỏ</button>
-                        </a>
-                        <button
-                            className="luuShop"
-                            onClick={handleLuuThongTinShop}
+                    <div className="tinh-huyen-xa">
+                        <select
+                            id="provinces"
+                            onChange={(e) => setprovincesID(e.target.value)}
                         >
-                            Lưu Shop
-                        </button>
+                            <option value="">Tỉnh/Thành Phố</option>
+                            {provinces?.map((item) => {
+                                return (
+                                    <option
+                                        key={item.province_id}
+                                        value={item.province_id}
+                                    >
+                                        {item.province_name}
+                                    </option>
+                                );
+                            })}
+                        </select>
+                        <select onChange={(e) => setDistrictID(e.target.value)}>
+                            <option value="">Quận/Huyện</option>
+                            {districts?.map((item) => {
+                                return (
+                                    <option
+                                        value={item.district_id}
+                                        key={item.district_id}
+                                    >
+                                        {item.district_name}
+                                    </option>
+                                );
+                            })}
+                        </select>
+                        <select onChange={(e) => setWardID(e.target.value)}>
+                            <option value=""> Xã/Phường</option>
+                            {wards?.map((item) => {
+                                return (
+                                    <option
+                                        value={item.ward_id}
+                                        key={item.ward_id}
+                                    >
+                                        {item.ward_name}
+                                    </option>
+                                );
+                            })}
+                        </select>
                     </div>
+                    <input
+                        className="soNha"
+                        placeholder="Số nhà/Thôn/Xóm/..."
+                        type="text"
+                        onChange={(e) => setthonXom(e.target.value)}
+                    />
                 </div>
-            ) : (
-                <div className="moiDangNhap">
-                    <div className="logoDangNhap">
-                        <img src={logo} alt="he" />
-                    </div>
-                    <div className="vuiLong">
-                        Rât Vui Khi Được Đồng Hành Phát Triển Kinh Doanh Cùng
-                        Bạn!
-                        <br />
-                        Vui Lòng Đăng Nhập Trước Khi Mở Shop!
-                    </div>
-                    <a href="/dang-nhap">
-                        <button className="dangNhap">Đăng Nhập</button>
-                    </a>
+                <div className="luuY">
+                    Shop mở mới được tặng 300.000&#160;
+                    <i
+                        className="fab fa-empire"
+                        style={{ color: "#ef9b0f" }}
+                    ></i>
                 </div>
-            )}
+                <div className="luuShop" onClick={handleLuuThongTinShop}>
+                    Lưu Shop Mới
+                </div>
+            </div>
         </div>
     );
 };

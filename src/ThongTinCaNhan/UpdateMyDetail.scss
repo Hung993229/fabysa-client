@@ -1,0 +1,225 @@
+
+
+/* Mobile & Tablet */
+@media screen and (max-width : 1023px) {
+  .UpdateMyDetail-ConTaiNer{
+    font-size: 3vw;
+
+    .quayLai-tieuDe{
+      display: flex;
+      font-size: 3.5vw;
+      background-color: #fff;
+      border-bottom: #d0d4dd 1px solid;
+      position: fixed;
+  
+      top: 0px;
+        z-index: 1;
+      a{
+          text-decoration: none;
+      }
+      .quayLai{
+          color: #04aa6d;
+          width: 25vw;
+          text-align: left;
+          line-height: 9vw;
+          padding-left: 2vw;
+         
+      }
+      .tieuDe{
+        font-size: 3.9vw;
+          font-weight: 600;
+          color: red;
+          text-align: center;
+          width: 75vw;
+          line-height: 9vw;
+          text-transform: uppercase;
+          padding-right: 25vw;
+
+      }
+  }
+    .thongTin{
+     margin-top: 12vw;
+      display: flex;
+      .hoTen-sdt{
+        width: 50vw;
+        .hoTen-input{
+          margin-bottom: 2vw;
+          margin-left: 2vw;
+          .hoTen{
+            line-height: 6vw;
+            font-weight: 600;
+            font-size: 3.5vw;
+            text-align: left;
+        }
+          .input{
+          width: 48vw;
+          height: 8vw;
+          text-align: center;
+          border: solid 1px gray;
+          border-radius: 1vw;
+        }
+      }
+      .gioiTinh-select{
+        margin-bottom: 2vw;
+        margin-left: 2vw;
+        width: 50vw;
+        .gioiTinh{
+          line-height: 6vw;
+          font-weight: 600;
+          font-size: 3.5vw;
+          text-align: left;
+    
+    
+        }
+        .select{
+          width: 48vw;
+          height: 8vw;
+          margin-right:50vw;
+          border-radius: 1vw;
+          border: solid 1px gray;
+          text-align: center;
+    
+        }
+      }
+      }
+      .avatar-taiKhoan{
+        width: 46vw;
+        padding-top: 
+     6vw;
+        .avatar{
+          width: 27vw;
+          height:27vw ;
+          border-radius: 50%;
+          object-fit: cover;
+    
+        }
+        .taiKhoan{
+          font-size: 3.5vw;
+          font-weight: 500;
+          text-align: center;
+          margin-left: 2vw;
+          line-height: 8vw;
+          color: red;
+        }
+        .quyDoi{
+          font-size: 2.8vw;
+          line-height: 5vw;
+        }
+        
+      }
+    }
+  
+    .ngaySinh-select{
+      margin:auto 2vw;
+      .ngaySinh{
+        line-height: 6vw;
+        font-weight: 600;
+        font-size: 3.5vw;
+        text-align: left;
+  
+      }
+      .select-container{
+        display: flex;
+        gap: 2vw;
+        .select{
+          width: 100%;
+          height: 8vw;
+          border: solid 1px gray;
+          border-radius: 1vw;
+          text-align: center;
+    
+        }
+      }
+     
+    }
+    .diaChi-select{
+      margin: auto 2vw;
+      .diaChi{
+        line-height: 6vw;
+        font-weight: 600;
+        font-size: 3.5vw;
+        text-align: left;
+       margin: 5vw auto 2vw;
+      
+      }
+      .select-container{
+        margin-bottom: 2vw;
+        display: flex;
+        gap: 2vw;
+        .select{
+          width: 100%;
+          height: 8vw;
+          border: solid 1px gray;
+          border-radius: 1vw;
+          text-align-last: center;
+    
+        }
+      }
+      .input{
+        width: 48vw;
+        height: 8vw;
+        margin-right: 52vw;
+        text-align: center;
+        border: solid 1px gray;
+        border-radius: 1vw;
+      }
+    }
+    .tkNganHang-container{
+      margin: auto 2vw;
+      .tieuDe{
+        line-height: 6vw;
+        font-weight: 600;
+        font-size: 3.5vw;
+        text-align: left;
+       margin-top:  5vw;
+      
+      }
+  .taikhoan{
+    display: flex;
+    .ttTaiKhoan{
+      width: 50vw;
+
+      .stk{
+        font-size: 3.5vw;
+        text-align: left;
+        line-height: 8vw;
+  
+      }
+      select, option,input{
+        font-size: 3vw;
+        text-align: center;
+        height: 8vw;
+        width: 48vw;
+        border-radius: 1vw;
+        border: solid 1px gray;
+        margin-bottom: 2vw;
+    }
+    }
+    .qr-container{
+      width: 48vw;
+      .maQr{
+        width: 45vw;
+        object-fit: cover;
+      }
+    }
+  }
+    }
+    .luuThongTin{
+      width: 30vw;
+      background-color: #04aa6d;
+      line-height: 8vw;
+      font-size: 3.5vw;
+      font-weight: 600;
+      color: #fff;
+      border-radius: 1vw;
+      margin: 10vw auto;
+    }
+    }
+}
+
+/* PC*/
+@media screen and (min-width : 1024px) {
+    .UpdateMyDetail-ConTaiNer{
+        
+    }
+}

@@ -3,24 +3,25 @@ import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
-    getArrSanPham,
-    updateGioHang,
     getOneDonHang,
     registerDonHang,
     updateDonHang,
-    deleteGioHang,
+    getTaiKhoan,
+    updateTaiKhoan,
 } from "../redux/apiRequest";
-import InHoaDon from "./InHoaDon";
+import {
+    apiGetPublicProvinces,
+    apiGetPublicDistrict,
+    apiGetPublicWard,
+} from "../redux/ApiProvince";
 const GioHang = (props) => {
     const {
         cart,
         setcart,
-        loading,
         setloading,
         setTongtien,
         setTongsoluong,
         Tongtien,
-        Tongsoluong,
         handleDaThemGioHang,
         setcartDemo,
         cartDemo,
@@ -28,6 +29,7 @@ const GioHang = (props) => {
         setsoBan,
         maBaoMat,
         setmaBaoMat,
+        handlexemAnh,
     } = props;
 
     const user = useSelector((state) => state.auth.login.currentUser);
@@ -35,8 +37,8 @@ const GioHang = (props) => {
     const myDetail = useSelector((state) => state.post.post?.myDetail);
     const donHang = useSelector((state) => state.donHang.donHang?.donHang);
     const { tenVietTat, idShop, idCtv, tenCtv, sdtCtv } = useParams();
-    console.log("donHang", donHang);
     const [donHangDaDat, setdonHangDaDat] = useState([]);
+    const [giaVon, setgiaVon] = useState();
     useEffect(() => {
         if (donHang) {
             setdonHangDaDat(donHang?.donHang?.donHang);
@@ -44,15 +46,20 @@ const GioHang = (props) => {
     }, [donHang]);
     const ttShop = useSelector((state) => state.ttShop.ttShop.ttShop?.shop);
     const ttShopThem = ttShop?.ttShopThem;
-    const khachSi = ttShopThem?.khachSi;
-    const khachCtv = ttShopThem?.khachCtv;
     const nvBanHang = ttShopThem?.nvBanHang;
     const nvQuanLy = ttShopThem?.nvQuanLy;
+    const allNhanVien = [
+        ...ttShop?.ttShopThem?.nvBanHang,
+        ...ttShop?.ttShopThem?.nvQuanLy,
+    ];
     const dispatch = useDispatch();
     const VND = new Intl.NumberFormat("vi-VN", {
         style: "currency",
         currency: "VND",
     });
+    const taiKhoan = useSelector(
+        (state) => state?.taiKhoan?.taiKhoan?.taiKhoan?.taiKhoan
+    );
     const d = new Date();
     const gioPhut = `${d.getHours()}h ${d.getMinutes()}`;
     const ngayThang = ` ${d.getDate()}/${d.getMonth()}/${d.getFullYear()}`;
@@ -61,33 +68,98 @@ const GioHang = (props) => {
             getOneDonHang(idShop, soBan, dispatch);
         }
     }, [idShop, soBan]);
+    const [idKhachHang, setidKhachHang] = useState("");
     const [tongTien2, settongTien2] = useState(0);
     const [giamTru, setgiamTru] = useState(0);
     const [noiNhan, setnoiNhan] = useState("Nhận Tại Bàn");
     const arrSoBan = ttShopThem?.soBan;
     useEffect(() => {
-        if (noiNhan === "Tự Đến Lấy") {
-            setsoBan(d);
-        }
-        if (noiNhan === "Ship Tận Nơi") {
-            setsoBan(d);
+        if (noiNhan === "Tự Đến Lấy" || noiNhan === "Ship Tận Nơi") {
+            setsoBan(
+                `${d.getHours()}:${d.getMinutes()}:${d.getSeconds()}  ${d.getDate()}/${d.getMonth()}/${d.getFullYear()}`
+            );
         }
     }, [noiNhan]);
+
     // thong tin nguoi nhan không có user
     const [sdtNguoiMua, setsdtNguoiMua] = useState("Nhập số điện thoại");
     const [hoTenNguoiMua, sethoTenNguoiMua] = useState("Nhập họ và tên");
-    const [dcNguoiNMua, setdcNguoiNMua] = useState("Nhập địa chỉ");
-    const [ghiChuNguoiMua, setghiChuNguoiMua] = useState("Giao sớm nhé Shop!");
+    const [thonXomNguoiNMua, setthonXomNguoiNMua] = useState(
+        "Số nhà/Thôn/Xóm/..."
+    );
+    const [xaNguoiNMua, setxaNguoiNMua] = useState("Xã/Phường");
+    const [huyenNguoiNMua, sethuyenNguoiNMua] = useState("Quận/Huyện");
+    const [tinhNguoiNMua, settinhNguoiNMua] = useState("Tỉnh/TP");
+    const [ghiChuNguoiMua, setghiChuNguoiMua] = useState("Thêm ghi chú!");
     useEffect(() => {
         if (myDetail) {
-            setsdtNguoiMua(myDetail?.soDienThoai);
-            sethoTenNguoiMua(myDetail?.hoTen);
-            setdcNguoiNMua(
-                `${myDetail?.thonXom}, ${myDetail?.xa}, ${myDetail?.huyen}, ${myDetail?.tinh}`
-            );
+            setsdtNguoiMua(myDetail?.soDienThoai || "Nhập số điện thoại");
+            sethoTenNguoiMua(myDetail?.hoTen || "Nhập họ và tên");
+            setthonXomNguoiNMua(myDetail?.thonXom || "Số nhà/Thôn/Xóm/...");
+            setxaNguoiNMua(myDetail?.xa || "Xã/Phường");
+            sethuyenNguoiNMua(myDetail?.huyen || "Quận/Huyện");
+            settinhNguoiNMua(myDetail?.tinh || "Tỉnh/TP");
         }
     }, [myDetail]);
+    // Provinces
+    const [provinces, setProvinces] = useState([]);
+    const [provincesID, setprovincesID] = useState();
 
+    const [districts, setDistricts] = useState([]);
+    const [districtID, setDistrictID] = useState();
+
+    const [wards, setWards] = useState([]);
+    const [wardID, setWardID] = useState();
+    //  Que Quan
+    // Tinh
+    useEffect(() => {
+        const fetchPublicProvince = async () => {
+            const response = await apiGetPublicProvinces();
+            if (response?.status === 200) {
+                setProvinces(response?.data.results);
+            }
+        };
+        fetchPublicProvince();
+    }, []);
+
+    useEffect(() => {
+        const fetchPublicDictrict = async () => {
+            const response = await apiGetPublicDistrict(provincesID);
+            if (response.status === 200) {
+                setDistricts(response?.data.results);
+            }
+        };
+        provincesID && fetchPublicDictrict();
+        if (provincesID) {
+            settinhNguoiNMua(
+                provinces?.find((item) => item.province_id === provincesID)
+                    ?.province_name
+            );
+            sethuyenNguoiNMua("Quận/Huyện");
+            setxaNguoiNMua("Xã/Phường");
+        }
+        !provincesID && setDistricts([]);
+    }, [provincesID]);
+    useEffect(() => {
+        const fetchPublicWard = async () => {
+            const response = await apiGetPublicWard(districtID);
+            if (response.status === 200) {
+                setWards(response?.data.results);
+            }
+        };
+        districtID && fetchPublicWard();
+        if (districtID) {
+            sethuyenNguoiNMua(
+                districts?.find((item) => item.district_id === districtID)
+                    ?.district_name
+            );
+            setxaNguoiNMua("Xã/Phường");
+        }
+
+        !provincesID && setWards([]);
+    }, [districtID]);
+
+    // Que Quan
     const handleDonHangMoi = () => {
         if (!noiNhan) {
             alert("Vui lòng chọn nơi nhận!");
@@ -95,8 +167,7 @@ const GioHang = (props) => {
             if (
                 ((noiNhan === "Ship Tận Nơi" || noiNhan === "Tự Đến Lấy") &&
                     (hoTenNguoiMua === "Nhập họ và tên" ||
-                        sdtNguoiMua === "Nhập số điện thoại" ||
-                        dcNguoiNMua === "Nhập địa chỉ")) ||
+                        sdtNguoiMua === "Nhập số điện thoại")) ||
                 (noiNhan === "Nhận Tại Bàn" && !soBan)
             ) {
                 alert("Thiếu thông tin người nhận!");
@@ -105,35 +176,69 @@ const GioHang = (props) => {
                     try {
                         const maBaoMat2 =
                             Math.floor(Math.random() * 9999) + 1000;
-                        const thongTinNguoiMua = {
-                            hoTenNguoiMua: hoTenNguoiMua,
-                            sdtNguoiMua: sdtNguoiMua,
-                            dcNguoiNMua: dcNguoiNMua,
-                            ghiChuNguoiMua: ghiChuNguoiMua,
-                            noiNhan: noiNhan,
-                            soBan: soBan || "",
-                            maBaoMat: maBaoMat2,
-                            nhomKhach: "Khách Lẻ",
-                            ttCtv: {
-                                idCtv: idCtv,
-                                tenCtv: tenCtv,
-                                sdtCtv: sdtCtv,
-                            },
-                            ttOrder: user?.username || "",
-                            ttXuLyDon: "",
-                            ttGiaoHang: "",
-                            ttThuTien: "",
-                        };
                         setmaBaoMat(maBaoMat2);
-                        console.log("thongTinNguoiMua", thongTinNguoiMua);
                         const newDonHang = {
-                            khachHang: thongTinNguoiMua,
+                            tenShop: ttShop?.TenShop,
+                            sdtShop: ttShop?.sdtShop,
                             donHang: cart,
                             idShop: idShop,
-                            idCtv: idCtv,
-                            idKhachHang: user?._id || "",
-                            trangThaiDH: "Đơn Hàng Mới",
+                            sdtCtv: "",
+                            sdtKhachHang: sdtNguoiMua || "",
+
+                            sdtOrder: user?.username || "",
+                            sdtXuLyDon: "",
+                            sdtGiaoHang: "",
+                            sdtThuTien: "",
+
                             soBan: soBan || "",
+
+                            thonXomMua: thonXomNguoiNMua,
+                            xaMua: xaNguoiNMua,
+                            huyenMua: huyenNguoiNMua,
+                            tinhMua: tinhNguoiNMua,
+
+                            kinhDo: ttShop?.kinhDo,
+                            viDo: ttShop?.viDo,
+
+                            thonXomBan: ttShop?.thonXom,
+                            xaBan: ttShop?.xa,
+                            huyenBan: ttShop?.huyen,
+                            tinhBan: ttShop?.tinh,
+
+                            trangThaiDH: "ĐH Mới",
+
+                            ttThem: {
+                                khachHang: {
+                                    hoTenNguoiMua: hoTenNguoiMua,
+                                    sdtNguoiMua: sdtNguoiMua,
+                                    ghiChuNguoiMua: ghiChuNguoiMua,
+                                    noiNhan: noiNhan,
+                                    soBan: soBan || "",
+                                    maBaoMat: maBaoMat2,
+                                    nhomKhach: "Khách Lẻ",
+                                },
+                                giamTru: giamTru,
+                                ttCtv: {
+                                    tenNv: tenCtv,
+                                    sdtNv: sdtCtv,
+                                },
+                                ttOrder: {
+                                    tenNv: "",
+                                    sdtNv: "",
+                                },
+                                ttXuLyDon: {
+                                    tenNv: "",
+                                    sdtNv: "",
+                                },
+                                ttGiaoHang: {
+                                    tenNv: "",
+                                    sdtNv: "",
+                                },
+                                ttThuTien: {
+                                    tenNv: "",
+                                    sdtNv: "",
+                                },
+                            },
                             user: user?._id || "",
                         };
                         console.log("newDonHang", newDonHang);
@@ -151,7 +256,7 @@ const GioHang = (props) => {
                     const id = donHang.donHang._id;
                     const newDonHang = {
                         donHang: [...cart, ...donHangDaDat],
-                        trangThaiDH: "Đơn Hàng Mới",
+                        trangThaiDH: "ĐH Mới",
                     };
                     updateDonHang(newDonHang, id, dispatch);
                     console.log("newDonHang", newDonHang);
@@ -276,6 +381,220 @@ const GioHang = (props) => {
             // cart
         }
     };
+    const giamSoLuong = (item2, item) => {
+        const sl = +item?.slMua - 1;
+
+        if (sl < 0) {
+            alert("Số lượng phải lớn hơn 0");
+        } else {
+            const timSP = cartDemo.find((item3) => item3?._id === item2._id);
+            const allDacDiemSP = timSP?.allDacDiemSP;
+            const timDacDiemSPDung = {
+                slMua: +sl,
+                AnhSanPham: item?.AnhSanPham,
+                tenDacDiem: item?.tenDacDiem,
+                giaCtv: item?.giaCtv,
+                giaKhuyenMai: item?.giaKhuyenMai,
+                giaNiemYet: item?.giaNiemYet,
+                giaSi: item?.giaSi,
+                giaVon: item?.giaVon,
+                soLuong: item?.soLuong,
+            };
+            const timDacDiemSPKhac = allDacDiemSP?.map((item5) =>
+                item5?.tenDacDiem !== item?.tenDacDiem
+                    ? item5
+                    : timDacDiemSPDung
+            );
+            setcartDemo(
+                cartDemo?.map((item4) =>
+                    item4?._id !== item2?._id
+                        ? item4
+                        : {
+                              _id: item2?._id,
+                              tenSanPham: item2?.tenSanPham,
+                              allDacDiemSP: timDacDiemSPKhac,
+                          }
+                )
+            );
+
+            if (cart && cart?.length > 0) {
+                const timSanPham = cart.find(
+                    (item6) => item6?._id === item2?._id
+                );
+                console.log("timSanPham", timSanPham);
+                const allDacDiemSP0 = timSanPham?.allDacDiemSP;
+                const timDacDiemSPDung2 = {
+                    slMua: +sl,
+                    gioPhut: gioPhut,
+                    tenDacDiem: item?.tenDacDiem,
+                    giaCtv: item?.giaCtv,
+                    giaKhuyenMai: item?.giaKhuyenMai,
+                    giaNiemYet: item?.giaNiemYet,
+                    giaSi: item?.giaSi,
+                    giaVon: item?.giaVon,
+                    soLuong: item?.soLuong,
+                };
+                const timDacDiemSPKhac2 = allDacDiemSP0?.map((item5) =>
+                    item5?.tenDacDiem !== item?.tenDacDiem
+                        ? item5
+                        : timDacDiemSPDung2
+                );
+                if (!timSanPham) {
+                    setcart([
+                        ...cart,
+                        {
+                            _id: item2?._id,
+                            tenSanPham: item2?.tenSanPham,
+                            allDacDiemSP: [timDacDiemSPDung2],
+                        },
+                    ]);
+                } else {
+                    const allDacDiemSP2 = timSanPham.allDacDiemSP;
+                    const allDacDiemSP3 = allDacDiemSP2.filter(
+                        (item3) => item3.tenDacDiem !== item.tenDacDiem
+                    );
+                    const allDacDiemSP4 = [...allDacDiemSP3, timDacDiemSPDung2];
+                    const cart2 = cart.filter(
+                        (item7) => item7?._id !== item2?._id
+                    );
+                    setcart([
+                        ...cart2,
+                        {
+                            _id: item2?._id,
+                            tenSanPham: item2?.tenSanPham,
+                            allDacDiemSP: allDacDiemSP4,
+                        },
+                    ]);
+                }
+            } else {
+                const timDacDiemSPDung3 = {
+                    slMua: +sl,
+                    gioPhut: gioPhut,
+                    tenDacDiem: item?.tenDacDiem,
+                    giaCtv: item?.giaCtv,
+                    giaKhuyenMai: item?.giaKhuyenMai,
+                    giaNiemYet: item?.giaNiemYet,
+                    giaSi: item?.giaSi,
+                    giaVon: item?.giaVon,
+                    soLuong: item?.soLuong,
+                };
+                setcart([
+                    {
+                        _id: item2?._id,
+                        tenSanPham: item2?.tenSanPham,
+                        allDacDiemSP: [timDacDiemSPDung3],
+                    },
+                ]);
+            }
+        }
+    };
+    const tangSoLuong = (item2, item) => {
+        const sl = +item?.slMua + 1;
+
+        if (sl < 0) {
+            alert("Số lượng phải lớn hơn 0");
+        } else {
+            const timSP = cartDemo.find((item3) => item3?._id === item2._id);
+            const allDacDiemSP = timSP?.allDacDiemSP;
+            const timDacDiemSPDung = {
+                slMua: +sl,
+                AnhSanPham: item?.AnhSanPham,
+                tenDacDiem: item?.tenDacDiem,
+                giaCtv: item?.giaCtv,
+                giaKhuyenMai: item?.giaKhuyenMai,
+                giaNiemYet: item?.giaNiemYet,
+                giaSi: item?.giaSi,
+                giaVon: item?.giaVon,
+                soLuong: item?.soLuong,
+            };
+            const timDacDiemSPKhac = allDacDiemSP?.map((item5) =>
+                item5?.tenDacDiem !== item?.tenDacDiem
+                    ? item5
+                    : timDacDiemSPDung
+            );
+            setcartDemo(
+                cartDemo?.map((item4) =>
+                    item4?._id !== item2?._id
+                        ? item4
+                        : {
+                              _id: item2?._id,
+                              tenSanPham: item2?.tenSanPham,
+                              allDacDiemSP: timDacDiemSPKhac,
+                          }
+                )
+            );
+
+            if (cart && cart?.length > 0) {
+                const timSanPham = cart.find(
+                    (item6) => item6?._id === item2?._id
+                );
+                console.log("timSanPham", timSanPham);
+                const allDacDiemSP0 = timSanPham?.allDacDiemSP;
+                const timDacDiemSPDung2 = {
+                    slMua: +sl,
+                    gioPhut: gioPhut,
+                    tenDacDiem: item?.tenDacDiem,
+                    giaCtv: item?.giaCtv,
+                    giaKhuyenMai: item?.giaKhuyenMai,
+                    giaNiemYet: item?.giaNiemYet,
+                    giaSi: item?.giaSi,
+                    giaVon: item?.giaVon,
+                    soLuong: item?.soLuong,
+                };
+                const timDacDiemSPKhac2 = allDacDiemSP0?.map((item5) =>
+                    item5?.tenDacDiem !== item?.tenDacDiem
+                        ? item5
+                        : timDacDiemSPDung2
+                );
+                if (!timSanPham) {
+                    setcart([
+                        ...cart,
+                        {
+                            _id: item2?._id,
+                            tenSanPham: item2?.tenSanPham,
+                            allDacDiemSP: [timDacDiemSPDung2],
+                        },
+                    ]);
+                } else {
+                    const allDacDiemSP2 = timSanPham.allDacDiemSP;
+                    const allDacDiemSP3 = allDacDiemSP2.filter(
+                        (item3) => item3.tenDacDiem !== item.tenDacDiem
+                    );
+                    const allDacDiemSP4 = [...allDacDiemSP3, timDacDiemSPDung2];
+                    const cart2 = cart.filter(
+                        (item7) => item7?._id !== item2?._id
+                    );
+                    setcart([
+                        ...cart2,
+                        {
+                            _id: item2?._id,
+                            tenSanPham: item2?.tenSanPham,
+                            allDacDiemSP: allDacDiemSP4,
+                        },
+                    ]);
+                }
+            } else {
+                const timDacDiemSPDung3 = {
+                    slMua: +sl,
+                    gioPhut: gioPhut,
+                    tenDacDiem: item?.tenDacDiem,
+                    giaCtv: item?.giaCtv,
+                    giaKhuyenMai: item?.giaKhuyenMai,
+                    giaNiemYet: item?.giaNiemYet,
+                    giaSi: item?.giaSi,
+                    giaVon: item?.giaVon,
+                    soLuong: item?.soLuong,
+                };
+                setcart([
+                    {
+                        _id: item2?._id,
+                        tenSanPham: item2?.tenSanPham,
+                        allDacDiemSP: [timDacDiemSPDung3],
+                    },
+                ]);
+            }
+        }
+    };
     const suaDonHang = (sl, item, item2) => {
         const suaSoLuong = {
             giaCtv: item?.giaCtv,
@@ -314,8 +633,12 @@ const GioHang = (props) => {
         setgiamTru(giamTru3);
         const giamTru2 = { giamTru: giamTru3 };
         const newDonHang = {
-            khachHang: { ...donHang.donHang.khachHang, ...giamTru2 },
+            ttThem: {
+                ...donHang.donHang.ttThem,
+                ...giamTru2,
+            },
         };
+        console.log("newDonHang", newDonHang);
         updateDonHang(newDonHang, id, dispatch);
     };
     // Thay doi so luong
@@ -375,17 +698,55 @@ const GioHang = (props) => {
     const ACCOUNT_NAME = nganHang?.chuTaiKhoanNganhang;
     const qr = `https://img.vietqr.io/image/${BANK_ID}-${ACCOUNT_NO}-${TEMPLATE}.png?amount=${AMOUNT}&addInfo=${DESCRIPTION}&accountName=${ACCOUNT_NAME}`;
     // Viet QR
+    useEffect(() => {
+        getTaiKhoan(idShop, dispatch);
+    }, []);
+    useEffect(() => {
+        const tinhTongGiaVon = () => {
+            let tt = 0;
+            if (donHangDaDat?.length !== 0) {
+                donHangDaDat?.map((sp) => {
+                    sp?.allDacDiemSP?.map((item) => {
+                        tt += +item?.slMua * item?.giaVon;
+                    });
+                });
+            }
+
+            setgiaVon(tt);
+        };
+        tinhTongGiaVon();
+    });
     const handleDaThanhToan = () => {
         const id = donHang.donHang._id;
         try {
             const newDonHang = {
-                trangThaiDH: "Đơn Hàng Hoàn Thành",
+                trangThaiDH: "ĐH Đã Thanh Toán",
                 khachHang: {
                     ...donHang.donHang.khachHang,
                     ttThuTien: user?.username,
                 },
             };
             updateDonHang(newDonHang, id, dispatch);
+            console.log("newDonHang", newDonHang);
+            const newTaiKhoan = {
+                ThongTinThem: {
+                    TenShop: ttShop?.TenShop,
+                    sdtShop: ttShop?.sdtShop,
+                    BaoCaoKD: [
+                        {
+                            thoiGian: `${ngayThang} ${gioPhut}`,
+                            noiNhan:
+                                donHang?.donHang?.ttThem?.khachHang?.noiNhan,
+                            doanhThu: tongTien2,
+                            chiPhi: giaVon,
+                            idDonHang: id,
+                        },
+                        ...taiKhoan?.ThongTinThem?.BaoCaoKD,
+                    ],
+                },
+            };
+            console.log("newTaiKhoan", newTaiKhoan);
+            updateTaiKhoan(newTaiKhoan, taiKhoan?._id, dispatch);
         } catch (err) {
             console.log(err);
         }
@@ -394,10 +755,24 @@ const GioHang = (props) => {
         const id = donHang.donHang._id;
         try {
             const newDonHang = {
-                trangThaiDH: "Đơn Hàng Mới",
+                trangThaiDH: "ĐH Mới",
                 khachHang: { ...donHang.donHang.khachHang, ttThuTien: "" },
             };
             updateDonHang(newDonHang, id, dispatch);
+            console.log("newDonHang", newDonHang);
+
+            const allBaoCaoKD = taiKhoan?.ThongTinThem?.BaoCaoKD;
+            const newTaiKhoan = {
+                ThongTinThem: {
+                    TenShop: ttShop?.TenShop,
+                    sdtShop: ttShop?.sdtShop,
+                    BaoCaoKD: allBaoCaoKD?.filter(
+                        (item) => item?.idDonHang !== id
+                    ),
+                },
+            };
+            console.log("newTaiKhoan", newTaiKhoan);
+            updateTaiKhoan(newTaiKhoan, taiKhoan?._id, dispatch);
         } catch (err) {
             console.log(err);
         }
@@ -406,10 +781,10 @@ const GioHang = (props) => {
         <>
             <div className="gioHang-container">
                 <div className="quayLai-tieuDe">
-                    <div className="quayLai" onClick={() => setloading(0)}>
-                        Quay Lại
+                    <div onClick={() => setloading(0)} className="quayLai">
+                        <i className="fa fa-angle-double-left"></i>Quay Lại
                     </div>
-                    <div className="tieuDe">Thông Tin Giỏ Hàng</div>
+                    <div className="tieuDe">Giỏ Hảng</div>
                 </div>
 
                 {cartDemo?.length !== 0 ? (
@@ -438,79 +813,110 @@ const GioHang = (props) => {
                                                 return (
                                                     <div
                                                         key={index}
-                                                        className="dacDiem-themGioHang"
+                                                        className="dacDiem-tenDacDiem"
                                                     >
-                                                        <div className="anhSp-tenSp">
-                                                            <img
-                                                                src={
-                                                                    item?.AnhSanPham
-                                                                }
-                                                                className="anhSp"
-                                                                alt="timtim"
-                                                            />
-                                                            <div className="tenSp">
-                                                                {
-                                                                    item?.tenDacDiem
-                                                                }
+                                                        <div className="dacDiem-themGioHang">
+                                                            <div className="anhSp-tenSp">
+                                                                <img
+                                                                    onClick={() =>
+                                                                        handlexemAnh(
+                                                                            item?.AnhSanPham
+                                                                        )
+                                                                    }
+                                                                    src={
+                                                                        item?.AnhSanPham
+                                                                    }
+                                                                    className="anhSp"
+                                                                    alt="timtim"
+                                                                />
                                                             </div>
-                                                        </div>
-                                                        <div className="giaSanPham">
-                                                            <div className="giaKM">
-                                                                {VND.format(
-                                                                    item?.giaKhuyenMai
-                                                                )}
-                                                            </div>
-                                                            <div className="giaNY-giamGia">
-                                                                <div className="giaNY">
+                                                            <div className="giaSanPham">
+                                                                <div className="giaKM">
                                                                     {VND.format(
-                                                                        item?.giaNiemYet
-                                                                    )}
-                                                                </div>
-                                                                <div className="giamGia">
-                                                                    Giảm&nbsp;
-                                                                    {Math.floor(
-                                                                        (100 *
-                                                                            (item?.giaNiemYet -
-                                                                                item?.giaKhuyenMai)) /
-                                                                            item?.giaNiemYet
-                                                                    )}
-                                                                    %
-                                                                </div>
-                                                            </div>
-                                                            <div className="sl">
-                                                                {item?.soLuong}
-                                                            </div>
-                                                        </div>
-                                                        <div className="soLuong-SL">
-                                                            <div className="soLuong">
-                                                                Số Lượng
-                                                            </div>
-                                                            <input
-                                                                type="number"
-                                                                className="SL"
-                                                                placeholder={
-                                                                    item?.slMua
-                                                                }
-                                                                onChange={(e) =>
-                                                                    handleSoLuong(
-                                                                        e.target
-                                                                            .value,
-                                                                        item2,
-                                                                        item
-                                                                    )
-                                                                }
-                                                            />
-                                                        </div>
-                                                        <div className="thanhTien-TT">
-                                                            <div className="thanhTien">
-                                                                Thành Tiền
-                                                            </div>
-                                                            <div className="TT">
-                                                                {VND.format(
-                                                                    item?.slMua *
                                                                         item?.giaKhuyenMai
-                                                                )}
+                                                                    )}
+                                                                </div>
+                                                                <div className="giaNY-giamGia">
+                                                                    <div className="giaNY">
+                                                                        {VND.format(
+                                                                            item?.giaNiemYet
+                                                                        )}
+                                                                    </div>
+                                                                    <div className="giamGia">
+                                                                        Giảm&nbsp;
+                                                                        {Math.floor(
+                                                                            (100 *
+                                                                                (item?.giaNiemYet -
+                                                                                    item?.giaKhuyenMai)) /
+                                                                                item?.giaNiemYet
+                                                                        )}
+                                                                        %
+                                                                    </div>
+                                                                </div>
                                                             </div>
+                                                            <div className="soLuong-SL">
+                                                                <div className="soLuong">
+                                                                    Số Lượng
+                                                                </div>
+                                                                <div className="thayDoiSl">
+                                                                    <div
+                                                                        onClick={() =>
+                                                                            giamSoLuong(
+                                                                                item2,
+                                                                                item
+                                                                            )
+                                                                        }
+                                                                        className="giamSl"
+                                                                    >
+                                                                        <i className="fa fa-arrow-circle-down"></i>
+                                                                    </div>
+                                                                    <input
+                                                                        type="number"
+                                                                        className="SL"
+                                                                        placeholder={
+                                                                            item?.slMua
+                                                                        }
+                                                                        onChange={(
+                                                                            e
+                                                                        ) =>
+                                                                            handleSoLuong(
+                                                                                e
+                                                                                    .target
+                                                                                    .value,
+                                                                                item2,
+                                                                                item
+                                                                            )
+                                                                        }
+                                                                    />
+                                                                    <div
+                                                                        onClick={() =>
+                                                                            tangSoLuong(
+                                                                                item2,
+                                                                                item
+                                                                            )
+                                                                        }
+                                                                        className="giamSl"
+                                                                    >
+                                                                        <i className="fa fa-arrow-circle-up"></i>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div className="thanhTien-TT">
+                                                                <div className="thanhTien">
+                                                                    Thành Tiền
+                                                                </div>
+                                                                <div className="TT">
+                                                                    {VND.format(
+                                                                        item?.slMua *
+                                                                            item?.giaKhuyenMai
+                                                                    )}
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div className="tenDacDiem">
+                                                            {item?.tenDacDiem}
+                                                            &nbsp;-&nbsp;
+                                                            {item?.soLuong}
                                                         </div>
                                                     </div>
                                                 );
@@ -570,13 +976,13 @@ const GioHang = (props) => {
                                     arrSoBan?.find((item) => item === soBan) &&
                                     donHang &&
                                     donHang?.donHang &&
-                                    +donHang?.donHang?.khachHang?.maBaoMat ===
-                                        +maBaoMat) ||
+                                    +donHang?.donHang?.ttThem?.khachHang
+                                        ?.maBaoMat === +maBaoMat) ||
                                 (soBan &&
                                     arrSoBan?.find((item) => item === soBan) &&
                                     donHang &&
                                     donHang?.donHang &&
-                                    +donHang?.donHang?.khachHang
+                                    +donHang?.donHang?.ttThem?.khachHang
                                         ?.sdtNguoiMua === +user?.username &&
                                     user) ||
                                 soBan === "fabysa" ||
@@ -621,12 +1027,69 @@ const GioHang = (props) => {
                                 placeholder={sdtNguoiMua}
                             />
                         </div>
-                        <div className="thongTinChiTiet">
-                            <div className="tieuDe">Địa Chỉ</div>
+                        <div className="diaChi-container">
+                            <div className="diaChi">Địa Chỉ</div>
+                            <div className="tinh-huyen-xa">
+                                <select
+                                    id="provinces"
+                                    onChange={(e) =>
+                                        setprovincesID(e.target.value)
+                                    }
+                                >
+                                    <option value="">{tinhNguoiNMua}</option>
+                                    {provinces?.map((item) => {
+                                        return (
+                                            <option
+                                                key={item.province_id}
+                                                value={item.province_id}
+                                            >
+                                                {item.province_name}
+                                            </option>
+                                        );
+                                    })}
+                                </select>
+                                <select
+                                    onChange={(e) =>
+                                        setDistrictID(e.target.value)
+                                    }
+                                >
+                                    <option value="">{huyenNguoiNMua}</option>
+                                    {districts?.map((item) => {
+                                        return (
+                                            <option
+                                                value={item.district_id}
+                                                key={item.district_id}
+                                            >
+                                                {item.district_name}
+                                            </option>
+                                        );
+                                    })}
+                                </select>
+                                <select
+                                    onChange={(e) =>
+                                        setxaNguoiNMua(e.target.value)
+                                    }
+                                >
+                                    <option> {xaNguoiNMua}</option>
+                                    {wards?.map((item) => {
+                                        return (
+                                            <option
+                                                value={item.ward_name}
+                                                key={item.ward_id}
+                                            >
+                                                {item.ward_name}
+                                            </option>
+                                        );
+                                    })}
+                                </select>
+                            </div>
                             <input
-                                className="noiDung"
-                                onChange={(e) => setdcNguoiNMua(e.target.value)}
-                                placeholder={dcNguoiNMua}
+                                className="soNha"
+                                placeholder={thonXomNguoiNMua}
+                                type="text"
+                                onChange={(e) =>
+                                    setthonXomNguoiNMua(e.target.value)
+                                }
                             />
                         </div>
                         <div className="thongTinChiTiet">
@@ -642,6 +1105,8 @@ const GioHang = (props) => {
                     </div>
                 )}
                 {(noiNhan === "Nhận Tại Bàn" &&
+                    donHang?.donHang?.ttThem?.khachHang?.nhomKhach ===
+                        "Khách Lẻ" &&
                     cart &&
                     cart?.length > 0 &&
                     donHang &&
@@ -649,8 +1114,11 @@ const GioHang = (props) => {
                     soBan &&
                     arrSoBan?.find((item) => item === soBan) &&
                     donHangDaDat?.length !== 0 &&
-                    +donHang?.donHang?.khachHang?.maBaoMat === +maBaoMat) ||
+                    +donHang?.donHang?.ttThem?.khachHang?.maBaoMat ===
+                        +maBaoMat) ||
                 (noiNhan === "Nhận Tại Bàn" &&
+                    donHang?.donHang?.ttThem?.khachHang?.nhomKhach ===
+                        "Khách Lẻ" &&
                     cart &&
                     cart?.length > 0 &&
                     donHang &&
@@ -659,7 +1127,7 @@ const GioHang = (props) => {
                     donHangDaDat?.length !== 0 &&
                     user &&
                     +user?.username ===
-                        +donHang?.donHang?.khachHang?.sdtNguoiMua) ||
+                        +donHang?.donHang?.ttThem?.khachHang?.sdtNguoiMua) ||
                 (noiNhan === "Nhận Tại Bàn" &&
                     cart &&
                     cart?.length > 0 &&
@@ -679,11 +1147,14 @@ const GioHang = (props) => {
                     </div>
                 )}
                 {noiNhan === "Nhận Tại Bàn" &&
+                    donHang?.donHang?.ttThem?.khachHang?.nhomKhach ===
+                        "Khách Lẻ" &&
                     donHangDaDat &&
                     donHangDaDat.length !== 0 &&
                     soBan &&
                     arrSoBan?.find((item) => item === soBan) &&
-                    (+donHang?.donHang?.khachHang?.maBaoMat === +maBaoMat ||
+                    (+donHang?.donHang?.ttThem?.khachHang?.maBaoMat ===
+                        +maBaoMat ||
                         nvBanHang?.find(
                             (item) => item?.sdtnvBanHang === user?.username
                         ) ||
@@ -693,7 +1164,8 @@ const GioHang = (props) => {
                         user?._id === ttShop?.user ||
                         user?.admin === true ||
                         +myDetail?.soDienThoai ===
-                            +donHang?.donHang?.khachHang?.sdtNguoiMua) && (
+                            +donHang?.donHang?.ttThem?.khachHang
+                                ?.sdtNguoiMua) && (
                         <>
                             <div className="thongTinDonHang-container">
                                 <div className="thongTinDonHang">
@@ -703,11 +1175,17 @@ const GioHang = (props) => {
                                 <div className="soBan-maBaoMat">
                                     <div className="soBan">
                                         Số Bàn:&ensp;
-                                        {donHang?.donHang?.khachHang?.soBan}
+                                        {
+                                            donHang?.donHang?.ttThem?.khachHang
+                                                ?.soBan
+                                        }
                                     </div>
                                     <div className="maBaoMat">
                                         Mã Bảo Mật:&ensp;
-                                        {donHang?.donHang?.khachHang?.maBaoMat}
+                                        {
+                                            donHang?.donHang?.ttThem?.khachHang
+                                                ?.maBaoMat
+                                        }
                                     </div>
                                 </div>
 
@@ -901,7 +1379,7 @@ const GioHang = (props) => {
                             </div>
                             {donHang &&
                             donHang?.donHang?.trangThaiDH ===
-                                "Đơn Hàng Hoàn Thành" ? (
+                                "ĐH Dã Thanh Toán" ? (
                                 <div
                                     onClick={() => handleChuaThanhToan()}
                                     className="daThanhToan"

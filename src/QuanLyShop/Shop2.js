@@ -1,57 +1,21 @@
 import "./Shop2.scss";
-import facebookLogo from "../assets/images/Facebook_Logo.png";
-import zaloLogo from "../assets/images/zaloLogo.png";
 import gioHang2 from "../assets/images/giohang.jpg";
-import menu from "../assets/images/menu.png";
-import like from "../assets/images/like.jpg";
-import like2 from "../assets/images/like2.jpg";
 import XemAnh from "../GiaoDienChung/XemAnh";
-import MenuShop from "./MenuShop";
 import HeaderShop from "./HeaderShop";
-import SuaMenu from "./SuaMenu";
-
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-import { NavLink } from "react-router-dom";
 import { useNavigate, useParams } from "react-router-dom";
-import {
-    getttShop,
-    getSanPham,
-    getSanPhamDanHuyen2,
-    getPost,
-    registerGioHang,
-    updateGioHang,
-    getGioHang,
-    getYourStatus,
-    getArrSanPham,
-    updatePost,
-} from "../redux/apiRequest";
+import { getttShop, getSanPham, getPost } from "../redux/apiRequest";
 import { useEffect } from "react";
 import GioHang from "./GioHang";
 import ChiTietSanPham2 from "./ChiTietSanPham2";
 import UpdateSanPham from "./UpdateSanPham";
 import Loading from "../GiaoDienChung/Loading";
-const Shop2 = (props) => {
-    const {
-        showcart,
-        setshowcart,
-        setTongtien,
-        setTongsoluong,
-        Tongtien,
-        Tongsoluong,
-    } = props;
+const Shop2 = () => {
+    const { tenVietTat, idShop, idCtv, tenCtv, sdtCtv } = useParams();
     const user = useSelector((state) => state.auth.login.currentUser);
-    const myDetail = useSelector((state) => state.post.post?.myDetail);
-    const gioHang = useSelector(
-        (state) => state.gioHang.gioHang.gioHang?.gioHang
-    );
     const ttShop = useSelector((state) => state.ttShop.ttShop.ttShop?.shop);
-
-    const ttShopThem = ttShop?.ttShopThem;
-    const khachSi = ttShopThem?.khachSi;
-    const khachCtv = ttShopThem?.khachCtv;
-    const nvBanHang = ttShopThem?.nvBanHang;
     const nvQuanLy = ttShop?.ttShopThem?.nvQuanLy;
     const allSanPham2 = useSelector(
         (state) => state.sanPham.sanPham.allsanPham?.allSanpham
@@ -60,31 +24,31 @@ const Shop2 = (props) => {
         style: "currency",
         currency: "VND",
     });
+    const [Tongsoluong, setTongsoluong] = useState(0);
+    const [Tongtien, setTongtien] = useState(0);
     const [loading, setloading] = useState(0);
-    const [loading2, setloading2] = useState(0);
+    const [loadingTruoc, setloadingTruoc] = useState(0);
     const [xemAnhFull, setxemAnhFull] = useState();
-    const [showChiTietSanPham, setshowChiTietSanPham] = useState(0);
     const [thongTinSp, setthongTinSp] = useState();
-    const { tenVietTat, idShop } = useParams();
+
     const dispatch = useDispatch();
-    const [nhomSP, setnhomSP] = useState("Khuyến Mại Đặc Biệt");
+    const navigate = useNavigate();
+    const [nhomSP, setnhomSP] = useState("Xin kính chào quý khách");
     const [skip, setskip] = useState(0);
+    const [sort, setsort] = useState(1);
     const [soBan, setsoBan] = useState("fabysa");
     const [maBaoMat, setmaBaoMat] = useState();
     const [allSanPham, setallSanPham] = useState([]);
-
-    console.log("allSanPham", allSanPham);
-    console.log("allSanPham2", allSanPham2);
+    const nhomSanPham2 = ttShop?.ttShopThem?.menuShop;
+    const nhomSanPham = nhomSanPham2?.filter((item) => item !== nhomSP);
 
     useEffect(() => {
         if (user && user.length !== 0) {
             getPost(user?._id, dispatch);
-            getGioHang(idShop, user?._id, dispatch);
         }
     }, []);
     useEffect(() => {
         getttShop(idShop, dispatch);
-        getYourStatus(idShop, dispatch);
     }, [idShop]);
     // get san pham
     useEffect(() => {
@@ -102,33 +66,23 @@ const Shop2 = (props) => {
 
     useEffect(() => {
         const limit = 6;
-        getSanPham(idShop, nhomSP, skip, limit, dispatch);
-    }, [nhomSP, skip]);
-
+        getSanPham(idShop, nhomSP, sort, skip, limit, dispatch);
+    }, [nhomSP, skip, sort]);
     useEffect(() => {
         if (allSanPham2 && allSanPham) {
-            const allSanPham3 = [...allSanPham, ...allSanPham2];
-
-            allSanPham3.sort(function (a, b) {
-                if (
-                    +a?.allDacDiemSP[0]?.giaKhuyenMai >
-                    +b?.allDacDiemSP[0]?.giaKhuyenMai
-                )
-                    return 1;
-                if (
-                    +a?.allDacDiemSP[0]?.giaKhuyenMai <
-                    +b?.allDacDiemSP[0]?.giaKhuyenMai
-                )
-                    return -1;
-                return 0;
-            });
-            setallSanPham(allSanPham3);
+            setallSanPham([...allSanPham, ...allSanPham2]);
         }
     }, [allSanPham2]);
     // get san pham
+    useEffect(() => {
+        if (ttShop) {
+            setnhomSP(
+                ttShop?.ttShopThem?.menuShop[0] || "Xin kính chào quý khách"
+            );
+        }
+    }, [ttShop]);
     // Gio hang
     const [cart, setcart] = useState([]);
-    const [xoaSp, setxoaSp] = useState();
     const [cartDemo, setcartDemo] = useState([]);
     // Gio hang
 
@@ -174,99 +128,120 @@ const Shop2 = (props) => {
     // Gio Hang
     // Chi Tiet San Pham
     // Xem Anh Full
-    const handleXemAnh = (item) => {
+    const handlexemAnh = (item) => {
         setloading(5);
         setxemAnhFull(item);
+        setloadingTruoc(loading);
     };
     // Xem Anh Full
     // Sap xep
-    const handleSapXepTang = () => {
-        if (allSanPham && allSanPham?.length > 0) {
-            const allSanPham3 = allSanPham;
-
-            allSanPham3.sort(function (a, b) {
-                if (
-                    +a?.allDacDiemSP[0]?.giaKhuyenMai >
-                    +b?.allDacDiemSP[0]?.giaKhuyenMai
-                )
-                    return 1;
-                if (
-                    +a?.allDacDiemSP[0]?.giaKhuyenMai <
-                    +b?.allDacDiemSP[0]?.giaKhuyenMai
-                )
-                    return -1;
-                return 0;
-            });
-            setallSanPham(allSanPham3);
-        }
-    };
-    const handleSapXepGiam = () => {
-        if (allSanPham && allSanPham?.length > 0) {
-            const allSanPham3 = allSanPham;
-
-            allSanPham3.sort(function (a, b) {
-                if (
-                    +a?.allDacDiemSP[0]?.giaKhuyenMai >
-                    +b?.allDacDiemSP[0]?.giaKhuyenMai
-                )
-                    return 1;
-                if (
-                    +a?.allDacDiemSP[0]?.giaKhuyenMai <
-                    +b?.allDacDiemSP[0]?.giaKhuyenMai
-                )
-                    return -1;
-                return 0;
-            });
-            setallSanPham(allSanPham3);
-        }
+    const handleSapXep = () => {
+        setallSanPham([]);
+        setsort(-sort);
+        setskip(0);
     };
 
     // Sap xep
+    const handleChonNhomSanPham = (item) => {
+        setallSanPham([]);
+        setnhomSP(item);
+        setskip(0);
+    };
+    // Them Sp
+    const themSanPhamMoi = () => {
+        const themSp = window.confirm("Thêm Sản Phẩm Mới?");
+        if (themSp) {
+            navigate(`/addsp/${idShop}`);
+        }
+    };
+    // Them Sp
+    // Sua Menu
+    const suaMenuMoi = () => {
+        const themSp = window.confirm("Sửa Menu Shop?");
+        if (themSp) {
+            navigate(`/sua-menu/${idShop}`);
+        }
+    };
+    // Sua Menu
+
     return (
         <div className="Shop2-Container">
-            <HeaderShop loading={loading} setloading={setloading} />
+            <HeaderShop
+                setTongtien={setTongtien}
+                setTongsoluong={setTongsoluong}
+                Tongtien={Tongtien}
+                Tongsoluong={Tongsoluong}
+                loading={loading}
+                setloading={setloading}
+                setloadingTruoc={setloadingTruoc}
+                loadingTruoc={loadingTruoc}
+                handlexemAnh={handlexemAnh}
+            />
             {loading === 0 && (
                 <div className="sanPham-shop">
-                    <div className="nhomSanPham-themSanPham">
-                        {/* <div
-                            onClick={() => handleSapXepTang()}
-                            className="sapXep"
-                        >
-                            ⮃
-                        </div> */}
-                        <div className="nhomSanPham">{nhomSP}</div>
-                        {(user?._id === ttShop?.user ||
-                            user?.admin === true ||
-                            nvQuanLy?.find(
-                                (item) => item?.sdtnvQuanLy === user?.username
-                            )) && (
+                    {user?._id === ttShop?.user ||
+                    user?.admin === true ||
+                    nvQuanLy?.find(
+                        (item) => item?.sdtnvQuanLy === user?.username
+                    ) ? (
+                        <div className="nhomSanPham-themSanPham">
+                            <div
+                                className="suaMenu"
+                                onClick={() => suaMenuMoi()}
+                            >
+                                <i className="fa fa-edit"></i>
+                            </div>
+                            <select
+                                className="nhomSanPham"
+                                id="provinces"
+                                onChange={(e) =>
+                                    handleChonNhomSanPham(e.target.value)
+                                }
+                            >
+                                <option>{nhomSP}</option>
+                                {nhomSanPham?.map((item) => {
+                                    return <option key={item}>{item}</option>;
+                                })}
+                            </select>
                             <div
                                 className="themSanPham"
-                                onClick={() => setxoaSp(1)}
+                                onClick={() => themSanPhamMoi()}
                             >
-                                ☰
+                                <i className="fa fa-plus-circle"></i>
                             </div>
-                        )}
-                    </div>
-                    {xoaSp === 1 && (
-                        <div className="xacNhan-xoa">
-                            <div className="xacNhan">Thêm Sản Phẩm Mới?</div>
-                            <div className="huyBo-xoa">
-                                <a className="xoa" href={`/addsp/${idShop}`}>
-                                    Đồng Ý
-                                </a>
+                        </div>
+                    ) : (
+                        <div className="nhomSanPham-themSanPham">
+                            <div
+                                className="sapXep"
+                                onClick={() => handleSapXep()}
+                            >
+                                <i className="fas fa-retweet"></i>
+                            </div>
+                            <select
+                                className="nhomSanPham2"
+                                id="provinces"
+                                onChange={(e) =>
+                                    handleChonNhomSanPham(e.target.value)
+                                }
+                            >
+                                <option>{nhomSP}</option>
+                                {nhomSanPham?.map((item) => {
+                                    return <option key={item}>{item}</option>;
+                                })}
+                            </select>
+                        </div>
+                    )}
 
-                                <div
-                                    onClick={() => setxoaSp(!xoaSp)}
-                                    className="huyBo"
-                                >
-                                    Huỷ Bỏ
+                    {allSanPham?.length < 1 && (
+                        <div className="trong">
+                            <div className="container">
+                                <span className=""></span>
+                                <div className="line">
+                                    <div className="inner"></div>
                                 </div>
                             </div>
                         </div>
-                    )}
-                    {allSanPham?.length < 1 && (
-                        <div className="trong">Đang Cập Nhật Dữ Liệu</div>
                     )}
                     <div className="sanPham-container">
                         {allSanPham &&
@@ -384,20 +359,6 @@ const Shop2 = (props) => {
                 </div>
             )}
             <div className="menuGioHang2">
-                {loading === 3 && (
-                    <img
-                        onClick={() => setloading(0)}
-                        src={menu}
-                        className="menu"
-                    />
-                )}
-                {loading === 0 && (
-                    <img
-                        onClick={() => setloading(3)}
-                        src={menu}
-                        className="menu"
-                    />
-                )}
                 {loading === 2 && (
                     <img
                         onClick={() => setloading(0)}
@@ -431,20 +392,12 @@ const Shop2 = (props) => {
                     setsoBan={setsoBan}
                     maBaoMat={maBaoMat}
                     setmaBaoMat={setmaBaoMat}
+                    setloadingTruoc={setloadingTruoc}
+                    loadingTruoc={loadingTruoc}
+                    handlexemAnh={handlexemAnh}
                 />
             )}
-            {loading === 3 && (
-                <MenuShop
-                    loading={loading}
-                    setloading={setloading}
-                    nhomSP={nhomSP}
-                    setnhomSP={setnhomSP}
-                    setallSanPham={setallSanPham}
-                    allSanPham={allSanPham}
-                    setskip={setskip}
-                    skip={skip}
-                />
-            )}
+
             {loading === 4 && (
                 <ChiTietSanPham2
                     handleDaThemGioHang={handleDaThemGioHang}
@@ -457,13 +410,19 @@ const Shop2 = (props) => {
                     loading={loading}
                     setloading={setloading}
                     idShop={idShop}
+                    setloadingTruoc={setloadingTruoc}
+                    loadingTruoc={loadingTruoc}
+                    handlexemAnh={handlexemAnh}
                 />
             )}
             {loading === 5 && (
                 <XemAnh
                     xemAnhFull={xemAnhFull}
+                    setxemAnhFull={setxemAnhFull}
                     loading={loading}
                     setloading={setloading}
+                    setloadingTruoc={setloadingTruoc}
+                    loadingTruoc={loadingTruoc}
                 />
             )}
             {loading === 6 && (
