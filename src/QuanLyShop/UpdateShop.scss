@@ -288,16 +288,23 @@
             }
          }
       .close-luu{
-      
+      margin: 10vw 2vw 30vw;
+      font-size: 3.5vw;
+      font-weight: 600;
+      color: #fff;
         .luu{
-            font-size: 3.5vw;
-            font-weight: 600;
-            color: #fff;
-            width: 40vw;
+          
+            width: 96vw;
             background-color: #04aa6d;
             line-height: 8vw;
             border-radius: 2vw;
-            margin: 10vw 30vw;
+            
+        }
+        .daLuu{
+            width: 96vw;
+            background-color: red;
+            line-height: 8vw;
+            border-radius: 2vw;
         }
       }
      }

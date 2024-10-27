@@ -8,7 +8,6 @@ import themAnh from "../assets/images/themAnh.png";
 import { useNavigate, useParams } from "react-router-dom";
 import Loading from "../GiaoDienChung/Loading";
 import BoxSoanThao from "../component/BoxSoanThao";
-import logoInternet from "../assets/images/logoInternet.jpg";
 import {
     getTaiKhoan,
     registerTaiKhoan,
@@ -27,10 +26,23 @@ const UpdateShop = () => {
     const user = useSelector((state) => state.auth.login?.currentUser);
     const myDetail = useSelector((state) => state.post.post?.myDetail);
     const ttShop = useSelector((state) => state.ttShop.ttShop.ttShop?.shop);
+    const luuttShop = useSelector(
+        (state) => state.ttShop.ttShop.ttShop?.message
+    );
     const taiKhoan = useSelector(
         (state) => state?.taiKhoan?.taiKhoan?.taiKhoan?.taiKhoan
     );
+    const allTaiKhoan2 = useSelector(
+        (state) => state?.taiKhoan?.taiKhoan?.allTaiKhoan?.allTaiKhoan
+    );
+
     const [loading, setloading] = useState(0);
+    const [dateMax, setdateMax] = useState(0);
+    const [dateMin, setdateMin] = useState(1);
+    const [allTaiKhoan, setallTaiKhoan] = useState(allTaiKhoan2);
+    useEffect(() => {
+        setallTaiKhoan(allTaiKhoan2);
+    }, [allTaiKhoan2]);
     const dispatch = useDispatch();
     useEffect(() => {
         getPost(user?._id, dispatch);
@@ -39,9 +51,13 @@ const UpdateShop = () => {
     useEffect(() => {
         getttShop(idShop, dispatch);
     }, [idShop]);
+
     useEffect(() => {
-        getTaiKhoan(idShop, dispatch);
-    }, []);
+        const GDVao = 0;
+        const GDRa = "";
+        getTaiKhoan(idShop, dateMax, dateMin, 1, GDVao, GDRa, 0, 2, dispatch);
+    }, [idShop]);
+
     const [TenShop, setTenShop] = useState();
     const [SdtShop, setSdtShop] = useState();
     const [capBac, setcapBac] = useState();
@@ -269,37 +285,23 @@ const UpdateShop = () => {
                 viDo: viDo,
             };
             console.log("newShop", newShop);
-            updatettShop(newShop, id, dispatch, setloading);
-            setloading(1);
-            if (!taiKhoan) {
+            updatettShop(newShop, id, dispatch);
+
+            if (allTaiKhoan && allTaiKhoan?.length === 0) {
                 const newTaiKhoan = {
-                    NapTien: 300000,
-                    XacNhanNapTien: "Thành Công",
-                    LichsuGiaoDich: {
-                        gdVao: [
-                            {
-                                thoiGian: `${ngayThang} ${gioPhut}`,
-                                soTien: 300000,
-                                noiDung: "Fabysa Tặng",
-                                xacNhan: "Thành Công",
-                            },
-                        ],
-                        gdRa: [
-                            {
-                                thoiGian: `${ngayThang} ${gioPhut}`,
-                                soTien: 0,
-                                noiDung: "Phí Mở Shop",
-                                xacNhan: "Thành Công",
-                            },
-                        ],
+                    GDVao: 299000,
+                    GDRa: "",
+                    noiDungCK: "Fabysa Tặng",
+                    xacNhanChuyenTien: "Thành Công",
+                    thongTinThem: {
+                        tenChuTk: ttShop?.TenShop,
+                        sdtChuTk: ttShop?.sdtShop,
+                        loaiTK: "Shop",
                     },
-                    ThongTinThem: {
-                        TenShop: TenShop,
-                        sdtShop: SdtShop,
-                    },
-                    user: ttShop?._id,
+                    idChuTaiKhoan: ttShop?._id,
                 };
                 console.log("newTaiKhoan", newTaiKhoan);
+                setallTaiKhoan([newTaiKhoan]);
                 registerTaiKhoan(newTaiKhoan, dispatch);
             }
         } catch (err) {
@@ -352,7 +354,6 @@ const UpdateShop = () => {
             });
         }
     };
-
     return (
         <div className="pc-updateShop">
             <div className="quayLai-tieuDe">
@@ -408,7 +409,7 @@ const UpdateShop = () => {
                                 <div className="tenShop">Tên Shop</div>
                                 <input
                                     className="TS"
-                                    placeholder={TenShop}
+                                    defaultValue={TenShop}
                                     type="text"
                                     onChange={(e) => setTenShop(e.target.value)}
                                 />
@@ -417,7 +418,7 @@ const UpdateShop = () => {
                                 <div className="tenShop">Số Điện Thoại</div>
                                 <input
                                     className="TS"
-                                    placeholder={SdtShop}
+                                    defaultValue={SdtShop}
                                     type="text"
                                     onChange={(e) => setSdtShop(e.target.value)}
                                 />
@@ -483,7 +484,7 @@ const UpdateShop = () => {
                                 </div>
                                 <input
                                     className="soNha"
-                                    placeholder={ttShop?.thonXom}
+                                    defaultValue={ttShop?.thonXom}
                                     type="text"
                                     onChange={(e) => setthonXom(e.target.value)}
                                 />
@@ -501,7 +502,7 @@ const UpdateShop = () => {
                                         <div className="kinhDo">Kinh Độ</div>
                                         <input
                                             className="input"
-                                            placeholder={kinhDo}
+                                            defaultValue={kinhDo}
                                             onChange={(e) =>
                                                 setkinhDo(e.target.value)
                                             }
@@ -511,7 +512,7 @@ const UpdateShop = () => {
                                         <div className="kinhDo">Vĩ Độ</div>
                                         <input
                                             className="input"
-                                            placeholder={viDo}
+                                            defaultValue={viDo}
                                             onChange={(e) =>
                                                 setviDo(e.target.value)
                                             }
@@ -523,7 +524,7 @@ const UpdateShop = () => {
                                 <div className="tenShop">Facebook</div>
                                 <input
                                     className="TS"
-                                    placeholder={faceBook}
+                                    defaultValue={faceBook}
                                     type="text"
                                     onChange={(e) =>
                                         setfaceBook(e.target.value)
@@ -534,7 +535,7 @@ const UpdateShop = () => {
                                 <div className="tenShop">Zalo</div>
                                 <input
                                     className="TS"
-                                    placeholder={zalo}
+                                    defaultValue={zalo}
                                     type="text"
                                     onChange={(e) => setzalo(e.target.value)}
                                 />
@@ -543,7 +544,7 @@ const UpdateShop = () => {
                                 <div className="tenShop">Slogan</div>
                                 <input
                                     className="TS"
-                                    placeholder={slogan}
+                                    defaultValue={slogan}
                                     type="text"
                                     onChange={(e) => setslogan(e.target.value)}
                                 />
@@ -584,7 +585,7 @@ const UpdateShop = () => {
                                             settaiKhoanNganHang(e.target.value)
                                         }
                                         type="number"
-                                        placeholder={taiKhoanNganHang}
+                                        defaultValue={taiKhoanNganHang}
                                     />
                                     <input
                                         onChange={(e) =>
@@ -593,7 +594,7 @@ const UpdateShop = () => {
                                             )
                                         }
                                         className="chuTk"
-                                        placeholder={chuTaiKhoanNganhang}
+                                        defaultValue={chuTaiKhoanNganhang}
                                     />
                                 </div>
                             </div>
@@ -603,7 +604,7 @@ const UpdateShop = () => {
                                     <input
                                         id="input3"
                                         className="sdt"
-                                        placeholder="Nhập Số Bàn"
+                                        defaultValue="Nhập Số Bàn"
                                         type="text"
                                         onChange={(e) =>
                                             setsoBan2(e.target.value)
@@ -646,7 +647,7 @@ const UpdateShop = () => {
                                     <input
                                         id="input1"
                                         className="sdt"
-                                        placeholder="Họ Và Tên"
+                                        defaultValue="Họ Và Tên"
                                         type="text"
                                         onChange={(e) =>
                                             setnvBanHang2(e.target.value)
@@ -655,7 +656,7 @@ const UpdateShop = () => {
                                     <input
                                         id="input11"
                                         className="sdt"
-                                        placeholder="Số Điện Thoại"
+                                        defaultValue="Số Điện Thoại"
                                         type="number"
                                         onChange={(e) =>
                                             setsdtnvBanHang2(e.target.value)
@@ -701,7 +702,7 @@ const UpdateShop = () => {
                                     <input
                                         id="input2"
                                         className="sdt"
-                                        placeholder="Họ Và Tên"
+                                        defaultValue="Họ Và Tên"
                                         type="text"
                                         onChange={(e) =>
                                             setnvQuanLy2(e.target.value)
@@ -710,7 +711,7 @@ const UpdateShop = () => {
                                     <input
                                         id="input21"
                                         className="sdt"
-                                        placeholder="Nhập Số Điện Thoại"
+                                        defaultValue="Nhập Số Điện Thoại"
                                         type="number"
                                         onChange={(e) =>
                                             setsdtnvQuanLy2(e.target.value)
@@ -768,7 +769,7 @@ const UpdateShop = () => {
                                 <div className="tenShop">Nhập ID Chủ Shop</div>
                                 <input
                                     className="TS"
-                                    placeholder={UserShop}
+                                    defaultValue={UserShop}
                                     type="text"
                                     onChange={(e) =>
                                         setUserShop(e.target.value)
@@ -779,7 +780,7 @@ const UpdateShop = () => {
                                 <div className="tenShop">Người Hỗ Trợ</div>
                                 <input
                                     className="TS"
-                                    placeholder={nguoiHoTro}
+                                    defaultValue={nguoiHoTro}
                                     type="text"
                                     onChange={(e) =>
                                         setnguoiHoTro(e.target.value)
@@ -791,7 +792,7 @@ const UpdateShop = () => {
                                 <div className="tenShop">Tài Khoản</div>
                                 <input
                                     className="TS"
-                                    placeholder={cash}
+                                    defaultValue={cash}
                                     type="text"
                                     onChange={(e) => setcash(e.target.value)}
                                 />
@@ -800,7 +801,7 @@ const UpdateShop = () => {
                                 <div className="tenShop">Giao Diện</div>
                                 <input
                                     className="TS"
-                                    placeholder={giaoDien}
+                                    defaultValue={giaoDien}
                                     type="text"
                                     onChange={(e) =>
                                         setgiaoDien(e.target.value)
@@ -811,7 +812,7 @@ const UpdateShop = () => {
                                 <div className="tenShop">Tên Viết Tắt</div>
                                 <input
                                     className="TS"
-                                    placeholder={tenVietTat}
+                                    defaultValue={tenVietTat}
                                     type="text"
                                     onChange={(e) =>
                                         settenVietTat(e.target.value)
@@ -822,7 +823,7 @@ const UpdateShop = () => {
                                 <div className="tenShop">Nguời Hỗ Trợ</div>
                                 <input
                                     className="TS"
-                                    placeholder={nguoiHoTro}
+                                    defaultValue={nguoiHoTro}
                                     type="text"
                                     onChange={(e) =>
                                         setnguoiHoTro(e.target.value)
@@ -833,7 +834,7 @@ const UpdateShop = () => {
                                 <div className="tenShop">Địa Chỉ Website</div>
                                 <input
                                     className="TS"
-                                    placeholder={website}
+                                    defaultValue={website}
                                     type="text"
                                     onChange={(e) => setwebsite(e.target.value)}
                                 />
@@ -843,7 +844,7 @@ const UpdateShop = () => {
                                 <i>1-Binh thường 2-Không hiển thị</i>
                                 <input
                                     className="TS"
-                                    placeholder={capBac}
+                                    defaultValue={capBac}
                                     type="number"
                                     onChange={(e) => setcapBac(e.target.value)}
                                 />
@@ -855,13 +856,26 @@ const UpdateShop = () => {
                         nvQuanLy?.find(
                             (item) => item?.sdtnvQuanLy === user?.username
                         )) && (
-                        <div className="close-luu">
-                            <div
-                                className="luu"
-                                onClick={handleLuuThongTinShop}
-                            >
-                                Lưu Thông Tin
-                            </div>
+                        <div>
+                            {luuttShop !== "Cập nhật thành công!" ? (
+                                <div className="close-luu">
+                                    <div
+                                        className="luu"
+                                        onClick={handleLuuThongTinShop}
+                                    >
+                                        Lưu Thông Tin
+                                    </div>
+                                </div>
+                            ) : (
+                                <div className="close-luu">
+                                    <div
+                                        className="daLuu"
+                                        onClick={()=>alert("Thoát ra vào lại để sửa tiếp!")}
+                                    >
+                                        Đã Lưu
+                                    </div>
+                                </div>
+                            )}
                         </div>
                     )}
                 </div>

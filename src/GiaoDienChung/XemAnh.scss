@@ -6,7 +6,10 @@
   background-color: black;
   width: 100vw;
   height: 100vh;
-  position: relative;
+  position: fixed;
+    z-index: 10;
+    left: 0;
+    top: 0;
   .close{
     width: 10vw;
     height: 10vw;
@@ -25,11 +28,8 @@
       position: absolute;
       transform: translate(-50%, -50%);
      
-      .anhSanPham{
-            width: 100vw;
-  
-      }
-      .tenSanPham{
+      .anh{
+        width: 100vw;
   
       }
 
@@ -41,7 +41,32 @@
 
 /* PC*/
 @media screen and (min-width : 1024px) {
-    .XemAnh-ConTaiNer{
-        
+    .XemAnh2-ConTaiNer{
+      background-color: black;
+      width: 100vw;
+      height: 100vh;
+      position: fixed;
+        z-index: 10;
+        left: 0;
+        top: 0;
+      .close{
+        width: 5vw;
+        height: 5vw;
+        font-size: 3vw;
+        color: #fff;
+      }
+        .xemAnh{
+          top: 50%;
+          left: 50%;
+          position: absolute;
+          transform: translate(-50%, -50%);
+         
+          .anh{
+            height: 80vh;
+      
+          }
+    
+        }
+      
     }
 }

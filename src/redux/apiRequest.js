@@ -36,6 +36,12 @@ import {
     getAllPostsSuccess,
     getAllPostsFailed,
     logOutSuccessPost,
+    updateYourPostStart,
+    updateYourPostSuccess,
+    updateYourPostFailed,
+    getYourPostStart,
+    getYourPostSuccess,
+    getYourPostFailed,
 } from "./postSlice";
 
 import {
@@ -273,6 +279,29 @@ export const getPost = async (id, dispatch) => {
         dispatch(getPostFailed());
     }
 };
+// yourPost
+export const updateYourPost = async (newPost, id, dispatch) => {
+    dispatch(updateYourPostStart());
+    try {
+        const res = await axios.put(`/v1/post/${id}`, newPost);
+        dispatch(updateYourPostSuccess(res.data));
+        if (res) {
+        }
+    } catch (err) {
+        dispatch(updateYourPostFailed(err));
+    }
+};
+
+export const getYourPost = async (id, dispatch) => {
+    dispatch(getYourPostStart());
+    try {
+        const res = await axios.get(`/v1/post/${id}`);
+        dispatch(getYourPostSuccess(res.data));
+    } catch (err) {
+        dispatch(getYourPostFailed());
+    }
+};
+// yourPost
 
 export const getAllPosts = async (
     dispatch,
@@ -542,12 +571,11 @@ export const getAllttShopTimKiem = async (
     }
 };
 
-export const updatettShop = async (newShop, id, dispatch, setloading) => {
+export const updatettShop = async (newShop, id, dispatch) => {
     dispatch(updatettShopStart());
     try {
         const res = await axios.put(`/v1/shop/thong-tin-shop/${id}`, newShop);
         dispatch(updatettShopSuccess(res.data));
-        setloading(0);
     } catch (err) {
         dispatch(updatettShopFailed(err.response.data));
     }
@@ -585,12 +613,13 @@ export const getDonHang = async (
     skip,
     limit,
     trangThaiDH,
+    sort,
     dispatch
 ) => {
     dispatch(getdonHangStart());
     try {
         const res = await axios.get(
-            `/v1/shop/don-hang/?idShop=${idShop}&sdtCtv=${sdtCtv}&sdtKhachHang=${sdtKhachHang}&sdtOrder=${sdtOrder}&sdtXuLyDon=${sdtXuLyDon}&sdtGiaoHang=${sdtGiaoHang}&sdtThuTien=${sdtThuTien}&kinhDo=${kinhDo}&viDo=${viDo}&skip=${skip}&limit=${limit}&trangThaiDH=${trangThaiDH}`
+            `/v1/shop/don-hang/?idShop=${idShop}&sdtCtv=${sdtCtv}&sdtKhachHang=${sdtKhachHang}&sdtOrder=${sdtOrder}&sdtXuLyDon=${sdtXuLyDon}&sdtGiaoHang=${sdtGiaoHang}&sdtThuTien=${sdtThuTien}&kinhDo=${kinhDo}&viDo=${viDo}&skip=${skip}&limit=${limit}&trangThaiDH=${trangThaiDH}&sort=${sort}`
         );
         dispatch(getdonHangSuccess(res.data));
     } catch (err) {
@@ -671,19 +700,33 @@ export const registerTaiKhoan = async (newTaiKhoan, dispatch) => {
         dispatch(registerTaiKhoanFailed());
     }
 };
-export const getTaiKhoan = async (id, dispatch) => {
-    dispatch(getTaiKhoanStart());
-    try {
-        const res = await axios.get(`/v1/tai-khoan/${id}`);
-        dispatch(getTaiKhoanSuccess(res.data));
-    } catch (err) {
-        dispatch(getTaiKhoanFailed());
-    }
-};
-export const getAllTaiKhoan = async (dispatch) => {
+export const getTaiKhoan = async (
+    idChuTaiKhoan,
+    dateMax,
+    dateMin,
+    sort,
+    GDVao,
+    GDRa,
+    skip,
+    limit,
+    dispatch
+) => {
     dispatch(getAllTaiKhoanStart());
     try {
-        const res = await axios.get(`/v1/tai-khoan`);
+        const res = await axios.get(
+            `/v1/tai-khoan/ca-nhan/?idChuTaiKhoan=${idChuTaiKhoan}&dateMax=${dateMax}&dateMin=${dateMin}&sort=${sort}&GDVao=${GDVao}&GDRa=${GDRa}&skip=${skip}&limit=${limit}`
+        );
+        dispatch(getAllTaiKhoanSuccess(res.data));
+    } catch (err) {
+        dispatch(getAllTaiKhoanFailed());
+    }
+};
+export const getTaiKhoanXacNhan = async (sort, skip, limit, dispatch) => {
+    dispatch(getAllTaiKhoanStart());
+    try {
+        const res = await axios.get(
+            `/v1/tai-khoan/admin/?sort=${sort}&skip=${skip}&limit=${limit}`
+        );
         dispatch(getAllTaiKhoanSuccess(res.data));
     } catch (err) {
         dispatch(getAllTaiKhoanFailed());

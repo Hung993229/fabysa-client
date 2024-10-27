@@ -4,7 +4,7 @@ import { useState } from "react";
 import { loginUser } from "../redux/apiRequest";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
-import logo from "../assets/images/logo.jpg";
+import logoFabysa from "../assets/images/logoFabysa.png";
 import { useEffect } from "react";
 const DangNhap = () => {
     const register = useSelector((state) => state.auth.register);
@@ -50,13 +50,12 @@ const DangNhap = () => {
                 >
                     <i className="fa fa-angle-double-left"></i>Quay Lại
                 </a>
-                <div className="tieuDe">Fabysa</div>
+                <div className="tieuDe">Đăng Nhập</div>
             </div>
 
             <div className="login-container">
-                <div className="fast">Fast - Buy - Sale</div>
                 <div className="logoDangNhap">
-                    <img src={logo} alt="he" />
+                    <img src={logoFabysa} alt="he" />
                 </div>
 
                 {login?.error === true && (
@@ -68,7 +67,7 @@ const DangNhap = () => {
                     <div className="baoLoi">Đăng kí Tài Khoản Thành Công</div>
                 )}
                 <form onSubmit={handleLogin}>
-                    <label className="labelDangNhap">Sô Điện Thoại</label>
+                    <label className="labelDangNhap">Số Điện Thoại</label>
                     <div>
                         <input
                             className="inputDangNhap"

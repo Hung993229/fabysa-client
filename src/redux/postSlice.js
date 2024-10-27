@@ -4,6 +4,7 @@ const postSlice = createSlice({
     initialState: {
         post: {
             myDetail: null,
+            yourDetail: null,
             isFetching: false,
             error: false,
             success: false,
@@ -13,6 +14,7 @@ const postSlice = createSlice({
     reducers: {
         logOutSuccessPost: (state) => {
             state.post.myDetail = null;
+            state.post.yourDetail = null;
             state.post.isFetching = false;
             state.post.error = false;
             state.post.success = false;
@@ -58,6 +60,35 @@ const postSlice = createSlice({
             state.post.isFetching = false;
             state.post.error = true;
         },
+        // YourPost
+        updateYourPostStart: (state) => {
+            state.post.isFetching = true;
+        },
+        updateYourPostSuccess: (state, action) => {
+            state.post.isFetching = false;
+            state.post.yourDetail = action.payload;
+            state.post.success = true;
+        },
+        updateYourPostFailed: (state) => {
+            state.post.isFetching = false;
+            state.post.error = true;
+        },
+
+        getYourPostStart: (state) => {
+            state.post.isFetching = true;
+        },
+        getYourPostSuccess: (state, action) => {
+            state.post.isFetching = false;
+            state.post.yourDetail = action.payload;
+            state.post.success = true;
+        },
+        getYourPostFailed: (state) => {
+            state.post.isFetching = false;
+            state.post.error = true;
+        },
+
+        // Yourpost
+
         getAllPostsStart: (state) => {
             state.post.isFetching = true;
         },
@@ -87,6 +118,13 @@ export const {
     getAllPostsSuccess,
     getAllPostsFailed,
     logOutSuccessPost,
+
+    updateYourPostStart,
+    updateYourPostSuccess,
+    updateYourPostFailed,
+    getYourPostStart,
+    getYourPostSuccess,
+    getYourPostFailed,
 } = postSlice.actions;
 
 export default postSlice.reducer;

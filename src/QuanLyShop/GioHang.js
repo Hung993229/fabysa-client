@@ -6,8 +6,8 @@ import {
     getOneDonHang,
     registerDonHang,
     updateDonHang,
-    getTaiKhoan,
-    updateTaiKhoan,
+    registerTaiKhoan,
+    updatettShop,
 } from "../redux/apiRequest";
 import {
     apiGetPublicProvinces,
@@ -29,13 +29,14 @@ const GioHang = (props) => {
         setsoBan,
         maBaoMat,
         setmaBaoMat,
-        handlexemAnh,
+        handleXemAnhFull,
     } = props;
 
     const user = useSelector((state) => state.auth.login.currentUser);
 
     const myDetail = useSelector((state) => state.post.post?.myDetail);
     const donHang = useSelector((state) => state.donHang.donHang?.donHang);
+
     const { tenVietTat, idShop, idCtv, tenCtv, sdtCtv } = useParams();
     const [donHangDaDat, setdonHangDaDat] = useState([]);
     const [giaVon, setgiaVon] = useState();
@@ -49,17 +50,16 @@ const GioHang = (props) => {
     const nvBanHang = ttShopThem?.nvBanHang;
     const nvQuanLy = ttShopThem?.nvQuanLy;
     const allNhanVien = [
-        ...ttShop?.ttShopThem?.nvBanHang,
-        ...ttShop?.ttShopThem?.nvQuanLy,
+        ...ttShop?.ttShopThem?.nvBanHang?.map((item) => item?.sdtnvBanHang),
+        ...ttShop?.ttShopThem?.nvQuanLy?.map((item) => item?.sdtnvQuanLy),
+        ttShop?.sdtShop,
     ];
+
     const dispatch = useDispatch();
     const VND = new Intl.NumberFormat("vi-VN", {
         style: "currency",
         currency: "VND",
     });
-    const taiKhoan = useSelector(
-        (state) => state?.taiKhoan?.taiKhoan?.taiKhoan?.taiKhoan
-    );
     const d = new Date();
     const gioPhut = `${d.getHours()}h ${d.getMinutes()}`;
     const ngayThang = ` ${d.getDate()}/${d.getMonth()}/${d.getFullYear()}`;
@@ -68,7 +68,6 @@ const GioHang = (props) => {
             getOneDonHang(idShop, soBan, dispatch);
         }
     }, [idShop, soBan]);
-    const [idKhachHang, setidKhachHang] = useState("");
     const [tongTien2, settongTien2] = useState(0);
     const [giamTru, setgiamTru] = useState(0);
     const [noiNhan, setnoiNhan] = useState("Nhận Tại Bàn");
@@ -121,7 +120,6 @@ const GioHang = (props) => {
         };
         fetchPublicProvince();
     }, []);
-
     useEffect(() => {
         const fetchPublicDictrict = async () => {
             const response = await apiGetPublicDistrict(provincesID);
@@ -182,8 +180,12 @@ const GioHang = (props) => {
                             sdtShop: ttShop?.sdtShop,
                             donHang: cart,
                             idShop: idShop,
-                            sdtCtv: "",
-                            sdtKhachHang: sdtNguoiMua || "",
+                            sdtCtv: sdtCtv,
+                            sdtKhachHang: allNhanVien?.find(
+                                (item) => item === sdtNguoiMua
+                            )
+                                ? ""
+                                : sdtNguoiMua,
 
                             sdtOrder: user?.username || "",
                             sdtXuLyDon: "",
@@ -217,29 +219,29 @@ const GioHang = (props) => {
                                     maBaoMat: maBaoMat2,
                                     nhomKhach: "Khách Lẻ",
                                 },
-                                giamTru: giamTru,
-                                ttCtv: {
-                                    tenNv: tenCtv,
-                                    sdtNv: sdtCtv,
+                                baoCao: {
+                                    doanhThu: 0,
+                                    giaVon: 0,
+                                    phiNenTang: 0,
+                                    giamTru: 0,
                                 },
-                                ttOrder: {
-                                    tenNv: "",
-                                    sdtNv: "",
-                                },
-                                ttXuLyDon: {
-                                    tenNv: "",
-                                    sdtNv: "",
-                                },
-                                ttGiaoHang: {
-                                    tenNv: "",
-                                    sdtNv: "",
-                                },
-                                ttThuTien: {
-                                    tenNv: "",
-                                    sdtNv: "",
+                                stkShop: {
+                                    idNganHang:
+                                        ttShop?.ttShopThem?.nganHang?.maSo,
+                                    nganHang:
+                                        ttShop?.ttShopThem?.nganHang
+                                            ?.tenNganHang,
+                                    soTaiKhoan:
+                                        ttShop?.ttShopThem?.nganHang
+                                            ?.taiKhoanNganHang,
+                                    tenChuTk:
+                                        ttShop?.ttShopThem?.nganHang
+                                            ?.chuTaiKhoanNganhang,
+                                    daCK: "chưa Chuyển",
                                 },
                             },
                             user: user?._id || "",
+                            // thoiGian: new Date().toISOString(),
                         };
                         console.log("newDonHang", newDonHang);
                         registerDonHang(newDonHang, dispatch);
@@ -270,7 +272,6 @@ const GioHang = (props) => {
             }
         }
     };
-    // thong tin nguoi nhan không có user
 
     // Thay Doi So Luong
     const handleSoLuong = (sl, item2, item) => {
@@ -629,17 +630,20 @@ const GioHang = (props) => {
         updateDonHang(newDonHang, id, dispatch);
     };
     const handleGiamTru = (giamTru3) => {
-        const id = donHang.donHang._id;
-        setgiamTru(giamTru3);
-        const giamTru2 = { giamTru: giamTru3 };
         const newDonHang = {
             ttThem: {
                 ...donHang.donHang.ttThem,
-                ...giamTru2,
+                ...{
+                    baoCao: {
+                        ...donHang?.donHang?.ttThem?.baoCao,
+                        ...{ giamTru: +giamTru3 },
+                    },
+                },
             },
         };
         console.log("newDonHang", newDonHang);
-        updateDonHang(newDonHang, id, dispatch);
+        updateDonHang(newDonHang, donHang?.donHang?._id, dispatch);
+        setgiamTru(giamTru3);
     };
     // Thay doi so luong
     // Tinh Tong Tien và so luong
@@ -698,9 +702,7 @@ const GioHang = (props) => {
     const ACCOUNT_NAME = nganHang?.chuTaiKhoanNganhang;
     const qr = `https://img.vietqr.io/image/${BANK_ID}-${ACCOUNT_NO}-${TEMPLATE}.png?amount=${AMOUNT}&addInfo=${DESCRIPTION}&accountName=${ACCOUNT_NAME}`;
     // Viet QR
-    useEffect(() => {
-        getTaiKhoan(idShop, dispatch);
-    }, []);
+
     useEffect(() => {
         const tinhTongGiaVon = () => {
             let tt = 0;
@@ -716,63 +718,100 @@ const GioHang = (props) => {
         };
         tinhTongGiaVon();
     });
-    const handleDaThanhToan = () => {
-        const id = donHang.donHang._id;
-        try {
-            const newDonHang = {
-                trangThaiDH: "ĐH Đã Thanh Toán",
-                khachHang: {
-                    ...donHang.donHang.khachHang,
-                    ttThuTien: user?.username,
-                },
-            };
-            updateDonHang(newDonHang, id, dispatch);
-            console.log("newDonHang", newDonHang);
-            const newTaiKhoan = {
-                ThongTinThem: {
-                    TenShop: ttShop?.TenShop,
-                    sdtShop: ttShop?.sdtShop,
-                    BaoCaoKD: [
-                        {
-                            thoiGian: `${ngayThang} ${gioPhut}`,
-                            noiNhan:
-                                donHang?.donHang?.ttThem?.khachHang?.noiNhan,
-                            doanhThu: tongTien2,
-                            chiPhi: giaVon,
-                            idDonHang: id,
-                        },
-                        ...taiKhoan?.ThongTinThem?.BaoCaoKD,
-                    ],
-                },
-            };
-            console.log("newTaiKhoan", newTaiKhoan);
-            updateTaiKhoan(newTaiKhoan, taiKhoan?._id, dispatch);
-        } catch (err) {
-            console.log(err);
-        }
-    };
-    const handleChuaThanhToan = () => {
-        const id = donHang.donHang._id;
-        try {
-            const newDonHang = {
-                trangThaiDH: "ĐH Mới",
-                khachHang: { ...donHang.donHang.khachHang, ttThuTien: "" },
-            };
-            updateDonHang(newDonHang, id, dispatch);
-            console.log("newDonHang", newDonHang);
 
-            const allBaoCaoKD = taiKhoan?.ThongTinThem?.BaoCaoKD;
-            const newTaiKhoan = {
-                ThongTinThem: {
-                    TenShop: ttShop?.TenShop,
-                    sdtShop: ttShop?.sdtShop,
-                    BaoCaoKD: allBaoCaoKD?.filter(
-                        (item) => item?.idDonHang !== id
-                    ),
-                },
-            };
-            console.log("newTaiKhoan", newTaiKhoan);
-            updateTaiKhoan(newTaiKhoan, taiKhoan?._id, dispatch);
+    const handleDaThanhToan = () => {
+        try {
+            if (ttShop?.phiNenTang === "1K/Đơn Hàng") {
+                const newDonHang = {
+                    trangThaiDH: "ĐH Đã Thanh Toán",
+                    sdtThuTien: user?.username,
+                    ttThem: {
+                        ...donHang?.donHang?.ttThem,
+                        ...{
+                            baoCao: {
+                                doanhThu:
+                                    tongTien2 -
+                                    donHang?.donHang?.ttThem?.baoCao?.giamTru,
+                                giaVon: giaVon,
+                                giamTru:
+                                    donHang?.donHang?.ttThem?.baoCao?.giamTru,
+                                phiNenTang: 1000,
+                            },
+                        },
+                    },
+                };
+                console.log("newDonHang", newDonHang);
+                updateDonHang(newDonHang, donHang?.donHang?._id, dispatch);
+                const newShop = {
+                    cash: +ttShop?.cash - 1000,
+                };
+                console.log("newShop", newShop);
+                updatettShop(newShop, ttShop._id, dispatch);
+                const newTaiKhoan = {
+                    GDVao: "",
+                    GDRa: 1000,
+                    noiDungCK: "Phí Nền Tảng",
+                    xacNhanChuyenTien: "Thành Công",
+                    thongTinThem: {
+                        tenChuTk: ttShop?.TenShop,
+                        sdtChuTk: ttShop?.sdtShop,
+                    },
+                    idChuTaiKhoan: ttShop?._id,
+                };
+                console.log("newTaiKhoan", newTaiKhoan);
+                registerTaiKhoan(newTaiKhoan, dispatch);
+            }
+            if (ttShop?.phiNenTang === "1% Doanh Thu") {
+                const newDonHang = {
+                    trangThaiDH: "ĐH Đã Thanh Toán",
+                    sdtThuTien: user?.username,
+                    ttThem: {
+                        ...donHang?.donHang?.ttThem,
+                        ...{
+                            baoCao: {
+                                doanhThu:
+                                    tongTien2 -
+                                    donHang?.donHang?.ttThem?.baoCao?.giamTru,
+                                giaVon: giaVon,
+                                giamTru:
+                                    donHang?.donHang?.ttThem?.baoCao?.giamTru,
+                                phiNenTang:
+                                    (tongTien2 -
+                                        donHang?.donHang?.ttThem?.baoCao
+                                            ?.giamTru) /
+                                    100,
+                            },
+                        },
+                    },
+                };
+                console.log("newDonHang", newDonHang);
+                updateDonHang(newDonHang, donHang?.donHang?._id, dispatch);
+                const newShop = {
+                    cash:
+                        ttShop?.cash -
+                        (tongTien2 -
+                            donHang?.donHang?.ttThem?.baoCao?.giamTru) /
+                            100,
+                };
+                console.log("newShop", newShop);
+                updatettShop(newShop, ttShop._id, dispatch, setloading);
+                const newTaiKhoan = {
+                    GDVao: "",
+                    GDRa:
+                        (tongTien2 -
+                            donHang?.donHang?.ttThem?.baoCao?.giamTru) /
+                        100,
+                    noiDungCK: "Phí Nền Tảng",
+                    xacNhanChuyenTien: "Thành Công",
+                    thongTinThem: {
+                        tenChuTk: ttShop?.TenShop,
+                        sdtChuTk: ttShop?.sdtShop,
+                    },
+                    idChuTaiKhoan: ttShop?._id,
+                };
+                console.log("newTaiKhoan", newTaiKhoan);
+                registerTaiKhoan(newTaiKhoan, dispatch);
+            }
         } catch (err) {
             console.log(err);
         }
@@ -819,7 +858,7 @@ const GioHang = (props) => {
                                                             <div className="anhSp-tenSp">
                                                                 <img
                                                                     onClick={() =>
-                                                                        handlexemAnh(
+                                                                        handleXemAnhFull(
                                                                             item?.AnhSanPham
                                                                         )
                                                                     }
@@ -1347,7 +1386,8 @@ const GioHang = (props) => {
                                                 type="number"
                                                 className="sotien"
                                                 placeholder={VND.format(
-                                                    giamTru
+                                                    donHang?.donHang?.ttThem
+                                                        ?.baoCao?.giamTru
                                                 )}
                                                 onChange={(e) =>
                                                     handleGiamTru(
@@ -1357,7 +1397,10 @@ const GioHang = (props) => {
                                             />
                                         ) : (
                                             <div className="sotien">
-                                                {VND.format(giamTru)}
+                                                {VND.format(
+                                                    donHang?.donHang?.ttThem
+                                                        ?.baoCao?.giamTru
+                                                )}
                                             </div>
                                         )}
                                     </div>
@@ -1366,7 +1409,11 @@ const GioHang = (props) => {
                                             Cần Thanh Toán :
                                         </div>
                                         <div className="sotien">
-                                            {VND.format(tongTien2 - giamTru)}
+                                            {VND.format(
+                                                tongTien2 -
+                                                    donHang?.donHang?.ttThem
+                                                        ?.baoCao?.giamTru
+                                            )}
                                         </div>
                                     </div>
                                 </div>
@@ -1378,22 +1425,18 @@ const GioHang = (props) => {
                                 <img className="qr" src={qr} />
                             </div>
                             {donHang &&
-                            donHang?.donHang?.trangThaiDH ===
-                                "ĐH Dã Thanh Toán" ? (
-                                <div
-                                    onClick={() => handleChuaThanhToan()}
-                                    className="daThanhToan"
-                                >
-                                    Đã Thanh Toán
-                                </div>
-                            ) : (
-                                <div
-                                    onClick={() => handleDaThanhToan()}
-                                    className="chuaThanhToan"
-                                >
-                                    Đã Thanh Toán
-                                </div>
-                            )}
+                                donHang?.donHang?.trangThaiDH !==
+                                    "ĐH Đã Thanh Toán" &&
+                                allNhanVien?.find(
+                                    (item) => item === sdtNguoiMua
+                                ) && (
+                                    <div
+                                        onClick={() => handleDaThanhToan()}
+                                        className="chuaThanhToan"
+                                    >
+                                        Đã Thanh Toán
+                                    </div>
+                                )}
                         </>
                     )}
             </div>

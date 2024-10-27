@@ -11,8 +11,7 @@
     .headerShop21{
         display: flex;
         font-size: 3.5vw;
-      background-color: #fff;
-      border-bottom: #d0d4dd 1px solid;
+        background-image: linear-gradient(to right, #04aa6d , #fff);
       position: fixed;
       top: 0px;
         z-index: 3;
@@ -59,24 +58,36 @@
                 text-transform: uppercase;
                
         }
+        .tenShop{
+            font-size: 4.5vw;
+            font-weight: 600;
+            color: #fff;
+            width: 83vw;
+            line-height: 9vw;
+            text-transform: uppercase;
+            text-align: left;
+            padding-left: 2vw;
+        }
         .caNhan{
             display: flex;
-            width: 25vw;
+            width: 17vw;
              height: 9vw;
        
             .xinChao-taiKhoan{
-                width: 16vw;
+               
                 .xinChao{
                     font-size: 2.8vw;
                     line-height: 4.5vw;
-                    padding-right:1vw ;
-                    text-align: right;
+                    font-style: oblique;
+                    color: red;
+                    
                 }
                 .taiKhoan{
                     font-size: 2.8vw;
                     line-height: 4.5vw;
                     padding-right:1vw ;
                     text-align: right;
+
             
                     }
             }
@@ -92,71 +103,27 @@
         
     }
     .banner-tenShop{
-           margin: 9vw 0vw 21vw;
-           position: relative;
+           margin: 9vw 0vw auto;
         .bannerx{
             width: 100%;
             height: 56vw;
             object-fit: cover;
-            border-bottom: solid 1px #04aa6d ;
-            z-index: 1;
 
         }
         .logo-tenShop-gioiThieu{
+            background-color: #88d3b4;
             display: flex;
-            position: absolute;
-               top: 55vw;
-                z-index: 2;
+            padding:  2vw 1vw;
             .tenShop-gioiThieu-nganHang{
-              
-                .tenShop-follow{
-                    display: flex;
-                    color: #fff;
-                    background-color: #04aa6d;
-                    font-size: 3.9vw;
-                    font-weight: 600;
-                    // border: solid 1px #04aa6d;
-                                //  position: absolute;
-               
-                    .tenShop{
-                        width: 75vw;
-                        // border: solid 1px gray;
-                        text-align: left;
-                       
-                       
-                        line-height: 9vw;
-                        text-transform: uppercase;
-                        
-                        padding-left:2vw;
-                   
-    
-                    }
-                    .follow{
-                        text-align: center;
-                        width: 25vw;
-                        line-height: 9vw;
-                        color: black;
-
-                    }
-                    .followed{
-                        text-align: center;
-                        width: 25vw;
-                        line-height: 9vw;
-                        color: #fff;
-
-                    }
-                }
                 .gioiThieu-nganHang-follow{
-                    padding-left: 2vw;
                     display: flex;
-                    gap: 5vw;
-                    line-height: 9vw;
-                    font-size: 3.5vw;
-                    font-weight: 600;
-                    color: #04aa6d;
-                    .gioiThieu{                       
-                    }
-                    .nganHang{        
+                    gap: 1vw;
+                    line-height: 6vw;
+                    font-size: 2.2vw;
+                    .gioiThieu{
+                        width: 15.66vw;
+                        background-color: #fff;  
+                        border-radius: 2vw;                    
                     }
                
                 }
@@ -217,35 +184,30 @@
         margin: 5vw auto;
         color: red;
         font-size: 3.9vw;
-    font-weight: 600;
-        height: 8vw;
+        font-weight: 600;
+        line-height: 8vw;
         width: 60vw;
         text-align: center;
         border: solid 1px gray;
         border-radius: 1vw;
 
      }
-     .nhapSoTien::placeholder {
-        color: red;
-        font-size: 3.9vw;
-    font-weight: 600;
-      }
-     .menhGiaTien{
+     
+      .banPhimSo{
         display: grid;
-        grid-template-columns: 1fr 1fr 1fr 1fr 1fr; 
-        margin: auto 2vw;
+        grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr; 
         gap:2vw;
         color: #fff;
         font-weight: 600;
-        font-size: 3vw;
+        font-size: 3.9vw;
+        margin: 3vw 2vw;
         .giaTriTien{
             background-color: #04aa6d;
             padding: 1.5vw 0.5vw ;
             border-radius: 1vw;
-
         }
-
-     }
+      
+      }
      .maQr{
         line-height: 6vw;
         font-weight: 600;

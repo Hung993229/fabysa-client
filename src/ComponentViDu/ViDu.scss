@@ -1,8 +1,6 @@
-
-
-/* Mobile & Tablet */
+ /* Mobile & Tablet */
 @media screen and (max-width : 1023px) {
-  .view{
+ .view{
     .mobile{
       .ViDu-ConTaiNer{
     
@@ -15,16 +13,17 @@
   
 }
 
-/* PC*/
-@media screen and (min-width : 1024px) {
+ /* Pc */
+ @media screen and (max-width : 1023px) {
   .view{
-    .mobile{
-     display: none;
-    }
-    .pc{
-      .ViDu-ConTaiNer{
-    
-      }
-    }
-  }
-}
+     .mobile{
+       display: none;
+     }
+     .pc{
+       .ViDu-ConTaiNer{
+     }
+   }
+   
+ }
+ }
+ 

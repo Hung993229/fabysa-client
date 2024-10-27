@@ -152,49 +152,7 @@ const Shop = () => {
         setloadingTruoc(loading);
     };
     // Xem Anh Full
-    // Sap xep
-    const handleSapXepTang = () => {
-        if (allSanPham && allSanPham?.length > 0) {
-            const allSanPham3 = allSanPham;
 
-            allSanPham3.sort(function (a, b) {
-                if (
-                    +a?.allDacDiemSP[0]?.giaKhuyenMai >
-                    +b?.allDacDiemSP[0]?.giaKhuyenMai
-                )
-                    return 1;
-                if (
-                    +a?.allDacDiemSP[0]?.giaKhuyenMai <
-                    +b?.allDacDiemSP[0]?.giaKhuyenMai
-                )
-                    return -1;
-                return 0;
-            });
-            setallSanPham(allSanPham3);
-        }
-    };
-    const handleSapXepGiam = () => {
-        if (allSanPham && allSanPham?.length > 0) {
-            const allSanPham3 = allSanPham;
-
-            allSanPham3.sort(function (a, b) {
-                if (
-                    +a?.allDacDiemSP[0]?.giaKhuyenMai >
-                    +b?.allDacDiemSP[0]?.giaKhuyenMai
-                )
-                    return 1;
-                if (
-                    +a?.allDacDiemSP[0]?.giaKhuyenMai <
-                    +b?.allDacDiemSP[0]?.giaKhuyenMai
-                )
-                    return -1;
-                return 0;
-            });
-            setallSanPham(allSanPham3);
-        }
-    };
-
-    // Sap xep
     const handleChonNhomSanPham = (item) => {
         setallSanPham([]);
         setnhomSP(item);
@@ -398,7 +356,7 @@ const Shop = () => {
                     </div>
                 </div>
             )}
-            <div className="menuGioHang2">
+            {/* <div className="menuGioHang2">
                 {loading === 2 && (
                     <img
                         onClick={() => setloading(0)}
@@ -413,7 +371,22 @@ const Shop = () => {
                         className="gioHang2"
                     />
                 )}
+            </div> */}
+
+            <div onClick={() => setloading(2)} className="gioHang-container">
+                <img
+                    onClick={() => setloading(2)}
+                    src={gioHang2}
+                    alt="he"
+                    className="gioHang"
+                />
+
+                <div className="soLuong-thanhTien">
+                    <div className="soLuong">{Tongsoluong}</div>
+                    <div className="thanhTien">{VND.format(Tongtien)}</div>
+                </div>
             </div>
+
             {loading === 1 && <Loading />}
             {loading === 2 && (
                 <GioHang

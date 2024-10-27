@@ -3,17 +3,20 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import MiniGame from "./MiniGame/MiniGame";
 import TrangCaNhan from "./ThongTinCaNhan/TrangCaNhan";
 import XacNhanTaiKhoan from "./ThongTinCaNhan/XacNhanTaiKhoan";
-import TimShip from "./ThongTinCaNhan/TimShip";
+import NhanGiaoHang from "./ThongTinCaNhan/NhanGiaoHang";
+import TimGiaoHang from "./ThongTinCaNhan/TimGiaoHang";
+
 import DangNhap from "./DangNhap/DangNhap";
 import DangKi from "./DangKi/DangKi";
 import QuanLyUser from "./QuanLyUser/QuanLyUser";
 import Shop from "./QuanLyShop/Shop";
+import BaoCao from "./QuanLyShop/BaoCao";
 import Shop2 from "./QuanLyShop/Shop2";
 import KhoCtv from "./QuanLyShop/KhoCtv";
 import KhoSi from "./QuanLyShop/KhoSi";
 import ThuNghiem from "./ComponentViDu/ThuNghiem";
 import UpdateShop from "./QuanLyShop/UpdateShop";
-import TaiKhoanShop from "./QuanLyShop/TaiKhoanShop";
+import TaiKhoanFabysa from "./QuanLyShop/TaiKhoanFabysa";
 import AddSp from "./QuanLyShop/AddSp";
 import SuaMenu from "./QuanLyShop/SuaMenu";
 import DonHangMoi from "./QuanLyShop/DonHangMoi";
@@ -68,16 +71,26 @@ function App() {
                         element={<MiniGame />}
                     />
                     <Route
-                        path="/tai-khoan/:tenVietTat/:idShop/a/:idCtv/:tenCtv/:sdtCtv"
-                        element={<TaiKhoanShop />}
+                        path="/tai-khoan/:tenVietTat/:idShop/a/:idCtv/:tenCtv/:sdtCtv/:idTaiKhoan"
+                        element={<TaiKhoanFabysa />}
                     />
+
                     <Route
                         path="/xac-nhan-tk/:tenVietTat/:idShop/a/:idCtv/:tenCtv/:sdtCtv"
                         element={<XacNhanTaiKhoan />}
                     />
                     <Route
+                        path="/bao-cao-shop/:tenVietTat/:idShop/a/:idCtv/:tenCtv/:sdtCtv"
+                        element={<BaoCao />}
+                    />
+                    <Route
+                        path="/nhan-ship/:tenVietTat/:idShop/a/:idCtv/:tenCtv/:sdtCtv"
+                        element={<NhanGiaoHang />}
+                    />
+
+                    <Route
                         path="/tim-ship/:tenVietTat/:idShop/a/:idCtv/:tenCtv/:sdtCtv"
-                        element={<TimShip />}
+                        element={<TimGiaoHang />}
                     />
 
                     <Route

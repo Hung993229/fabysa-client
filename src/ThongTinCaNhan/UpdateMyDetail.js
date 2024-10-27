@@ -6,7 +6,13 @@ import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { useState } from "react";
 import anhHaiHuoc from "../assets/images/anhHaiHuoc.jpg";
-import { updatePost, getPost, registerPost } from "../redux/apiRequest";
+import {
+    updatePost,
+    getPost,
+    registerPost,
+    getTaiKhoan,
+    registerTaiKhoan,
+} from "../redux/apiRequest";
 import {
     apiGetPublicProvinces,
     apiGetPublicDistrict,
@@ -18,16 +24,44 @@ const UpdateMyDetail = (props) => {
     const user = useSelector((state) => state.auth.login?.currentUser);
     const myDetail = useSelector((state) => state.post.post?.myDetail);
     const trangThaiLuu = useSelector((state) => state.post.post?.isFetching);
+    const taiKhoan = useSelector(
+        (state) => state?.taiKhoan?.taiKhoan?.taiKhoan?.taiKhoan
+    );
+    const allTaiKhoan2 = useSelector(
+        (state) => state?.taiKhoan?.taiKhoan?.allTaiKhoan?.allTaiKhoan
+    );
+    const [allTaiKhoan, setallTaiKhoan] = useState(allTaiKhoan2);
+    useEffect(() => {
+        setallTaiKhoan(allTaiKhoan2);
+    }, [allTaiKhoan2]);
+    const [dateMax, setdateMax] = useState(0);
+    const [dateMin, setdateMin] = useState(1);
     const VND = new Intl.NumberFormat("vi-VN", {
         style: "currency",
         currency: "VND",
     });
     const dispatch = useDispatch();
+
+    useEffect(() => {
+        const GDVao = 0;
+        const GDRa = "";
+        getTaiKhoan(
+            user?._id,
+            dateMax,
+            dateMin,
+            1,
+            GDVao,
+            GDRa,
+            0,
+            2,
+            dispatch
+        );
+    }, [user]);
     // Thong Tin Chi Tiet
     const [avatar, setavatar] = useState(anhHaiHuoc);
     const [previewAvatar, setpreviewAvatar] = useState();
 
-    const [cash, setcash] = useState("268268");
+    const [cash, setcash] = useState("100000");
     const [hoTen, sethoTen] = useState("Đào Chưa Chín");
     const [soDienThoai, setsoDienThoai] = useState("0987666888");
     const [gioiTinh, setgioiTinh] = useState("Nam");
@@ -57,7 +91,7 @@ const UpdateMyDetail = (props) => {
     useEffect(() => {
         if (myDetail) {
             setavatar(myDetail?.avatar || anhHaiHuoc);
-            setcash(myDetail?.cash || "268268");
+            setcash(myDetail?.cash || "100000");
             sethoTen(myDetail?.hoTen || "Đào Chưa Chín");
             setsoDienThoai(myDetail?.soDienThoai || "0987666888");
             setgioiTinh(myDetail?.gioiTinh || "Nam");
@@ -114,6 +148,9 @@ const UpdateMyDetail = (props) => {
         arrDate.push(i);
     }
     // Hien Dang Sinh Song
+    const d = new Date();
+    const gioPhut = `${d.getHours()}h${d.getMinutes()}`;
+    const ngayThang = `${d.getDate()}/${d.getMonth()}/${d.getFullYear()}`;
     // Tinh2
     useEffect(() => {
         const fetchPublicProvince = async () => {
@@ -217,9 +254,27 @@ const UpdateMyDetail = (props) => {
                 }
             } else {
                 const luutt2 = registerPost(newPost, dispatch);
+
                 if (luutt2) {
                     setloading(0);
                 }
+            }
+            if (allTaiKhoan && allTaiKhoan?.length === 0) {
+                const newTaiKhoan = {
+                    GDVao: 99000,
+                    GDRa: "",
+                    noiDungCK: "Fabysa Tặng",
+                    xacNhanChuyenTien: "Thành Công",
+                    thongTinThem: {
+                        tenChuTk: hoTen,
+                        sdtChuTk: user?.username,
+                        loaiTK: "User",
+                    },
+                    idChuTaiKhoan: user?._id,
+                };
+                console.log("newTaiKhoan", newTaiKhoan);
+                setallTaiKhoan([newTaiKhoan]);
+                registerTaiKhoan(newTaiKhoan, dispatch);
             }
         } catch (err) {
             console.log(err);
@@ -302,14 +357,25 @@ const UpdateMyDetail = (props) => {
                             </div>
                         </label>
                     </div>
+                    {user?.admin === true ? (
+                        <div className="taiKhoan">
+                            <input
+                                className="input"
+                                type="text"
+                                placeholder={cash}
+                                onChange={(e) => setcash(e.target.value)}
+                            />
+                        </div>
+                    ) : (
+                        <div className="taiKhoan">
+                            {cash}&#160;
+                            <i
+                                className="fab fa-empire"
+                                style={{ color: "#ef9b0f" }}
+                            ></i>
+                        </div>
+                    )}
 
-                    <div className="taiKhoan">
-                        {cash}&#160;
-                        <i
-                            className="fab fa-empire"
-                            style={{ color: "#ef9b0f" }}
-                        ></i>
-                    </div>
                     <div className="quyDoi">
                         1 VNĐ = 1 Fabysa Gold&#160;
                         <i

@@ -1,23 +1,26 @@
-import "./TaiKhoanShop.scss";
+import "./TaiKhoanUser.scss";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import {
     getttShop,
+    getPost,
     getTaiKhoan,
     updateTaiKhoan,
     registerTaiKhoan,
 } from "../redux/apiRequest";
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect } from "react";
-const TaiKhoanShop = () => {
+const TaiKhoanUser = () => {
     const dispatch = useDispatch();
     const ttShop = useSelector((state) => state?.ttShop?.ttShop?.ttShop?.shop);
     const taiKhoan = useSelector(
         (state) => state?.taiKhoan?.taiKhoan?.taiKhoan?.taiKhoan
     );
-    console.log("taiKhoan", taiKhoan);
-    const { idShop } = useParams();
+    const myDetail = useSelector((state) => state.post.post?.myDetail);
+    const user = useSelector((state) => state.auth.login?.currentUser);
+    console.log("myDetail", myDetail);
+    const { tenVietTat, idShop, idUser, idCtv, tenCtv, sdtCtv } = useParams();
     const handleDinhDangSo = (data) => {
         const n = +data;
         return n.toFixed(0).replace(/./g, function (c, i, a) {
@@ -30,10 +33,12 @@ const TaiKhoanShop = () => {
         currency: "VND",
     });
     useEffect(() => {
-        getttShop(idShop, dispatch);
-    }, [idShop]);
+        if (user) {
+            getPost(user?._id, dispatch);
+        }
+    }, [user]);
     useEffect(() => {
-        getTaiKhoan(idShop, dispatch);
+        getTaiKhoan(idUser, dispatch);
     }, []);
     //  Viet QR
     // const nganHang = tenNganHang;
@@ -41,7 +46,7 @@ const TaiKhoanShop = () => {
     const ACCOUNT_NO = "0931969456666";
     const TEMPLATE = "print";
     const AMOUNT = soTien;
-    const DESCRIPTION = `Shop_ ${ttShop?.sdtShop}`;
+    const DESCRIPTION = `Shop_ ${ttShop?.sdtShop}` ;
     const ACCOUNT_NAME = "TRAN VAN HUNG";
     const qr = `https://img.vietqr.io/image/${BANK_ID}-${ACCOUNT_NO}-${TEMPLATE}.png?amount=${AMOUNT}&addInfo=${DESCRIPTION}&accountName=${ACCOUNT_NAME}`;
     // Viet QR
@@ -114,15 +119,41 @@ const TaiKhoanShop = () => {
     return (
         <div className="view">
             <div className="mobile">
-                <div className="TaiKhoanShop-ConTaiNer">
+                <div className="TaiKhoanUser-ConTaiNer">
                     <div className="quayLai-tieuDe">
-                        <a href={`/don-hang/${ttShop._id}`} className="quayLai">
+                        <a
+                            href={`/ca-nhan/${tenVietTat}/${idShop}/a/${idCtv}/${tenCtv}/${sdtCtv}`}
+                            className="quayLai"
+                        >
                             <i className="fa fa-angle-double-left"></i>Quay Lại
                         </a>
 
-                        <div className="donHang">Tài Khoản Shop</div>
+                        <div className="donHang">Tài Khoản Fabysa</div>
                         <div className="taiKhoanShop">
-                            {handleDinhDangSo(ttShop?.cash)}&#160;
+                            {handleDinhDangSo(myDetail?.cash)}&#160;
+                            <i
+                                className="fab fa-empire"
+                                style={{ color: "#ef9b0f" }}
+                            ></i>
+                        </div>
+                    </div>
+                    <div className="napTien-lenhMoi">
+                        <div className="napTien">Thông Tin Tài Khoản</div>
+                        <div>Chủ Tài Khoản: Trần văn Hùng</div>
+                        <div>Số Tiền: 1000.000đ</div>
+                    </div>
+                    <div className="napTien-lenhMoi">
+                        <div className="napTien">
+                            Nhận Fabysa Gold &#160;
+                            <i
+                                className="fab fa-empire"
+                                style={{ color: "#ef9b0f" }}
+                            ></i>
+                        </div>
+                    </div>
+                    <div className="napTien-lenhMoi">
+                        <div className="napTien">
+                            Chuyển fabysa Gold&#160;
                             <i
                                 className="fab fa-empire"
                                 style={{ color: "#ef9b0f" }}
@@ -352,9 +383,9 @@ const TaiKhoanShop = () => {
                 </div>
             </div>
             <div className="pc">
-                <div className="TaiKhoanShop-ConTaiNer">TaiKhoanShop</div>
+                <div className="TaiKhoanUser-ConTaiNer">TaiKhoanUser</div>
             </div>
         </div>
     );
 };
-export default TaiKhoanShop;
+export default TaiKhoanUser;

@@ -4,6 +4,7 @@
 @media screen and (max-width : 1023px) {
   .view{
     .mobile{
+      font-size: 3.5vw;
       .XacNhanTaiKhoan-ConTaiNer{
         .quayLai-tieuDe{
           display: flex;
@@ -37,40 +38,51 @@
     
           }
       }
-      .allTaiKhoan{
+      
+      .allGiaoDich{
         margin: 12vw 2vw auto;
-        .ds{
+        .chiTiet{
+        border-bottom: solid 1px #d0d4dd ;
+         font-size: 3.5vw;
+         margin-bottom: 2vw;
+          .thoiGian{
           line-height: 6vw;
-          font-weight: 600;
-          font-size: 3.5vw;
           text-align: left;
-         margin: 5vw auto 0vw;
+          }
+          .soTien-noiDung{
+            display: flex;
+            .soTien{
+              width: 25vw;
+              font-weight: 600;
+              line-height: 6vw;
+              text-align: left;
+              color: red;
+              span{
+                font-weight: 600;
+                line-height: 6vw;
+                text-align: center;
+                color: #04aa6d;
+                text-decoration-line:overline;
+                text-decoration-color:red;
+                text-decoration-style:double;
+              }
+            }
+            .chuTk{
+              width: 46vw;
+            }
+            .sdtTk{
+              width: 25vw;
+              text-align: right;
+            }
+           
+        
+         
+    
         }
-        .thongTinTK{
-          display: flex;
-          border-bottom: solid 1px #d0d4dd ;
-          color: #04aa6d;
-          font-size: 3vw;
-          .tenShop{
-width: 50vw;
-line-height: 8vw;
-text-align: left;
-text-transform: uppercase;
-font-weight: 600;
-          }
-          .sdtShop{
-width: 23vw;
-line-height: 8vw;
-
-          }
-          .soTien{
-width: 23vw;
-line-height: 8vw;
-          }
-        }   
+        }
       }
       }
-      .chiTietTk{
+      .chiTietGiaoDich{
         .quayLai-tieuDe{
           display: flex;
           font-size: 3.5vw;
@@ -102,133 +114,134 @@ line-height: 8vw;
               
     
           }
-          .taiKhoanShop{
-            width: 25vw;
-            text-align: right;
-            padding-right: 2vw;
-            line-height: 9vw;
-            color: red;
-          }
       }
-      .chiTietTaiKhoan-container{
+      .thongTinTaiKhoan{
         margin: 12vw 2vw auto;
-        .taiKhoan{
-          display: flex;
-          font-size: 3.5vw;
+        .tieuDe{
+          line-height: 8vw;
           font-weight: 600;
-          color: red;
-          .ten{
-            width: 65vw;
-            line-height: 8vw;
+          font-size: 3.5vw;
+          text-align: left;
+        }
+        .noiDung{
+          line-height: 6vw;
+          font-size: 3.5vw;
+          text-align: left;
+          span{
+            font-weight: 600;
+            line-height: 6vw;
+            text-align: center;
+            color: #04aa6d;
+            text-decoration-line:overline;
+            text-decoration-color:red;
+            text-decoration-style:double;
+          }
+          .lichSuGiaoDich{
+            line-height: 6vw;
+            font-size: 3.5vw;
             text-align: left;
-            text-transform: uppercase;
+            color: #04aa6d;
+            display: inline-block;
+            text-decoration: none;
+  
+          }
+        }
+       
+      }
+      .khuyenMai{
+        margin: 5vw 2vw auto;
+        .tieuDe{
+          line-height: 8vw;
+          font-weight: 600;
+          font-size: 3.5vw;
+          text-align: left;
+        }
+        .soTien-noiDung-cong{
+          display: flex;
+          gap: 5vw;
+          .soTien{
+            width: 59vw;
+            height: 6vw;
+            border: solid 1px gray;
+            text-align:center ;
+            text-align-last:center ;
+            border-radius: 1vw;
+
+          }
+      
+          .cong{
+            width: 32vw;
+            line-height: 6vw;
+            background-color: #04aa6d;
+            border-radius: 1vw;
+            color: #fff;
+          }
+          .tru{
+            width: 32vw;
+            line-height: 6vw;
+            background-color: red;
+            border-radius: 1vw;
+            color: #fff;
+          }
+        }
+      }
+      .xacNhanGiaoDich{
+        margin: 5vw 2vw auto;
+        .tieuDe{
+          line-height: 8vw;
+          font-weight: 600;
+          font-size: 3.5vw;
+          text-align: left;
+        }
+        .thoiGian-soTien-noiDung{
+          display: flex;
+          .thoiGian{
+            width: 32vw;
+            line-height: 6vw;
+
           }
           .soTien{
-            width: 21vw;
-            line-height: 8vw;
-          }
-          .xacNhan3{
-            width: 15vw;
-            line-height:8vw ;
-            background-color: #04aa6d;
-            color: #fff;
-            border-radius: 2vw;
-            font-size: 3vw;
-            font-weight: 600;
-           
-          }
-        }
-      
-        .khuyenMai-input{
-          .tieuDeKm{
+            width: 32vw;
             line-height: 6vw;
-            font-weight: 600;
-            font-size: 3.5vw;
-            text-align: left;
-          }
-          .input-xacNhan{
-            display: flex;
-            .input{
-              width: 65vw;
-              height: 8vw;
-              border-radius: 2vw;
+            span{
+              font-weight: 600;
+              line-height: 6vw;
               text-align: center;
-              font-size: 3vw;
-            
-            }
-            .noiDung{
-              width: 21vw;
-              line-height: 8vw;
-              color: red;
-              font-size: 3vw;
-              font-weight: 600;
-            }
-            .xacNhan2{
-              width: 15vw;
-              line-height: 8vw;
-              background-color: #04aa6d;
-              font-size: 3vw;
-              font-weight: 600;
-              color: #fff;
-              border-radius: 2vw;
+              color: #04aa6d;
+              text-decoration-line:overline;
+              text-decoration-color:red;
+              text-decoration-style:double;
             }
           }
-        }
-        .lichSu-container{
-          margin: 5vw 0vw;
-          .tieuDe{
+          .noiDung{
+            width: 32vw;
             line-height: 6vw;
-            font-weight: 600;
-            font-size: 3.5vw;
-            text-align: left;
-          }
-          .tienVao-tienRa{
-            .tienVao{
-              margin-top: 2vw;
-              .tieuDe2{
-                line-height: 6vw;
-                font-size: 3.5vw;
-                text-align: left;
-                color: red;
-              }
-              .allGiaoDich{
-                .chiTiet{
-                  display: flex;
-                 font-size: 3vw;
-                 margin-bottom: 1vw;
-                  .thoiGian{
-                  width: 18vw;
-                  line-height: 6vw;
-                  }
-                  .soTien{
-                    width: 22vw;
-                    font-weight: 600;
-                    line-height: 12vw;
-                  }
-                  .noiDung{
-                    width: 35vw;
-                    line-height: 12vw;
-                  }
-                  .xacNhan{
-                    width: 21vw;
-                    line-height: 12vw;
-                    color:#04aa6d;
-                  }
-                  .thanhCong{
-                    width: 21vw;
-                    color:red;
-                    line-height: 12vw;
-                  }
-                }
-              }
-              
-            }
-           
-            
           }
         }
+        .thanhCong{
+          cursor: pointer;
+          color: white;
+          background-color: #04aa6d;
+          width: 96vw;
+          margin: 10vw auto 30vw;
+          line-height: 8vw;
+          font-size: 3.5vw;
+          font-weight: 600;
+          border-radius: 1vw;
+        }
+        .chuaThanhCong{
+          cursor: pointer;
+          color: white;
+          background-color: red;
+          width: 96vw;
+          margin: 10vw auto 30vw;
+          line-height: 8vw;
+          font-size: 3.5vw;
+          font-weight: 600;
+          border-radius: 1vw;
+        }
       }
-      }
+    }
     }
     .pc{
       display: none;

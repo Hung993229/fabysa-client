@@ -1,0 +1,528 @@
+
+
+/* Mobile & Tablet */
+@media screen and (max-width : 1023px) {
+  .view{
+    .mobile{
+      .TimGiaoHang-ConTaiNer{
+        .quayLai-tieuDe{
+          width: 100vw;
+          display: flex;
+          font-size: 3.5vw;
+          background-color: #fff;
+          border-bottom: #d0d4dd 1px solid;
+          position: fixed;
+          top: 0px;
+            z-index: 1;
+          a{
+              text-decoration: none;
+          }
+          .quayLai{
+              color: #04aa6d;
+              width: 35vw;
+              text-align: left;
+              line-height: 9vw;
+              padding-left: 2vw;
+             
+          }
+            .tieuDe{
+                font-size: 3.9vw;
+                font-weight: 600;
+                color: red;
+                text-transform: uppercase;
+                width: 30vw;
+                line-height: 9vw;
+         
+      
+            }
+            .taiKhoanShop{
+              width: 35vw;
+              text-align: right;
+              padding-right: 2vw;
+              line-height: 9vw;
+              color: red;
+        
+          }
+         
+        }
+        .phiNenTang{
+          margin: 11vw 2vw 0vw;
+          font-style: italic;
+          font-size: 3vw;
+          text-align: right;
+          
+        }
+
+        .chonDanhMuc{
+          margin: 0vw 2vw auto;
+          .daChon{
+            display: block;
+            font-size: 3.5vw;
+            font-weight: 600;
+            color: red;
+            text-align: left;
+            line-height: 8vw;
+            border-bottom: solid 1px #d0d4dd ;
+          }
+          .chuaChon{
+            display: block;
+            font-size: 3.5vw;
+            font-weight: 600;
+            color: #04aa6d;
+            text-align: left;
+            line-height: 8vw;
+            border-bottom: solid 1px #d0d4dd ;
+          }
+        }
+        .themDonHang{
+          margin: 5vw 2vw;
+          border: solid 1px #04aa6d;
+          line-height: 6vw;
+          border-radius: 2vw;
+          font-size: 3vw;
+          display: flex;
+       
+          font-size: 3.5vw;
+          font-weight: 600;
+          .icon{
+            width: 8vw;
+            font-size: 3.9vw;
+            font-weight: 600;
+          }
+          .them{
+            width: 80vw;
+            color: red;
+          }
+          .chuyen{
+            width: 8vw;
+            font-size: 3.9vw;
+            font-weight: 600;
+      
+          }
+        }
+        .donHang-all{
+          margin: 0vw 2vw 30vw;
+            .ds{
+              margin: 2vw auto;
+              line-height: 8vw;
+              font-weight: 600;
+              font-size: 3.5vw;
+              text-align: center;
+              text-transform: uppercase;
+            }
+         
+          
+          .donHang-container2{
+            margin: 2vw auto;
+            padding: 0vw 2vw;
+            border: solid 1px #04aa6d;
+            border-radius: 2vw;
+            justify-content: center;
+            align-items: center;
+            font-size: 3vw;
+            .ngayThang-container{
+              display: flex;
+              line-height: 6vw;
+              .ngayThang{
+                text-align: left;
+                width: 46vw;
+                
+            }
+            .kiemTra{
+              width: 46vw;
+              .daNhan{
+                text-align: right;
+                color: #04aa6d;
+               
+              }
+            }
+           
+            }
+           
+            .phi-coc-daNhan{
+              display: flex;
+              color: red;
+              font-size: 3.5vw;
+              line-height: 6vw;
+              text-align: left;
+              .coc{
+                width: 46vw;
+              }
+              .phi{
+                width: 46vw;
+              }
+            
+            }
+            .noiGui-diaChi{
+              width: 92vw;
+     
+              .noiGui{
+                font-weight: 600;
+                text-align: left;
+                line-height: 6vw;
+              }
+              .diaChi{
+                text-align: center;
+                padding-left: 2vw;
+                line-height: 6vw;
+                font-size: 3.5vw;
+
+              }
+
+            }
+            // .xemChiTiet{
+            //     width: 18vw;
+            //     color: red;
+            //     line-height: 6vw;
+                
+            // }
+        }
+         
+          }
+          .trong{
+            font-size: 3.5vw;
+            font-weight: 500;
+            margin: 5vw auto 100vw;
+          
+           
+        }
+       
+      }
+      .chiTietDonHang-ConTaiNer2{
+        .quayLai-tieuDe{
+          width: 100vw;
+          display: flex;
+          font-size: 3.5vw;
+          background-color: #fff;
+          border-bottom: #d0d4dd 1px solid;
+          position: fixed;
+          top: 0px;
+            z-index: 1;
+          a{
+              text-decoration: none;
+          }
+          .quayLai{
+              color: #04aa6d;
+              width: 25vw;
+              text-align: left;
+              line-height: 9vw;
+              padding-left: 2vw;
+             
+          }
+            .tieuDe{
+                font-size: 3.9vw;
+                font-weight: 600;
+                color: red;
+                text-transform: uppercase;
+                width: 50vw;
+                line-height: 9vw;
+         
+      
+            }
+         
+        }
+        .chiTiet{
+          margin: 12vw 2vw auto;
+          font-size: 3.5vw;
+          .phiShip{
+            width: 96vw;
+            line-height: 6vw;
+            font-weight: 600;
+            color: red;
+            text-align: left;
+          }
+          .tienCoc{
+            color: red;
+            width: 96vw;
+            line-height: 6vw;
+            font-weight: 600;
+            margin: 2vw auto 0vw;
+            text-align: left;
+          }
+          .noiGui-thongTin{
+            margin: 2vw auto 0vw;
+            .tieuDe{
+              width: 96vw;
+              line-height: 6vw;
+              font-weight: 600;
+              
+              text-align: left;
+     
+
+            }
+            .noiDung{
+              width: 96vw;
+              text-align: left;
+              line-height: 6vw;
+              padding-left: 2vw;
+            }
+            .phiShip{
+              width: 96vw;
+              text-align: left;
+              line-height: 6vw;
+            }
+          }
+          .nhanDon{
+            width: 35vw;
+            margin: 10vw auto 0vw;
+            line-height:8vw ;
+           background-color: #04aa6d;
+           color: #fff;
+            border-radius: 2vw;
+            font-size: 3.5vw;
+            font-weight: 600;
+
+          }
+        }
+        .nhanShip-hoanThanh{
+          .nhanShip-container{
+            display: flex;
+            color: #fff;
+            margin: 10vw 10vw 30vw;
+            font-size: 3.5vw;
+            font-weight: 600;
+            gap:20vw;
+            .nhanShip{
+              cursor: pointer;
+              border-radius: 1vw;
+              width: 30vw;
+              background-color: #04aa6d;
+              padding: 1vw;
+            }
+            .huyShip{
+              cursor: pointer;
+              border-radius: 1vw;
+              width: 30vw;
+              background-color: red;
+              padding: 1vw;
+            }
+          }
+          .dangShip-huyShip{
+            display: flex;
+      color: #fff;
+      margin: 10vw 10vw 30vw;
+      font-size: 3.5vw;
+      font-weight: 600;
+      gap:20vw;
+            .dangShip{
+              cursor: pointer;
+              border-radius: 1vw;
+              width: 30vw;
+              background-color: #04aa6d;
+              padding: 1vw;
+            }
+            .huyShip{
+              cursor: pointer;
+              border-radius: 1vw;
+              width: 30vw;
+              background-color: red;
+              padding: 1vw;
+            }
+          }
+          .nhanCoc-daNhan{
+            .nhanCoc{
+              font-size: 3.5vw;
+              font-weight: 600;
+              margin: 10vw 30vw;
+              width: 36vw;
+              background-color: #04aa6d;
+              line-height: 8vw;
+              border-radius: 2vw;
+              color: #fff
+              ;
+              font-weight: 600;
+            }
+            .daNhan{
+              font-size: 3.5vw;
+              font-weight: 600;
+              margin: 10vw 30vw;
+              width: 36vw;
+              background-color: red;
+              line-height: 8vw;
+              border-radius: 2vw;
+              color: #fff
+              ;
+              font-weight: 600;
+            }
+          }
+        }
+      }
+      .themDonHangShip{
+        .quayLai-tieuDe{
+          width: 100vw;
+          display: flex;
+          font-size: 3.5vw;
+          background-color: #fff;
+          border-bottom: #d0d4dd 1px solid;
+          position: fixed;
+          top: 0px;
+            z-index: 1;
+          a{
+              text-decoration: none;
+          }
+          .quayLai{
+              color: #04aa6d;
+              width: 25vw;
+              text-align: left;
+              line-height: 9vw;
+              padding-left: 2vw;
+             
+          }
+            .tieuDe{
+                font-size: 3.9vw;
+                font-weight: 600;
+                color: red;
+                text-transform: uppercase;
+                width: 50vw;
+                line-height: 9vw;
+         
+      
+            }
+         
+        }
+        .taoDonHang{
+          margin: 12vw 2vw 30vw;
+          font-size: 3.5vw;
+          .noiGui{
+            text-align: left;
+            font-weight: 600;
+            margin: 3vw auto 0vw;
+            line-height: 8vw;
+          }
+          .tien-input{
+            display: flex;
+            margin: 5vw auto 2vw;
+            .tien{
+              width: 30vw;
+              text-align: left;
+              line-height: 6vw;
+
+            }
+            .input2{
+              font-size: 3.9vw;
+              font-weight: 600;
+              color: red;
+              width: 66vw;
+              border: solid 1px gray;
+              border-radius: 2vw;
+              line-height: 6vw;
+              text-align: center;
+            }
+            .input{
+              font-size: 3.5vw;
+              width: 66vw;
+              border: solid 1px gray;
+              border-radius: 2vw;
+              line-height: 6vw;
+              text-align: center;
+            }
+            
+          }
+          .banPhimSo{
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr; 
+            gap:2vw;
+            color: #fff;
+            font-weight: 600;
+            font-size: 3.9vw;
+            margin-top: 3vw;
+            .giaTriTien{
+                background-color: #04aa6d;
+                padding: 1.5vw 0.5vw ;
+                border-radius: 1vw;
+            }
+          
+          }
+          .hoTen-thongTin{
+            display: flex;
+            .hoTen{
+              width: 30vw;
+              text-align: left;
+              line-height: 6vw;
+            }
+            .thongTin{
+              width: 66vw;
+              border-radius: 2vw;
+              line-height: 6vw;
+            }
+          }
+          .toaDo-thongTin{
+            display: flex;
+            color: red;
+            .toaDo{
+              width: 30vw;
+              text-align: left;
+              line-height: 6vw;
+            }
+            .thongTin{
+              width: 66vw;
+              text-align: center;
+              line-height: 6vw;
+            }
+          }
+         .diaChi-container{
+
+          .diaChi{
+            text-align: left;
+          }
+          .tinh-huyen-xa{
+            margin-bottom: 2vw;
+            display: flex;
+            gap: 2vw;
+            width: 96vw;
+            select{
+                width: 100%;
+                height: 6vw;
+                border-radius: 1vw;
+                border: solid 1px gray;
+                text-align-last: center;
+            }
+        }
+        .soNha{
+            width: 48vw;
+            height: 6vw;
+            margin-right: 50vw;
+            text-align: center;
+            border: solid 1px gray;
+            border-radius: 1vw;
+        }
+      }
+      .canThu{
+        color: red;
+        text-align: left;
+        line-height: 6vw;
+      }
+        .taoDon{
+          cursor: pointer;
+          border-radius: 1vw;
+          width: 96vw;
+          color: #fff;
+          background-color: #04aa6d;
+          padding: 1vw;
+          margin: 5vw 0vw;
+          line-height: 8vw;
+        }
+        }
+        
+      }
+    }
+    .pc{
+      display: none;
+    }
+  }
+  
+}
+
+/* PC*/
+@media screen and (min-width : 1024px) {
+  .view{
+    .mobile{
+     display: none;
+    }
+    .pc{
+      .TimGiaoHang-ConTaiNer{
+    
+      }
+    }
+  }
+}

@@ -1,0 +1,351 @@
+
+
+/* Mobile & Tablet */
+@media screen and (max-width : 1023px) {
+  .view{
+    .mobile{
+      .NhanGiaoHang-ConTaiNer{
+        .quayLai-tieuDe{
+          width: 100vw;
+          display: flex;
+          font-size: 3.5vw;
+          background-color: #fff;
+          border-bottom: #d0d4dd 1px solid;
+          position: fixed;
+          top: 0px;
+            z-index: 1;
+          a{
+              text-decoration: none;
+          }
+          .quayLai{
+              color: #04aa6d;
+              width: 35vw;
+              text-align: left;
+              line-height: 9vw;
+              padding-left: 2vw;
+             
+          }
+            .tieuDe{
+                font-size: 3.9vw;
+                font-weight: 600;
+                color: red;
+                text-transform: uppercase;
+                width: 30vw;
+                line-height: 9vw;
+         
+      
+            }
+            .taiKhoanShop{
+              width: 35vw;
+              text-align: right;
+              padding-right: 2vw;
+              line-height: 9vw;
+              color: red;
+        
+          }
+         
+        }
+        .phiNenTang{
+          margin: 11vw 2vw 0vw;
+          font-style: italic;
+          font-size: 3vw;
+          text-align: right;
+          
+        }
+        .chonDanhMuc{
+          margin: 0vw 2vw auto;
+          .daChon{
+            display: block;
+            font-size: 3.5vw;
+            font-weight: 600;
+            color: red;
+            text-align: left;
+            line-height: 8vw;
+            border-bottom: solid 1px #d0d4dd ;
+          }
+          .chuaChon{
+            display: block;
+            font-size: 3.5vw;
+            font-weight: 600;
+            color: #04aa6d;
+            text-align: left;
+            line-height: 8vw;
+            border-bottom: solid 1px #d0d4dd ;
+          }
+        }
+     
+        .donHang-all{
+          margin: 5vw 2vw 30vw;
+          .ds{
+            line-height: 6vw;
+            font-weight: 600;
+            font-size: 3.5vw;
+            text-align: center;
+            text-transform: uppercase;
+         
+        }
+          
+          
+              .donHang-container2{
+                  // display: flex;
+                  margin: 2vw auto;
+                  padding: 0vw 2vw;
+                  border: solid 1px #04aa6d;
+                  border-radius: 2vw;
+                  justify-content: center;
+                  align-items: center;
+                  font-size: 3vw;
+                  .ngayThang-container{
+                    display: flex;
+                    line-height: 6vw;
+                    .ngayThang{
+                      text-align: left;
+                      width: 46vw;
+                      
+                  }
+                  .kiemTra{
+                    width: 46vw;
+                    .daNhan{
+                      text-align: right;
+                      color: #04aa6d;
+                     
+                    }
+                  }
+                 
+                  }
+                  .phi-coc-daNhan{
+                    display: flex;
+                    color: red;
+                    font-size: 3.5vw;
+                    line-height: 6vw;
+                    text-align: left;
+                    .coc{
+                      width: 46vw;
+                    }
+                    .phi{
+                      width: 46vw;
+                    }
+                  
+                  }
+                  .noiGui-diaChi{
+                    width: 92vw;
+           
+                    .noiGui{
+                      font-weight: 600;
+                      text-align: left;
+                      line-height: 6vw;
+                    }
+                    .diaChi{
+                      text-align: center;
+                      padding-left: 2vw;
+                      line-height: 6vw;
+                      font-size: 3.5vw;
+
+                    }
+
+                  }
+                 
+              }
+         
+          }
+          .trong{
+            font-size: 3.5vw;
+            font-weight: 500;
+            margin: 5vw auto 100vw;
+          
+           
+        }
+       
+      }
+      .chiTietDonHang-ConTaiNer{
+        font-size: 3.5vw;
+        .quayLai-tieuDe{
+          width: 100vw;
+          display: flex;
+          font-size: 3.5vw;
+          background-color: #fff;
+          border-bottom: #d0d4dd 1px solid;
+          position: fixed;
+          top: 0px;
+            z-index: 1;
+          a{
+              text-decoration: none;
+          }
+          .quayLai{
+              color: #04aa6d;
+              width: 25vw;
+              text-align: left;
+              line-height: 9vw;
+              padding-left: 2vw;
+             
+          }
+          .tieuDe{
+            font-size: 3.9vw;
+              font-weight: 600;
+              color: red;
+              text-align-last: center;
+              width: 66vw;
+              line-height: 9vw;
+              text-transform: uppercase;
+              padding-right: 16vw;
+             
+          }
+          .inHoaDon{
+            width: 9vw;
+            text-align: center;
+            line-height: 9vw;
+            font-size: 5vw;
+           
+          }
+
+         
+        }
+        .chiTiet{
+          margin: 12vw 2vw auto;
+          font-size: 3.5vw;
+          .nhan-coc{
+            display: flex;
+            font-weight: 600;
+            color: red;
+            .phiShip{
+              width: 48vw;
+              line-height: 6vw;
+              text-align: left;
+            }
+            .tienCoc{
+              width: 48vw;
+              line-height: 6vw;
+              text-align: center;
+       
+            }
+
+          }    
+          .noiGui-thongTin{
+            margin: 2vw auto 0vw;
+            .tieuDe{
+              width: 96vw;
+              line-height: 6vw;
+              font-weight: 600;
+              
+              text-align: left;
+     
+
+            }
+            .noiDung{
+              display: block;
+              width: 96vw;
+              text-align: left;
+              line-height: 6vw;
+              padding-left: 2vw;
+              text-decoration: none;
+              color: #000;
+            }
+            .phiShip{
+              width: 96vw;
+              text-align: left;
+              line-height: 6vw;
+            }
+            .soTien{
+              width: 96vw;
+              text-align: left;
+              line-height: 6vw;
+              padding-left: 2vw;
+              color: red;
+            }
+          }
+          .nhanDon{
+            width: 35vw;
+            margin: 10vw auto 0vw;
+            line-height:8vw ;
+           background-color: #04aa6d;
+           color: #fff;
+            border-radius: 2vw;
+            font-size: 3.5vw;
+            font-weight: 600;
+
+          }
+        }
+        .thanhToan-container{
+          margin: 2vw;
+          .tieuDe{
+            width: 96vw;
+            line-height: 6vw;
+            font-weight: 600;
+            text-align: left;
+          }
+          .noiDung{
+            width: 96vw;
+            text-align: left;
+            line-height: 6vw;
+            padding-left: 2vw;
+          }
+          .soTien{
+            width: 96vw;
+            text-align: left;
+            line-height: 6vw;
+            padding-left: 2vw;
+            color: red;
+          }
+          .qr{
+            object-fit: cover;
+            width: 68vw;
+          }
+        }
+        .phimChucNang-container{
+          margin: 5vw 2vw 30vw;
+          font-size: 3.5vw;
+          
+          font-weight: 600;
+        
+            .phimChucNang{
+              .phim{
+                cursor: pointer;
+                border-radius: 1vw;
+                width: 96vw;
+                color: #fff;
+                background-color: #04aa6d;
+                padding: 1vw;
+                margin: 5vw 0vw;
+                line-height: 8vw;
+              }
+              .phim2{
+                text-align: center;
+                color:#04aa6d;
+                border: solid 1px #04aa6d;
+                border-radius: 2vw;
+                width: 39vw;
+                line-height: 6vw;
+              }
+              .xacNhan{
+                color: red;
+              
+                
+              }
+            }
+            
+    
+      
+        }
+        
+      }
+    }
+    .pc{
+      display: none;
+    }
+  }
+  
+}
+
+/* PC*/
+@media screen and (min-width : 1024px) {
+  .view{
+    .mobile{
+     display: none;
+    }
+    .pc{
+      .NhanGiaoHang-ConTaiNer{
+    
+      }
+    }
+  }
+}

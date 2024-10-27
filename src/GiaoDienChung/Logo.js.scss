@@ -1,0 +1,48 @@
+ /* Mobile & Tablet */
+@media screen and (max-width : 1023px) {
+ .view{
+    .mobile{
+      .Logo-ConTaiNer{
+        margin-top: 10vw;
+        display: flex;
+        font-size: 8vw;     
+        .logoFabysa2{
+          border: solid px #04aa6d;
+          background-color: #04aa6d ;
+          width: 80vw;
+          height:  80vw;
+          .logoFabysa{
+            font-size: 19vw;
+            font-weight: 800;
+            font-style: italic;
+            text-decoration-line:overline;
+            text-decoration-color:#FFFF00;
+            text-decoration-style:double;
+            line-height: 80vw;
+            color: #fff;
+          } 
+        }
+       
+      }
+    }
+    .pc{
+      display: none;
+    }
+  }
+  
+}
+
+ /* Pc */
+ @media screen and (max-width : 1023px) {
+  .view{
+     .mobile{
+       display: none;
+     }
+     .pc{
+       .Logo-ConTaiNer{
+     }
+   }
+   
+ }
+ }
+ 

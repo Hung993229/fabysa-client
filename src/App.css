@@ -90,7 +90,9 @@ video {
     font-size: 3vw;
     font: inherit;
     vertical-align: baseline;
-    text-decoration: none
+    text-decoration: none;
+   font-family: "Noto Serif", serif;
+
 }
 /* HTML5 display-role reset for older browsers */
 article,
@@ -105,17 +107,25 @@ menu,
 nav,
 section {
     display: block;
+    font-family: "Noto Serif", serif;
+
 }
 body {
     line-height: 1;
+    font-family: "Noto Serif", serif;
+
 }
 ol,
 ul {
     list-style: none;
+    font-family: "Noto Serif", serif;
+
 }
 blockquote,
 q {
     quotes: none;
+    font-family: "Noto Serif", serif;
+
 }
 blockquote:before,
 blockquote:after,
@@ -123,14 +133,20 @@ q:before,
 q:after {
     content: "";
     content: none;
+    font-family: "Noto Serif", serif;
+
 }
 table {
     border-collapse: collapse;
     border-spacing: 0;
+    font-family: "Noto Serif", serif;
+
 }
 
 html {
-    font-size: 2.5vw;
+    font-size: 3vw;
+    font-family: "Noto Serif", serif;
+
 }
 button {
     cursor: pointer;
@@ -142,36 +158,16 @@ button {
     border-radius: 4px;
     color: white;
     background-color: rgb(161, 161, 161);
+    font-family: "Noto Serif", serif;
+
 }
 .App{
     max-width: calc(100% - 0px);
     margin: 0 auto;
     text-align: center;
     justify-content: center;
-    align-items: center
-   
-}
-/* Mobile < 740px*/
-@media screen and (max-width : 739px) {
-   
-}
+    align-items: center;
+   font-family: "Noto Serif", serif;
 
-/* Table: >=740px - <1024px */
-@media screen and (min-width : 740px) and (max-width : 1023px) {
-   
-}
-
-/* PC >= 1024px*/
-@media screen and (min-width : 1024px) {
-   
-}
-
-/* Mobile & Tablet */
-@media screen and (max-width : 1023px) {
-   
-}
-
-/* PC*/
-@media screen and (min-width : 1024px) {
    
 }

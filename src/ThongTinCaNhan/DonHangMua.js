@@ -2,7 +2,7 @@ import "./DonHangMua.scss";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-import {useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { getDonHang } from "../redux/apiRequest";
 import Loading from "../GiaoDienChung/Loading";
 import { useEffect } from "react";
@@ -10,6 +10,8 @@ import ChiTietDonHangMua from "./ChiTietDonHangMua";
 
 const DonHangMua = () => {
     const { tenVietTat, idShop, idCtv, tenCtv, sdtCtv } = useParams();
+    const myDetail = useSelector((state) => state.post.post?.myDetail);
+    console.log("myDetail", myDetail);
     const user = useSelector((state) => state.auth.login.currentUser);
     const allDonHang2 = useSelector(
         (state) => state.donHang.donHang.alldonHang?.allDonHang
@@ -23,8 +25,14 @@ const DonHangMua = () => {
     const [loading, setloading] = useState(0);
     const dispatch = useDispatch();
     const [skip, setskip] = useState(0);
+    const [sort, setsort] = useState(-1);
     const [thongTinDh, setthongTinDh] = useState();
-    const [trangThaiDH, settrangThaiDH] = useState("Đơn Hàng Mới");
+    const [trangThaiDH, settrangThaiDH] = useState("ĐH Mới");
+    useEffect(() => {
+        if (allDonHang2 && allDonHang2?.length !== 0) {
+            setallDonHang([...allDonHang, ...allDonHang2]);
+        }
+    }, [allDonHang2]);
     useEffect(() => {
         const handleScroll = (e) => {
             const scrollHeight = e.target.documentElement.scrollHeight;
@@ -37,10 +45,34 @@ const DonHangMua = () => {
         window.addEventListener("scroll", handleScroll);
         return () => window.removeEventListener("scroll", handleScroll);
     }, [allDonHang]);
+
     useEffect(() => {
-        const idShop = user._id;
         const limit = 20;
-        getDonHang(idShop, skip, limit, trangThaiDH, dispatch);
+        const idShop = "";
+        const sdtCtv = "";
+        const sdtKhachHang = user?.username;
+        const sdtOrder = "";
+        const sdtXuLyDon = "";
+        const sdtGiaoHang = "";
+        const sdtThuTien = "";
+        const kinhDo = "";
+        const viDo = "";
+        getDonHang(
+            idShop,
+            sdtCtv,
+            sdtKhachHang,
+            sdtOrder,
+            sdtXuLyDon,
+            sdtGiaoHang,
+            sdtThuTien,
+            kinhDo,
+            viDo,
+            skip,
+            limit,
+            trangThaiDH,
+            sort,
+            dispatch
+        );
     }, [trangThaiDH, skip]);
 
     const handleChiTietDonHang = (item) => {
@@ -48,17 +80,29 @@ const DonHangMua = () => {
         setthongTinDh(item);
         settrangThaiDH("");
     };
-    const dsMenuDonHang2 = [
-        "Đơn Hàng Mới",
-        "Đơn Hàng Đang Giao",
-        "Đơn Hàng Hoàn Thành",
-        "Đơn Hàng Huỷ",
+    const dsMenuDonHang = [
+        "ĐH Mới",
+        "ĐH Chưa Thanh Toán",
+        "ĐH Đã Thanh Toán",
+        "ĐH Huỷ",
+        "ĐH Tìm Ship Mới",
+        "ĐH Ship Đã Nhận",
+        "ĐH Đang Ship",
+        "ĐH Ship Chưa Thanh Toán Về Shop",
+        "ĐH Ship Đã Thanh Toán Về Shop",
+        "ĐH Ship Huỷ Chưa Hoàn Hàng",
+        "ĐH Ship Huỷ Đã Hoàn Hàng",
     ];
-    const dsMenuDonHang = dsMenuDonHang2.filter((item) => item !== trangThaiDH);
     const handleChonDonHang = (item) => {
         settrangThaiDH(item);
         setallDonHang([]);
         setskip(0);
+    };
+    const handleDinhDangSo = (data) => {
+        const n = +data;
+        return n.toFixed(0).replace(/./g, function (c, i, a) {
+            return i > 0 && c !== "," && (a.length - i) % 3 === 0 ? "." + c : c;
+        });
     };
     return (
         <>
@@ -71,17 +115,12 @@ const DonHangMua = () => {
                         >
                             <i className="fa fa-angle-double-left"></i>Quay Lại
                         </a>
-                        <select
-                            id="provinces"
-                            onChange={(e) => handleChonDonHang(e.target.value)}
-                        >
-                            <option>{trangThaiDH}</option>
-                            {dsMenuDonHang?.map((item) => {
-                                return <option key={item}>{item}</option>;
-                            })}
-                        </select>
+                        <div className="tieuDe">Đơn Hàng</div>
+                    
                     </div>
+
                     <div className="donHang-all">
+                     
                         {allDonHang &&
                             allDonHang?.map((item, index) => {
                                 return (
@@ -92,60 +131,110 @@ const DonHangMua = () => {
                                         key={index}
                                         className="donHang-container"
                                     >
-                                        <div className="ngayThang">
-                                            {item?.createdAt.slice(5, 10)}{" "}
-                                            <br />
-                                            {item?.createdAt.slice(11, 19)}
+                                        <div className="ngayThang-container2">
+                                            <div className="ngayThang">
+                                                 {new Date(
+                                                    item?.createdAt
+                                                )?.getDate()}/{new Date(
+                                                    item?.createdAt
+                                                )?.getMonth()}/{new Date(
+                                                    item?.createdAt
+                                                )?.getFullYear()}
+                                                &nbsp;
+                                                {new Date(
+                                                    item?.createdAt
+                                                )?.getHours()}
+                                                h
+                                                {new Date(
+                                                    item?.createdAt
+                                                )?.getMinutes()}
+                                            </div>
                                         </div>
+
                                         <div className="donHang">
-                                            {item.donHang.map(
-                                                (item2, index) => {
-                                                    return (
-                                                        <div
-                                                            key={index}
-                                                            className="tenSp-dacDiem-soLuong"
-                                                        >
-                                                            <div className="tenSp">
-                                                                {
-                                                                    item2.tenSanPham
-                                                                }
+                                            <div className="SanPham">
+                                                {item?.donHang?.map(
+                                                    (item2, index) => {
+                                                        return (
+                                                            <div
+                                                                key={index}
+                                                                className="tenSp-dacDiem-soLuong"
+                                                            >
+                                                                <div className="tenSp">
+                                                                    {
+                                                                        item2?.tenSanPham
+                                                                    }
+                                                                </div>
+
+                                                                {item2.allDacDiemSP?.map(
+                                                                    (
+                                                                        item3,
+                                                                        index
+                                                                    ) => {
+                                                                        return (
+                                                                            <div
+                                                                                key={
+                                                                                    index
+                                                                                }
+                                                                                className="dacDiem-soLuong"
+                                                                            >
+                                                                                <div className="dacDiem">
+                                                                                    {
+                                                                                        item3?.tenDacDiem
+                                                                                    }
+                                                                                </div>
+                                                                                <div className="soLuong">
+                                                                                    {
+                                                                                        item3?.slMua
+                                                                                    }
+                                                                                </div>
+                                                                            </div>
+                                                                        );
+                                                                    }
+                                                                )}
                                                             </div>
-                                                            {item2.allDacDiemSP.map(
-                                                                (
-                                                                    item3,
-                                                                    index
-                                                                ) => {
-                                                                    return (
-                                                                        <div
-                                                                            key={
-                                                                                index
-                                                                            }
-                                                                            className="dacDiem-soLuong"
-                                                                        >
-                                                                            <div className="dacDiem">
-                                                                                {
-                                                                                    item3.tenDacDiem
-                                                                                }
-                                                                            </div>
-                                                                            <div className="soLuong">
-                                                                                {
-                                                                                    item3.slMua
-                                                                                }
-                                                                            </div>
-                                                                        </div>
-                                                                    );
-                                                                }
-                                                            )}
-                                                        </div>
-                                                    );
+                                                        );
+                                                    }
+                                                )}
+                                            </div>
+                                            <div className="soBan">
+                                                {
+                                                    item?.ttThem?.khachHang
+                                                        ?.noiNhan
                                                 }
-                                            )}
-                                        </div>
-                                        <div className="soBan">
-                                            {item?.khachHang?.noiNhan}
-                                        </div>
-                                        <div className="xemChiTiet">
-                                            Xem <br /> Chi Tiết
+                                            </div>
+                                            <div className="tinhTrang">
+                                                {(item?.trangThaiDH ===
+                                                    "ĐH Mới" ||
+                                                    item?.trangThaiDH ===
+                                                        "ĐH Chưa Thanh Toán") && (
+                                                    <div>ĐH Mới</div>
+                                                )}
+                                                {(item?.trangThaiDH ===
+                                                    "ĐH Đang Ship" ||
+                                                    item?.trangThaiDH ===
+                                                        "ĐH Tìm Ship Mới" ||
+                                                    item?.trangThaiDH ===
+                                                        "ĐH Ship Đã Nhận") && (
+                                                    <div>ĐH Đang Giao</div>
+                                                )}
+                                                {(item?.trangThaiDH ===
+                                                    "ĐH Đã Thanh Toán" ||
+                                                    item?.trangThaiDH ===
+                                                        "ĐH Ship Chưa Thanh Toán Về Shop" ||
+                                                    item?.trangThaiDH ===
+                                                        "ĐH Ship Đã Thanh Toán Về Shop") && (
+                                                    <div>ĐH Đã Nhận</div>
+                                                )}
+                                                {(item?.trangThaiDH ===
+                                                    "ĐH Huỷ" ||
+                                                    item?.trangThaiDH ===
+                                                        "ĐH Ship Huỷ Chưa Hoàn Hàng" ||
+                                                    item?.trangThaiDH ===
+                                                        "ĐH Ship Huỷ Đã Hoàn Hàng") && (
+                                                    <div>ĐH Huỷ</div>
+                                                )}
+                                            </div>
                                         </div>
                                     </div>
                                 );

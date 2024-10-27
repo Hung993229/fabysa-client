@@ -27,8 +27,6 @@ const Shop2 = () => {
     const [Tongsoluong, setTongsoluong] = useState(0);
     const [Tongtien, setTongtien] = useState(0);
     const [loading, setloading] = useState(0);
-    const [loadingTruoc, setloadingTruoc] = useState(0);
-    const [xemAnhFull, setxemAnhFull] = useState();
     const [thongTinSp, setthongTinSp] = useState();
 
     const dispatch = useDispatch();
@@ -39,8 +37,7 @@ const Shop2 = () => {
     const [soBan, setsoBan] = useState("fabysa");
     const [maBaoMat, setmaBaoMat] = useState();
     const [allSanPham, setallSanPham] = useState([]);
-    const nhomSanPham2 = ttShop?.ttShopThem?.menuShop;
-    const nhomSanPham = nhomSanPham2?.filter((item) => item !== nhomSP);
+    const nhomSanPham = ttShop?.ttShopThem?.menuShop;
 
     useEffect(() => {
         if (user && user.length !== 0) {
@@ -91,6 +88,7 @@ const Shop2 = () => {
         setloading(4);
         setthongTinSp(item);
     };
+    // Chi Tiet San Pham
     //Gio Hang
     const handleDaThemGioHang = (item) => {
         if (cartDemo && cartDemo.length > 0) {
@@ -126,14 +124,7 @@ const Shop2 = () => {
         ]);
     };
     // Gio Hang
-    // Chi Tiet San Pham
-    // Xem Anh Full
-    const handlexemAnh = (item) => {
-        setloading(5);
-        setxemAnhFull(item);
-        setloadingTruoc(loading);
-    };
-    // Xem Anh Full
+
     // Sap xep
     const handleSapXep = () => {
         setallSanPham([]);
@@ -163,6 +154,12 @@ const Shop2 = () => {
         }
     };
     // Sua Menu
+    // xemAnhFull
+    const [xemAnhFull, setxemAnhFull] = useState();
+    const handleXemAnhFull = (anh) => {
+        setxemAnhFull(anh);
+    };
+    // xemAnhFull
 
     return (
         <div className="Shop2-Container">
@@ -173,9 +170,7 @@ const Shop2 = () => {
                 Tongsoluong={Tongsoluong}
                 loading={loading}
                 setloading={setloading}
-                setloadingTruoc={setloadingTruoc}
-                loadingTruoc={loadingTruoc}
-                handlexemAnh={handlexemAnh}
+                handleXemAnhFull={handleXemAnhFull}
             />
             {loading === 0 && (
                 <div className="sanPham-shop">
@@ -315,7 +310,7 @@ const Shop2 = () => {
                                                     (item2) =>
                                                         item2._id === item._id
                                                 ) ? (
-                                                    <button
+                                                    <div
                                                         onClick={() =>
                                                             handleDaThemGioHang(
                                                                 item
@@ -324,9 +319,9 @@ const Shop2 = () => {
                                                         className="daThem"
                                                     >
                                                         ĐÃ THÊM
-                                                    </button>
+                                                    </div>
                                                 ) : (
-                                                    <button
+                                                    <div
                                                         onClick={() =>
                                                             handleThemGioHang(
                                                                 item
@@ -335,7 +330,7 @@ const Shop2 = () => {
                                                         className="muaHang"
                                                     >
                                                         THÊM GIỎ HÀNG
-                                                    </button>
+                                                    </div>
                                                 )}
                                             </>
 
@@ -358,20 +353,46 @@ const Shop2 = () => {
                     </div>
                 </div>
             )}
-            <div className="menuGioHang2">
+            <div className="GioHang-container">
                 {loading === 2 && (
-                    <img
+                    // <img
+                    //     onClick={() => setloading(0)}
+                    //     src={gioHang2}
+                    //     className="gioHang2"
+                    // />
+                    <div
                         onClick={() => setloading(0)}
-                        src={gioHang2}
-                        className="gioHang2"
-                    />
+                        className="gioHang-soLuong-thanhTien"
+                    >
+                        <img src={gioHang2} alt="he" className="gioHang" />
+
+                        <div className="soLuong-thanhTien">
+                            <div className="soLuong">{Tongsoluong}</div>
+                            <div className="thanhTien">
+                                {VND.format(Tongtien)}
+                            </div>
+                        </div>
+                    </div>
                 )}
                 {loading === 0 && (
-                    <img
+                    // <img
+                    //     onClick={() => setloading(2)}
+                    //     src={gioHang2}
+                    //     className="gioHang2"
+                    // />
+                    <div
                         onClick={() => setloading(2)}
-                        src={gioHang2}
-                        className="gioHang2"
-                    />
+                        className="gioHang-soLuong-thanhTien"
+                    >
+                        <img src={gioHang2} alt="he" className="gioHang" />
+
+                        <div className="soLuong-thanhTien">
+                            <div className="soLuong">{Tongsoluong}</div>
+                            <div className="thanhTien">
+                                {VND.format(Tongtien)}
+                            </div>
+                        </div>
+                    </div>
                 )}
             </div>
             {loading === 1 && <Loading />}
@@ -392,12 +413,9 @@ const Shop2 = () => {
                     setsoBan={setsoBan}
                     maBaoMat={maBaoMat}
                     setmaBaoMat={setmaBaoMat}
-                    setloadingTruoc={setloadingTruoc}
-                    loadingTruoc={loadingTruoc}
-                    handlexemAnh={handlexemAnh}
+                    handleXemAnhFull={handleXemAnhFull}
                 />
             )}
-
             {loading === 4 && (
                 <ChiTietSanPham2
                     handleDaThemGioHang={handleDaThemGioHang}
@@ -410,19 +428,7 @@ const Shop2 = () => {
                     loading={loading}
                     setloading={setloading}
                     idShop={idShop}
-                    setloadingTruoc={setloadingTruoc}
-                    loadingTruoc={loadingTruoc}
-                    handlexemAnh={handlexemAnh}
-                />
-            )}
-            {loading === 5 && (
-                <XemAnh
-                    xemAnhFull={xemAnhFull}
-                    setxemAnhFull={setxemAnhFull}
-                    loading={loading}
-                    setloading={setloading}
-                    setloadingTruoc={setloadingTruoc}
-                    loadingTruoc={loadingTruoc}
+                    handleXemAnhFull={handleXemAnhFull}
                 />
             )}
             {loading === 6 && (
@@ -439,7 +445,11 @@ const Shop2 = () => {
                     allSanPham={allSanPham}
                     setskip={setskip}
                     skip={skip}
+                    handleXemAnhFull={handleXemAnhFull}
                 />
+            )}
+            {xemAnhFull && (
+                <XemAnh xemAnhFull={xemAnhFull} setxemAnhFull={setxemAnhFull} />
             )}
         </div>
     );

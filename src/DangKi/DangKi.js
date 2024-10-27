@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { registerUser } from "../redux/apiRequest";
-import logo from "../assets/images/logo.jpg";
+import logoFabysa from "../assets/images/logoFabysa.png";
 import { NavLink } from "react-router-dom";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
@@ -56,12 +56,11 @@ const DangKi = () => {
                 >
                     <i className="fa fa-angle-double-left"></i>Quay Lại
                 </a>
-                <div className="tieuDe">Fabysa</div>
+                <div className="tieuDe">Đăng Kí</div>
             </div>
             <div className="register-container">
-                <div className="fast">Fast - Buy - Sale</div>
                 <div className="logoDangNhap">
-                    <img src={logo} alt="he" />
+                    <img src={logoFabysa} alt="he" />
                 </div>
                 {register?.error === true && (
                     <div className="baoLoi">

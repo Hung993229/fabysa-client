@@ -1,18 +1,16 @@
 
-
 /* Mobile & Tablet */
 @media screen and (max-width : 1023px) {
-
-  .ChiTietDonHangMua-Container{
+  .chiTietDonHang-Container{
     a{text-decoration: none};
     font-size: 3vw;
+    margin: 0vw auto 30vw;
     .quayLai-tieuDe{
       display: flex;
       font-size: 3.5vw;
       background-color: #fff;
       border-bottom: #d0d4dd 1px solid;
       position: fixed;
-  
       top: 0px;
         z-index: 1;
       a{
@@ -30,57 +28,59 @@
         font-size: 3.9vw;
           font-weight: 600;
           color: red;
-          text-align: center;
-          width: 75vw;
+          text-align-last: center;
+          width: 66vw;
           line-height: 9vw;
           text-transform: uppercase;
-          padding-right: 25vw;
-
+          padding-right: 16vw;
+         
       }
-  }
-
-  .allSanPham{
-    margin:12vw 2vw 5vw;
-    .sanPham{
-     margin-bottom: 3vw;
-      .tenSanPham-xoa{
-        .tenSanPham{
-          width: 90vw;
-          text-align: left;
-            font-size: 3.5vw;
-            font-weight: 600;
-            margin-bottom: 2vw;
-            color: red;
-            text-transform: uppercase;
-            line-height: 3vw;
-    
-         }
+      .inHoaDon{
+        width: 9vw;
+        text-align: center;
+        line-height: 9vw;
+        font-size: 5vw;
        
       }
-    
+  }
+  .sanPham-container{
+      margin-top:12vw;
+
+    .allSanPham{
+     .sanPham{
+      margin-bottom: 1vw;
+      .tenSanPham{
+        width: 90vw;
+        text-align: left;
+          font-size: 3.5vw;
+          font-weight: 600;
+          margin-bottom: 2vw;
+          color: red;
+          text-transform: uppercase;
+          line-height: 3vw;
+          margin: auto 2vw;
+  
+       }
     .dacDiem-themGioHang{
     display: flex;
     margin: 2vw auto;
+    font-size: 3vw;
     .anhSp-tenSp{
-      width: 20%;
-    
+      width: 20vw;
       .tenSp{
-        font-size: 3.5vw;
         font-weight: 500;
         word-wrap: break-word;
         line-height: 5vw;
       }
       .gioPhut{
         color: red;
-        font-size: 2.5vw;
         line-height: 5vw;
         line-height: 5vw;
       }
     }
     .giaSanPham{
-      width: 30%;
+      width: 30vw;
       .giaKM{
-        font-size: 3.5vw;
         font-weight: 500;
         color: red;
         line-height: 5vw;
@@ -92,161 +92,286 @@
         align-items: center;
         .giaNY{
           text-decoration: line-through;
-          font-size: 2.5vw;
           line-height: 5vw;
-    
+
         }
         .giamGia{
           font-size: 2vw;
           line-height: 5vw;
-    
+
         }
       }
      
     }
     .soLuong-SL{
-      width: 15%;
+      width: 15vw;
       justify-content: center;
         align-items: center;
       
       .soLuong{
-        font-size: 2.5vw;
         line-height: 5vw;
       }
       .SL{
         width: 90%;
         text-align: center;
         font-weight: 600;
-        font-size: 3.5vw;
         border-radius: 1vw;
-        line-height: 5vw;
-    
+        height: 5vw;
+
       }
-    
+
     }
     .thanhTien-TT{
-      // border: solid 1px gray;
-      // margin: 3.3vw auto;
-      width: 26%;
-     
+      width: 26vw;
       .thanhTien{
         justify-content: center;
         align-items: center;
-        font-size: 2.5;
         line-height: 5vw;
       }
       .TT{
         text-align: center;
         font-weight: 600;
-        font-size: 3.5vw;
         justify-content: center;
         align-items: center;
         line-height: 5vw;
       }
     }
     .daXong{
-      width: 9%;
-     
+      width: 9vw;
       font-size: 5vw;
       line-height: 10vw;
-    
-    
     }
     .chuaXong{
-      width: 9%;
-    
+      width: 9vw;
       font-size: 8vw;
       line-height: 10vw;
-    
+
     }
     
+  }
     }
+  }
+  }
+  .tinhTien-container{
+    margin: 3vw 2vw;
+    font-size: 3.5vw;
+
+    .tieuDe{
+      text-align: left;
+      font-weight: 600;
+      line-height: 8vw;
+      color: #04aa6d;
+    }
+
+    .tongTien{
+      display: flex;
+      .tieude{
+        width: 48vw;
+        text-align: left;
+        line-height: 6vw;
+        
+      }
+      .sotien{
+        width: 48vw;
+        text-align: center;
+        line-height: 6vw;
+        height: 6vw;
+        border-radius: 2vw;
+        color: black;
+      }
+    }
+    .qr{
+      width: 68vw;
+      object-fit: cover;
+    }
+  
+  }
+  .nguoiNhan-container{
+    margin: 3vw 2vw;
+    font-size: 3.5vw;
+    .tieuDe{
+      text-align: left;
+      font-weight: 600;
+      line-height: 8vw;
+      color: #04aa6d;
+    }
+    .thongTinNguoiNhan{
+      .thongTinChiTiet{
+        .noiDung{
+          line-height: 6vw;
+          width: 96vw;
+          text-align: left;
+          display: block;
+          
+        }
+      }
+    }
+  }
+  .thongTinShip-container{
+    margin: 3vw 2vw;
+    font-size: 3.5vw;
+    .tieuDe{
+      text-align: left;
+      font-weight: 600;
+      line-height: 8vw;
+      color: #04aa6d;
+    }
+    .noiDung{
+      line-height: 6vw;
+      width: 96vw;
+      text-align: left;
+      display: block;
+      color: black;
     }
   }
  
-.tinhTien{
-  border-top: solid 1px gray;
-  margin:  2vw;
-  .tongTien{
-    display: flex;
-    font-size: 3.5vw;
-    line-height: 8vw;
-    gap: 25%;
-    .tieude{
-      width: 35%;
-      text-align: right;
-      line-height: 6vw;
-    }
-    .sotien{
-      width: 35%;
-      text-align: center;
-      line-height: 6vw;
-      height: 6vw;
-    }
+  
   }
-
-}
-.thongTinNguoiNhan{
-  text-align: left;
-  font-size: 3.5vw;
-  font-weight: 600;
-  margin: 5vw 2vw 2vw;
-  color: #04aa6d;
-}
-.phancach{
-  font-size: 3.5vw;
-
-  .thongTinChiTiet{
-    display: flex;
-    gap:5vw;
-    .tieuDe{
-      width: 25vw;
-      text-align: right;
-      font-size: 3.5vw;
-      line-height: 5vw;
-    }
-    .noiDung{
-      font-size: 3.5vw;
-      line-height: 5vw;
-      width: 62vw;
-      text-align: left;
-    }
-  }
-}
-.thanhToanQrCode-container{
-  margin: 5vw 2vw 2vw;
-  .thanhToanQr{
-      text-align: left;
-      font-size: 3.5vw;
-      font-weight: 600;
-      margin: 0vw 2vw;
-      color: #04aa6d;
-  }
-  .qr{
-    width: 96vw;
-    object-fit: cover;
-    // border: solid 1px gray;
-  } 
-}
-.muaLai2{
-  display: block;
-width: 35vw;
-line-height: 8vw;
-color: #fff;
-font-size: 3.5vw;
-font-weight: 600;
-background-color: #04aa6d;
-border-radius: 1vw;
-margin: 5vw 35vw 30vw;
-}
-
-    
-}
 }
 
 /* PC*/
 @media screen and (min-width : 1024px) {
-    .ChiTietDonHangMua-ConTaiNer{
-        
+  // .chiTietDonHang-Container{
+  //     a{text-decoration: none};
+  //     margin-top: 5vw;
+  //     padding-top: 3vw;
+  //     padding-bottom: 20vw;
+   
+     
+  // }
+}
+@media print {
+.chiTietDonHang-Container{
+  .quayLai-tieuDe{
+    display: none;
+    .quayLai{
+      display: none;
+
     }
+    .tieuDe{
+      display: none;
+
+    }
+}
+.tieuDeDonHang{
+display: none;
+  
+}
+.sanPham{
+display: none;
+.tenSanPham-xoa{
+  .tenSanPham{
+    display: none;
+
+   }
+ 
+}
+
+.dacDiem-themGioHang{
+display: none;
+.anhSp-tenSp{
+display: none;
+.tenSp{
+  display: none;
+}
+.gioPhut{
+  display: none;
+}
+}
+.giaSanPham{
+display: none;
+.giaKM{
+  display: none;
+}
+.giaNY-giamGia{
+  display: none;
+  .giaNY{
+    display: none;
+
+  }
+  .giamGia{
+    display: none;
+
+  }
+}
+
+}
+.soLuong-SL{
+display: none;
+.soLuong{
+  display: none;
+}
+.SL{
+  display: none;
+
+}
+
+}
+.thanhTien-TT{
+display: none;
+
+.thanhTien{
+  display: none;
+}
+.TT{
+  display: none;
+}
+}
+
+}
+}
+.tinhTien{
+display: none;
+.tongTien{
+  display: none;
+  .tieude{
+    display: none;
+  }
+  .sotien{
+    display: none;
+  }
+}
+
+}
+.thanhToanQrCode-container{
+display: none;
+.thanhToanQr{
+  display: none;
+}
+.qr{
+  display: none;
+} 
+}
+.phancach{
+display: none;
+}
+.thongTinChiTiet{
+  display: none;
+  .tieuDe{
+    display: none;
+  
+
+  }
+  .noiDung{
+    display: none;
+
+  }
+}
+.tongKet{
+  display: none;
+
+  .hoanThanh{
+    display: none;
+}
+.huyDon{
+  display: none;
+}
+.inHoaDon{
+  display: none;
+}
+}
+}
+
+
+  
 }

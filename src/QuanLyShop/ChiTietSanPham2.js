@@ -7,7 +7,7 @@ const ChiTietSanPham2 = (props) => {
         thongTinSp,
         setloading,
         cartDemo,
-        handlexemAnh,
+        handleXemAnhFull,
     } = props;
     const ttShop = useSelector((state) => state.ttShop.ttShop.ttShop?.shop);
     const nvQuanLy = ttShop?.ttShopThem?.nvQuanLy;
@@ -84,7 +84,7 @@ const ChiTietSanPham2 = (props) => {
                                 >
                                     <img
                                         onClick={() =>
-                                            handlexemAnh(item.AnhSanPham)
+                                            handleXemAnhFull(item.AnhSanPham)
                                         }
                                         src={item?.AnhSanPham}
                                         className="anhSp"

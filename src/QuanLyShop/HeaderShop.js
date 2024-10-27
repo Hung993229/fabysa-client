@@ -11,7 +11,8 @@ import { useSelector, useDispatch } from "react-redux";
 import { getttShop, updatePost } from "../redux/apiRequest";
 
 const HeaderShop = (props) => {
-    const { Tongtien, Tongsoluong, loading, setloading, handlexemAnh } = props;
+    const { Tongtien, Tongsoluong, loading, setloading, handleXemAnhFull } =
+        props;
     const { tenVietTat, idShop, idCtv, tenCtv, sdtCtv } = useParams();
 
     const dispatch = useDispatch();
@@ -106,13 +107,13 @@ const HeaderShop = (props) => {
 
     // like Shop
     //  Viet QR
-    const nganHang = ttShop?.ttShopThem?.nganHang;
-    const BANK_ID = nganHang?.maSo;
-    const ACCOUNT_NO = nganHang?.taiKhoanNganHang;
+
+    const BANK_ID = ttShop?.ttShopThem?.nganHang?.maSo;
+    const ACCOUNT_NO = ttShop?.ttShopThem?.nganHang?.taiKhoanNganHang;
     const TEMPLATE = "print";
-    const AMOUNT = soTien;
+    const AMOUNT = +soTien;
     const DESCRIPTION = "";
-    const ACCOUNT_NAME = nganHang?.chuTaiKhoanNganhang;
+    const ACCOUNT_NAME = ttShop?.ttShopThem?.nganHang?.chuTaiKhoanNganhang;
     const qr = `https://img.vietqr.io/image/${BANK_ID}-${ACCOUNT_NO}-${TEMPLATE}.png?amount=${AMOUNT}&addInfo=${DESCRIPTION}&accountName=${ACCOUNT_NAME}`;
     // Viet QR
 
@@ -128,31 +129,19 @@ const HeaderShop = (props) => {
         setCopySuccess("Copied!");
     }
     // copy
+    const handleDinhDangSo = (data) => {
+        const n = +data;
+        return n.toFixed(0).replace(/./g, function (c, i, a) {
+            return i > 0 && c !== "," && (a.length - i) % 3 === 0 ? "." + c : c;
+        });
+    };
     return (
         <>
             {(loading === 0 || loading === 7 || loading === 8) && (
                 <div className="HeaderShop-ConTaiNer">
                     {loading === 0 && (
                         <div className="headerShop21">
-                            <div
-                                onClick={() => setloading(2)}
-                                className="gioHang21-container"
-                            >
-                                <img
-                                    onClick={() => setloading(2)}
-                                    src={giohang}
-                                    alt="he"
-                                    className="gioHang2"
-                                />
-
-                                <div className="soLuong-thanhTien">
-                                    <div className="soLuong">{Tongsoluong}</div>
-                                    <div className="thanhTien">
-                                        {VND.format(Tongtien)}
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="tieuDe">Menu Thông Minh</div>
+                            <div className="tenShop">{ttShop?.TenShop}</div>
 
                             {myDetail ? (
                                 <a
@@ -160,13 +149,9 @@ const HeaderShop = (props) => {
                                     className="caNhan"
                                 >
                                     <div className="xinChao-taiKhoan">
-                                        <div className="xinChao">Xin Chào!</div>
-                                        <div className="taiKhoan">
-                                            {myDetail?.cash}&#160;
-                                            <i
-                                                className="fab fa-empire"
-                                                style={{ color: "#ef9b0f" }}
-                                            ></i>
+                                        <div className="xinChao">
+                                            Xin <br />
+                                            Chào!
                                         </div>
                                     </div>
 
@@ -182,8 +167,10 @@ const HeaderShop = (props) => {
                                     className="caNhan"
                                 >
                                     <div className="xinChao-taiKhoan">
-                                        <div className="xinChao">Thông Tin</div>
-                                        <div className="taiKhoan">Cá Nhân</div>
+                                        <div className="xinChao">
+                                            Xin <br />
+                                            Chào!
+                                        </div>
                                     </div>
                                     <img
                                         src={avatarTrong}
@@ -197,13 +184,13 @@ const HeaderShop = (props) => {
                     {loading === 0 && (
                         <div className="banner-tenShop">
                             <img
-                                onClick={() => handlexemAnh(banner)}
+                                onClick={() => handleXemAnhFull(banner)}
                                 src={banner}
                                 className="bannerx"
                             />
                             <div className="logo-tenShop-gioiThieu">
                                 <div className="tenShop-gioiThieu-nganHang">
-                                    <div className="tenShop-follow">
+                                    {/* <div className="tenShop-follow">
                                         <div className="tenShop">
                                             {ttShop?.TenShop}
                                         </div>
@@ -249,7 +236,7 @@ const HeaderShop = (props) => {
                                                 )}
                                             </div>
                                         )}
-                                    </div>
+                                    </div> */}
 
                                     <div className="gioiThieu-nganHang-follow">
                                         <div
@@ -257,14 +244,49 @@ const HeaderShop = (props) => {
                                             className="gioiThieu"
                                         >
                                             <i className="fas fa-folder-open"></i>
-                                            &#160;Giới Thiệu
+                                            <br />
+                                            Follow
+                                        </div>
+                                        <div
+                                            onClick={() => setloading(8)}
+                                            className="gioiThieu"
+                                        >
+                                            <i className="fas fa-folder-open"></i>
+                                            <br />
+                                            Giới Thiệu
                                         </div>
                                         <div
                                             onClick={() => setloading(7)}
-                                            className="nganHang"
+                                            className="gioiThieu"
                                         >
                                             <i className="fas fa-building"></i>
-                                            &#160;Ngân Hàng
+                                            <br />
+                                            Ngân Hàng
+                                        </div>
+
+                                        <div
+                                            onClick={() => setloading(7)}
+                                            className="gioiThieu"
+                                        >
+                                            <i className="fas fa-building"></i>
+                                            <br />
+                                            Theme Blog
+                                        </div>
+                                        <div
+                                            onClick={() => setloading(7)}
+                                            className="gioiThieu"
+                                        >
+                                            <i className="fas fa-building"></i>
+                                            <br />
+                                            Hội FA
+                                        </div>
+                                        <div
+                                            onClick={() => setloading(7)}
+                                            className="gioiThieu"
+                                        >
+                                            <i className="fas fa-building"></i>
+                                            <br />
+                                            Quản Lý
                                         </div>
                                     </div>
                                 </div>
@@ -302,72 +324,85 @@ const HeaderShop = (props) => {
                                         ?.chuTaiKhoanNganhang
                                 }
                             </div>
-                            <input
-                                type="number"
-                                onChange={(e) => setsoTien(e.target.value)}
-                                className="nhapSoTien"
-                                placeholder={VND.format(soTien)}
-                            />
-                            <div className="menhGiaTien">
+
+                            <div className="nhapSoTien">
+                                {VND.format(soTien)}
+                            </div>
+
+                            <div className="banPhimSo">
                                 <div
-                                    onClick={() => setsoTien(soTien + 1000)}
+                                    onClick={() => setsoTien(soTien + "1")}
                                     className="giaTriTien"
                                 >
-                                    {VND.format(1000)}
+                                    1
                                 </div>
                                 <div
-                                    onClick={() => setsoTien(soTien + 2000)}
+                                    onClick={() => setsoTien(soTien + "2")}
                                     className="giaTriTien"
                                 >
-                                    {VND.format(2000)}
+                                    2
                                 </div>
                                 <div
-                                    onClick={() => setsoTien(soTien + 3000)}
+                                    onClick={() => setsoTien(soTien + "3")}
                                     className="giaTriTien"
                                 >
-                                    {VND.format(3000)}
+                                    3
                                 </div>
                                 <div
-                                    onClick={() => setsoTien(soTien + 5000)}
+                                    onClick={() => setsoTien(soTien + "4")}
                                     className="giaTriTien"
                                 >
-                                    {VND.format(5000)}
+                                    4
                                 </div>
                                 <div
-                                    onClick={() => setsoTien(soTien + 10000)}
+                                    onClick={() => setsoTien(soTien + "5")}
                                     className="giaTriTien"
                                 >
-                                    {VND.format(10000)}
+                                    5
                                 </div>
                                 <div
-                                    onClick={() => setsoTien(soTien + 20000)}
+                                    onClick={() =>
+                                        setsoTien(soTien.slice(0, -1))
+                                    }
                                     className="giaTriTien"
                                 >
-                                    {VND.format(20000)}
+                                    <i className="fas fa-chevron-circle-left"></i>
                                 </div>
                                 <div
-                                    onClick={() => setsoTien(soTien + 50000)}
+                                    onClick={() => setsoTien(soTien + "6")}
                                     className="giaTriTien"
                                 >
-                                    {VND.format(50000)}
+                                    6
                                 </div>
                                 <div
-                                    onClick={() => setsoTien(soTien + 100000)}
+                                    onClick={() => setsoTien(soTien + "7")}
                                     className="giaTriTien"
                                 >
-                                    {VND.format(100000)}
+                                    7
                                 </div>
                                 <div
-                                    onClick={() => setsoTien(soTien + 200000)}
+                                    onClick={() => setsoTien(soTien + "8")}
                                     className="giaTriTien"
                                 >
-                                    {VND.format(200000)}
+                                    8
                                 </div>
                                 <div
-                                    onClick={() => setsoTien(soTien + 500000)}
+                                    onClick={() => setsoTien(soTien + "9")}
                                     className="giaTriTien"
                                 >
-                                    {VND.format(500000)}
+                                    9
+                                </div>
+                                <div
+                                    onClick={() => setsoTien(soTien + "0")}
+                                    className="giaTriTien"
+                                >
+                                    0
+                                </div>
+                                <div
+                                    onClick={() => setsoTien(soTien + "000")}
+                                    className="giaTriTien"
+                                >
+                                    .000
                                 </div>
                             </div>
                             <div className="maQr">Chuyển Khoản Nhanh</div>
@@ -437,19 +472,31 @@ const HeaderShop = (props) => {
                                         href={`/don-hang/${ttShop?._id}`}
                                         className="donHang"
                                     >
-                                        Danh Sách Đơn Hàng
+                                        Đơn Hàng
+                                    </a>
+                                    <a
+                                        href={`/bao-cao-shop/${tenVietTat}/${idShop}/a/${idCtv}/${tenCtv}/${sdtCtv}`}
+                                        className="donHang"
+                                    >
+                                        Báo Cáo
                                     </a>
                                     <a
                                         href={`/doi-tac/${ttShop?._id}`}
                                         className="donHang"
                                     >
-                                        Danh Sách Khách Hàng
+                                        Khách Hàng
+                                    </a>
+                                    <a
+                                        href={`/tai-khoan/${ttShop?.ttShopThem?.tenVietTat}/${ttShop?._id}/a/${idCtv}/${tenCtv}/${sdtCtv}/${ttShop?._id}`}
+                                        className="donHang"
+                                    >
+                                        Fabysa Xanh
                                     </a>
                                     <a
                                         href={`/update-shop/${ttShop?._id}`}
                                         className="donHang"
                                     >
-                                        Sửa Thông Tin Shop
+                                        Thông Tin Shop
                                     </a>
                                 </div>
                             )}

@@ -1,0 +1,87 @@
+
+
+/* Mobile & Tablet */
+@media screen and (max-width : 1023px) {
+  .BanPhimSo-ConTaiNer{
+    font-size: 5vw;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,
+            0,
+            0,
+            0.3);
+    .soSua-banPhimSo{
+      background-color: #fff;
+      position: fixed;
+      bottom: 0;
+      border-radius: 2vw;
+      z-index: 9;
+      
+      .tat-tenSo-xong{
+        display: flex;
+        margin: 2vw 2vw;
+       
+        .tenSo{
+          width: 81vw;
+          text-align: left;
+       
+          line-height: 8vw;
+        }
+        .xong{
+          width: 15vw;
+          text-align: right;
+          line-height: 8vw;
+          color: #04aa6d;
+        }
+      }
+        .giatriSo{
+          margin: 2vw 2vw 5vw;
+          width: 96vw;
+          border: solid 1px gray;
+          background-color: #fff;
+          line-height: 12vw;
+          border-radius: 2vw;
+          color: red;
+          font-size: 6vw;
+          font-weight: 600;
+        }
+       
+      
+      .banPhimSo{
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr; 
+        gap:2vw;
+        font-weight: 600;
+        margin: 3vw 2vw 30vw;
+        div{
+          background-color: #e5e5e5;
+          border: solid 1px gray;
+          color: black;
+          line-height: 10vw;
+          border-radius: 2vw;
+          
+        }
+        :active{
+          background-color: gray;
+          border: none;
+          }
+      }
+      
+    }
+    
+    
+
+  }
+}
+
+/* PC*/
+@media screen and (min-width : 1024px) {
+    .BanPhimSo-ConTaiNer{
+        
+    }
+}
